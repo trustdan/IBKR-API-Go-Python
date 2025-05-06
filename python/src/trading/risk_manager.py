@@ -1,26 +1,32 @@
 from typing import Dict, List, Optional, Any, Tuple
 from datetime import datetime, date
 import math
+from collections import defaultdict
 
 from ..utils.logger import log_debug, log_info, log_warning, log_error
 from ..models.option import OptionSpread
 from ..app.config import Config
+from ..utils.alert_system import AlertSystem
 
 
 class RiskManager:
     """Manages risk parameters and position sizing for trades."""
     
-    def __init__(self, config: Config, broker_api=None):
+    def __init__(self, config: Config, broker_api=None, alert_system: Optional[AlertSystem]=None):
         """Initialize the risk manager.
         
         Args:
             config: Configuration parameters
             broker_api: IBKR API client (optional)
+            alert_system: Alert system for notifications (optional)
         """
         self.config = config
         self.broker_api = broker_api
+        self.alert_system = alert_system
         self.daily_trades = {}  # Track trades by date
         self.active_positions = {}  # Track current positions
+        self.sector_exposure = defaultdict(float)  # Track exposure by sector
+        self.industry_exposure = defaultdict(float)  # Track exposure by industry
         
     def calculate_position_size(self, account_value: float, spread_cost: float) -> int:
         """Calculate position size based on risk parameters.
@@ -55,12 +61,13 @@ class RiskManager:
                 
         return contracts
         
-    def can_enter_trade(self, symbol: str, direction: str) -> Tuple[bool, str]:
+    def can_enter_trade(self, symbol: str, direction: str, cost_per_contract: float = 0.0) -> Tuple[bool, str]:
         """Check if a new trade can be entered based on risk limits.
         
         Args:
             symbol: Symbol to trade
             direction: Trade direction ("LONG" or "SHORT")
+            cost_per_contract: Cost per contract (optional)
             
         Returns:
             Tuple of (can_enter, reason)
@@ -84,19 +91,62 @@ class RiskManager:
             existing_direction = self.active_positions[symbol]['direction']
             if existing_direction == direction:
                 return False, f"Already have a {direction} position in {symbol}"
-            # Could allow opposite direction trades as a form of scaling out/hedging
-            # else:
-            #    return True, "Opposite direction trade allowed"
+        
+        # Get account value and check portfolio level risk
+        account_value = self.get_account_value()
+        
+        # Check portfolio heat (percentage of account at risk)
+        portfolio_heat = self.calculate_portfolio_heat()
+        if portfolio_heat >= self.config.MAX_PORTFOLIO_HEAT:
+            msg = f"Maximum portfolio heat reached: {portfolio_heat:.1f}% >= {self.config.MAX_PORTFOLIO_HEAT}%"
+            if self.alert_system:
+                self.alert_system.send_risk_alert("Portfolio Heat Limit", msg)
+            return False, msg
+            
+        # Get sector and industry for this symbol
+        sector, industry = self.get_sector_industry(symbol)
+        
+        # Check sector exposure limits
+        if sector:
+            sector_exposure = self.sector_exposure.get(sector, 0)
+            if sector_exposure + cost_per_contract > account_value * self.config.MAX_SECTOR_EXPOSURE:
+                msg = f"Sector exposure limit reached for {sector}"
+                if self.alert_system:
+                    self.alert_system.send_risk_alert("Sector Exposure Limit", msg)
+                return False, msg
+                
+        # Check industry exposure limits
+        if industry:
+            industry_exposure = self.industry_exposure.get(industry, 0)
+            if industry_exposure + cost_per_contract > account_value * self.config.MAX_INDUSTRY_EXPOSURE:
+                msg = f"Industry exposure limit reached for {industry}"
+                if self.alert_system:
+                    self.alert_system.send_risk_alert("Industry Exposure Limit", msg)
+                return False, msg
+                
+        # Check directional bias limits 
+        long_exposure, short_exposure = self.calculate_directional_exposure()
+        if direction == "LONG" and long_exposure > self.config.MAX_DIRECTIONAL_BIAS * (long_exposure + short_exposure):
+            msg = f"Maximum long exposure bias reached: {long_exposure:.1f}%"
+            if self.alert_system:
+                self.alert_system.send_risk_alert("Directional Bias Limit", msg)
+            return False, msg
+        elif direction == "SHORT" and short_exposure > self.config.MAX_DIRECTIONAL_BIAS * (long_exposure + short_exposure):
+            msg = f"Maximum short exposure bias reached: {short_exposure:.1f}%"
+            if self.alert_system:
+                self.alert_system.send_risk_alert("Directional Bias Limit", msg)
+            return False, msg
             
         # Get account value from broker if available
-        account_value = None
         if self.broker_api:
             account_summary = self.broker_api.get_account_summary()
-            account_value = account_summary.get('net_liquidation', 0)
             
             # Check if we have enough buying power
-            if account_summary.get('available_funds', 0) < 5000:  # Arbitrary minimum
-                return False, "Insufficient buying power"
+            if account_summary.get('available_funds', 0) < self.config.MIN_BUYING_POWER:
+                msg = f"Insufficient buying power: ${account_summary.get('available_funds', 0):.2f} < ${self.config.MIN_BUYING_POWER:.2f}"
+                if self.alert_system:
+                    self.alert_system.send_risk_alert("Insufficient Buying Power", msg)
+                return False, msg
                 
         return True, "Trade allowed"
         
@@ -132,9 +182,21 @@ class RiskManager:
             'contracts': contracts,
             'spread': spread,
             'entry_date': today,
-            'entry_price': spread.cost  # Per contract
+            'entry_price': spread.cost,  # Per contract
+            'stop_price': self.calculate_stop_price(spread),
+            'target_price': self.calculate_target_price(spread, direction)
         }
         
+        # Update sector and industry exposure
+        sector, industry = self.get_sector_industry(symbol)
+        total_cost = spread.cost * contracts * 100  # Total position cost
+        
+        if sector:
+            self.sector_exposure[sector] += total_cost
+            
+        if industry:
+            self.industry_exposure[industry] += total_cost
+            
         log_info(f"Recorded new trade: {symbol} {direction} x{contracts} contracts, "
                f"Daily trades: {len(self.daily_trades[today_str])}/{self.config.MAX_DAILY_TRADES}, "
                f"Active positions: {len(self.active_positions)}/{self.config.MAX_POSITIONS}")
@@ -147,6 +209,21 @@ class RiskManager:
         """
         if symbol in self.active_positions:
             position = self.active_positions.pop(symbol)
+            
+            # Update sector and industry exposure
+            sector, industry = self.get_sector_industry(symbol)
+            total_cost = position['spread'].cost * position['contracts'] * 100
+            
+            if sector:
+                self.sector_exposure[sector] -= total_cost
+                if self.sector_exposure[sector] <= 0:
+                    del self.sector_exposure[sector]
+                    
+            if industry:
+                self.industry_exposure[industry] -= total_cost
+                if self.industry_exposure[industry] <= 0:
+                    del self.industry_exposure[industry]
+            
             log_info(f"Closed position: {symbol} {position['direction']} x{position['contracts']} contracts, "
                    f"Active positions: {len(self.active_positions)}/{self.config.MAX_POSITIONS}")
                    
@@ -167,7 +244,7 @@ class RiskManager:
                 if position['quantity'] == 0:
                     # Position is closed
                     if symbol in self.active_positions:
-                        self.active_positions.pop(symbol)
+                        self.close_position(symbol)
                 else:
                     # Position exists but we don't have it tracked
                     if symbol not in self.active_positions:
@@ -177,7 +254,7 @@ class RiskManager:
             for symbol in list(self.active_positions.keys()):
                 if symbol not in broker_positions:
                     log_warning(f"Position in {symbol} not found in broker data, removing from active positions")
-                    self.active_positions.pop(symbol)
+                    self.close_position(symbol)
                     
         except Exception as e:
             log_error(f"Error updating positions from broker: {str(e)}")
@@ -209,15 +286,171 @@ class RiskManager:
         """
         # For a vertical spread, the stop is typically based on a percentage of the spread's cost
         # or a maximum dollar loss amount
-        stop_factor = 0.5  # 50% loss as default
+        stop_percentage = getattr(self.config, 'STOP_LOSS_PERCENTAGE', 0.5)  # Default to 50% loss
         
         # Calculate stop price
-        stop_price = option_spread.cost * (1 - stop_factor)
+        stop_price = option_spread.cost * (1 - stop_percentage)
         
         # Ensure minimum value (spreads can't go below $0)
         stop_price = max(stop_price, 0.05)
         
         return stop_price
+    
+    def calculate_target_price(self, option_spread: OptionSpread, direction: str) -> float:
+        """Calculate profit target price for an option spread.
+        
+        Args:
+            option_spread: The option spread
+            direction: Trade direction
+            
+        Returns:
+            Target price
+        """
+        # Get reward-to-risk ratio from config
+        target_reward_risk = getattr(self.config, 'TARGET_REWARD_RISK', 1.5)
+        
+        # Calculate the max possible value of the spread
+        if direction == "LONG":
+            # For bull call spread: width of strikes - cost
+            if option_spread.spread_type == "BULL_CALL":
+                max_profit = (option_spread.short_leg.strike - option_spread.long_leg.strike) - option_spread.cost
+            # For bear put spread: width of strikes - cost
+            else:  # Bear put
+                max_profit = (option_spread.long_leg.strike - option_spread.short_leg.strike) - option_spread.cost
+        else:  # SHORT
+            # For bear call spread: premium received (cost)
+            if option_spread.spread_type == "BEAR_CALL":
+                max_profit = option_spread.cost
+            # For bull put spread: premium received (cost)
+            else:  # Bull put
+                max_profit = option_spread.cost
+                
+        # Calculate risk (max loss)
+        risk = option_spread.cost  # For long positions, risk is the cost
+        
+        # Target price based on reward-to-risk ratio
+        # For a 1.5:1 reward:risk ratio, we'd aim for 1.5 * risk as profit
+        target_profit = min(max_profit, risk * target_reward_risk)
+        
+        # Calculate target price
+        if direction == "LONG":
+            target_price = option_spread.cost + target_profit
+        else:  # SHORT
+            target_price = option_spread.cost - target_profit
+            target_price = max(target_price, 0.05)  # Ensure minimum value
+            
+        return target_price
+        
+    def should_exit_position(self, symbol: str, current_price: float) -> Tuple[bool, str]:
+        """Determine if a position should be exited based on current price.
+        
+        Args:
+            symbol: Symbol of the position
+            current_price: Current price of the position
+            
+        Returns:
+            Tuple of (should_exit, reason)
+        """
+        if symbol not in self.active_positions:
+            return False, "Position not found"
+            
+        position = self.active_positions[symbol]
+        direction = position['direction']
+        
+        # Check stop loss
+        if direction == "LONG" and current_price <= position['stop_price']:
+            return True, "Stop loss triggered"
+        elif direction == "SHORT" and current_price >= position['stop_price']:
+            return True, "Stop loss triggered"
+            
+        # Check profit target
+        if direction == "LONG" and current_price >= position['target_price']:
+            return True, "Profit target reached"
+        elif direction == "SHORT" and current_price <= position['target_price']:
+            return True, "Profit target reached"
+            
+        # Check time-based exit (option expiration approach)
+        days_to_expiry = (position['spread'].expiration - datetime.now().date()).days
+        if days_to_expiry <= self.config.MIN_DAYS_TO_EXPIRY:
+            return True, f"Position close to expiry ({days_to_expiry} days)"
+            
+        # Check R-multiple exit (if price moved in favorable direction)
+        if self.config.USE_R_MULTIPLE_EXIT:
+            entry_price = position['entry_price']
+            stop_price = position['stop_price']
+            r_value = abs(entry_price - stop_price)  # 1R
+            
+            if direction == "LONG" and current_price >= entry_price + (r_value * self.config.R_MULTIPLE_TARGET):
+                return True, f"R-multiple target reached ({self.config.R_MULTIPLE_TARGET}R)"
+            elif direction == "SHORT" and current_price <= entry_price - (r_value * self.config.R_MULTIPLE_TARGET):
+                return True, f"R-multiple target reached ({self.config.R_MULTIPLE_TARGET}R)"
+                
+        return False, "No exit criteria met"
+        
+    def calculate_portfolio_heat(self) -> float:
+        """Calculate current portfolio heat (percentage of account at risk).
+        
+        Returns:
+            Portfolio heat percentage
+        """
+        account_value = self.get_account_value()
+        total_risk = 0.0
+        
+        for symbol, position in self.active_positions.items():
+            position_cost = position['entry_price'] * position['contracts'] * 100
+            position_risk = position_cost * self.config.RISK_PER_TRADE
+            total_risk += position_risk
+            
+        portfolio_heat = (total_risk / account_value) * 100 if account_value > 0 else 0
+        return portfolio_heat
+        
+    def calculate_directional_exposure(self) -> Tuple[float, float]:
+        """Calculate long and short exposure percentages.
+        
+        Returns:
+            Tuple of (long_exposure_percent, short_exposure_percent)
+        """
+        long_exposure = 0.0
+        short_exposure = 0.0
+        
+        for symbol, position in self.active_positions.items():
+            position_cost = position['entry_price'] * position['contracts'] * 100
+            
+            if position['direction'] == "LONG":
+                long_exposure += position_cost
+            else:  # SHORT
+                short_exposure += position_cost
+                
+        total_exposure = long_exposure + short_exposure
+        
+        if total_exposure > 0:
+            long_percent = (long_exposure / total_exposure) * 100
+            short_percent = (short_exposure / total_exposure) * 100
+        else:
+            long_percent = 0
+            short_percent = 0
+            
+        return long_percent, short_percent
+        
+    def get_sector_industry(self, symbol: str) -> Tuple[Optional[str], Optional[str]]:
+        """Get sector and industry for a symbol.
+        
+        Args:
+            symbol: Trading symbol
+            
+        Returns:
+            Tuple of (sector, industry)
+        """
+        # This would typically use an external data source or API
+        # For now, return placeholder values
+        if self.broker_api:
+            try:
+                sector_data = self.broker_api.get_symbol_fundamentals(symbol)
+                return sector_data.get('sector'), sector_data.get('industry')
+            except Exception as e:
+                log_error(f"Error getting sector/industry data: {str(e)}")
+                
+        return None, None
         
     def get_metrics(self) -> Dict[str, Any]:
         """Get risk management metrics.
@@ -228,11 +461,20 @@ class RiskManager:
         today = datetime.now().date()
         today_str = today.strftime("%Y-%m-%d")
         
+        # Calculate portfolio metrics
+        portfolio_heat = self.calculate_portfolio_heat()
+        long_exposure, short_exposure = self.calculate_directional_exposure()
+        
         return {
             "daily_trades": len(self.daily_trades.get(today_str, [])),
             "max_daily_trades": self.config.MAX_DAILY_TRADES,
             "active_positions": len(self.active_positions),
             "max_positions": self.config.MAX_POSITIONS,
             "remaining_trades_today": max(0, self.config.MAX_DAILY_TRADES - len(self.daily_trades.get(today_str, []))),
-            "remaining_positions": max(0, self.config.MAX_POSITIONS - len(self.active_positions))
+            "remaining_positions": max(0, self.config.MAX_POSITIONS - len(self.active_positions)),
+            "portfolio_heat": portfolio_heat,
+            "long_exposure": long_exposure,
+            "short_exposure": short_exposure,
+            "sector_exposure": dict(self.sector_exposure),
+            "industry_exposure": dict(self.industry_exposure)
         } 
