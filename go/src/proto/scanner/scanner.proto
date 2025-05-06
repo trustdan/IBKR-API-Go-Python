@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package scanner;
 
-option go_package = "github.com/yourusername/auto-vertical-spread-trader/go/src/proto/scanner";
+option go_package = "github.com/trustdan/ibkr-trader/go/src/proto/scanner";
 
 service ScannerService {
   // Scan a list of symbols for trading signals

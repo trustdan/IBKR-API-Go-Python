@@ -7,7 +7,7 @@ import (
 
 	"github.com/patrickmn/go-cache"
 	"github.com/sirupsen/logrus"
-	"github.com/yourusername/auto-vertical-spread-trader/go/src/config"
+	"github.com/trustdan/ibkr-trader/src/config"
 )
 
 // MarketData represents stock market data

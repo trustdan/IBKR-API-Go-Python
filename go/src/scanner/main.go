@@ -17,9 +17,9 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 
-	"github.com/yourusername/auto-vertical-spread-trader/go/src/config"
-	"github.com/yourusername/auto-vertical-spread-trader/go/src/metrics"
-	pb "github.com/yourusername/auto-vertical-spread-trader/go/src/proto/scanner"
+	"github.com/trustdan/ibkr-trader/go/src/config"
+	"github.com/trustdan/ibkr-trader/go/src/metrics"
+	pb "github.com/trustdan/ibkr-trader/go/src/proto/scanner"
 )
 
 // ScannerService implements the gRPC scanner service
