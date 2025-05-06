@@ -1,10 +1,20 @@
 repos:
+# Custom hooks - local (run first)
+-   repo: local
+    hooks:
+    -   id: fix-file-endings
+        name: Fix file endings
+        description: Ensures files end with exactly one newline
+        entry: python/scripts/fix_file_endings.py
+        language: python
+        types: [text]
+
+# Standard pre-commit hooks (run second)
 -   repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.5.0
     hooks:
     -   id: trailing-whitespace
         args: [--markdown-linebreak-ext=md]
-    -   id: end-of-file-fixer
     -   id: check-yaml
     -   id: check-added-large-files
 
