@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  python-orchestrator:
+    build:
+      context: ./python
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./python:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - GO_SCANNER_HOST=go-scanner
+      - GO_SCANNER_PORT=50051
+      - CONFIG_PATH=/app/config/config.yaml
+    depends_on:
+      - go-scanner
+    restart: unless-stopped
+
+  go-scanner:
+    build:
+      context: ./go
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./go:/app
+    ports:
+      - "50051:50051"
+    environment:
+      - SERVER_ADDRESS=0.0.0.0:50051
+      - MAX_CONCURRENCY=50
+      - LOG_LEVEL=info
+    restart: unless-stopped 

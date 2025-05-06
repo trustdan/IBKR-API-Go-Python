@@ -1,0 +1,67 @@
+# IBKR Auto Vertical Spread Trader Configuration
+
+# IBKR API Connection
+ibkr:
+  host: "127.0.0.1"
+  port: 7497  # TWS: 7497, IB Gateway: 4001
+  client_id: 1
+  read_only: false
+  account: ""  # Set your account ID or leave blank to use active account
+
+# Data Management
+data:
+  cache_dir: "data/cache"
+  universe_cache_expiry: 1800  # 30 minutes in seconds
+  minute_data_cache_expiry: 60  # 1 minute in seconds
+  options_cache_expiry: 300  # 5 minutes in seconds
+
+# Trade Execution
+trading:
+  mode: "PAPER"  # PAPER or LIVE
+  max_positions: 5
+  max_daily_trades: 3
+  risk_per_trade: 0.02  # 2% account risk per trade
+  price_improvement_factor: 0.4  # For live trading: 0.5 = midpoint, <0.5 = closer to bid
+  allow_late_day_entry: true
+
+# Strategy Parameters
+strategy:
+  high_base:
+    max_atr_ratio: 2.0
+    min_rsi: 60
+  low_base:
+    min_atr_ratio: 0.5
+    max_rsi: 40
+  bull_pullback:
+    rsi_threshold: 45
+  bear_rally:
+    rsi_threshold: 55
+
+# Option Selection
+options:
+  min_dte: 30
+  max_dte: 45
+  min_delta: 0.30
+  max_delta: 0.50
+  max_spread_cost: 500
+  min_reward_risk: 1.5
+
+# Universe Filtering
+universe:
+  min_market_cap: 10000000000  # $10B
+  min_price: 20
+  min_volume: 1000000
+
+# Go Scanner Configuration
+scanner:
+  host: "localhost"
+  port: 50051
+  max_concurrency: 50
+
+# Logging
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+  file: "logs/trader.log"
+  max_size_mb: 10
+  backup_count: 5
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s" 
