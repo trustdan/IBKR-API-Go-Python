@@ -20,12 +20,26 @@ jobs:
           cd python
           # Update Python requirement to be compatible with flake8
           sed -i 's/python = ">=3.8,<4.0"/python = ">=3.8.1,<4.0"/g' pyproject.toml
-      - name: Install dependencies
+      - name: Install Poetry
         run: |
           python -m pip install --upgrade pip
-          pip install poetry
+          pip install poetry==2.1.3
+          poetry --version
+
+      - name: Display pyproject.toml
+        run: |
           cd python
-          poetry install
+          cat pyproject.toml
+
+      - name: Install dependencies
+        run: |
+          cd python
+          poetry install --no-interaction --no-root
+
+      - name: Check Poetry config
+        run: |
+          cd python
+          poetry check
       - name: Format and lint code
         run: |
           cd python
@@ -283,7 +297,6 @@ jobs:
     needs: build-and-push
     if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
     runs-on: ubuntu-latest
-    environment: staging
     steps:
       - uses: actions/checkout@v3
 
@@ -323,7 +336,6 @@ jobs:
     needs: build-and-push
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    environment: production
     steps:
       - uses: actions/checkout@v3
 
