@@ -190,6 +190,8 @@ jobs:
     if: always()
     runs-on: ubuntu-latest
     steps:
+      - name: Notification job placeholder
+        run: echo "Notification job executed. Slack notifications are currently disabled."
       # - name: Notify on success
       #   if: ${{ success() }}
       #   uses: slackapi/slack-github-action@v1.24.0
