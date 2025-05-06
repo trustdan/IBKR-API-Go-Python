@@ -1,4 +1,4 @@
-module github.com/trustdan/ibkr-trader
+module github.com/trustdan/ibkr-trader/go
 
 go 1.20
 

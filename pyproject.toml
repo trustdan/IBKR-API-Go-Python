@@ -1,3 +1,17 @@
+[project]
+name = "ibkr-trader"
+version = "0.1.0"
+description = "Interactive Brokers Trading System"
+authors = [
+    {name = "Dan", email = "user@example.com"}
+]
+readme = "README.md"
+requires-python = ">=3.9"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
 [tool.black]
 line-length = 88
 target-version = ['py37', 'py38', 'py39']

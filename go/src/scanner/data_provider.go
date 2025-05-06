@@ -7,7 +7,7 @@ import (
 
 	"github.com/patrickmn/go-cache"
 	"github.com/sirupsen/logrus"
-	"github.com/trustdan/ibkr-trader/src/config"
+	"github.com/trustdan/ibkr-trader/go/src/config"
 )
 
 // MarketData represents stock market data

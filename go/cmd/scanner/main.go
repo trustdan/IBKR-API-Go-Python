@@ -8,8 +8,8 @@ import (
 	"syscall"
 
 	"github.com/sirupsen/logrus"
-	"github.com/trustdan/ibkr-trader/pkg/proto"
-	"github.com/trustdan/ibkr-trader/pkg/scanner"
+	"github.com/trustdan/ibkr-trader/go/pkg/proto"
+	"github.com/trustdan/ibkr-trader/go/pkg/scanner"
 	"google.golang.org/grpc"
 )
 
