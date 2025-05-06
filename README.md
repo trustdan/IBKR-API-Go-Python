@@ -65,18 +65,126 @@ go/
 └── config.json           # Go scanner configuration
 ```
 
-## System Components
+## Interactive Brokers Integration
 
-The system is structured into the following components:
+This trading system is designed to work seamlessly with Interactive Brokers (IBKR) and leverages the TWS API for market data and order execution. This section provides comprehensive guidance on setting up and operating the system with IBKR's trading platforms.
 
-1. **Scanner**: Identifies trading opportunities based on technical patterns
-2. **Strategy Engine**: Implements multiple technical trading strategies
-3. **Option Selector**: Selects the optimal vertical spread for a given trade signal
-4. **Trade Executor**: Handles trade execution timing and order management
-5. **Risk Manager**: Controls position sizing and overall risk exposure
-6. **IBKR Integration**: Connects to Interactive Brokers for data and trading
-7. **Alerting System**: Provides notifications for trade and system events
-8. **Performance Monitor**: Tracks system performance metrics
+### Prerequisites
+
+* **Interactive Brokers Account**:
+  * IBKR Pro account (live or paper trading)
+  * Latest stable release of TWS or IB Gateway
+  * Ensure Java is installed (both TWS and IB Gateway are Java applications)
+
+* **Software Requirements**:
+  * Docker Desktop (preferred) or manual setup using Python 3.8+ and Go 1.20+
+  * Pre-commit hooks installed (for development)
+
+### Setting Up TWS or IB Gateway
+
+1. **Download Software**:
+   * [Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php)
+   * [IB Gateway](https://www.interactivebrokers.com/en/trading/ibgateway-stable.php)
+   * Recommended: Use offline versions to avoid automatic updates
+
+2. **Configure API Access**:
+   * Launch TWS or IB Gateway and log in to your account
+   * Navigate to **Edit > Global Configuration > API > Settings**:
+     * Check **"Enable ActiveX and Socket Clients"**
+     * Uncheck **"Read-Only API"**
+     * Note the **Socket Port** (default: 7497 for paper, 7496 for live)
+
+   ![TWS API Configuration](https://www.interactivebrokers.com/campus/wp-content/uploads/sites/2/2023/06/API-settings-700x489.png)
+
+3. **Optimize for Reliability**:
+   * In **Global Configuration > Lock and Exit**:
+     * Set **"Never Lock Trader Workstation"** to prevent auto-logout
+     * Enable **"Auto restart"** for uninterrupted operation
+   * In **Global Configuration > API > Precautions**:
+     * Enable bypass options for API orders to eliminate confirmation dialogs
+   * In **Global Configuration > General**:
+     * Adjust **Memory Allocation** to 4000MB for optimal performance
+
+4. **Allow API Connections**:
+   * Uncheck **"Allow connections from localhost only"** if connecting remotely
+   * Add your application's IP address to **"Trusted IPs"** section
+
+### Connecting the Trading Application
+
+1. **Configure the Application**:
+   * Copy `config.yaml.example` to `config.yaml`
+   * Set your IBKR connection parameters:
+
+   ```yaml
+   IBKR:
+     host: 127.0.0.1  # Use actual IP if connecting to a remote TWS
+     port: 7497       # Paper trading port (7496 for live)
+     clientId: 1      # Unique client ID
+   ```
+
+2. **Market Data Requirements**:
+   * Ensure you have appropriate market data subscriptions for the instruments you plan to trade
+   * For paper accounts, enable market data sharing from your live account in Account Management
+   * Option trading requires specific option data subscriptions
+
+3. **Paper Trading Setup**:
+   * Create a paper trading account through Account Management
+   * Enable market data sharing from your live account to your paper account
+   * Allow up to 24 hours for market data sharing to take effect
+
+### Running the Application
+
+The system connects to Interactive Brokers using the ib_insync library, which provides a more Pythonic interface to the TWS API. Key features include:
+
+1. **Connection Management**:
+   * The application handles connection initiation and monitors connection status
+   * Automatic reconnection attempts if the connection is lost
+   * TWS API limits to 50 messages per second from the client
+
+2. **Data Handling**:
+   * Real-time market data streaming for scanning opportunities
+   * Historical data retrieval for strategy backtesting
+   * Account and position monitoring
+
+3. **Order Execution**:
+   * Vertical spreads are constructed as bracket orders
+   * Risk management rules enforce position sizing limits
+   * Order status monitoring and execution reporting
+
+4. **Operational Best Practices**:
+   * Always restart TWS/IB Gateway weekly or enable auto-restart
+   * Monitor API connection status through the application logs
+   * Review execution reports and position data for accuracy
+
+### Troubleshooting
+
+1. **Connection Issues**:
+   * Verify TWS/IB Gateway is running and configured for API access
+   * Confirm the socket port in your config matches the TWS settings
+   * Check that your IP address is in the TWS "Trusted IPs" list
+
+2. **Data Issues**:
+   * Verify market data subscriptions for the instruments you're trading
+   * Check TWS market data connection status (green indicator in TWS)
+   * Paper accounts may have delayed or limited market data
+
+3. **Order Issues**:
+   * Review TWS logs for rejected orders
+   * Verify account permissions for the instruments you're trading
+   * Check available buying power and margin requirements
+
+### Advanced Configuration
+
+1. **Client ID Management**:
+   * Use unique client IDs for each application instance
+   * Set a Master Client ID in TWS to receive all order updates
+
+2. **Performance Optimization**:
+   * Increase TWS memory allocation for faster data processing
+   * Use IB Gateway instead of TWS for lower resource consumption
+   * Consider direct FIX API connection for high-frequency applications
+
+For more detailed information about the TWS API, refer to the [Interactive Brokers API Documentation](https://interactivebrokers.github.io/tws-api/).
 
 ## Quick Start with Docker
 
@@ -186,12 +294,12 @@ This project uses pre-commit hooks to maintain code quality and consistency. The
 The pre-commit configuration is defined in `.pre-commit-config.yaml`. Key features:
 
 1. **File Endings**:
-   - Custom hook ensures all text files end with exactly one newline
-   - Works in conjunction with the standard end-of-file-fixer
-   - Automatically fixes any incorrect file endings
+   - Custom hook ensures all text files end with exactly one newline and removes trailing whitespace
+   - Implemented using a Python script (`python/scripts/fix_file_endings.py`)
+   - Automatically fixes file endings and trailing whitespace issues in a single pass
+   - Works across all platforms (Windows, macOS, Linux)
 
 2. **Code Quality**:
-   - Removes trailing whitespace (preserving Markdown line breaks)
    - Formats Python code using Black
    - Sorts imports using isort
    - Runs mypy type checking on core modules
@@ -203,7 +311,7 @@ pre-commit run --all-files
 
 To run a specific hook:
 ```bash
-pre-commit run end-of-file-fixer --all-files
+pre-commit run fix-file-endings-and-whitespace --all-files
 ```
 
 5. Configure your system:
@@ -354,3 +462,39 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## Disclaimer
 
 Trading involves risk. This software is for educational and informational purposes only. It is not intended as financial advice or a recommendation to trade. Use at your own risk.
+
+## Disclaimer and Risk Warning
+
+### Financial Disclaimer
+This software is provided strictly for educational and informational purposes only and is not financial advice.
+
+**IMPORTANT NOTICE:**
+- Trading options, futures, stocks, and other financial instruments involves substantial risk of loss and is not suitable for all investors.
+- Past performance is not indicative of future results. No representation is being made that any account will or is likely to achieve profits or losses similar to those discussed within this software or its documentation.
+- You should never trade with money you cannot afford to lose.
+- The author(s) and contributor(s) to this project are not registered investment advisors, brokers/dealers, financial analysts, financial advisors, or securities professionals.
+- The information provided in this software is not a substitute for professional financial advice.
+- Before engaging in any trading activity of any kind, you should consult with a licensed broker, financial advisor, or financial professional to determine the suitability of any investment.
+
+### Technical Requirements Disclaimer
+This software combines multiple complex technologies and requires substantial technical expertise:
+
+- **Programming Languages**: Requires proficiency in Python 3.8+, Go 1.20+, and understanding of asynchronous programming.
+- **Infrastructure**: Requires knowledge of Docker, containerization, and potentially Kubernetes for production deployments.
+- **Financial APIs**: Requires understanding of Interactive Brokers TWS API, market data formats, and order execution mechanics.
+- **Financial Concepts**: Requires solid understanding of options trading, vertical spreads, and risk management principles.
+
+It is strongly recommended that you consult with a developer who has expertise in these areas before attempting to deploy this system in any capacity beyond paper trading. Technical errors in implementation or deployment could result in unexpected behavior and financial loss.
+
+### Regulatory Compliance
+Users of this software are solely responsible for ensuring compliance with all applicable laws and regulations in their jurisdiction, including but not limited to:
+
+- Securities regulations
+- Tax laws
+- Trading rules and restrictions
+- Reporting requirements
+
+### No Liability
+The authors, contributors, and maintainers of this software expressly disclaim all liability for any direct, indirect, consequential, incidental, or special damages arising out of or in any way connected with the use of or inability to use this software.
+
+BY USING THIS SOFTWARE, YOU ACKNOWLEDGE THAT YOU HAVE READ THIS DISCLAIMER, UNDERSTAND IT, AND AGREE TO BE BOUND BY ITS TERMS.
