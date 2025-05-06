@@ -1,12 +1,20 @@
-[project]
+[tool.poetry]
 name = "ibkr-trader"
 version = "0.1.0"
 description = "Interactive Brokers Trading System"
-authors = [
-    {name = "Dan", email = "user@example.com"}
-]
+authors = ["Dan <user@example.com>"]
 readme = "README.md"
-requires-python = ">=3.9"
+packages = [{include = "python"}]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[tool.poetry.dependencies]
+python = ">=3.9"
+pyyaml = "^6.0"
+requests = "^2.28.1"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

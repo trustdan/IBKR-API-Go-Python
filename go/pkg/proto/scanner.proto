@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package proto;
 
-option go_package = "github.com/trustdan/ibkr-trader/pkg/proto";
+option go_package = "github.com/trustdan/ibkr-trader/go/pkg/proto";
 
 // ScannerService defines the API for market scanning operations
 service ScannerService {

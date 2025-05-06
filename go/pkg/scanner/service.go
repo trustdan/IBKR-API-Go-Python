@@ -7,7 +7,7 @@ import (
 
 	"github.com/patrickmn/go-cache"
 	"github.com/sirupsen/logrus"
-	"github.com/trustdan/ibkr-trader/pkg/proto"
+	"github.com/trustdan/ibkr-trader/go/pkg/proto"
 )
 
 // ScannerService implements the proto.ScannerServiceServer interface
