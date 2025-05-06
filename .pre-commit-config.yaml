@@ -22,4 +22,4 @@ repos:
     rev: v1.3.0  # Match your project's mypy version
     hooks:
     -   id: mypy
-        additional_dependencies: [types-requests]
+        additional_dependencies: [types-requests, types-PyYAML]

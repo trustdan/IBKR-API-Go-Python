@@ -1,5 +1,7 @@
-"""Configuration package for IBKR Auto Vertical Spread Trader."""
+"""
+Configuration package.
+"""
 
 from .config import Config, config
 
-__all__ = ["Config", "config"] 
+__all__ = ["Config", "config"]
