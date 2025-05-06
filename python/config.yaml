@@ -1,0 +1,65 @@
+# Auto Vertical Spread Trader Configuration
+
+# Scanner service configuration
+SCANNER_HOST: "localhost"
+SCANNER_PORT: 50051
+
+# Trade Execution Mode
+TRADING_MODE: "PAPER"  # Options: "PAPER" or "LIVE"
+PRICE_IMPROVEMENT_FACTOR: 0.4  # For live trading: 0.5 = midpoint, <0.5 = closer to bid, >0.5 = closer to ask
+
+# Strategy Parameters
+HIGH_BASE_MAX_ATR_RATIO: 2.0
+HIGH_BASE_MIN_RSI: 60
+LOW_BASE_MIN_ATR_RATIO: 0.5
+LOW_BASE_MAX_RSI: 40
+BULL_PULLBACK_RSI_THRESHOLD: 45
+BEAR_RALLY_RSI_THRESHOLD: 55
+
+# Risk Management Parameters
+MAX_POSITIONS: 5
+MAX_DAILY_TRADES: 3
+STOP_LOSS_ATR_MULT: 2.0
+RISK_PER_TRADE: 0.02  # 2% account risk per trade
+MAX_CONTRACTS_PER_TRADE: 10
+
+# Option Selection Parameters
+MIN_DTE: 30
+MAX_DTE: 45
+MIN_DELTA: 0.30
+MAX_DELTA: 0.50
+MAX_SPREAD_COST: 500  # Max cost per spread in dollars
+MIN_REWARD_RISK: 1.5  # Minimum reward-to-risk ratio
+
+# Exit Strategy Parameters
+USE_FIBO_TARGETS: true
+FIBO_TARGET_LEVEL: 1.618
+USE_R_MULTIPLE: true
+R_MULTIPLE_TARGET: 2.0
+USE_ATR_TARGET: true
+ATR_TARGET_MULTIPLE: 3.0
+MIN_DAYS_TO_EXIT: 14
+
+# Trade Execution Timing
+ALLOW_LATE_DAY_ENTRY: true
+
+# Universe Filtering
+MIN_MARKET_CAP: 10000000000  # $10B
+MIN_PRICE: 20
+MIN_VOLUME: 1000000
+
+# Performance Benchmarks
+MAX_SCAN_TIME: 5.0  # seconds
+MIN_SYMBOLS_PER_SECOND: 50
+MAX_ORDER_LATENCY: 0.5  # seconds
+CRITICAL_ORDER_LATENCY: 2.0  # seconds
+
+# IBKR API Settings
+IBKR_HOST: "127.0.0.1"
+IBKR_PORT: 7497  # 7496 for Gateway, 7497 for TWS
+IBKR_CLIENT_ID: 1
+IBKR_ACCOUNT_ID: ""  # Set via environment variable for security
+
+# Logging
+LOG_LEVEL: "INFO"
+LOG_FILE: "auto_trader.log" 

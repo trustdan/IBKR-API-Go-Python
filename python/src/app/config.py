@@ -1,0 +1,121 @@
+from dataclasses import dataclass
+from typing import Dict, List, Optional, Any, Union
+import os
+import yaml
+
+
+@dataclass
+class Config:
+    """Configuration settings for the application."""
+    
+    # Scanner service configuration
+    SCANNER_HOST: str = "localhost"
+    SCANNER_PORT: int = 50051
+    
+    # Strategy Parameters
+    HIGH_BASE_MAX_ATR_RATIO: float = 2.0
+    HIGH_BASE_MIN_RSI: float = 60
+    LOW_BASE_MIN_ATR_RATIO: float = 0.5
+    LOW_BASE_MAX_RSI: float = 40
+    BULL_PULLBACK_RSI_THRESHOLD: float = 45
+    BEAR_RALLY_RSI_THRESHOLD: float = 55
+    
+    # Trade Execution Mode
+    TRADING_MODE: str = "PAPER"  # Options: "PAPER" or "LIVE"
+    PRICE_IMPROVEMENT_FACTOR: float = 0.4  # For live trading: 0.5 = midpoint, <0.5 = closer to bid, >0.5 = closer to ask
+    
+    # Risk Management Parameters
+    MAX_POSITIONS: int = 5
+    MAX_DAILY_TRADES: int = 3
+    STOP_LOSS_ATR_MULT: float = 2.0
+    RISK_PER_TRADE: float = 0.02  # 2% account risk per trade
+    MAX_CONTRACTS_PER_TRADE: int = 10
+    
+    # Option Selection Parameters
+    MIN_DTE: int = 30
+    MAX_DTE: int = 45
+    MIN_DELTA: float = 0.30
+    MAX_DELTA: float = 0.50
+    MAX_SPREAD_COST: float = 500  # Max cost per spread in dollars
+    MIN_REWARD_RISK: float = 1.5  # Minimum reward-to-risk ratio
+    
+    # Exit Strategy Parameters
+    USE_FIBO_TARGETS: bool = True
+    FIBO_TARGET_LEVEL: float = 1.618
+    USE_R_MULTIPLE: bool = True
+    R_MULTIPLE_TARGET: float = 2.0
+    USE_ATR_TARGET: bool = True
+    ATR_TARGET_MULTIPLE: float = 3.0
+    MIN_DAYS_TO_EXIT: int = 14
+    
+    # Trade Execution Timing
+    ALLOW_LATE_DAY_ENTRY: bool = True
+    
+    # Universe Filtering
+    MIN_MARKET_CAP: int = 10_000_000_000  # $10B
+    MIN_PRICE: float = 20
+    MIN_VOLUME: int = 1_000_000
+    
+    # Performance Benchmarks
+    MAX_SCAN_TIME: float = 5.0  # seconds
+    MIN_SYMBOLS_PER_SECOND: int = 50
+    MAX_ORDER_LATENCY: float = 0.5  # seconds
+    CRITICAL_ORDER_LATENCY: float = 2.0  # seconds
+    
+    # IBKR API Settings
+    IBKR_HOST: str = "127.0.0.1"
+    IBKR_PORT: int = 7497  # 7496 for Gateway, 7497 for TWS
+    IBKR_CLIENT_ID: int = 1
+    IBKR_ACCOUNT_ID: str = ""  # Set in config.yaml or via environment
+    
+    # Logging
+    LOG_LEVEL: str = "INFO"
+    LOG_FILE: str = "auto_trader.log"
+    
+    @classmethod
+    def from_yaml(cls, yaml_file: str) -> "Config":
+        """Load configuration from a YAML file.
+        
+        Args:
+            yaml_file: Path to the YAML configuration file
+            
+        Returns:
+            Config object with values from YAML file
+        """
+        # Start with default values
+        config = cls()
+        
+        try:
+            if os.path.exists(yaml_file):
+                with open(yaml_file, 'r') as f:
+                    yaml_config = yaml.safe_load(f)
+                    
+                # Update attributes from YAML
+                if yaml_config:
+                    for key, value in yaml_config.items():
+                        if hasattr(config, key):
+                            setattr(config, key, value)
+        except Exception as e:
+            print(f"Error loading config from {yaml_file}: {str(e)}")
+            
+        # Override with environment variables if they exist
+        for field_name in dir(config):
+            # Skip private and special fields
+            if field_name.startswith('_') or not field_name.isupper():
+                continue
+                
+            # Check if environment variable exists
+            env_var = os.environ.get(field_name)
+            if env_var is not None:
+                # Convert to the right type
+                field_type = type(getattr(config, field_name))
+                try:
+                    if field_type == bool:
+                        value = env_var.lower() in ('true', 'yes', '1')
+                    else:
+                        value = field_type(env_var)
+                    setattr(config, field_name, value)
+                except ValueError:
+                    print(f"Error converting environment variable {field_name}={env_var} to {field_type}")
+                    
+        return config 

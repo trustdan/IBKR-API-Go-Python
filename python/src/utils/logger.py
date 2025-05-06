@@ -2,119 +2,182 @@
 Logging utility for IBKR Auto Vertical Spread Trader.
 """
 
-import json
 import logging
 import os
 import sys
-from logging.handlers import RotatingFileHandler
-from pathlib import Path
-from typing import Any, Dict, Optional
-
-from ..config.config import config
-
-class JsonFormatter(logging.Formatter):
-    """JSON formatter for structured logging."""
-    
-    def format(self, record: logging.LogRecord) -> str:
-        """Format log record as JSON."""
-        log_obj: Dict[str, Any] = {
-            "timestamp": self.formatTime(record, self.datefmt),
-            "level": record.levelname,
-            "message": record.getMessage(),
-            "module": record.module,
-            "function": record.funcName,
-            "line": record.lineno,
-        }
-        
-        # Add exception info if available
-        if record.exc_info:
-            log_obj["exception"] = self.formatException(record.exc_info)
-            
-        # Add extra fields if available
-        if hasattr(record, "extra"):
-            log_obj.update(record.extra)
-            
-        return json.dumps(log_obj)
+from datetime import datetime
 
 
-def setup_logger(name: str = "ibkr_trader", log_level: Optional[str] = None) -> logging.Logger:
-    """
-    Setup application logger with both console and file handlers.
+# Global logger instance
+_logger = None
+
+
+def setup_logger(log_level: str = "INFO", log_file: str = None, console: bool = True) -> logging.Logger:
+    """Set up the logger.
     
     Args:
-        name: Logger name
-        log_level: Log level (DEBUG, INFO, etc.), if None uses config
+        log_level: Logging level
+        log_file: Path to log file (if None, logs to console only)
+        console: Whether to log to console
         
     Returns:
-        Configured Logger instance
+        Configured logger instance
     """
-    # Get log level from config if not provided
-    if log_level is None:
-        log_level = config.get("logging.level", "INFO")
+    global _logger
+    
+    if _logger is not None:
+        return _logger
         
     # Create logger
-    logger = logging.getLogger(name)
-    logger.setLevel(getattr(logging, log_level))
+    _logger = logging.getLogger("auto_trader")
+    _logger.setLevel(getattr(logging, log_level.upper()))
     
-    # Remove existing handlers
-    for handler in logger.handlers[:]:
-        logger.removeHandler(handler)
-        
-    # Create console handler
-    console_handler = logging.StreamHandler(sys.stdout)
-    console_handler.setLevel(getattr(logging, log_level))
-    console_format = config.get(
-        "logging.format", "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    # Create formatter
+    formatter = logging.Formatter(
+        "%(asctime)s - %(levelname)s - %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S"
     )
-    console_formatter = logging.Formatter(console_format)
-    console_handler.setFormatter(console_formatter)
-    logger.addHandler(console_handler)
     
-    # Create file handler if configured
-    log_file = config.get("logging.file")
+    # Add console handler if requested
+    if console:
+        console_handler = logging.StreamHandler()
+        console_handler.setFormatter(formatter)
+        _logger.addHandler(console_handler)
+        
+    # Add file handler if log file specified
     if log_file:
-        # Create directory if it doesn't exist
+        # Ensure log directory exists
         log_dir = os.path.dirname(log_file)
-        Path(log_dir).mkdir(parents=True, exist_ok=True)
+        if log_dir and not os.path.exists(log_dir):
+            os.makedirs(log_dir, exist_ok=True)
+            
+        file_handler = logging.FileHandler(log_file)
+        file_handler.setFormatter(formatter)
+        _logger.addHandler(file_handler)
         
-        max_size = int(config.get("logging.max_size_mb", 10)) * 1024 * 1024
-        backup_count = int(config.get("logging.backup_count", 5))
+    return _logger
+
+
+def get_logger() -> logging.Logger:
+    """Get the logger instance.
+    
+    Returns:
+        Logger instance
+    """
+    global _logger
+    
+    if _logger is None:
+        _logger = setup_logger()
         
-        # Setup rotating file handler
-        file_handler = RotatingFileHandler(
-            log_file, maxBytes=max_size, backupCount=backup_count
-        )
-        file_handler.setLevel(getattr(logging, log_level))
+    return _logger
+
+
+def log_debug(message: str) -> None:
+    """Log a debug message.
+    
+    Args:
+        message: Message to log
+    """
+    logger = get_logger()
+    logger.debug(message)
+
+
+def log_info(message: str) -> None:
+    """Log an info message.
+    
+    Args:
+        message: Message to log
+    """
+    logger = get_logger()
+    logger.info(message)
+
+
+def log_warning(message: str) -> None:
+    """Log a warning message.
+    
+    Args:
+        message: Message to log
+    """
+    logger = get_logger()
+    logger.warning(message)
+
+
+def log_error(message: str) -> None:
+    """Log an error message.
+    
+    Args:
+        message: Message to log
+    """
+    logger = get_logger()
+    logger.error(message)
+
+
+def log_exception(message: str) -> None:
+    """Log an exception message with traceback.
+    
+    Args:
+        message: Message to log
+    """
+    logger = get_logger()
+    logger.exception(message)
+
+
+class LogCapture:
+    """Context manager that captures logs for testing or processing."""
+    
+    def __init__(self, level: str = "INFO"):
+        """Initialize log capture.
         
-        # Use JSON formatter for file logs
-        file_handler.setFormatter(JsonFormatter())
-        logger.addHandler(file_handler)
+        Args:
+            level: Minimum log level to capture
+        """
+        self.level = getattr(logging, level.upper())
+        self.captured_logs = []
+        self.handler = None
         
-    return logger
+    def __enter__(self):
+        """Set up log capture."""
+        self.handler = CaptureHandler(self.captured_logs, self.level)
+        logger = get_logger()
+        logger.addHandler(self.handler)
+        return self
+        
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        """Clean up log capture."""
+        if self.handler:
+            logger = get_logger()
+            logger.removeHandler(self.handler)
+            
+    def get_logs(self) -> list:
+        """Get captured logs.
+        
+        Returns:
+            List of log records
+        """
+        return self.captured_logs
 
 
-# Create a default logger
-logger = setup_logger()
-
-
-def log_debug(message: str, extra: Optional[Dict[str, Any]] = None) -> None:
-    """Log debug message with optional extra fields."""
-    logger.debug(message, extra={"extra": extra} if extra else None)
-
-
-def log_info(message: str, extra: Optional[Dict[str, Any]] = None) -> None:
-    """Log info message with optional extra fields."""
-    logger.info(message, extra={"extra": extra} if extra else None)
-
-
-def log_warning(message: str, extra: Optional[Dict[str, Any]] = None) -> None:
-    """Log warning message with optional extra fields."""
-    logger.warning(message, extra={"extra": extra} if extra else None)
-
-
-def log_error(message: str, error: Optional[str] = None, extra: Optional[Dict[str, Any]] = None) -> None:
-    """Log error message with optional error details and extra fields."""
-    extra_dict = {"error": error} if error else {}
-    if extra:
-        extra_dict.update(extra)
-    logger.error(message, extra={"extra": extra_dict} if extra_dict else None) 
+class CaptureHandler(logging.Handler):
+    """Handler that captures log records to a list."""
+    
+    def __init__(self, records: list, level: int):
+        """Initialize capture handler.
+        
+        Args:
+            records: List to store log records
+            level: Minimum log level to capture
+        """
+        super().__init__(level)
+        self.records = records
+        
+    def emit(self, record):
+        """Process a log record.
+        
+        Args:
+            record: Log record to process
+        """
+        self.records.append({
+            'time': datetime.fromtimestamp(record.created),
+            'level': record.levelname,
+            'message': record.getMessage()
+        }) 
