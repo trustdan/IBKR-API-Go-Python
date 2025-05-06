@@ -190,24 +190,24 @@ jobs:
     if: always()
     runs-on: ubuntu-latest
     steps:
-      - name: Notify on success
-        if: ${{ success() }}
-        uses: slackapi/slack-github-action@v1.24.0
-        with:
-          payload: |
-            {
-              "text": "✅ Deployment successful! ${{ github.repository }} - ${{ github.workflow }} - ${{ github.ref_name }}"
-            }
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      # - name: Notify on success
+      #   if: ${{ success() }}
+      #   uses: slackapi/slack-github-action@v1.24.0
+      #   with:
+      #     payload: |
+      #       {
+      #         "text": "✅ Deployment successful! ${{ github.repository }} - ${{ github.workflow }} - ${{ github.ref_name }}"
+      #       }
+      #   env:
+      #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           
-      - name: Notify on failure
-        if: ${{ failure() }}
-        uses: slackapi/slack-github-action@v1.24.0
-        with:
-          payload: |
-            {
-              "text": "❌ Deployment failed! ${{ github.repository }} - ${{ github.workflow }} - ${{ github.ref_name }}"
-            }
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} 
+      # - name: Notify on failure
+      #   if: ${{ failure() }}
+      #   uses: slackapi/slack-github-action@v1.24.0
+      #   with:
+      #     payload: |
+      #       {
+      #         "text": "❌ Deployment failed! ${{ github.repository }} - ${{ github.workflow }} - ${{ github.ref_name }}"
+      #       }
+      #   env:
+      #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} 
