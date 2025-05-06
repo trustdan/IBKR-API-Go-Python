@@ -1,0 +1,213 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test-python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install poetry
+          poetry install
+      - name: Run linting
+        run: |
+          poetry run flake8 python/src
+          poetry run black --check python/src
+          poetry run mypy python/src
+      - name: Run tests
+        run: |
+          poetry run pytest python/tests
+      - name: Run coverage
+        run: |
+          poetry run pytest --cov=python/src python/tests
+          poetry run coverage report
+      - name: Upload coverage reports
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./coverage.xml
+          fail_ci_if_error: false
+
+  test-go:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: '1.20'
+      - name: Install dependencies
+        run: |
+          cd go
+          go mod download
+      - name: Run linting
+        run: |
+          cd go
+          go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+          golangci-lint run ./...
+      - name: Run tests
+        run: |
+          cd go
+          go test -v -race -coverprofile=coverage.txt -covermode=atomic ./...
+      - name: Upload coverage reports
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./go/coverage.txt
+          fail_ci_if_error: false
+
+  build-and-push:
+    needs: [test-python, test-go]
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+        
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          
+      - name: Set environment tag
+        id: set-tag
+        run: |
+          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
+            echo "ENV_TAG=latest" >> $GITHUB_OUTPUT
+          else
+            echo "ENV_TAG=develop" >> $GITHUB_OUTPUT
+          fi
+          
+      - name: Build and push Python Orchestrator
+        uses: docker/build-push-action@v4
+        with:
+          context: ./python
+          file: ./python/Dockerfile
+          push: true
+          tags: |
+            yourusername/auto-vertical-spread-python:${{ steps.set-tag.outputs.ENV_TAG }}
+            yourusername/auto-vertical-spread-python:${{ github.sha }}
+          cache-from: type=registry,ref=yourusername/auto-vertical-spread-python:buildcache
+          cache-to: type=registry,ref=yourusername/auto-vertical-spread-python:buildcache,mode=max
+          
+      - name: Build and push Go Scanner
+        uses: docker/build-push-action@v4
+        with:
+          context: ./go
+          file: ./go/Dockerfile
+          push: true
+          tags: |
+            yourusername/auto-vertical-spread-go:${{ steps.set-tag.outputs.ENV_TAG }}
+            yourusername/auto-vertical-spread-go:${{ github.sha }}
+          cache-from: type=registry,ref=yourusername/auto-vertical-spread-go:buildcache
+          cache-to: type=registry,ref=yourusername/auto-vertical-spread-go:buildcache,mode=max
+          
+  deploy-staging:
+    needs: build-and-push
+    if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'v1.25.0'
+          
+      - name: Set Kubernetes Context
+        uses: azure/k8s-set-context@v3
+        with:
+          kubeconfig: ${{ secrets.KUBE_CONFIG_STAGING }}
+          
+      - name: Deploy to Staging
+        run: |
+          # Update image tags in kubernetes manifests
+          sed -i "s|yourusername/auto-vertical-spread-python:.*|yourusername/auto-vertical-spread-python:${{ github.sha }}|g" kubernetes/staging/python-deployment.yaml
+          sed -i "s|yourusername/auto-vertical-spread-go:.*|yourusername/auto-vertical-spread-go:${{ github.sha }}|g" kubernetes/staging/go-deployment.yaml
+          
+          # Apply manifests
+          kubectl apply -f kubernetes/staging/
+          
+          # Wait for deployments to be ready
+          kubectl rollout status deployment/vertical-spread-python -n vertical-spread-staging
+          kubectl rollout status deployment/vertical-spread-go -n vertical-spread-staging
+          
+      - name: Run Integration Tests
+        run: |
+          # Wait for services to be fully available
+          sleep 30
+          
+          # Run integration tests against staging environment
+          cd python
+          poetry run pytest tests/integration
+          
+  deploy-production:
+    needs: build-and-push
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Install kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'v1.25.0'
+          
+      - name: Set Kubernetes Context
+        uses: azure/k8s-set-context@v3
+        with:
+          kubeconfig: ${{ secrets.KUBE_CONFIG_PRODUCTION }}
+          
+      - name: Deploy to Production
+        run: |
+          # Update image tags in kubernetes manifests
+          sed -i "s|yourusername/auto-vertical-spread-python:.*|yourusername/auto-vertical-spread-python:${{ github.sha }}|g" kubernetes/production/python-deployment.yaml
+          sed -i "s|yourusername/auto-vertical-spread-go:.*|yourusername/auto-vertical-spread-go:${{ github.sha }}|g" kubernetes/production/go-deployment.yaml
+          
+          # Apply manifests
+          kubectl apply -f kubernetes/production/
+          
+          # Wait for deployments to be ready
+          kubectl rollout status deployment/vertical-spread-python -n vertical-spread-production
+          kubectl rollout status deployment/vertical-spread-go -n vertical-spread-production
+          
+  notify:
+    needs: [deploy-staging, deploy-production]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify on success
+        if: ${{ success() }}
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          payload: |
+            {
+              "text": "✅ Deployment successful! ${{ github.repository }} - ${{ github.workflow }} - ${{ github.ref_name }}"
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          
+      - name: Notify on failure
+        if: ${{ failure() }}
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          payload: |
+            {
+              "text": "❌ Deployment failed! ${{ github.repository }} - ${{ github.workflow }} - ${{ github.ref_name }}"
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} 

@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+package scanner;
+
+option go_package = "github.com/yourusername/auto-vertical-spread-trader/go/src/proto/scanner";
+
+service ScannerService {
+  // Scan a list of symbols for trading signals
+  rpc Scan (ScanRequest) returns (ScanResponse);
+  
+  // Fetch historical data for multiple symbols
+  rpc BulkFetch (BulkFetchRequest) returns (BulkFetchResponse);
+  
+  // Get real-time performance metrics
+  rpc GetMetrics (MetricsRequest) returns (MetricsResponse);
+}
+
+message DateRange {
+  string start_date = 1;
+  string end_date = 2;
+}
+
+message ScanRequest {
+  repeated string symbols = 1;
+  DateRange date_range = 2;
+  repeated string strategies = 3;
+}
+
+message SignalList {
+  repeated string signal_types = 1; // ["LONG", "SHORT"]
+}
+
+message ScanResponse {
+  map<string, SignalList> signals = 1;
+  float scan_time_seconds = 2;
+}
+
+message BulkFetchRequest {
+  repeated string symbols = 1;
+  string timeframe = 2; // "daily", "minute"
+  DateRange date_range = 3;
+}
+
+message BulkFetchResponse {
+  map<string, bytes> data = 1; // Serialized market data
+  float fetch_time_seconds = 2;
+}
+
+message MetricsRequest {
+  // Empty request
+}
+
+message MetricsResponse {
+  float avg_scan_time_seconds = 1;
+  float symbols_per_second = 2;
+  int32 total_scans = 3;
+  float memory_usage_mb = 4;
+  float cpu_usage_percent = 5;
+  int32 error_count = 6;
+  float cache_hit_rate = 7;
+} 
