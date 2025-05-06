@@ -15,6 +15,11 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
+      - name: Fix Python dependency requirements
+        run: |
+          cd python
+          # Update Python requirement to be compatible with flake8
+          sed -i 's/python = ">=3.8,<4.0"/python = ">=3.8.1,<4.0"/g' pyproject.toml
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
@@ -51,13 +56,26 @@ jobs:
         uses: actions/setup-go@v3
         with:
           go-version: '1.20'
-      - name: Fix Go version in go.mod
+      - name: Fix Go module issues
         run: |
           cd go
-          # Replace any Go version with go 1.20
+          # Fix Go version in go.mod
           sed -i 's/go 1\.[0-9]\+\.[0-9]\+/go 1.20/g' go.mod
           sed -i 's/go 1\.[0-9]\+$/go 1.20/g' go.mod
-          # Show the result to verify
+          
+          # Fix module import path issues - make sure the module path matches the imports
+          # Option 1: Update the module path in go.mod to match imports
+          sed -i 's|module github.com/trustdan/ibkr-trader|module github.com/trustdan/ibkr-trader/go|g' go.mod
+          
+          # Option 2 (alternative): Use a simple find and replace to fix imports in source files
+          # Find all Go files that have import path issues and fix them
+          find . -name "*.go" -type f -exec sed -i 's|github.com/trustdan/ibkr-trader/go/src|github.com/trustdan/ibkr-trader/src|g' {} \;
+          
+          # Display Go environment for debugging
+          go env
+          
+          # Show the updated files
+          echo "go.mod contents:"
           cat go.mod
       - name: Install dependencies
         run: |
