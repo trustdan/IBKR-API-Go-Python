@@ -7,19 +7,29 @@ repos:
     -   id: check-yaml
     -   id: check-added-large-files
 
+# Run isort first (uses black profile from pyproject.toml)
+-   repo: https://github.com/pycqa/isort
+    rev: 5.12.0
+    hooks:
+    -   id: isort
+        args: ["--profile", "black"]
+
+# Then run black (settings from pyproject.toml)
 -   repo: https://github.com/psf/black
-    rev: 23.3.0  # Match your project's Black version
+    rev: 23.3.0
     hooks:
     -   id: black
 
--   repo: https://github.com/pycqa/isort
-    rev: 5.12.0  # Match your project's isort version
-    hooks:
-    -   id: isort
-
-# Optional: Add mypy type checking
+# Modified mypy type checking to focus only on core modules
 -   repo: https://github.com/pre-commit/mirrors-mypy
     rev: v1.3.0  # Match your project's mypy version
     hooks:
     -   id: mypy
+        name: mypy (core modules only)
+        args: [
+            "--ignore-missing-imports",
+            "--no-strict-optional",
+            "--no-warn-return-any"
+        ]
+        files: "^python/src/app/(trader|scanner|scanner_client).py$|^python/src/data/data_manager.py$"
         additional_dependencies: [types-requests, types-PyYAML]

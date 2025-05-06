@@ -7,10 +7,10 @@ option go_package = "github.com/yourusername/ibkr-trader/pkg/proto";
 service ScannerService {
   // Scan a list of symbols for trading signals
   rpc Scan (ScanRequest) returns (ScanResponse);
-  
+
   // Fetch historical data for multiple symbols
   rpc BulkFetch (BulkFetchRequest) returns (BulkFetchResponse);
-  
+
   // Get real-time performance metrics
   rpc GetMetrics (MetricsRequest) returns (MetricsResponse);
 }
@@ -56,4 +56,4 @@ message MetricsResponse {
   int32 total_scans = 3;
   float memory_usage_mb = 4;
   float cpu_usage_percent = 5;
-} 
+}

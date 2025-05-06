@@ -2,6 +2,6 @@
 Configuration package.
 """
 
-from .config import Config, config
+from src.config.config import Config, config
 
 __all__ = ["Config", "config"]

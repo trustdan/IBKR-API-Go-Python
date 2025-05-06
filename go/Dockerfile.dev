@@ -20,4 +20,4 @@ ENV CGO_ENABLED=0 \
     GOARCH=amd64
 
 # Run the application
-CMD ["go", "run", "cmd/scanner/main.go"] 
+CMD ["go", "run", "cmd/scanner/main.go"]

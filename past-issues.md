@@ -145,7 +145,7 @@ Prior to migration, we experienced several issues with TA-Lib installation that 
 
 ### 2. Ubuntu Package Availability
 - **Problem**: "Unable to locate package libta-lib-dev" errors
-- **Root Causes**: 
+- **Root Causes**:
   - On Ubuntu 24.04+: Package unavailable in repositories
   - On Ubuntu 22.04: Universe repository not enabled in CI
   - In GitHub Actions: Azure mirror issues
@@ -186,4 +186,4 @@ Prior to migration, we experienced several issues with TA-Lib installation that 
 5. **Documentation & Deployment**
    - Complete user guide with installation instructions
    - Create administrator guide for system monitoring
-   - Develop deployment scripts for cloud hosting 
+   - Develop deployment scripts for cloud hosting

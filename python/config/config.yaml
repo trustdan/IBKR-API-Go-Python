@@ -64,4 +64,4 @@ logging:
   file: "logs/trader.log"
   max_size_mb: 10
   backup_count: 5
-  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s" 
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"

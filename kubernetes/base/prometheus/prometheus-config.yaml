@@ -171,4 +171,4 @@ data:
           severity: warning
         annotations:
           summary: "High CPU usage"
-          description: "Container {{ $labels.pod }} in {{ $labels.namespace }} is using {{ $value | humanizePercentage }} of its CPU limit" 
+          description: "Container {{ $labels.pod }} in {{ $labels.namespace }} is using {{ $value | humanizePercentage }} of its CPU limit"

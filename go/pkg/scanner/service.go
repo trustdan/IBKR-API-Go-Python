@@ -5,197 +5,128 @@ import (
 	"sync"
 	"time"
 
+	"github.com/patrickmn/go-cache"
 	"github.com/sirupsen/logrus"
-	pb "github.com/yourusername/ibkr-trader/pkg/proto"
+	"github.com/trustdan/ibkr-trader/pkg/proto"
 )
 
-// ScannerService implements the gRPC ScannerService interface
+// ScannerService implements the proto.ScannerServiceServer interface
 type ScannerService struct {
-	pb.UnimplementedScannerServiceServer
-	config        *Config
-	dataProvider  DataProvider
-	metricTracker *MetricTracker
+	proto.UnimplementedScannerServiceServer
+	config       *Config
+	resultsCache *cache.Cache
+	lastScan     time.Time
+	scanMutex    sync.Mutex
 }
 
-// NewScannerService creates a new scanner service with the given configuration
+// NewScannerService creates a new scanner service instance
 func NewScannerService(config *Config) *ScannerService {
-	return &ScannerService{
-		config:        config,
-		dataProvider:  NewDataProvider(config),
-		metricTracker: NewMetricTracker(),
+	// Create cache with default expiration time from config
+	resultsCache := cache.New(time.Duration(config.CacheTTL)*time.Minute, time.Duration(config.CacheTTL*2)*time.Minute)
+
+	service := &ScannerService{
+		config:       config,
+		resultsCache: resultsCache,
+		lastScan:     time.Time{},
 	}
+
+	return service
 }
 
-// Scan implements the Scan RPC method
-func (s *ScannerService) Scan(ctx context.Context, req *pb.ScanRequest) (*pb.ScanResponse, error) {
-	startTime := time.Now()
+// ScanMarket performs a market scan based on the provided criteria
+func (s *ScannerService) ScanMarket(ctx context.Context, req *proto.ScanRequest) (*proto.ScanResponse, error) {
+	logrus.Infof("Received scan request for symbol: %s, full scan: %v", req.Symbol, req.FullScan)
 
-	logrus.Infof("Scanning %d symbols", len(req.Symbols))
+	s.scanMutex.Lock()
+	defer s.scanMutex.Unlock()
 
-	// Create result map
-	signals := make(map[string]*pb.SignalList)
-	var mu sync.Mutex
+	// Perform market scan (placeholder implementation)
+	results := s.performScan(req)
 
-	// Create a worker pool to limit concurrency
-	workerPool := make(chan struct{}, s.config.MaxConcurrency)
-	var wg sync.WaitGroup
+	// Update cache
+	cacheKey := "latest_scan"
+	s.resultsCache.Set(cacheKey, results, cache.DefaultExpiration)
+	s.lastScan = time.Now()
 
-	// Process each symbol concurrently
-	for _, symbol := range req.Symbols {
-		wg.Add(1)
-
-		// Add job to worker pool
-		workerPool <- struct{}{}
-
-		go func(sym string) {
-			defer wg.Done()
-			defer func() { <-workerPool }() // Release worker
-
-			// Check for context cancellation
-			if ctx.Err() != nil {
-				logrus.Warnf("Context cancelled while processing %s", sym)
-				return
-			}
-
-			// Fetch data for this symbol
-			data, err := s.dataProvider.GetHistoricalData(sym, req.DateRange.StartDate, req.DateRange.EndDate)
-			if err != nil {
-				logrus.Errorf("Error fetching data for %s: %v", sym, err)
-				return
-			}
-
-			// Apply strategies
-			signalTypes := s.evaluateStrategies(data, req.Strategies)
-
-			// Store results with mutex to avoid race conditions
-			if len(signalTypes) > 0 {
-				mu.Lock()
-				signals[sym] = &pb.SignalList{SignalTypes: signalTypes}
-				mu.Unlock()
-			}
-		}(symbol)
-	}
-
-	// Wait for all goroutines to complete
-	wg.Wait()
-	close(workerPool)
-
-	// Calculate scan time
-	scanTime := time.Since(startTime).Seconds()
-
-	// Track metrics
-	s.metricTracker.RecordScan(len(req.Symbols), scanTime)
-
-	logrus.Infof("Scan completed in %.2f seconds, found signals for %d symbols", scanTime, len(signals))
-
-	return &pb.ScanResponse{
-		Signals:         signals,
-		ScanTimeSeconds: float32(scanTime),
+	return &proto.ScanResponse{
+		Results:   results,
+		Timestamp: time.Now().Unix(),
+		Status:    "success",
 	}, nil
 }
 
-// BulkFetch implements the BulkFetch RPC method
-func (s *ScannerService) BulkFetch(ctx context.Context, req *pb.BulkFetchRequest) (*pb.BulkFetchResponse, error) {
-	startTime := time.Now()
+// GetScanResults retrieves the latest scan results
+func (s *ScannerService) GetScanResults(ctx context.Context, req *proto.ResultsRequest) (*proto.ScanResponse, error) {
+	logrus.Infof("Received request for scan results, limit: %d", req.Limit)
 
-	logrus.Infof("Bulk fetching data for %d symbols", len(req.Symbols))
+	// Get cached results
+	cacheKey := "latest_scan"
+	cachedResults, found := s.resultsCache.Get(cacheKey)
 
-	// Create result map
-	data := make(map[string][]byte)
-	var mu sync.Mutex
+	var results []*proto.ScanResult
+	status := "no_results"
 
-	// Create a worker pool
-	workerPool := make(chan struct{}, s.config.MaxConcurrency)
-	var wg sync.WaitGroup
+	if found {
+		results = cachedResults.([]*proto.ScanResult)
+		status = "success"
 
-	// Process each symbol concurrently
-	for _, symbol := range req.Symbols {
-		wg.Add(1)
-
-		// Add job to worker pool
-		workerPool <- struct{}{}
-
-		go func(sym string) {
-			defer wg.Done()
-			defer func() { <-workerPool }() // Release worker
-
-			// Check for context cancellation
-			if ctx.Err() != nil {
-				logrus.Warnf("Context cancelled while processing %s", sym)
-				return
-			}
-
-			// Fetch data for this symbol
-			marketData, err := s.dataProvider.GetHistoricalData(sym, req.DateRange.StartDate, req.DateRange.EndDate)
-			if err != nil {
-				logrus.Errorf("Error fetching data for %s: %v", sym, err)
-				return
-			}
-
-			// Serialize the data
-			serialized, err := s.serializeMarketData(marketData)
-			if err != nil {
-				logrus.Errorf("Error serializing data for %s: %v", sym, err)
-				return
-			}
-
-			// Store in result map
-			mu.Lock()
-			data[sym] = serialized
-			mu.Unlock()
-		}(symbol)
+		// Apply limit if specified
+		if req.Limit > 0 && int(req.Limit) < len(results) {
+			results = results[:req.Limit]
+		}
 	}
 
-	// Wait for all goroutines to complete
-	wg.Wait()
-	close(workerPool)
-
-	// Calculate fetch time
-	fetchTime := time.Since(startTime).Seconds()
-
-	// Track metrics
-	s.metricTracker.RecordFetch(len(req.Symbols), fetchTime)
-
-	logrus.Infof("Bulk fetch completed in %.2f seconds for %d symbols", fetchTime, len(data))
-
-	return &pb.BulkFetchResponse{
-		Data:             data,
-		FetchTimeSeconds: float32(fetchTime),
+	return &proto.ScanResponse{
+		Results:   results,
+		Timestamp: s.lastScan.Unix(),
+		Status:    status,
 	}, nil
 }
 
-// GetMetrics implements the GetMetrics RPC method
-func (s *ScannerService) GetMetrics(ctx context.Context, req *pb.MetricsRequest) (*pb.MetricsResponse, error) {
-	metrics := s.metricTracker.GetMetrics()
+// performScan executes the actual market scanning logic
+func (s *ScannerService) performScan(req *proto.ScanRequest) []*proto.ScanResult {
+	// This would be replaced with actual IBKR API calls in a real implementation
 
-	return &pb.MetricsResponse{
-		AvgScanTimeSeconds: float32(metrics.AvgScanTime),
-		SymbolsPerSecond:   float32(metrics.SymbolsPerSecond),
-		TotalScans:         int32(metrics.TotalScans),
-		MemoryUsageMb:      float32(metrics.MemoryUsage),
-		CpuUsagePercent:    float32(metrics.CPUUsage),
-	}, nil
-}
+	// Create some dummy data for testing
+	results := []*proto.ScanResult{
+		{
+			Symbol:              "AAPL",
+			Price:               175.23,
+			Iv:                  0.32,
+			Strategy:            "BULL_PUT_SPREAD",
+			PotentialProfit:     0.45,
+			MaxLoss:             1.55,
+			ProbabilityOfProfit: 0.75,
+			Options: []*proto.OptionData{
+				{
+					Contract:   "AAPL230917P170",
+					Strike:     170.0,
+					Expiration: "2023-09-17",
+					OptionType: "PUT",
+					Bid:        1.25,
+					Ask:        1.30,
+					Iv:         0.30,
+					Delta:      -0.25,
+					Theta:      -0.05,
+					Gamma:      0.02,
+					Vega:       0.10,
+				},
+				{
+					Contract:   "AAPL230917P165",
+					Strike:     165.0,
+					Expiration: "2023-09-17",
+					OptionType: "PUT",
+					Bid:        0.80,
+					Ask:        0.85,
+					Iv:         0.28,
+					Delta:      -0.18,
+					Theta:      -0.04,
+					Gamma:      0.015,
+					Vega:       0.08,
+				},
+			},
+		},
+	}
 
-// evaluateStrategies applies the requested strategies to the market data
-func (s *ScannerService) evaluateStrategies(data interface{}, strategies []string) []string {
-	// This is a placeholder implementation
-	// In a real implementation, we would:
-	// 1. Parse the market data into a common format
-	// 2. Calculate indicators needed for each strategy
-	// 3. Apply each strategy's rules to generate signals
-
-	// For now, return a placeholder signal for demonstration
-	return []string{"LONG"}
-}
-
-// serializeMarketData converts market data to bytes for transmission
-func (s *ScannerService) serializeMarketData(data interface{}) ([]byte, error) {
-	// This is a placeholder implementation
-	// In a real implementation, we would:
-	// 1. Convert the market data to a well-defined format
-	// 2. Serialize it using gob, protobuf, or JSON
-
-	// For now, return empty bytes for demonstration
-	return []byte{}, nil
+	return results
 }

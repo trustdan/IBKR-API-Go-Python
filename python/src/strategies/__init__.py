@@ -1,0 +1,3 @@
+"""
+Trading strategies package.
+"""

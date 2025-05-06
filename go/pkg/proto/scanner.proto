@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+package proto;
+
+option go_package = "github.com/trustdan/ibkr-trader/pkg/proto";
+
+// ScannerService defines the API for market scanning operations
+service ScannerService {
+  // ScanMarket performs a full scan based on configured criteria
+  rpc ScanMarket (ScanRequest) returns (ScanResponse);
+
+  // GetScanResults retrieves the latest scan results
+  rpc GetScanResults (ResultsRequest) returns (ScanResponse);
+}
+
+// ScanRequest represents a request to scan the market
+message ScanRequest {
+  string symbol = 1;          // Optional specific symbol to scan
+  bool full_scan = 2;         // Whether to perform a full scan
+  repeated string criteria = 3; // Filtering criteria
+}
+
+// ResultsRequest is used to retrieve previous scan results
+message ResultsRequest {
+  int32 limit = 1;           // Maximum number of results to return
+  int64 older_than = 2;      // Unix timestamp filter
+}
+
+// ScanResponse contains market scan results
+message ScanResponse {
+  repeated ScanResult results = 1;
+  int64 timestamp = 2;
+  string status = 3;
+}
+
+// ScanResult represents a single opportunity found in the scan
+message ScanResult {
+  string symbol = 1;
+  double price = 2;
+  double iv = 3;             // Implied volatility
+  repeated OptionData options = 4;
+  string strategy = 5;
+  double potential_profit = 6;
+  double max_loss = 7;
+  double probability_of_profit = 8;
+}
+
+// OptionData contains details about a specific option
+message OptionData {
+  string contract = 1;
+  double strike = 2;
+  string expiration = 3;
+  string option_type = 4;    // "CALL" or "PUT"
+  double bid = 5;
+  double ask = 6;
+  double iv = 7;
+  double delta = 8;
+  double theta = 9;
+  double gamma = 10;
+  double vega = 11;
+}

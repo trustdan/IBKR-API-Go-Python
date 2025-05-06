@@ -222,7 +222,7 @@ Access to realtime market information.
 
 - *class* ib_insync.ticker.BarList(**args*)[[source\]](https://ib-insync.readthedocs.io/_modules/ib_insync/ticker.html#BarList)[](https://ib-insync.readthedocs.io/api.html?utm_source=chatgpt.com#ib_insync.ticker.BarList)
 
-  
+
 
 - *class* ib_insync.ticker.TimeBars(*timer*, *source=None*)[[source\]](https://ib-insync.readthedocs.io/_modules/ib_insync/ticker.html#TimeBars)[](https://ib-insync.readthedocs.io/api.html?utm_source=chatgpt.com#ib_insync.ticker.TimeBars)
 
@@ -428,7 +428,7 @@ Object hierarchy.
 
 - *class* ib_insync.objects.DynamicObject(***kwargs*)[[source\]](https://ib-insync.readthedocs.io/_modules/ib_insync/objects.html#DynamicObject)[](https://ib-insync.readthedocs.io/api.html?utm_source=chatgpt.com#ib_insync.objects.DynamicObject)
 
-  
+
 
 - *class* ib_insync.objects.FundamentalRatios(***kwargs*)[[source\]](https://ib-insync.readthedocs.io/_modules/ib_insync/objects.html#FundamentalRatios)[](https://ib-insync.readthedocs.io/api.html?utm_source=chatgpt.com#ib_insync.objects.FundamentalRatios)
 
@@ -568,7 +568,7 @@ Access to account statement webservice.
 
 - *exception* ib_insync.flexreport.FlexError[[source\]](https://ib-insync.readthedocs.io/_modules/ib_insync/flexreport.html#FlexError)[](https://ib-insync.readthedocs.io/api.html?utm_source=chatgpt.com#ib_insync.flexreport.FlexError)
 
-  
+
 
 - *class* ib_insync.flexreport.FlexReport(*token=None*, *queryId=None*, *path=None*)[[source\]](https://ib-insync.readthedocs.io/_modules/ib_insync/flexreport.html#FlexReport)[](https://ib-insync.readthedocs.io/api.html?utm_source=chatgpt.com#ib_insync.flexreport.FlexReport)
 

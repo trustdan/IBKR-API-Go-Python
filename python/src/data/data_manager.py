@@ -11,7 +11,7 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 
 import pandas as pd
 from ib_insync import IB, Contract, Stock, util
-
+from src.app.scanner_client import ScannerClient
 from src.config.config import config
 from src.utils.logger import log_debug, log_error, log_info, log_warning
 
@@ -26,6 +26,19 @@ class DataManager:
     - Universe filtering based on criteria (market cap, price, volume)
     """
 
+    cache: Dict[str, Any]
+    cache_expiry: Dict[str, float]
+    ib: IB
+    cache_dir: Path
+    universe_cache_expiry: int
+    minute_data_cache_expiry: int
+    options_cache_expiry: int
+    min_market_cap: float
+    min_price: float
+    min_volume: int
+    connected: bool
+    scanner_client: Optional[ScannerClient]
+
     def __init__(self, ib_client: Optional[IB] = None) -> None:
         """
         Initialize the DataManager.
@@ -34,9 +47,9 @@ class DataManager:
             ib_client: Optional IB client instance. If None, a new one will be created
                        but not connected.
         """
-        self.cache: Dict[str, Any] = {}
-        self.cache_expiry: Dict[str, float] = {}
-        self.ib = ib_client if ib_client is not None else IB()
+        self.cache = {}  # type: Dict[str, Any]
+        self.cache_expiry = {}  # type: Dict[str, float]
+        self.ib: IB = ib_client if ib_client is not None else IB()
 
         # Create cache directory if it doesn't exist
         self.cache_dir = Path(config.get("data.cache_dir", "data/cache"))
@@ -64,9 +77,9 @@ class DataManager:
         self.connected = False
 
         # Scanner client for optimized data retrieval
-        self.scanner_client = None
+        self.scanner_client = None  # type: Optional[ScannerClient]
 
-    def set_scanner_client(self, scanner_client) -> None:
+    def set_scanner_client(self, scanner_client: ScannerClient) -> None:
         """
         Set the scanner client for optimized data retrieval.
 

@@ -1,0 +1,10 @@
+pandas
+numpy
+pyyaml
+requests
+python-dotenv
+psutil
+ib-insync
+grpcio
+grpcio-tools
+pydantic

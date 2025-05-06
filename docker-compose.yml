@@ -29,4 +29,4 @@ services:
       - SERVER_ADDRESS=0.0.0.0:50051
       - MAX_CONCURRENCY=50
       - LOG_LEVEL=info
-    restart: unless-stopped 
+    restart: unless-stopped

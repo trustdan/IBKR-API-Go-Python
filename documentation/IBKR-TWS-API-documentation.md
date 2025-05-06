@@ -25,7 +25,7 @@ The minimum supported language version is documented on the right for each of ou
 
 Please be sure to toggle the indicated language to the language of your choosing.
 
--  
+-
 
 Minimum supported Python release is version 3.0.0.
 
@@ -43,7 +43,7 @@ If your regular trading account has been approved and funded, you can use your A
 
 In order to use the TWS API, all customers must install either Trader  Workstation or IB Gateway to connect the API to. Both downloads maintain the same level of usage and support; however, they both have equal  benefits. For example, IB Gateway will be less resource intensive as  there is no UI; however, the Trader Workstation has access all of the  same information as the API, if users would like an interface to confirm data.
 
- 
+
 
  [Download Trader Workstation](https://www.interactivebrokers.com/en/trading/tws.php#tws-software) [Download IB Gateway](https://www.interactivebrokers.com/en/trading/ibgateway-stable.php)
 
@@ -97,7 +97,7 @@ Normally, it is recommended for API  users to set 4000. However, it depends on y
 
 For details, please visit: https://www.ibkrguides.com/traderworkstation/increase-tws-memory-size.htm
 
- 
+
 
 Note:
 
@@ -119,7 +119,7 @@ Note:
 
 1. IBHK users do not have “**Never lock Trader Workstation**” and “**Auto restart**” in TWS. It is suggested for IBHK users to use IB Gateway in order to  have stable API connection because IB Gateway won’t be locked due to  inactivity. Also, IBHK users can choose “**Auto restart**” in IB Gateway.
 
- 
+
 
 ### **Weekly Reauthentication**
 
@@ -175,7 +175,7 @@ In the web ticket, you need to provide:
 
 After you submit the ticket, you will receive a web ticket reply which **require you to confirm and understand the migration request**.
 
- 
+
 
 Note:
 
@@ -212,11 +212,11 @@ The TWS Setting listed in the Global Configuration under API -> Setting for **Ma
 
 It is recommended for API users to use same TWS API version to make sure  the TWS version and TWS API version are synced in order to prevent  version conflict issue.
 
- 
+
 
 Running the Windows version of the API installer creates a directory “C:\\TWS API\” for the API source  code in addition to automatically copying two files into the Windows  directory for the DDE and C++ APIs. ***It is important that the API installs to the C: drive\***, as otherwise API applications may not be able to find the associated  files. The Windows installer also copies compiled dynamic linked  libraries (DLL) of the ActiveX control TWSLib.dll, C# API CSharpAPI.dll, and C++ API TwsSocketClient.dll. Starting in API version **973.07**, running the API installer is designed to install an ActiveX control  TWSLib.dll, and TwsRtdServer control TwsRTDServer.dll which are  compatible with both 32 and 64 bit applications.
 
- 
+
 
 It is important to know that the TWS API is **only** available through the interactivebrokers.github.io MSI or ZIP file. Any other resource, including pip, NuGet, or any other online repository is not hosted, endorsed, supported, or connected to Interactive Brokers.  As such, updates to the installation should always be downloaded from  the github directly.
 
@@ -232,9 +232,9 @@ It is important to know that the TWS API is **only** available through the inter
 
 3. Once you have clicked “***I Agree*****“**, refer to the *Windows* section to download the API Software version of your preference
 
-4. 
+4.
 
-   
+
 
 5. This will download **TWS API** folder to your computer
 
@@ -245,7 +245,7 @@ It is important to know that the TWS API is **only** available through the inter
     **$** ***cd ~/TWS API/source/pythonclient***
      **$** ***python3 setup.py install***
 
- 
+
 
 ### Install the TWS API on MacOs / LinuxCopy Location
 
@@ -261,15 +261,15 @@ It is important to know that the TWS API is **only** available through the inter
 
    “
 
-   , refer to the 
+   , refer to the
 
    Mac / Unix
 
     section to download the API Software version of your preference
 
-   
 
-   
+
+
 
 1. This will download **twsapi_macunix.<Major Version>.<Minor Version>.zip** to your computer
     *(where <Major Version> and <Minor Version> are the major and minor version numbers respectively)*
@@ -281,12 +281,12 @@ It is important to know that the TWS API is **only** available through the inter
     **$** ***cd ~/Downloads***
      **$** ***ls***
 
-1. Unzip the contents the installer into your home folder with the following command 
+1. Unzip the contents the installer into your home folder with the following command
 
    (if prompted, enter your password):
-    
 
-   **NOTE:** 
+
+   **NOTE:**
 
    replace the values ‘n.m’ with the name of your installed file.
 
@@ -299,13 +299,13 @@ It is important to know that the TWS API is **only** available through the inter
    \* **$ \*cd ~/IBJts
    \* $ \*ls\***
 
- 
+
 
 Note:
 
 - When running “***python3 setup.py install***“, you may get “***ModuleNotFoundError: No Module named ‘setuptools’***“. As “**setuptools**” is deprecated, please grant the write permission on the target folder (e.g. **source/pythonclient**) using “***sudo chmod -R 777***” in order to avoid “***error: could not create ‘ibapi.egg-info’: Permission denied***“. After that, run “***python3 -m pip install .***“
 
- 
+
 
 ### MacOS:
 
@@ -319,15 +319,15 @@ Note:
 
    “
 
-   , refer to the 
+   , refer to the
 
    Mac / Unix
 
     section to download the API Software version of your preference
 
-   
 
-   
+
+
 
 4. This will download **twsapi_macunix.<Major Version>.<Minor Version>.zip** to your computer
     *(where <Major Version> and <Minor Version> are the major and minor version numbers respectively)*
@@ -340,25 +340,25 @@ Note:
 
    - **$ unzip** **twsapi_macunix.<Major Version>.<Minor Version>.zip**
 
- 
+
 
 Note: On MacOS, if you directly open the **twsapi_macunix.<Major Version>.<Minor Version>.zip** file, you will get an error: “**Unable to expand…… It is an unsupported format**“. It is required for users to unzip the zipped TWS API file using the above MacOS Terminal command.
 
- 
+
 
 ### TWS API File Location & ToolsCopy Location
 
 #### TWS API Folder Files Explanation:
 
- 
 
-- **“API_VersionNum.txt”** 
 
-**File Path:** ~\TWS API\API_VersionNum.txt 
+- **“API_VersionNum.txt”**
+
+**File Path:** ~\TWS API\API_VersionNum.txt
 
 You can check your API version in this file.
 
- 
+
 
 - **“IBSampleApp.exe”**
 
@@ -366,7 +366,7 @@ You can check your API version in this file.
 
 You can manually use the IBSampleApp to test the API functions.
 
- 
+
 
 - **“ApiDemo.jar”**
 
@@ -443,7 +443,7 @@ These samples will display Windows commands, though the procedure is identical o
 
 ### 2. Navigate to Python SourceCopy Location
 
-Customers should then change their directory to  
+Customers should then change their directory to
 
 {TWS API}\source\pythonclient
 
@@ -459,7 +459,7 @@ It is then recommend to display the contents of the directory with “ls” for 
 
 ### 3. Run The setup.py FileCopy Location
 
-Customers will now need to run the setup.py steps with the installation parameter. This can be done with the command: 
+Customers will now need to run the setup.py steps with the installation parameter. This can be done with the command:
 
 python setup.py install
 
@@ -479,7 +479,7 @@ After running the prior command, users should see a large block of text  describ
 
 ### 5. Confirm your installationCopy Location
 
-Finally, users should look to confirm their installation. The simplest way to do this is to confirm their version with pip. Typing this command should  show the latest installed version on your system: 
+Finally, users should look to confirm their installation. The simplest way to do this is to confirm their version with pip. Typing this command should  show the latest installed version on your system:
 
 python -m pip show ibapi
 
@@ -514,7 +514,7 @@ We would need to first modify the setup.py file used to install the API at `{TWS
 2. Insert a new line after 17 for `install_requires=["protobuf"],` to automatically install the protobuf libray.
 3. Save the file.
 
--  
+-
 
 """
 
@@ -558,7 +558,7 @@ setup(
 
 )
 
- 
+
 
 ### ibapi/client.pyCopy Location
 
@@ -569,7 +569,7 @@ Next we would need to modify our client.py file saved at `{TWS API}/source/pytho
 3. And again on line 147, `from ibapi.protobuf.ExecutionRequest_pb2 import ExecutionRequest as ExecutionRequestProto`
 4. Save the file.
 
--  
+-
 
 from ibapi.protobuf.ComboLeg_pb2 import ComboLeg as ComboLegProto
 
@@ -577,7 +577,7 @@ from ibapi.protobuf.ExecutionFilter_pb2 import ExecutionFilter as ExecutionFilte
 
 from ibapi.protobuf.ExecutionRequest_pb2 import ExecutionRequest as ExecutionRequestProto
 
- 
+
 
 ### ibapi/decoder.pyCopy Location
 
@@ -587,13 +587,13 @@ Identical to client.py, we’ll need to reference the ibapi.protobuf file rather
 2. We’ll do the same on line 34 for `from ibapi.protobuf.ExecutionDetailsEnd_pb2 import ExecutionDetailsEnd as ExecutionDetailsEndProto`.
 3. Save the file.
 
--  
+-
 
 from ibapi.protobuf.ExecutionDetails_pb2 import ExecutionDetails as ExecutionDetailsProto
 
 from ibapi.protobuf.ExecutionDetailsEnd_pb2 import ExecutionDetailsEnd as ExecutionDetailsEndProto
 
- 
+
 
 ### ibapi/protobuf/Contract_pb2.pyCopy Location
 
@@ -603,13 +603,13 @@ Again, we wil reference ibapi.protobuf rather than a direct protobuf package.
 2. We will do the same on line 26, `import ibapi.protobuf.DeltaNeutralContract_pb2 as DeltaNeutralContract__pb2`.
 3. Save the file.
 
--  
+-
 
 import ibapi.protobuf.ComboLeg_pb2 as ComboLeg__pb2
 
 import ibapi.protobuf.DeltaNeutralContract_pb2 as DeltaNeutralContract__pb2
 
- 
+
 
 ### ibapi/protobuf/ExecutionDetails_pb2.pyCopy Location
 
@@ -619,24 +619,24 @@ We will again prepend `ibapi.protobuf.`.
 2. We will do the same for line 26, `import ibapi.protobuf.Execution_pb2 as Execution__pb2`.
 3. Save the file.
 
--  
+-
 
 import ibapi.protobuf.Contract_pb2 as Contract__pb2
 
 import ibapi.protobuf.Execution_pb2 as Execution__pb2
 
- 
+
 
 ### ibapi/protobuf/ExecutionRequest_pb2.pyCopy Location
 
 And for the final time, we can prepend ibapi.protobuf.
  Update line 25, import ibapi.protobuf.ExecutionFilter_pb2 as ExecutionFilter__pb2
 
--  
+-
 
 import ibapi.protobuf.ExecutionFilter_pb2 as ExecutionFilter__pb2
 
- 
+
 
 ### Installing the updated version.Copy Location
 
@@ -686,7 +686,7 @@ TWS and IB Gateway can be configured to create a separate log file which  has a 
 **Note:** Both  the API and TWS logs are encrypted locally. The API logs can be  decrypted for review from the associated TWS or IB Gateway session, just like the TWS logs, as shown in the section describing the Local  location of logs.
 
 **Note:** The TWS/IB Gateway log file setting has to be set to ‘Detail’ level before an issue occurs so that  information recorded correctly when it manifests. However due to the  high amount of information that will be generated under this level, the  resulting logs can grow considerably in size.
-  
+
 
 **Enabling creation of API logs**
 
@@ -697,7 +697,7 @@ TWS:
 3. Set *Logging Level* to *Detail*
 4. Click Apply and Ok
 
- 
+
 
 ![TWS Global Configuration window displaying API settings with API logging.](https://www.interactivebrokers.com/campus/wp-content/uploads/sites/2/2023/06/API_Settings-700x416.png)
 
@@ -731,7 +731,7 @@ Setting debug=1 has added benefits in TWS.
    1. In TWS, go to Global Configuration >> Display >> Ticker Row
    2. Change “Double-click on Financial Instrument will” dropdown menu to “Open Contract Details”
 
- 
+
 
 ### Location of Interactive Brokers LogsCopy Location
 
@@ -794,7 +794,7 @@ The information on the right documents  where each message reader file is locate
 
 By default, this will be saved directly on the C: drive.
 
--  
+-
 
 Both the Incoming and Outgoing message IDs are listed in one file.
 
@@ -832,17 +832,17 @@ The provided  TWS API package use two distinct classes to accommodate the reques
 
 The EWrapper class is used to receive all messages from the host and  distribute them amongst the affiliated response functions. The EReader  class will retrieve the messages from the socket connection and decode  them for distribution by the EWrapper class.
 
--  
+-
 
 class TestWrapper(wrapper.EWrapper):
 
- 
+
 
 EClient or EClientSocket is used to send requests to the Trader Workstation.  This client class contains all the available methods to communicate with the host. Up to 32 clients can be connected to a single instance of the host Trader Workstation or IB Gateway simultaneously.
 
 The primary distinction in EClient and EClientSocket is the involvement of the  EReader Class to trigger when requests should be processed. EClient is  unique to the Python implementation and utilizes the Python Queue module in place of the EReaderSignal directly. Both the EReaderSignal and  Python Queue module handle the queueing process for submitting messages  across the socket connection. In either scenario, the EWrapper class  must be implemented first to acknowledge the EClient requests.
 
--  
+-
 
 class TestClient(EClient):
 
@@ -902,11 +902,11 @@ A socket connection between the API client application and TWS is  established w
 
 Once our two main objects have been created, EWrapper and ESocketClient, the client application can connect via the IBApi.EClientSocket object:
 
--  
+-
 
 app.connect("127.0.0.1", args.port, clientId=0)
 
- 
+
 
 eConnect starts by requesting from the operating system that a TCP socket be  opened to the specified IP address and socket port. If the socket cannot be opened, the operating system (not TWS) returns an error which is  received by the API client as error code 502  to IBApi.EWrapper.error (Note: since this error is not generated by TWS  it is not captured in TWS log files). Most commonly error 502 will  indicate that TWS is not running with the API enabled, or it is  listening for connections on a different socket port. If connecting  across a network, the error can also occur if there is a firewall or  antivirus program blocking connections, or if the router’s IP address is not listed in the “Trusted IPs” in TWS.
 
@@ -930,7 +930,7 @@ The class which has functionality for reading and parsing raw messages from TWS 
 
 For C#, Java, C++, and Visual Basic, we instead maintain a triple thread  structure which requires the creation of a reader thread, a queue  thread, and then a wrapper thread. The documentation listed here further elaborates on the structure for those languages.
 
--  
+-
 
 Now it is time to revisit the role of IBApi.EReaderSignal initially  introduced in The EClientSocket Class. As mentioned in the previous  paragraph, after the EReader thread places a message in the queue, a  notification is issued to make known that a message is ready for  processing. In the (C++, C#/.NET, Java) APIs, this is done via the  IBApi.EReaderSignal object we initiated within the IBApi.EWrapper’s  implementer.
 
@@ -1017,11 +1017,11 @@ Alternatively, many languages offer the import of AccountSummaryTags with a meth
 
 **Important:** only **two** active summary subscriptions are allowed at a time!
 
--  
+-
 
 self.reqAccountSummary(9001, "All", AccountSummaryTags.AllTags)
 
- 
+
 
 Code example:
 
@@ -1033,25 +1033,25 @@ from ibapi.contract import Contract
 
 import time
 
-class TradeApp(EWrapper, EClient): 
+class TradeApp(EWrapper, EClient):
 
-​    def __init__(self): 
+​    def __init__(self):
 
-​        EClient.__init__(self, self) 
+​        EClient.__init__(self, self)
 
 ​    def accountSummary(self, reqId: int, account: str, tag: str, value: str,currency: str):
 
 ​        print("AccountSummary. ReqId:", reqId, "Account:", account,"Tag: ", tag, "Value:", value, "Currency:", currency)
 
-​    
+​
 
 ​    def accountSummaryEnd(self, reqId: int):
 
 ​        print("AccountSummaryEnd. ReqId:", reqId)
 
-​    
+​
 
-app = TradeApp()      
+app = TradeApp()
 
 app.connect("127.0.0.1", 7496, clientId=1)
 
@@ -1061,7 +1061,7 @@ app.reqAccountSummary(9001, "All", 'NetLiquidation')
 
 app.run()
 
- 
+
 
 ### Account Summary TagsCopy Location
 
@@ -1117,7 +1117,7 @@ app.run()
 
 Receives the account information. This method will receive the account  information just as it appears in the TWS’ Account Summary Window.
 
--  
+-
 
 def accountSummary(self, reqId: int, account: str, tag: str, value: str,currency: str):
 
@@ -1131,13 +1131,13 @@ def accountSummary(self, reqId: int, account: str, tag: str, value: str,currency
 
 Notifies when all the accounts’ information has ben received. Requires TWS 967+  to receive accountSummaryEnd in linked account structures.
 
--  
+-
 
 def accountSummaryEnd(self, reqId: int):
 
 ​    print("AccountSummaryEnd. ReqId:", reqId)
 
- 
+
 
 ### Cancel Account SummaryCopy Location
 
@@ -1149,11 +1149,11 @@ Once the subscription to account summary is no longer needed, it can be  cancell
 
 )
 
--  
+-
 
 self.cancelAccountSummary(9001)
 
- 
+
 
 ### Account UpdatesCopy Location
 
@@ -1177,11 +1177,11 @@ Subscribes to a specific account’s information and portfolio. Through this met
 
 )
 
--  
+-
 
 self.reqAccountUpdates(True, self.account)
 
- 
+
 
 Code example:
 
@@ -1193,17 +1193,17 @@ from ibapi.contract import Contract
 
 import time
 
-class TradeApp(EWrapper, EClient): 
+class TradeApp(EWrapper, EClient):
 
-​    def __init__(self): 
+​    def __init__(self):
 
-​        EClient.__init__(self, self) 
+​        EClient.__init__(self, self)
 
 ​    def updateAccountValue(self, key: str, val: str, currency: str,accountName: str):
 
 ​        print("UpdateAccountValue. Key:", key, "Value:", val, "Currency:", currency, "AccountName:", accountName)
 
-​    
+​
 
 ​    def updatePortfolio(self, contract: Contract, position: Decimal,marketPrice: float, marketValue: float, averageCost: float, unrealizedPNL: float, realizedPNL: float, accountName: str):
 
@@ -1217,9 +1217,9 @@ class TradeApp(EWrapper, EClient):
 
 ​        print("AccountDownloadEnd. Account:", accountName)
 
-​    
+​
 
-app = TradeApp()      
+app = TradeApp()
 
 app.connect("127.0.0.1", 7496, clientId=1)
 
@@ -1229,7 +1229,7 @@ app.reqAccountUpdates(True, 'U123456')
 
 app.run()
 
- 
+
 
 ### Receiving Account UpdatesCopy Location
 
@@ -1250,13 +1250,13 @@ Receives the subscribed account’s information. Only one account can be  subscr
 
 **Note:** An important key passed back in EWrapper.updateAccountValue after a call to  EClient.reqAccountUpdates is a boolean value ‘accountReady’. If an  accountReady value of false is returned that means that the IB server is in the process of resetting at that moment, i.e. the account is ‘not  ready’. When this occurs subsequent key values returned to  EWrapper.updateAccountValue in the current update can be out of date or  incorrect.
 
--  
+-
 
 def updateAccountValue(self, key: str, val: str, currency: str,accountName: str):
 
 ​    print("UpdateAccountValue. Key:", key, "Value:", val, "Currency:", currency, "AccountName:", accountName)
 
- 
+
 
 #### EWrapper.updatePortfolio (
 
@@ -1280,13 +1280,13 @@ def updateAccountValue(self, key: str, val: str, currency: str,accountName: str)
 
 Receives the subscribed account’s portfolio. This function will receive only the portfolio of the subscribed account. After the initial callback to  updatePortfolio, callbacks only occur for positions which have changed.
 
--  
+-
 
 def updatePortfolio(self, contract: Contract, position: Decimal,marketPrice: float, marketValue: float, averageCost: float, unrealizedPNL: float, realizedPNL: float, accountName: str):
 
 ​    print("UpdatePortfolio.", "Symbol:", contract.symbol, "SecType:", contract.secType, "Exchange:",contract.exchange, "Position:", decimalMaxString(position), "MarketPrice:", floatMaxString(marketPrice),"MarketValue:", floatMaxString(marketValue), "AverageCost:", floatMaxString(averageCost), "UnrealizedPNL:", floatMaxString(unrealizedPNL), "RealizedPNL:", floatMaxString(realizedPNL), "AccountName:", accountName)
 
- 
+
 
 #### EWrapper.updateAccountTime (
 
@@ -1296,13 +1296,13 @@ def updatePortfolio(self, contract: Contract, position: Decimal,marketPrice: flo
 
 Receives the last time on which the account was updated.
 
--  
+-
 
 def updateAccountTime(self, timeStamp: str):
 
 ​     print("UpdateAccountTime. Time:", timeStamp)
 
- 
+
 
 #### EWrapper.accountDownloadEnd (
 
@@ -1312,13 +1312,13 @@ def updateAccountTime(self, timeStamp: str):
 
 Notifies when all the account’s information has finished.
 
--  
+-
 
 def accountDownloadEnd(self, accountName: str):
 
 ​    print("AccountDownloadEnd. Account:", accountName)
 
- 
+
 
 ### Account Value KeysCopy Location
 
@@ -1459,11 +1459,11 @@ Once the subscription to account updates is no longer needed, it can be  cancell
 
 )
 
--  
+-
 
 self.reqAccountUpdates(False, self.account)
 
- 
+
 
 ### Account Update by ModelCopy Location
 
@@ -1489,11 +1489,11 @@ IBApi.EClient.reqAccountUpdatesMulti cannot be used with Account=”All” in IB
 
 A profile name can be accepted in place of group in the account parameter for [Financial Advisors](https://www.interactivebrokers.com/campus/ibkr-api-page/trader-workstation-api/#financial-advisors)
 
--  
+-
 
 self.reqAccountUpdatesMulti(reqId, self.account, "", True)
 
- 
+
 
 Code example:
 
@@ -1503,11 +1503,11 @@ from ibapi.wrapper import *
 
 import time
 
-class TradeApp(EWrapper, EClient): 
+class TradeApp(EWrapper, EClient):
 
-​    def __init__(self): 
+​    def __init__(self):
 
-​        EClient.__init__(self, self) 
+​        EClient.__init__(self, self)
 
 ​    def accountUpdateMulti(self, reqId: int, account: str, modelCode: str, key: str, value: str, currency: str):
 
@@ -1517,9 +1517,9 @@ class TradeApp(EWrapper, EClient):
 
 ​        print("AccountUpdateMultiEnd. RequestId:", reqId)
 
-​    
+​
 
-app = TradeApp()      
+app = TradeApp()
 
 app.connect("127.0.0.1", 7496, clientId=1)
 
@@ -1529,7 +1529,7 @@ app.reqAccountUpdatesMulti(103, 'U123456', "", True)
 
 app.run()
 
- 
+
 
 ### Receiving Account Updates by ModelCopy Location
 
@@ -1552,13 +1552,13 @@ The resulting account and portfolio information will be delivered via the  IBApi
 
 Provides the account updates.
 
--  
+-
 
 def accountUpdateMulti(self, reqId: int, account: str, modelCode: str, key: str, value: str, currency: str):
 
   print("AccountUpdateMulti. RequestId:", reqId, "Account:", account, "ModelCode:", modelCode, "Key:", key, "Value:", value, "Currency:", currency)
 
- 
+
 
 #### EWrapper.accountUpdateMultiEnd (
 
@@ -1568,13 +1568,13 @@ def accountUpdateMulti(self, reqId: int, account: str, modelCode: str, key: str,
 
 Indicates all the account updates have been transmitted.
 
--  
+-
 
 def accountUpdateMultiEnd(self, reqId: int):
 
 ​    print("AccountUpdateMultiEnd. RequestId:", reqId)
 
- 
+
 
 ### Cancel Account Updates by ModelCopy Location
 
@@ -1590,11 +1590,11 @@ def accountUpdateMultiEnd(self, reqId: int):
 
 )
 
--  
+-
 
 self.reqAccountUpdatesMulti(reqId, self.account, "", False)
 
- 
+
 
 ### Family CodesCopy Location
 
@@ -1608,11 +1608,11 @@ For instance, if individual account U112233 is  under a financial advisor with a
 
 Requests family codes for an account, for instance if it is a FA, IBroker, or associated account.
 
--  
+-
 
 self.reqFamilyCodes()
 
- 
+
 
 ### Receive Family CodesCopy Location
 
@@ -1624,13 +1624,13 @@ self.reqFamilyCodes()
 
 Returns array of family codes.
 
--  
+-
 
 def familyCodes(self, familyCodes: ListOfFamilyCode):
 
 ​    print("Family Codes:", familyCode)
 
- 
+
 
 ### Managed AccountsCopy Location
 
@@ -1642,11 +1642,11 @@ A single user name can handle more than one account. As mentioned in the [Connec
 
 Requests the accounts to which the logged user has access to.
 
--  
+-
 
 self.reqManagedAccts()
 
- 
+
 
 ### Receive Managed AccountsCopy Location
 
@@ -1658,13 +1658,13 @@ self.reqManagedAccts()
 
 Returns a string of all available accounts for the logged in user. Occurs automatically on initial API client connection.
 
--  
+-
 
 def managedAccounts(self, accountsList: str):
 
 ​    print("Account list:", accountsList)
 
- 
+
 
 ### PositionsCopy Location
 
@@ -1680,11 +1680,11 @@ After initially  invoking reqPositions, information about all positions in all a
 
 Subscribes to position updates for all accessible accounts. All positions sent  initially, and then only updates as positions change.
 
--  
+-
 
 self.reqPositions()
 
- 
+
 
 Code example:
 
@@ -1706,21 +1706,21 @@ class TradingApp(EWrapper, EClient):
 
 ​        print("Position.", "Account:", account, "Contract:", contract, "Position:", position, "Avg cost:", avgCost)
 
-​        
+​
 
 ​    def positionEnd(self):
 
 ​       print("PositionEnd")
 
-​       
+​
 
 def websocket_con():
 
 ​    app.run()
 
-​    
+​
 
-app = TradingApp()      
+app = TradingApp()
 
 app.connect("127.0.0.1", 7496, clientId=1)
 
@@ -1728,13 +1728,13 @@ con_thread = threading.Thread(target=websocket_con, daemon=True)
 
 con_thread.start()
 
-time.sleep(1) 
+time.sleep(1)
 
 app.reqPositions()
 
 time.sleep(1)
 
- 
+
 
 ### Receive PositionsCopy Location
 
@@ -1753,25 +1753,25 @@ Provides the portfolio’s open positions. After the initial callback (only) of 
 
 For futures, the exchange field will not be populated in the position callback as some futures trade on multiple exchanges
 
--  
+-
 
 def position(self, account: str, contract: Contract, position: Decimal, avgCost: float):
 
   print("Position.", "Account:", account, "Contract:", contract, "Position:", position, "Avg cost:", avgCost)
 
- 
 
-#### Ewrapper.positionEnd() 
+
+#### Ewrapper.positionEnd()
 
 Indicates all the positions have been transmitted. Only returned after the initial callback of EWrapper.position.
 
--  
+-
 
 def positionEnd(self):
 
   print("PositionEnd")
 
- 
+
 
 ### Cancel Positions RequestCopy Location
 
@@ -1779,11 +1779,11 @@ def positionEnd(self):
 
 Cancels a previous position subscription request made with EClient.reqPositions().
 
--  
+-
 
 self.cancelPositions()
 
- 
+
 
 ### Positions By ModelCopy Location
 
@@ -1802,11 +1802,11 @@ The function IBApi.EClient.reqPositionsMulti can be used with any account  struc
 
 Requests position subscription for account and/or model Initially all positions  are returned, and then updates are returned for any position changes in  real time.
 
--  
+-
 
 self.reqPositionsMulti(requestid, "U1234567", "")
 
- 
+
 
 Code example:
 
@@ -1824,27 +1824,27 @@ class TradingApp(EWrapper, EClient):
 
 ​        EClient.__init__(self,self)
 
-​            
+​
 
 ​    def positionMulti(self, reqId: int, account: str, modelCode: str, contract: Contract, pos: Decimal, avgCost: float):
 
-​       print("PositionMulti. RequestId:", reqId, "Account:", account, "ModelCode:", modelCode, "Contract:", contract, ",Position:", pos, "AvgCost:", avgCost)         
+​       print("PositionMulti. RequestId:", reqId, "Account:", account, "ModelCode:", modelCode, "Contract:", contract, ",Position:", pos, "AvgCost:", avgCost)
 
-​        
+​
 
 ​    def positionMultiEnd(self, reqId: int):
 
 ​        print("")
 
-​        print("PositionMultiEnd. RequestId:", reqId)       
+​        print("PositionMultiEnd. RequestId:", reqId)
 
 def websocket_con():
 
 ​    app.run()
 
-​    
+​
 
-app = TradingApp()      
+app = TradingApp()
 
 app.connect("127.0.0.1", 7497, clientId=1)
 
@@ -1852,17 +1852,17 @@ con_thread = threading.Thread(target=websocket_con, daemon=True)
 
 con_thread.start()
 
-time.sleep(1) 
+time.sleep(1)
 
 app.reqPositionsMulti(2, "DU1234567", "")  #To specify a U-account number
 
 time.sleep(1)
 
-app.reqPositionsMulti(3, "Group1", "")     #To specify a Financial Advisor Group / Profile 
+app.reqPositionsMulti(3, "Group1", "")     #To specify a Financial Advisor Group / Profile
 
 time.sleep(1)
 
- 
+
 
 ### Receive Positions By ModelCopy Location
 
@@ -1883,13 +1883,13 @@ time.sleep(1)
 
 Provides the portfolio’s open positions.
 
--  
+-
 
 def positionMulti(self, reqId: int, account: str, modelCode: str, contract: Contract, pos: Decimal, avgCost: float):
 
   print("PositionMulti. RequestId:", reqId, "Account:", account, "ModelCode:", modelCode, "Contract:", contract, ",Position:", pos, "AvgCost:", avgCost)
 
- 
+
 
 #### EWrapper.positionMultiEnd(
 
@@ -1898,13 +1898,13 @@ def positionMulti(self, reqId: int, account: str, modelCode: str, contract: Cont
 
 Indicates all the positions have been transmitted.
 
--  
+-
 
 def positionMultiEnd(self, reqId: int):
 
   print("PositionMultiEnd. RequestId:", reqId)
 
- 
+
 
 ### Cancel Positions By ModelCopy Location
 
@@ -1916,11 +1916,11 @@ def positionMultiEnd(self, reqId: int):
 
 Cancels positions request for account and/or model.
 
--  
+-
 
 self.cancelPositionsMulti(requestid)
 
- 
+
 
 ### Profit & Loss (PnL)Copy Location
 
@@ -1955,11 +1955,11 @@ Subscribe using the IBApi::EClient::reqPnLSingle function Cannot be used with  I
 
 Requests real time updates for daily PnL of individual positions.
 
--  
+-
 
 self.reqPnLSingle(requestId, "U1234567", "", 265598)
 
- 
+
 
 Code example:
 
@@ -1969,19 +1969,19 @@ from ibapi.wrapper import *
 
 import time
 
-class TradeApp(EWrapper, EClient): 
+class TradeApp(EWrapper, EClient):
 
-​    def __init__(self): 
+​    def __init__(self):
 
-​        EClient.__init__(self, self) 
+​        EClient.__init__(self, self)
 
 ​    def pnlSingle(self, reqId: int, pos: Decimal, dailyPnL: float, unrealizedPnL: float, realizedPnL: float, value: float):
 
 ​        print("Daily PnL Single. ReqId:", reqId, "Position:", pos, "DailyPnL:", dailyPnL, "UnrealizedPnL:", unrealizedPnL, "RealizedPnL:", realizedPnL, "Value:", value)
 
-​    
+​
 
-app = TradeApp()      
+app = TradeApp()
 
 app.connect("127.0.0.1", 7496, clientId=1)
 
@@ -1991,7 +1991,7 @@ app.reqPnLSingle(101, "U123456", "", 8314) #IBM conId: 8314
 
 app.run()
 
- 
+
 
 ### Receive P&L for individual positionsCopy Location
 
@@ -2012,13 +2012,13 @@ app.run()
 
 Receives real time updates for single position daily PnL values
 
--  
+-
 
 def pnlSingle(self, reqId: int, pos: Decimal, dailyPnL: float, unrealizedPnL: float, realizedPnL: float, value: float):
 
   print("Daily PnL Single. ReqId:", reqId, "Position:", pos, "DailyPnL:", dailyPnL, "UnrealizedPnL:", unrealizedPnL, "RealizedPnL:", realizedPnL, "Value:", value)
 
- 
+
 
 ### Cancel P&L request for individual positionsCopy Location
 
@@ -2029,11 +2029,11 @@ def pnlSingle(self, reqId: int, pos: Decimal, dailyPnL: float, unrealizedPnL: fl
 
 Cancels real time subscription for a positions daily PnL information.
 
--  
+-
 
 self.cancelPnLSingle(requestId);
 
- 
+
 
 ### Request P&L for accountsCopy Location
 
@@ -2054,11 +2054,11 @@ Subscribe using the IBApi::EClient::reqPnL function. Updates are sent to IBApi.E
 
 Creates subscription for real time daily PnL and unrealized PnL updates.
 
--  
+-
 
 self.reqPnL(reqId, "U1234567", "")
 
- 
+
 
 Code example:
 
@@ -2068,19 +2068,19 @@ from ibapi.wrapper import *
 
 import time
 
-class TradeApp(EWrapper, EClient): 
+class TradeApp(EWrapper, EClient):
 
-​    def __init__(self): 
+​    def __init__(self):
 
-​        EClient.__init__(self, self) 
+​        EClient.__init__(self, self)
 
 ​    def pnl(self, reqId: int, dailyPnL: float, unrealizedPnL: float, realizedPnL: float):
 
 ​        print("Daily PnL. ReqId:", reqId, "DailyPnL:", dailyPnL, "UnrealizedPnL:", unrealizedPnL, "RealizedPnL:", realizedPnL)
 
-​    
+​
 
-app = TradeApp()      
+app = TradeApp()
 
 app.connect("127.0.0.1", 7496, clientId=1)
 
@@ -2090,7 +2090,7 @@ app.reqPnL(102, "U123456", "")
 
 app.run()
 
- 
+
 
 ### Receive P&L for accountsCopy Location
 
@@ -2106,13 +2106,13 @@ app.run()
 
 )
 
--  
+-
 
 def pnl(self, reqId: int, dailyPnL: float, unrealizedPnL: float, realizedPnL: float):
 
   print("Daily PnL. ReqId:", reqId, "DailyPnL:", dailyPnL, "UnrealizedPnL:", unrealizedPnL, "RealizedPnL:", realizedPnL)
 
- 
+
 
 ### Cancel P&L subscription requests for accountsCopy Location
 
@@ -2123,11 +2123,11 @@ def pnl(self, reqId: int, dailyPnL: float, unrealizedPnL: float, realizedPnL: fl
 
 Cancels subscription for real time updated daily PnL params reqId
 
--  
+-
 
 self.cancelPnL(reqId)
 
- 
+
 
 ### White Branding User InfoCopy Location
 
@@ -2143,11 +2143,11 @@ Please note, that nothing will be returned if requesting username is not associa
 
 )
 
--  
+-
 
 self.reqUserInfo(reqId)
 
- 
+
 
 ### Receiving White Branding InfoCopy Location
 
@@ -2158,13 +2158,13 @@ self.reqUserInfo(reqId)
 **whiteBrandingId:** String. Identifier for the white branded entity.
  )
 
--  
+-
 
 def userInfo(self, reqId: int, whiteBrandingId: str):
 
   print("UserInfo.", "ReqId:", reqId, "WhiteBrandingId:", whiteBrandingId)
 
- 
+
 
 ## BulletinsCopy Location
 
@@ -2179,11 +2179,11 @@ From time to time, IB sends out important [News Bulletins](https://ibkrguides.co
 
 Subscribes to IB’s News Bulletins.
 
--  
+-
 
 self.reqNewsBulletins(True)
 
- 
+
 
 ### Receive IB BulletinsCopy Location
 
@@ -2200,13 +2200,13 @@ self.reqNewsBulletins(True)
 
 Provides IB’s bulletins
 
--  
+-
 
 def updateNewsBulletin(self, msgId: int, msgType: int, newsMessage: str, originExch: str):
 
   print("News Bulletins. MsgId:", msgId, "Type:", msgType, "Message:", newsMessage, "Exchange of Origin: ", originExch)
 
- 
+
 
 ### Cancel Bulletin RequestCopy Location
 
@@ -2214,11 +2214,11 @@ def updateNewsBulletin(self, msgId: int, msgType: int, newsMessage: str, originE
 
 Cancels IB’s news bulletin subscription.
 
--  
+-
 
 self.cancelNewsBulletins()
 
- 
+
 
 ## Contracts (Financial Instruments)Copy Location
 
@@ -2325,7 +2325,7 @@ Possible timeZoneId values are:
 
 Upon requesting EClient.reqContractDetails, all contracts matching the requested [Contract Object](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-ref/#contract-ref) will be returned to [EWrapper.contractDetails](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#receive-contract-details) or [EWrapper.bondContractDetails](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#receive-bond-details).
 
--  
+-
 
 self.reqContractDetails(reqId, contract)
 
@@ -2340,13 +2340,13 @@ self.reqContractDetails(reqId, contract)
 
 Receives the full contract’s definitions This method will return all contracts  matching the requested via EClientSocket::reqContractDetails. For  example, one can obtain the whole option chain with it.
 
--  
+-
 
 def contractDetails(self, reqId: int, contractDetails: ContractDetails):
 
   print(reqId, contractDetails)
 
- 
+
 
 #### EWrapper.contractDetailsEnd (
 
@@ -2355,13 +2355,13 @@ def contractDetails(self, reqId: int, contractDetails: ContractDetails):
 
 After all contracts matching the request were returned, this method will mark the end of their reception.
 
--  
+-
 
 def contractDetailsEnd(self, reqId: int):
 
   print("ContractDetailsEnd. ReqId:", reqId)
 
- 
+
 
 ### Receive Bond DetailsCopy Location
 
@@ -2374,13 +2374,13 @@ def contractDetailsEnd(self, reqId: int):
 
 Delivers the Bond contract data after this has been requested via reqContractDetails.
 
--  
+-
 
 def bondContractDetails(self, reqId: int, contractDetails: ContractDetails):
 
   printinstance(reqId, contractDetails)
 
- 
+
 
 ### Option ChainsCopy Location
 
@@ -2410,11 +2410,11 @@ One limitation of this technique is that the return of option chains will  be th
 
 Requests security definition option parameters for viewing a contract’s option chain.
 
--  
+-
 
 self.reqSecDefOptParams(0, "IBM", "", "STK", 8314)
 
- 
+
 
 ### Receive Option ChainsCopy Location
 
@@ -2437,13 +2437,13 @@ self.reqSecDefOptParams(0, "IBM", "", "STK", 8314)
 
 Returns the option chain for an underlying on an exchange specified in  reqSecDefOptParams There will be multiple callbacks to  securityDefinitionOptionParameter if multiple exchanges are specified in reqSecDefOptParams
 
--  
+-
 
 def securityDefinitionOptionParameter(self, reqId: int, exchange: str, underlyingConId: int, tradingClass: str, multiplier: str, expirations: SetOfString, strikes: SetOfFloat):
 
   print("SecurityDefinitionOptionParameter.", "ReqId:", reqId, "Exchange:", exchange, "Underlying conId:", underlyingConId, "TradingClass:", tradingClass, "Multiplier:", multiplier, "Expirations:", expirations, "Strikes:", strikes)
 
- 
+
 
 ### Stock Symbol SearchCopy Location
 
@@ -2455,7 +2455,7 @@ Matching stock contracts are returned to IBApi::EWrapper::symbolSamples with  in
 
 ### Request Stock Contract SearchCopy Location
 
-#### EClient.reqMatchingSymbols ( 
+#### EClient.reqMatchingSymbols (
 
 **reqId:** int. Request identifier used to track data.
 
@@ -2464,11 +2464,11 @@ Matching stock contracts are returned to IBApi::EWrapper::symbolSamples with  in
 
 Requests matching stock symbols.
 
--  
+-
 
 self.reqMatchingSymbols(reqId, "IBM")
 
- 
+
 
 ### Receive Searched Stock ContractCopy Location
 
@@ -2481,7 +2481,7 @@ self.reqMatchingSymbols(reqId, "IBM")
 
 Returns array of sample contract descriptions
 
--  
+-
 
 def symbolSamples(self, reqId: int, contractDescriptions: ListOfContractDescription):
 
@@ -2515,7 +2515,7 @@ def symbolSamples(self, reqId: int, contractDescriptions: ListOfContractDescript
 
 ​        contractDescription.contract.issuerId))
 
- 
+
 
 ## Event TradingCopy Location
 
@@ -2547,7 +2547,7 @@ ForecastEx Website: https://www.cmegroup.com/activetrader/event-contracts.html
 
 IB’s Event Contract instrument records use the following fields inherited from the options model:
 
-- An 
+- An
 
   underlier
 
@@ -2556,7 +2556,7 @@ IB’s Event Contract instrument records use the following fields inherited from
   - For **CME products**, a tradable Event Contract will have the relevant CME future as its  underlier. Therefore, the security type of the CME contract will be a  futures option, or “FOP”.
   - For **ForecastEx products**, IB has generated an artificial underlying index which serves as a  container for related Event Contracts in the same product class. These  artificial indices do not have any associated reference values and are  purely an artifact of the option instrument model used to represent  these Event Contracts. However, these artificial underlying indices can  be used to search for groups of related Event Contracts, just as with  index options. Therefore, the security type of ForecastEx products are  always options, or “OPT”.
 
-- An 
+- An
 
   Exchange
 
@@ -2567,7 +2567,7 @@ IB’s Event Contract instrument records use the following fields inherited from
 
 - A **Symbol** value which matches the symbol of the underlier, and which reflects the issuer’s product code.
 
-- A 
+- A
 
   Trading Class
 
@@ -2575,7 +2575,7 @@ IB’s Event Contract instrument records use the following fields inherited from
 
   - Note that many CME Group Event Contracts, which resolve against CME Group  futures, are assigned a Trading Class prefixed with “EC” and followed by the symbol of the relevant futures product, to avoid naming collisions  with other derivatives (i.e., proper futures options listed on the same  future).
 
-- A 
+- A
 
   Put or Call (Right)
 
@@ -2583,7 +2583,7 @@ IB’s Event Contract instrument records use the following fields inherited from
 
   - Note that ForecastEx instruments do not permit Sell orders. Instead,  ForecastEx positions are flattened or reduced by buying the opposing  contract. CME Group Event Contracts permit both buying and selling.
 
-- An artificial 
+- An artificial
 
   Contract Month
 
@@ -2595,11 +2595,11 @@ IB’s Event Contract instrument records use the following fields inherited from
 
 - A **Strike** value, which is the numerical value on which the event resolution hinges.  Though numerical, this value need not represent a price.
 
-- An 
+- An
 
   instrument description (or “local symbol”)
 
-   in the form 
+   in the form
 
   ```
   "PRODUCT EXPIRATION STRIKE RIGHT"
@@ -2630,7 +2630,7 @@ While not explicitly stated in the web page, there are several details that may 
 3. All currently offered Event Contracts are hosted in the United States of  America, and therefore will always use “USD” as their currency value.
 4. “Yes” or “No” contracts are based on option rights, “Call” and “Put” respectively.
 
- 
+
 
 ![Displays an example of a Forecast Contract being shown in the Forecast Trader.](https://www.interactivebrokers.com/campus/wp-content/uploads/sites/2/2025/03/forecasttrader_gce.png)
 
@@ -2643,7 +2643,7 @@ This document is written on the 19th of March, 2025. That is the 78th day of the
 Given the context that this is day 78, and the market will close in 287 days, the contract’s last trade date would then be the 365th day of the year, or December 31st, 2025.
 
 Given the TWS API date standards, this will be written as 20251231.
-  
+
 
 This information can now be distilled into a standard TWS API contract definition:
 
@@ -2660,9 +2660,9 @@ LastTradeDateOrContractMonth: “20251231”
 Right: “C”
 
 Strike: 40500
-  
 
--  
+
+-
 
 contract= Contract()
 
@@ -2680,7 +2680,7 @@ contract.right = "C"
 
 contract.strike = 40500
 
- 
+
 
 ### Market DataCopy Location
 
@@ -2703,7 +2703,7 @@ There are some unique order behaviors for both CME Group and ForecastEx contract
 - ForecastEx instruments cannot be sold, only bought. To exit or reduce a position,  one must buy the opposing Event Contract, and IB will net the opposing  positions together automatically.
 
 **Event Contracts cannot be sold short.**
-  
+
 
 ### Order ExampleCopy Location
 
@@ -2717,7 +2717,7 @@ We are already aware that:
 This leaves us to decide the quantity, limit price, and time-in-force values.
 
 We can set our limit price based on the values shown in the Order Ticket, or base the value on the Bid and Ask Price from our [Requested Market Data](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#ec-market-data).
-  
+
 
 ![Displays an example of an order ticket being filled out for a Forecast Contract. ](data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==)
 
@@ -2735,7 +2735,7 @@ LmtPrice: 0.57
 
 Tif: “DAY”
 
--  
+-
 
 order = Order()
 
@@ -2747,14 +2747,14 @@ order.totalQuantity = 1000
 
 order.lmtPrice = 0.57
 
- 
+
 
 ### Other FunctionalityCopy Location
 
 - Event Contracts fundamentally behave like Options or Futures Options. As a  result, instrument rules, position information, and instrument-specific  behavior will follow the same presentation in the Trader Workstation as  those other instruments.
 - Market Scanners are not currently  available to research Event Contracts. Users will need to discover Event Contract symbols through [Interactive Brokers’ ForecastTrader](https://forecasttrader.interactivebrokers.com/en/home.php).
 
- 
+
 
 ## Error HandlingCopy Location
 
@@ -2778,7 +2778,7 @@ Remember  that the TWS API simply connects to a running TWS/IB Gateway which mos
 
 The messages in the table below are not a consequence of any action  performed by the client application. They are notifications about the  connectivity status between the TWS and our servers. Your client  application must pay special attention to them and handle the situation  accordingly. You are very likely to lose connectivity to our servers at  least once a day due to our daily server maintenance downtime as clearly detailed in our Current System Status page. Note that after the system  reset, the TWS/IB Gateway will automatically reconnect to our servers  and you can resume your operations normally.
 
- 
+
 
 **Note:**
 
@@ -3133,18 +3133,18 @@ Error codes in different ranges have different indications.
 **advancedOrderRejectJson:** String. Advanced order reject description in json format.
  )
 
--  
+-
 
 def error(self, reqId: TickerId, errorTime: int, errorCode: int, errorString: str, advancedOrderRejectJson = ""):
 
   print("Error. Id:", reqId, errorTime, "Code:", errorCode, "Msg:", errorString, "AdvancedOrderRejectJson:", advancedOrderRejectJson)
 
- 
+
 
 ### Common Error ResolutionCopy Location
 
 The content below references some of the most common errors received by  clients at Interactive Brokers, and offers direct resolutions for the  matters in most instances. If further information is required, please  feel to contact [Customer Service](https://www.interactivebrokers.com/en/support/customer-service.php?p=contact) for additional insight.
-  
+
 
 ### Market data farm connection is OKCopy Location
 
@@ -3175,17 +3175,17 @@ Financial Advisors are able to manage their allocation groups from the TWS API.
 
 Requests the FA configuration as set in TWS for the given FA Group or Profile.
 
--  
+-
 
 self.requestFA(1)
 
- 
 
- 
+
+
 
 #### requestFA FA Data Types
 
- 
+
 
 | Type Code | Type Name       | Description                                                  |
 | --------- | --------------- | ------------------------------------------------------------ |
@@ -3203,7 +3203,7 @@ self.requestFA(1)
 
 Receives the Financial Advisor’s configuration available in the TWS.
 
--  
+-
 
 def receiveFA(self, faData: FaDataType, cxml: str):
 
@@ -3211,7 +3211,7 @@ def receiveFA(self, faData: FaDataType, cxml: str):
 
   open('log/fa.xml', 'w').write(cxml)
 
- 
+
 
 ### Replace FA AllocationsCopy Location
 
@@ -3224,30 +3224,30 @@ def receiveFA(self, faData: FaDataType, cxml: str):
 **xml:** String. XML configuration for allocation profiles or group. See [Allocation Method XML Format](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#allocation-format) for more details.
  )
 
--  
+-
 
 self.replaceFa(reqId, 1, xml)
 
- 
 
- 
+
+
 
 #### replaceFA FA Data Types
 
- 
+
 
 | replaceFA Type Code | Type Name       | Description                                                  |
 | ------------------- | --------------- | ------------------------------------------------------------ |
 | 1                   | Groups          | offer traders a way to create a group of accounts and apply a single allocation method to all accounts in the group. |
 | 2                   | Account Aliases | let you easily identify the accounts by meaningful names rather than account numbers. |
 
- 
 
-**Note:** 
+
+**Note:**
 
 In order to confirm that your FA changes were saved, you may wait for the [EWrapper.replaceFAEnd](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-methods-e-f/#receive-fa) callback, which provides the corresponding reqId. In addition, after  saving changes, it is advised to verify the new FA setup via [EClient.requestFA](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-methods-e-f/#request-fa). If it is called before changes are fully saved, you may receive an error, such as [error 10230](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-ref/#api-error-codes). See [Message Codes](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-ref/#api-error-codes).
 
- 
+
 
 [EClient.replaceFA](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#replace-fa) only accepts faDataType 1 now. Otherwise, it may trigger [error 585](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#api-error-codes).
 
@@ -3261,9 +3261,9 @@ In order to confirm that your FA changes were saved, you may wait for the [EWrap
 
 Marks the ending of the replaceFA reception.
 
- 
 
--  
+
+-
 
 def replaceFAEnd(self, reqId: int, text: str):
 
@@ -3271,7 +3271,7 @@ def replaceFAEnd(self, reqId: int, text: str):
 
 ​    print("ReplaceFAEnd.", "ReqId:", reqId, "Text:", text)
 
- 
+
 
 ### Allocation Methods and GroupsCopy Location
 
@@ -3306,7 +3306,7 @@ Allocation methods for financial advisor’s allocation groups are created using
 
 Requires you to specify an order size. This method distributes shares based on  the amount of available equity in each account. The system calculates  ratios based on the Available Equity in each account and allocates  shares based on these ratios.
 
- 
+
 
 **Example:**  You transmit an order for 700 shares of stock XYZ. The account group  includes three accounts, A, B and C with available equity in the amounts of $25,000, $50,000 and $100,000 respectively. The system calculates a  ratio of 1:2:4 and allocates 100 shares to Client A, 200 shares to  Client B, and 400 shares to Client C.
 
@@ -3340,13 +3340,13 @@ Requires you to specify an order size. This method distributes shares based on  
 
 </ListOfGroups>
 
- 
+
 
 ### Contracts Or SharesCopy Location
 
 This method allocates the absolute number of shares you enter to each  account listed. If you use this method, the order size is calculated by  adding together the number of shares allocated to each account in the  profile.
 
- 
+
 
 **Example:**
 
@@ -3366,7 +3366,7 @@ In the example code shown in the right side, you can see that:
 
   <defaultMethod>ContractsOrShares</defaultMethod>
 
-  
+
 
   <ListOfAccts varName="list">
 
@@ -3392,13 +3392,13 @@ In the example code shown in the right side, you can see that:
 
 </ListOfGroups>
 
- 
+
 
 ### Equal QuantityCopy Location
 
 Requires you to specify an order size. This method distributes shares equally between all accounts in the group.
 
- 
+
 
 **Example:** You transmit an order for 400 shares of stock ABC. If your Account  Group includes four accounts, each account receives 100 shares. If your  Account Group includes six accounts, each account receives 66 shares,  and then 1 share is allocated to each account until all are distributed.
 
@@ -3446,7 +3446,7 @@ The Monetary Amount method calculates the number of units to be allocated based 
 
   <defaultMethod>MonetaryAmount</defaultMethod>
 
-  
+
 
   <ListOfAccts varName="list">
 
@@ -3472,13 +3472,13 @@ The Monetary Amount method calculates the number of units to be allocated based 
 
 </ListOfGroups>
 
- 
+
 
 ### Net Liquidation ValueCopy Location
 
 Requires you to specify an order size. This method distributes shares based on  the net liquidation value of each account. The system calculates ratios  based on the Net Liquidation value in each account and allocates shares  based on these ratios.
 
- 
+
 
 **Example:** You  transmit an order for 700 shares of stock XYZ. The account group  includes three accounts, A, B and C with Net Liquidation values of  $25,000, $50,000 and $100,000 respectively. The system calculates a  ratio of 1:2:4 and allocates 100 shares to Client A, 200 shares to  Client B, and 400 shares to Client C.
 
@@ -3516,7 +3516,7 @@ Requires you to specify an order size. This method distributes shares based on  
 
 This method will split the total number of shares in the order between listed accounts based on the percentages you indicate.
 
- 
+
 
 **Example:**
 
@@ -3526,7 +3526,7 @@ In the example code shown in the right side, you can see that:
 
 1. Account A is set to have 60.0 percentage while Account B is set to have 40.0  percentage. Account A should receive 180 shares and Account B should  receive 120 shares.
 
- 
+
 
 While making modifications to  allocations for profiles, the method uses an enumerated value. The  number shown below demonstrates precisely what profile corresponds to  which value.
 
@@ -3540,12 +3540,12 @@ While making modifications to  allocations for profiles, the method uses an enum
 | Long Position  | No effect          | Decreases position |
 | Short Position | Increases position | No effect          |
 
- 
+
 
 **Note:**
  Do not specify an order size. Since the quantity is calculated by the  system, the order size is displayed in the Quantity field after the  order is acknowledged. This method increases or decreases an already  existing position. Positive percents will increase a position, negative  percents will decrease a position. For exmaple, to fully close out a  position, you just need to specify percentage to be -100.
 
- 
+
 
 <?xml version="1.0" encoding="UTF-8"?>
 
@@ -3581,7 +3581,7 @@ While making modifications to  allocations for profiles, the method uses an enum
 
 </ListOfGroups>
 
- 
+
 
 ### RatiosCopy Location
 
@@ -3605,7 +3605,7 @@ In the example code shown in the right side, you can see that:
 
   <defaultMethod>Ratio</defaultMethod>
 
-  
+
 
   <ListOfAccts varName="list">
 
@@ -3631,7 +3631,7 @@ In the example code shown in the right side, you can see that:
 
 </ListOfGroups>
 
- 
+
 
 ### Model Portfolios and the APICopy Location
 
@@ -3653,7 +3653,7 @@ To request model account updates, there is the function [IBApi::EClient::reqAcco
 
 To place an order to a model, the IBApi.Order.ModelCode field must be set accordingly, for example:
 
--  
+-
 
 modelOrder = Order()
 
@@ -3663,7 +3663,7 @@ modelOrder.modelCode = "Technology" # model for tech stocks first created in TWS
 
 self.placeOrder(self.nextOrderId(), contract, modelOrder)
 
- 
+
 
 ### Unification of Groups and ProfilesCopy Location
 
@@ -3675,7 +3675,7 @@ With TWS/IBGW Build 10.20+, this  setting is now enabled by default, and moving 
 
 For advisors to place orders to their [allocation groups](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#replace-fa) users would simply declare their allocation group name in the order  object. This would be done with the Order’s faGroup field. The example  to the right references a standard market order placed to our allocation group, MyTestProfile.
 
--  
+-
 
 order = Order()
 
@@ -3687,7 +3687,7 @@ order.totalQuantity = 50
 
 order.faGroup = "MyTestProfile"
 
- 
+
 
 ## Market Data: DelayedCopy Location
 
@@ -3722,11 +3722,11 @@ Interactive Brokers data will always try to provide  the most up to date market 
 
 Switches data type returned from reqMktData request to Live (1), Frozen (2), Delayed (3), or Frozen-Delayed (4).
 
--  
+-
 
 self.reqMarketDataType(3)
 
- 
+
 
 ### Receive Market Data TypeCopy Location
 
@@ -3737,13 +3737,13 @@ self.reqMarketDataType(3)
 **marketDataType:** int. Type of market data to retrieve.
  )
 
--  
+-
 
 def marketDataType(self, reqId: TickerId, marketDataType: int):
 
   print("MarketDataType. ReqId:", reqId, "Type:", marketDataType)
 
- 
+
 
 ## Market Data: HistoricalCopy Location
 
@@ -3757,7 +3757,7 @@ Historical market data has it’s own set of market data limitations unique to o
 
 Historical data at IB is filtered for trade types which occur away from the NBBO  such as combo legs, block trades, and derivative trades. For that reason the daily volume from the (unfiltered) real time data functionality  will generally be larger than the (filtered) historical volume reported  by historical data functionality. Also, differences are expected in  other fields such as the VWAP between the real time and historical data  feeds.
 
- 
+
 
 As historical data at IB gets adjusted, compressed  and filtered by default, there may be historical data differences if you request historical data at different time points.
 
@@ -3783,7 +3783,7 @@ Although Interactive Brokers offers our clients high quality market data, IB is 
 
 Important: these  limitations apply to all our clients and it is not possible to overcome  them. If your trading strategy’s market data requirements are not met by our market data services please consider contacting a specialized  provider.
 
- 
+
 
 - Making identical historical data requests within 15 seconds.
 - Making six or more historical data requests for the same Contract, Exchange and Tick Type within two seconds.
@@ -3830,11 +3830,11 @@ ReqHeadTimeStamp counts as an ongoing historical data request, similar to using 
 
 Returns the timestamp of earliest available historical data for a contract and data type.
 
--  
+-
 
 self.reqHeadTimeStamp(1, ContractSamples.USStockAtSmart(), "TRADES", 1, 1)
 
- 
+
 
 ### Receiving the Earliest Data PointCopy Location
 
@@ -3847,13 +3847,13 @@ self.reqHeadTimeStamp(1, ContractSamples.USStockAtSmart(), "TRADES", 1, 1)
 
 The data requested will be returned to EWrapper.headTimeStamp.
 
--  
+-
 
 def headTimestamp(self, reqId, headTimestamp):
 
 ​        print(reqId, headTimestamp)
 
- 
+
 
 ### Cancelling Timestamp RequestsCopy Location
 
@@ -3864,11 +3864,11 @@ def headTimestamp(self, reqId, headTimestamp):
 
 A reqHeadTimeStamp request can be cancelled with EClient.cancelHeadTimestamp
 
--  
+-
 
 self.cancelHeadTimeStamp(reqId)
 
- 
+
 
 ### Historical BarsCopy Location
 
@@ -3902,11 +3902,11 @@ Historical Bar data returns a candlestick value based on the requested duration 
 
 )
 
--  
+-
 
 self.reqHistoricalData(4102, contract, queryTime, "1 M", "1 day", "MIDPOINT", 1, 1, False, [])
 
- 
+
 
 ### DurationCopy Location
 
@@ -3922,7 +3922,7 @@ The Interactive Brokers Historical Market Data maintains a duration  parameter w
 | M    | Month       |
 | Y    | Year        |
 
- 
+
 
 ### Historical Bar SizesCopy Location
 
@@ -3939,7 +3939,7 @@ Bar sizes dictate the data returned by historical bar requests. The bar  size wi
 | weeks    | 1                          |
 | months   | 1                          |
 
- 
+
 
 ### Step SizesCopy Location
 
@@ -4023,7 +4023,7 @@ Date: 20231204 13:30:30 US/Eastern, Open: 188.56, High: 188.57, Low: 188.54, Clo
 
 Date: 20231204 13:30:45 US/Eastern, Open: 188.54, High: 188.54, Low: 188.54, Close: 188.54
 
- 
+
 
 ### Receiving Historical BarsCopy Location
 
@@ -4036,13 +4036,13 @@ Date: 20231204 13:30:45 US/Eastern, Open: 188.54, High: 188.54, Low: 188.54, Clo
 
 The historical data will be delivered via the EWrapper.historicalData  method in the form of candlesticks. The time zone of returned bars is  the time zone chosen in TWS on the login screen.
 
--  
+-
 
 def historicalData(self, reqId:int, bar: BarData):
 
   print("HistoricalData. ReqId:", reqId, "BarData.", bar)
 
- 
+
 
 #### Default Return Format
 
@@ -4075,7 +4075,7 @@ Date: 20241111-16:53:15, Open: 222.98, High: 222.98, Low: 222.96, Close: 222.97,
 
 In the case of whatToShow=”schedule”, you will need to also define the  EWrapper.historicalSchedule value. This is a unique method that will  only be called in the case of the unique whatToShow value to display  calendar information.
 
--  
+-
 
 def historicalSchedule(self, reqId: int, startDateTime: str, endDateTime: str, timeZone: str, sessions: ListOfHistoricalSessions):
 
@@ -4085,7 +4085,7 @@ def historicalSchedule(self, reqId: int, startDateTime: str, endDateTime: str, t
 
 ​    print("\tSession. Start:", session.startDateTime, "End:", session.endDateTime, "Ref Date:", session.refDate)
 
- 
+
 
 #### EWrapper.historicalDataUpdate (
 
@@ -4096,13 +4096,13 @@ def historicalSchedule(self, reqId: int, startDateTime: str, endDateTime: str, t
 
 Receives bars in real time if keepUpToDate is set as True in reqHistoricalData.  Similar to realTimeBars function, except returned data is a composite of historical data and real time data that is equivalent to TWS chart  functionality to keep charts up to date. Returned bars are successfully  updated using real time data.
 
--  
+-
 
 def historicalDataUpdate(self, reqId: int, bar: BarData):
 
   print("HistoricalDataUpdate. ReqId:", reqId, "BarData.", bar)
 
- 
+
 
 #### EWrapper.historicalDataEnd (
 
@@ -4115,13 +4115,13 @@ def historicalDataUpdate(self, reqId: int, bar: BarData):
 
 Marks the ending of the historical bars reception.
 
--  
+-
 
 def historicalDataEnd(self, reqId: int, start: str, end: str):
 
   print("HistoricalDataEnd. ReqId:", reqId, "from", start, "to", end)
 
- 
+
 
 ### Historical Bar whatToShowCopy Location
 
@@ -4298,11 +4298,11 @@ Instead of returned data points as a function of time as with the function  IBAp
 
 Returns data histogram of specified contract.
 
--  
+-
 
 self.reqHistogramData(4004, contract, false, "3 days")
 
- 
+
 
 ### Receiving Histogram DataCopy Location
 
@@ -4315,13 +4315,13 @@ self.reqHistogramData(4004, contract, false, "3 days")
 
 Returns relevant histogram data.
 
--  
+-
 
 def histogramData(self, reqId:int, items:HistogramDataList):
 
   print("HistogramData. reqid, items)
 
- 
+
 
 ### Cancelling Histogram DataCopy Location
 
@@ -4332,11 +4332,11 @@ def histogramData(self, reqId:int, items:HistogramDataList):
 
 An active histogram request which has not returned data can be cancelled with EClient.cancelHistogramData
 
--  
+-
 
 self.reqHistogramData(4004)
 
- 
+
 
 ### Historical Time & SalesCopy Location
 
@@ -4373,11 +4373,11 @@ The highest granularity of historical data from IB’s database can be retrieved
 
 Requests historical Time & Sales data for an instrument.
 
--  
+-
 
 self.reqHistoricalTicks(18001, contract, "20170712 21:39:33 US/Eastern", "", 10, "TRADES", 1, True, [])
 
- 
+
 
 ### Receiving Time and Sales dataCopy Location
 
@@ -4398,7 +4398,7 @@ Data is returned to unique functions based on what is requested in the whatToSho
 
 For whatToShow=MIDPOINT
 
--  
+-
 
 def historicalTicks(self, reqId: int, ticks: ListOfHistoricalTickLast, done: bool):
 
@@ -4406,7 +4406,7 @@ def historicalTicks(self, reqId: int, ticks: ListOfHistoricalTickLast, done: boo
 
 ​    print("historicalTicks. ReqId:", reqId, tick)
 
- 
+
 
 #### EWrapper.historicalTicksBidAsk (
 
@@ -4419,7 +4419,7 @@ def historicalTicks(self, reqId: int, ticks: ListOfHistoricalTickLast, done: boo
 
 For whatToShow=BidAsk
 
--  
+-
 
 def historicalTicksBidAsk(self, reqId: int, ticks: ListOfHistoricalTickLast, done: bool):
 
@@ -4427,7 +4427,7 @@ def historicalTicksBidAsk(self, reqId: int, ticks: ListOfHistoricalTickLast, don
 
 ​    print("historicalTicksBidAsk. ReqId:", reqId, tick)
 
- 
+
 
 #### EWrapper.historicalTicksLast (
 
@@ -4440,7 +4440,7 @@ def historicalTicksBidAsk(self, reqId: int, ticks: ListOfHistoricalTickLast, don
 
 For whatToShow=Last & AllLast
 
--  
+-
 
 def historicalTicksLast(self, reqId: int, ticks: ListOfHistoricalTickLast, done: bool):
 
@@ -4448,7 +4448,7 @@ def historicalTicksLast(self, reqId: int, ticks: ListOfHistoricalTickLast, done:
 
 ​    print("HistoricalTickLast. ReqId:", reqId, tick)
 
- 
+
 
 ### Historical Halted and Unhalted ticksCopy Location
 
@@ -4561,7 +4561,7 @@ Real time and historical data functionality is combined through the  EClient.req
 
 **realTimeBarOptions**: List<TagValue>. Internal use only.
 
- 
+
 
 Requests real time bars.
 
@@ -4569,11 +4569,11 @@ Only 5 seconds bars are provided. This request is subject to the same pacing as 
 
 Real time bars subscriptions are also included  in the calculation of the number of Level 1 market data subscriptions  allowed in an account.
 
--  
+-
 
 self.reqRealTimeBars(3001, contract, 5, "MIDPOINT", 0, [])
 
- 
+
 
 Code example:
 
@@ -4585,37 +4585,37 @@ from ibapi.contract import Contract
 
 import time
 
-class TradeApp(EWrapper, EClient): 
+class TradeApp(EWrapper, EClient):
 
-​    def __init__(self): 
+​    def __init__(self):
 
-​        EClient.__init__(self, self) 
+​        EClient.__init__(self, self)
 
 ​    def realtimeBar(self, reqId: TickerId, time:int, open_: float, high: float, low: float, close: float, volume: Decimal, wap: Decimal, count: int):
 
 ​        print("RealTimeBar. TickerId:", reqId, RealTimeBar(time, -1, open_, high, low, close, volume, wap, count))
 
-​    
+​
 
-app = TradeApp()      
+app = TradeApp()
 
 app.connect("127.0.0.1", 7496, clientId=1)
 
-contract = Contract() 
+contract = Contract()
 
-contract.symbol = "AAPL" 
+contract.symbol = "AAPL"
 
-contract.secType = "STK" 
+contract.secType = "STK"
 
-contract.currency = "USD" 
+contract.currency = "USD"
 
-contract.exchange = "SMART" 
+contract.exchange = "SMART"
 
 app.reqRealTimeBars(3001, contract, 5, "TRADES", 0, [])
 
 app.run()
 
- 
+
 
 ### Receive Real Time BarsCopy Location
 
@@ -4642,13 +4642,13 @@ app.run()
 
 Receives the real time 5 second bars.
 
--  
+-
 
 def realtimeBar(self, reqId: TickerId, time:int, open_: float, high: float, low: float, close: float, volume: Decimal, wap: Decimal, count: int):
 
   print("RealTimeBar. TickerId:", reqId, RealTimeBar(time, -1, open_, high, low, close, volume, wap, count))
 
- 
+
 
 ### Cancel Real Time BarsCopy Location
 
@@ -4659,11 +4659,11 @@ def realtimeBar(self, reqId: TickerId, time:int, open_: float, high: float, low:
 
 Cancels Real Time Bars’ subscription.
 
--  
+-
 
 self.cancelRealTimeBars(3001)
 
- 
+
 
 ### Component ExchangesCopy Location
 
@@ -4684,11 +4684,11 @@ For instance, a market data request for the IBKR US contract may return the exch
 
 Returns the mapping of single letter codes to exchange names given the mapping identifier.
 
--  
+-
 
 self.reqSmartComponents(1018, "a6")
 
- 
+
 
 ### Receive Component ExchangesCopy Location
 
@@ -4701,7 +4701,7 @@ self.reqSmartComponents(1018, "a6")
 
 Containing a bit number to exchange + exchange abbreviation dictionary. All IDs can be initially retrieved using [reqTickParams](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#exchange-component-mapping).
 
--  
+-
 
 def smartComponents(self, reqId:int, smartComponentMap:SmartComponentMap):
 
@@ -4711,7 +4711,7 @@ def smartComponents(self, reqId:int, smartComponentMap:SmartComponentMap):
 
 ​    print("SmartComponent.", smartComponent)
 
- 
+
 
 ### Market Depth ExchangesCopy Location
 
@@ -4725,11 +4725,11 @@ API ‘Exchange’ fields for  which a market depth request would return market 
 
 Requests venues for which market data is returned to updateMktDepthL2 (those with market makers).
 
--  
+-
 
 self.reqMktDepthExchanges()
 
- 
+
 
 ### Receive Market Depth ExchangesCopy Location
 
@@ -4740,7 +4740,7 @@ self.reqMktDepthExchanges()
 
 Called when receives Depth Market Data Descriptions.
 
--  
+-
 
 def mktDepthExchanges(self, depthMktDataDescriptions:ListOfDepthExchanges):
 
@@ -4750,7 +4750,7 @@ def mktDepthExchanges(self, depthMktDataDescriptions:ListOfDepthExchanges):
 
 ​    print("DepthMktDataDescription.", desc)
 
- 
+
 
 ### Market Depth (L2)Copy Location
 
@@ -4787,11 +4787,11 @@ The Python, Java, and C++ APIs use **reqMktDepth()**.
 
 Requests the contract’s market depth (order book).
 
--  
+-
 
 self.reqMktDepth(2001, contract, 5, False, [])
 
- 
+
 
 ### Receive Market DepthCopy Location
 
@@ -4818,13 +4818,13 @@ self.reqMktDepth(2001, contract, 5, False, [])
 
 Returns the order book. Used for direct routed requests only.
 
--  
+-
 
 def updateMktDepth(self, reqId: TickerId, position: int, operation: int, side: int, price: float, size: Decimal):
 
 ​    print("UpdateMarketDepth. ReqId:", reqId, "Position:", position, "Operation:", operation, "Side:", side, "Price:", floatMaxString(price), "Size:", decimalMaxString(size))
 
- 
+
 
 #### EWrapper.updateMktDepthL2 (
 
@@ -4853,13 +4853,13 @@ def updateMktDepth(self, reqId: TickerId, position: int, operation: int, side: i
 
 Returns the order book. Used for direct routed requests only.
 
--  
+-
 
 def updateMktDepthL2(self, reqId: TickerId, position: int, marketMaker: str, operation: int, side: int, price: float, size: Decimal, isSmartDepth: bool):
 
   print("UpdateMarketDepthL2. ReqId:", reqId, "Position:", position, "MarketMaker:", marketMaker, "Operation:", operation, "Side:", side, "Price:", floatMaxString(price), "Size:", decimalMaxString(size), "isSmartDepth:", isSmartDepth)
 
- 
+
 
 ### Cancel Market DepthCopy Location
 
@@ -4873,11 +4873,11 @@ def updateMktDepthL2(self, reqId: TickerId, position: int, marketMaker: str, ope
 
 Cancel’s market depth’s request.
 
--  
+-
 
 self.cancelMktDepth(2001, False)
 
- 
+
 
 ### Option GreeksCopy Location
 
@@ -4914,9 +4914,9 @@ After the request, the option specific information will be delivered via the EWr
 
 Greeks are requested automatically when pulling market data for an Options contract.
  Users that do not have a valid [Market Data Subscription](https://www.interactivebrokers.com/campus/ibkr-api-page/market-data-subscriptions/#popular-md-subscriptions) for the underlying contract will receive an error that Market Data Is  Not Subscribed. This error can be ignored if Greeks are not wanted.
-  
 
--  
+
+-
 
 self.reqMktData(reqId, OptionContract, "", False, False, [])
 
@@ -4937,11 +4937,11 @@ self.reqMktData(reqId, OptionContract, "", False, False, [])
 
 Calculates an option’s price based on the provided volatility and its underlying’s price.
 
--  
+-
 
 self.calculateOptionPrice(5002, OptionContract, 0.6, 55, [])
 
- 
+
 
 ### Calculating historical volatilityCopy Location
 
@@ -4960,11 +4960,11 @@ self.calculateOptionPrice(5002, OptionContract, 0.6, 55, [])
 
 Calculate the volatility for an option. Request the calculation of the implied  volatility based on hypothetical option and its underlying prices.
 
--  
+-
 
 self.calculateImpliedVolatility(5001, OptionContract, 0.5, 55, [])
 
- 
+
 
 ### Receiving Options DataCopy Location
 
@@ -4997,13 +4997,13 @@ self.calculateImpliedVolatility(5001, OptionContract, 0.5, 55, [])
 
 Receives option specific market data. This method is called when the market in  an option or its underlier moves. TWS’s option model volatilities,  prices, and deltas, along with the present value of dividends expected  on that options underlier are received.
 
--  
+-
 
 def tickOptionComputation(self, reqId: TickerId, tickType: TickType, tickAttrib: int, impliedVol: float, delta: float, optPrice: float, pvDividend: float, gamma: float, vega: float, theta: float, undPrice: float):
 
   print("TickOptionComputation. TickerId:", reqId, "TickType:", tickType, "TickAttrib:", intMaxString(tickAttrib), "ImpliedVolatility:", floatMaxString(impliedVol), "Delta:", floatMaxString(delta), "OptionPrice:", floatMaxString(optPrice), "pvDividend:", floatMaxString(pvDividend), "Gamma: ", floatMaxString(gamma), "Vega:", floatMaxString(vega), "Theta:", floatMaxString(theta), "UnderlyingPrice:", floatMaxString(undPrice))
 
- 
+
 
 ### Top of Book (L1)Copy Location
 
@@ -5036,11 +5036,11 @@ Using the TWS API, you can request real time market data for trading and  analys
 
 Requests real time market data. Returns market data for an instrument either in real time or [10-15 minutes delayed data.](https://www.interactivebrokers.com/campus/ibkr-api-page/trader-workstation-api/#delayed-market-data)
 
--  
+-
 
 self.reqMktData(reqId, contract, "", False, False, [])
 
- 
+
 
 ### Generic Tick TypesCopy Location
 
@@ -5059,13 +5059,13 @@ With an exchange market data subscription, such as Network A (NYSE), Network B(A
 
 When requesting market data snapshots, this market will indicate the  snapshot reception is finished. Expected to occur 11 seconds after  beginning of request.
 
--  
+-
 
 def tickSnapshotEnd(self, reqId: int):
 
   print("TickSnapshotEnd. TickerId:", reqId)
 
- 
+
 
 ### Regulatory SnapshotsCopy Location
 
@@ -5107,13 +5107,13 @@ The following table lists the cost and maximum allocation for regulatory snapsho
 
 Returns generic data back to requester. Used for an array of tick types and is used to represent general evaluations.
 
--  
+-
 
 def tickGeneric(self, reqId: TickerId, tickType: TickType, value: float):
 
   print("TickGeneric. TickerId:", reqId, "TickType:", tickType, "Value:", floatMaxString(value))
 
- 
+
 
 #### EWrapper.tickPrice (
 
@@ -5128,13 +5128,13 @@ def tickGeneric(self, reqId: TickerId, tickType: TickType, value: float):
 
 Market data tick price callback.  Handles all price related ticks. Every tickPrice callback is followed by a tickSize. A tickPrice value of -1 or 0 followed by a tickSize of 0  indicates there is no data for this field currently available, whereas a tickPrice with a positive tickSize indicates an active quote of 0  (typically for a combo contract).
 
--  
+-
 
 def tickPrice(self, reqId: TickerId, tickType: TickType, price: float, attrib: TickAttrib):
 
   print(reqId, tickType, price, attrib)
 
- 
+
 
 #### EWrapper.tickSize (
 
@@ -5147,13 +5147,13 @@ def tickPrice(self, reqId: TickerId, tickType: TickType, price: float, attrib: T
 
 Market data tick size callback. Handles all size-related ticks.
 
--  
+-
 
 def tickSize(self, reqId: TickerId, tickType: TickType, size: Decimal):
 
   print("TickSize. TickerId:", reqId, "TickType:", tickType, "Size: ", decimalMaxString(size))
 
- 
+
 
 #### EWrapper.tickString (
 
@@ -5168,13 +5168,13 @@ Market data callback.
 
 **Note:** Every tickPrice is followed by a tickSize. There are also independent  tickSize callbacks anytime the tickSize changes, and so there will be  duplicate tickSize messages following a tickPrice.
 
--  
+-
 
 def tickString(self, reqId: TickerId, tickType: TickType, value: str):
 
   print("TickString. TickerId:", reqId, "Type:", tickType, "Value:", value)
 
- 
+
 
 ### Exchange Component MappingCopy Location
 
@@ -5197,13 +5197,13 @@ The minTick returned to tickReqParams indicates the  minimum increment in market
 
 Displays the ticker with BBO exchange.
 
--  
+-
 
 def tickReqParams(self, tickerId:int, minTick:float, bboExchange:str, snapshotPermissions:int):
 
   print("TickReqParams. TickerId:", tickerId, "MinTick:", floatMaxString(minTick), "BboExchange:", bboExchange, "SnapshotPermissions:", intMaxString(snapshotPermissions))
 
- 
+
 
 ### Re-Routing CFDsCopy Location
 
@@ -5222,13 +5222,13 @@ From the  API, when level 1 or level 2 market data is requested for a stock CFD 
 
 Returns conid and exchange for CFD market data request re-route.
 
--  
+-
 
 def rerouteMktDataReq(self, reqId: int, conId: int, exchange: str):
 
   print("Re-route market data request. ReqId:", reqId, "ConId:", conId, "Exchange:", exchange)
 
- 
+
 
 #### EWrapper.rerouteMktDepthReq (
 
@@ -5241,13 +5241,13 @@ def rerouteMktDataReq(self, reqId: int, conId: int, exchange: str):
 
 Returns the conId and exchange for an underlying contract when a request is  made for level 2 data for an instrument which does not have data in IB’s database. For example stock CFDs and index CFDs.
 
--  
+-
 
 def rerouteMktDepthReq(self, reqId: int, conId: int, exchange: str):
 
   print("Re-route market depth request. ReqId:", reqId, "ConId:", conId, "Exchange:", exchange)
 
- 
+
 
 ### Cancel Watchlist DataCopy Location
 
@@ -5258,11 +5258,11 @@ def rerouteMktDepthReq(self, reqId: int, conId: int, exchange: str):
 
 Cancels a watchlist market data request.
 
--  
+-
 
 self.cancelMktData(2001)
 
- 
+
 
 ### Available Tick TypesCopy Location
 
@@ -5469,17 +5469,17 @@ From the API, this corresponds to the function [EClient.reqTickByTickData](https
 
 Requests tick by tick or Time & Sales data.
 
- 
+
 
 Note:
 
 [EClient.reqTickByTickData()](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#request-tick-data) uses Max Market Depth (Level II) data lines, instead of market data lines (Level I). For market data lines, please check: https://www.interactivebrokers.com/campus/ibkr-api-page/market-data-subscriptions/#market-data-lines
 
--  
+-
 
 self.reqTickByTickData(19001, contract, "Last", 0, True)
 
- 
+
 
 ### Receive Tick By Tick DataCopy Location
 
@@ -5504,13 +5504,13 @@ self.reqTickByTickData(19001, contract, "Last", 0, True)
 
 Returns “Last” or “AllLast” tick-by-tick real-time tick.
 
--  
+-
 
 def tickByTickAllLast(self, reqId: int, tickType: int, time: int, price: float, size: Decimal, tickAtrribLast: TickAttribLast, exchange: str,specialConditions: str):
 
   print(" ReqId:", reqId, "Time:", time, "Price:", floatMaxString(price), "Size:", size, "Exch:" , exchange, "Spec Cond:", specialConditions, "PastLimit:", tickAtrribLast.pastLimit, "Unreported:", tickAtrribLast.unreported)
 
- 
+
 
 #### EWrapper.tickByTickBidAsk (
 
@@ -5531,13 +5531,13 @@ def tickByTickAllLast(self, reqId: int, tickType: int, time: int, price: float, 
 
 Returns “BidAsk” tick-by-tick real-time tick.
 
--  
+-
 
  def tickByTickBidAsk(self, reqId: int, time: int, bidPrice: float, askPrice: float, bidSize: Decimal, askSize: Decimal, tickAttribBidAsk: TickAttribBidAsk):
 
   print("BidAsk. ReqId:", reqId, "Time:", time, "BidPrice:", floatMaxString(bidPrice), "AskPrice:", floatMaxString(askPrice), "BidSize:", decimalMaxString(bidSize), "AskSize:", decimalMaxString(askSize), "BidPastLow:", tickAttribBidAsk.bidPastLow, "AskPastHigh:", tickAttribBidAsk.askPastHigh)
 
- 
+
 
 #### EWrapper.tickByTickMidPoint (
 
@@ -5550,13 +5550,13 @@ Returns “BidAsk” tick-by-tick real-time tick.
 
 Returns “MidPoint” tick-by-tick real-time tick.
 
--  
+-
 
 def tickByTickMidPoint(self, reqId: int, time: int, midPoint: float):
 
   print("Midpoint. ReqId:", reqId, "Time:", time, "MidPoint:", floatMaxString(midPoint))
 
- 
+
 
 ### Cancel Tick By Tick DataCopy Location
 
@@ -5567,11 +5567,11 @@ def tickByTickMidPoint(self, reqId: int, time: int, midPoint: float):
 
 Cancels specified tick-by-tick data.
 
--  
+-
 
 self.cancelTickByTickData(19001)
 
- 
+
 
 ### Halted and Unhalted ticksCopy Location
 
@@ -5606,11 +5606,11 @@ A string containing all available XML-formatted parameters will then be returned
 
 Requests an XML list of scanner parameters valid in TWS.
 
--  
+-
 
 self.reqScannerParameters()
 
- 
+
 
 ### Receive Market Scanner ParametersCopy Location
 
@@ -5621,7 +5621,7 @@ self.reqScannerParameters()
 
 Provides the xml-formatted parameters available from TWS market scanners (not all available in API).
 
--  
+-
 
 def scannerParameters(self, xml: str):
 
@@ -5629,25 +5629,25 @@ def scannerParameters(self, xml: str):
 
   print("ScannerParameters received.")
 
- 
+
 
 ### Market Scanner SubscriptionCopy Location
 
 All values used for the ScannerSubscription object are pulled from  EClient.scannerParams response. The XML tree will relay a tree  containing a corresponding code to each ScannerSubscription field as  documented below.
 
-**instrument:** 
+**instrument:**
 
 <ScanParameterResponse> <InstrumentList> <Instrument> <type>
 
 
 
-**Location Code:** 
+**Location Code:**
 
 <ScanParameterResponse> <LocationTree> <Location> <LocationTree> <Location> <locationCode>
 
 
 
-**Scan Code:** 
+**Scan Code:**
 
 <ScanParameterResponse> <ScanTypeList> <ScanType> <scanCode>
 
@@ -5655,17 +5655,17 @@ All values used for the ScannerSubscription object are pulled from  EClient.scan
 
 **Subscription Options** should be an empty array of TagValues.
 
-**Filter Options:** 
+**Filter Options:**
 
 <ScanParameterResponse> <FilterList> <RangeFilter> <AbstractField> <code>
 
 
 
- 
+
 
 #### ScannerSubscription()
 
- 
+
 
 **Instrument:** String. Instrument Type to use.
 
@@ -5692,11 +5692,11 @@ All values used for the ScannerSubscription object are pulled from  EClient.scan
 
 Starts a subscription to market scan results based on the provided parameters.
 
--  
+-
 
 self.reqScannerSubscription(7002, scannerSubscription, [], filterTagvalues)
 
- 
+
 
 ### Receive Market Scanner SubscriptionCopy Location
 
@@ -5719,13 +5719,13 @@ self.reqScannerSubscription(7002, scannerSubscription, [], filterTagvalues)
 
 Provides the data resulting from the market scanner request.
 
--  
+-
 
 def scannerData(self, reqId: int, rank: int, contractDetails: ContractDetails, distance: str, benchmark: str, projection: str, legsStr: str):
 
   print("ScannerData. ReqId:", reqId, ScanData(contractDetails.contract, rank, distance, benchmark, projection, legsStr))
 
- 
+
 
 ### Cancel Market Scanner SubscriptionCopy Location
 
@@ -5736,11 +5736,11 @@ def scannerData(self, reqId: int, rank: int, contractDetails: ContractDetails, d
 
 Cancels the specified scanner subscription using the tickerId.
 
--  
+-
 
 self.cancelScannerSubscription(7003)
 
- 
+
 
 ## NewsCopy Location
 
@@ -5768,11 +5768,11 @@ Adding or removing API news subscriptions from an account is accomplished  throu
 
 Requests news providers which the user has subscribed to.
 
--  
+-
 
 self.reqNewsProviders()
 
- 
+
 
 ### Receive News ProvidersCopy Location
 
@@ -5783,13 +5783,13 @@ self.reqNewsProviders()
 
 Returns array of subscribed API news providers for this user
 
--  
+-
 
 def newsProviders(self, newsProviders: ListOfNewsProviders):
 
   print("NewsProviders: ", newsProviders)
 
- 
+
 
 ### Live News HeadlinesCopy Location
 
@@ -5823,11 +5823,11 @@ When  invoking IBApi.EClient.reqMktData, for a specific IBApi.Contract you  will
 Used to request market data typically, but can also be used to retrieve  news. “mdoff” can be specified to disable standard market data while  retrieving news.
  For news sources, genericTick 292 needs to be specified followed by a colon and the news provider’s code.
 
--  
+-
 
 self.reqMktData(reqId, contract, "mdoff,292:BRFG", False, False, [])
 
- 
+
 
 ### Request BroadTape NewsCopy Location
 
@@ -5837,7 +5837,7 @@ For BroadTape News you specify the contract for the specific news source.  This 
 
 The symbol is typically the proivder code, a colon, then the news provider codes appended with “_ALL”
 
--  
+-
 
 #### Example news contract
 
@@ -5849,7 +5849,7 @@ contract.secType = "NEWS"
 
 contract.exchange = "BRF"
 
- 
+
 
 #### EClient.reqMktData (
 
@@ -5870,11 +5870,11 @@ Used to request market data typically, but can also be used to retrieve  news. �
 
 For news sources, genericTick 292 needs to be specified.
 
--  
+-
 
 self.reqMktData(reqId, contract, "mdoff,292", False, False, [])
 
- 
+
 
 ### Receive Live News HeadlinesCopy Location
 
@@ -5895,13 +5895,13 @@ self.reqMktData(reqId, contract, "mdoff,292", False, False, [])
 
 Returns news headlines for requested contracts.
 
--  
+-
 
 def tickNews(self, tickerId: int, timeStamp: int, providerCode: str, articleId: str, headline: str, extraData: str):
 
   print("TickNews. TickerId:", tickerId, "TimeStamp:", timeStamp, "ProviderCode:", providerCode, "ArticleId:", articleId, "Headline:", headline, "ExtraData:", extraData)
 
- 
+
 
 ### Historical News HeadlinesCopy Location
 
@@ -5928,11 +5928,11 @@ With the appropriate API news subscription, historical news headlines can be req
 
 Requests historical news headlines.
 
--  
+-
 
 self.reqHistoricalNews(reqId, 8314, "BRFG", "", "", 10, [])
 
- 
+
 
 ### Receive Historical NewsCopy Location
 
@@ -5951,13 +5951,13 @@ self.reqHistoricalNews(reqId, 8314, "BRFG", "", "", 10, [])
 
 Returns news headlines for requested contracts.
 
--  
+-
 
 def historicalNews(self, requestId: int, time: int, providerCode: str, articleId: str, headline: str):
 
   print("historicalNews. RequestId:", requestId, "Time:", time, "ProviderCode:", providerCode, "ArticleId:", articleId, "Headline:", headline)
 
- 
+
 
 #### EWrapper.historicalNewsEnd (
 
@@ -5968,13 +5968,13 @@ def historicalNews(self, requestId: int, time: int, providerCode: str, articleId
 
 Returns news headlines end marker
 
--  
+-
 
 def historicalDataEnd(self, reqId: int, hasMore: bool):
 
 ​    print("historicalDataEnd. ReqId:", reqId, "Has More:", hasMore)
 
- 
+
 
 ### News ArticlesCopy Location
 
@@ -5995,11 +5995,11 @@ After requesting news headlines using one of the above functions, the body of a 
 
 Requests news article body given articleId.
 
--  
+-
 
 self.reqNewsArticle(10002,"BRFG", "BRFG$04fb9da2", [])
 
- 
+
 
 ### Receive News ArticlesCopy Location
 
@@ -6014,13 +6014,13 @@ self.reqNewsArticle(10002,"BRFG", "BRFG$04fb9da2", [])
 
 Called when receiving a News Article in response to reqNewsArticle().
 
--  
+-
 
 def newsArticle(self, requestId: int, articleType: int, articleText: str):
 
   print("requestId: ", requestId, "articleType: ", articleType, "articleText: ", articleText)
 
- 
+
 
 ## Next Valid IDCopy Location
 
@@ -6037,11 +6037,11 @@ The nextValidId value may be queried  on each request. However, it is often reco
 
 Requests the next valid order ID at the current moment be returned to the EWrapper.nextValidId function.
 
--  
+-
 
 self.reqIds(-1)
 
- 
+
 
 ### Receive Next Valid IDCopy Location
 
@@ -6052,13 +6052,13 @@ self.reqIds(-1)
 
 Will be invoked automatically upon successful API client connection, or after call to EClient.reqIds.
 
--  
+-
 
 def nextValidId(self, orderId: int):
 
 ​    print("NextValidId:", orderId)
 
- 
+
 
 ### Reset Order ID SequenceCopy Location
 
@@ -6098,13 +6098,13 @@ When an order is filled either fully or partially, the [IBApi.EWrapper.execDetai
 
 Provides the Commission Report of an Execution
 
--  
+-
 
 def commissionAndFeesReport(self, commissionAndFeesReport: CommissionAndFeesReport):
 
 ​    print("CommissionReport.", commissionAndFeesReport)
 
- 
+
 
 ### Execution DetailsCopy Location
 
@@ -6179,11 +6179,11 @@ Given additional structures for executions are ever evolving, it is  recommended
 
 Requests current day’s (since midnight) executions and commission report  matching the filter. Only the current day’s executions can be retrieved.
 
--  
+-
 
 self.reqExecutions(10001, ExecutionFilter())
 
- 
+
 
 ### Receive Execution DetailsCopy Location
 
@@ -6198,13 +6198,13 @@ self.reqExecutions(10001, ExecutionFilter())
 
 Provides the executions which happened in the last 24 hours.
 
--  
+-
 
 def execDetails(self, reqId: int, contract: Contract, execution: Execution):
 
   print("ExecDetails. ReqId:", reqId, "Symbol:", contract.symbol, "SecType:", contract.secType, "Currency:", contract.currency, execution)
 
- 
+
 
 #### EWrapper.execDetailsEnd (
 
@@ -6213,13 +6213,13 @@ def execDetails(self, reqId: int, contract: Contract, execution: Execution):
 
 Indicates the end of the Execution reception.
 
--  
+-
 
 def execDetailsEnd(self, reqId: int):
 
   print("ExecDetailsEnd. ReqId:", reqId)
 
- 
+
 
 ### Open OrdersCopy Location
 
@@ -6236,25 +6236,25 @@ def execDetailsEnd(self, reqId: int):
 
 Feeds in currently open orders.
 
--  
+-
 
 def openOrder(self, orderId: OrderId, contract: Contract, order: Order, orderState: OrderState):
 
 ​    print(orderId, contract, order, orderState)
 
- 
+
 
 #### EWrapper.openOrderEnd ()
 
 Notifies the end of the open orders’ reception.
 
--  
+-
 
 def openOrderEnd(self):
 
   print("OpenOrderEnd")
 
- 
+
 
 ### Order StatusCopy Location
 
@@ -6285,13 +6285,13 @@ def openOrderEnd(self):
 
 Gives the up-to-date information of an order every time it changes. Often there are duplicate orderStatus messages.
 
--  
+-
 
 def orderStatus(self, orderId: OrderId, status: str, filled: Decimal, remaining: Decimal, avgFillPrice: float, permId: int, parentId: int, lastFillPrice: float, clientId: int, whyHeld: str, mktCapPrice: float):
 
   super().orderStatus(orderId, status, filled, remaining, avgFillPrice, permId, parentId, lastFillPrice, clientId, whyHeld, mktCapPrice)
 
- 
+
 
 ### Understanding Order Status MessageCopy Location
 
@@ -6322,11 +6322,11 @@ When an order is bound  by API client 0 there will be callback to IBApi::EWrappe
 
 Requests all open orders places by this specific API client (identified by the  API client id). For client ID 0, this will bind previous manual TWS  orders.
 
--  
+-
 
 self.reqOpenOrders()
 
- 
+
 
 ### All submitted ordersCopy Location
 
@@ -6334,11 +6334,11 @@ self.reqOpenOrders()
 
 Requests all current open orders in associated accounts at the current moment. The existing orders will be received via the [openOrder](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#open-order) and [orderStatus](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#order-status) events. Open orders are returned once; this function does not initiate a subscription.
 
--  
+-
 
 self.reqAllOpenOrders()
 
- 
+
 
 ### Manually Submitted TWS OrdersCopy Location
 
@@ -6351,11 +6351,11 @@ Requests status updates about future orders placed from TWS. Can only be used wi
 
 **Important:** only those applications connecting with client Id 0 will be able to take over manually submitted orders
 
--  
+-
 
 self.reqAutoOpenOrders(True)
 
- 
+
 
 ### Order Binding NotificationCopy Location
 
@@ -6370,13 +6370,13 @@ self.reqAutoOpenOrders(True)
 
 Response to API bind order control message.
 
--  
+-
 
 def orderBound(self, orderId: int, apiClientId: int, apiOrderId: int):
 
   print("OrderBound.", "OrderId:", intMaxString(orderId), "ApiClientId:", intMaxString(apiClientId), "ApiOrderId:", intMaxString(apiOrderId))
 
- 
+
 
 ### Retrieving Completed OrdersCopy Location
 
@@ -6390,11 +6390,11 @@ EClient.reqCompletedOrders allows users to request all orders for the given day 
 
 )
 
--  
+-
 
 self.reqCompletedOrders(True)
 
- 
+
 
 ### Receiving Completed OrdersCopy Location
 
@@ -6405,13 +6405,13 @@ self.reqCompletedOrders(True)
  **orderState:** OrderState. The order’s OrderState
  )
 
--  
+-
 
 def completedOrder(self, orderId: OrderId, contract: Contract, order: Order, orderState: OrderState):
 
 ​    print(orderId, contract, order, orderState)
 
- 
+
 
 ## OrdersCopy Location
 
@@ -6458,11 +6458,11 @@ Cancels an active order placed by from the same API client ID.
 
 **Note:** API clients cannot cancel individual orders placed by other clients. Only reqGlobalCancel is available.
 
--  
+-
 
 self.cancelOrder(orderId, OrderCancel())
 
- 
+
 
 ### Cancel All Open OrdersCopy Location
 
@@ -6470,11 +6470,11 @@ self.cancelOrder(orderId, OrderCancel())
 
 This method will cancel ALL open orders including those placed directly from TWS.
 
--  
+-
 
 self.reqGlobalCancel()
 
- 
+
 
 ### Exercise OptionsCopy Location
 
@@ -6508,11 +6508,11 @@ Exercises an options contract.
 
 **Note:** this function is affected by a TWS setting which specifies if an exercise request must be finalized.
 
--  
+-
 
 self.exerciseOptions(5003, contract, 1, 1, self.account, 1, "")
 
- 
+
 
 ### Minimum Price IncrementCopy Location
 
@@ -6539,11 +6539,11 @@ Requests details about a given market rule. The market rule for an instrument on
 
 A list of market rule ids can be obtained by invoking [EClient.reqContractDetails](https://www.interactivebrokers.com/campus/ibkr-api-page/trader-workstation-api/#contract-details) on a particular contract. The returned market rule ID list will provide the market rule ID for the instrument in the correspond valid exchange  list in contractDetails.
 
--  
+-
 
 self.reqMarketRule(26)
 
- 
+
 
 ### Receive Market RuleCopy Location
 
@@ -6556,7 +6556,7 @@ self.reqMarketRule(26)
 
 Returns minimum price increment structure for a particular market rule ID  market rule IDs for an instrument on valid exchanges can be obtained  from the [contractDetails](https://www.interactivebrokers.com/campus/ibkr-api-page/trader-workstation-api/#contract-details) object for that contract
 
--  
+-
 
 def marketRule(self, marketRuleId: int, priceIncrements: ListOfPriceIncrements):
 
@@ -6566,7 +6566,7 @@ def marketRule(self, marketRuleId: int, priceIncrements: ListOfPriceIncrements):
 
   print("Price Increment.", priceIncrement)
 
- 
+
 
 ### MiFIR Transaction Reporting FieldsCopy Location
 
@@ -6643,16 +6643,16 @@ An order can be sent to TWS but not transmitted to the IB server by  setting the
 
 Places or modifies an order.
 
--  
+-
 
 self.placeOrder(orderId, contract, order)
 
- 
+
 
 ### Understanding Order PrecautionsCopy Location
 
 By default, the Trader Workstation implements several precautionary  settings that will notify customers of potential order risks to make  sure users are well informed before transmitting orders. As a result,  customers will typically need to acknowledge a precautionary message and manually transmit the orders through the Trader Workstation. These  precautionary messages may be disabled if the user is comfortable and  aware of the behavior they are disabling.
-  
+
 
 ### Disabling Warning Messages
 
@@ -6677,11 +6677,11 @@ If you experience issues with orders you place via the API, such as orders not f
 
 Common cases of order rejections, cancellations, and warnings, and the corresponding message returned:
 
-- If an order is subject to a large size (LGSZ) reject, the API client would receive 
+- If an order is subject to a large size (LGSZ) reject, the API client would receive
 
   Error (201)
 
-   via 
+   via
 
   [IBApi::EWrapper::error](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#error)
 
@@ -6689,15 +6689,15 @@ Common cases of order rejections, cancellations, and warnings, and the correspon
 
   - In accordance with our regulatory obligations as a broker, we cannot  accept Large Limit Orders for #### shares of ABCD that you have  submitted. Please submit a smaller order (not exceeding ###) *or convert your order to an algorithmic Order (IBALGO) [conditional on instrument]*
 
-- If an order is subject to price checks the client may receive status (cancelled) + 
+- If an order is subject to price checks the client may receive status (cancelled) +
 
   Error (202)
 
-   via 
+   via
 
   **IBApi.EWrapper.orderStatus**
 
-   and 
+   and
 
   [IBApi::EWrapper::error](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#error)
 
@@ -6705,7 +6705,7 @@ Common cases of order rejections, cancellations, and warnings, and the correspon
 
   - In accordance with our regulatory obligations as a broker, we cannot  accept your order at the limit price ### you selected because it is too  far through the market. Please submit your order using a limit price  that is closer to the current market price ###
 
-- The client may receive warning Text via 
+- The client may receive warning Text via
 
   [IBApi::EWrapper::openOrder](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#open-orders)
 
@@ -6727,7 +6727,7 @@ To place a Pre-Borrow order, users must:
 - Assign the contract’s security type to “SBL”
 -  Assign the order’s orderType to “MKT”
 
--  
+-
 
 contract = Contract()
 
@@ -6747,7 +6747,7 @@ order.orderType = "MKT"
 
 order.totalQuantity = quantity
 
- 
+
 
 ### Test Order Impact (WhatIf)Copy Location
 
@@ -6755,7 +6755,7 @@ From the API it is possible to check how a specified trade execution is  expecte
 
 This is equivalent to creating a order ticket in TWS, clicking “Preview”,  and viewing the information in the “Margin Impact” panel.
 
- 
+
 
 For example, most users want to check the margin details or available  leverage of the order. Here is the example of checking the Initial  Maintenance Margin Change.
 
@@ -6763,7 +6763,7 @@ Python:
 
 def openOrder(self, orderId: OrderId, contract: Contract, order: Order, orderState: OrderState):
 
-​    print(orderId, contract, order, orderState.initMarginChange) 
+​    print(orderId, contract, order, orderState.initMarginChange)
 
 .
 
@@ -6791,11 +6791,11 @@ You can see that 12567.5 is the initMarginChange which matches the Initial  Marg
 
 
 
- 
+
 
 Apart from InitMarginChange, there are other supported variables. For details, please visit: https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-ref/#orderstate-ref
 
- 
+
 
 ### Trigger MethodsCopy Location
 
@@ -6854,11 +6854,11 @@ Example: “4|1|2|5|3|6|7”
 
 Requests all available Display Groups in TWS.
 
--  
+-
 
 self.queryDisplayGroups(requestId)
 
- 
+
 
 ### Receive Query Display GroupsCopy Location
 
@@ -6871,13 +6871,13 @@ self.queryDisplayGroups(requestId)
 
 A one-time response to querying the display groups.
 
--  
+-
 
 def displayGroupList(self, reqId: int, groups: str):
 
   print("DisplayGroupList. ReqId:", reqId, "Groups", groups)
 
- 
+
 
 ### Subscribe To Group EventsCopy Location
 
@@ -6894,11 +6894,11 @@ To integrate with a specific Group, you need to first subscribe to the  group nu
 
 Integrates API client and TWS window grouping.
 
--  
+-
 
 self.subscribeToGroupEvents(19002, 1)
 
- 
+
 
 ### Receive Group Events SubscriptionCopy Location
 
@@ -6911,13 +6911,13 @@ self.subscribeToGroupEvents(19002, 1)
 )
  Call triggered once after receiving the subscription request, and will  be sent again if the selected contract in the subscribed * display group has changed.
 
--  
+-
 
 def displayGroupUpdated(self, reqId: int, contractInfo: str):
 
   print("DisplayGroupUpdated. ReqId:", reqId, "ContractInfo:", contractInfo)
 
- 
+
 
 ### Unsubscribe From Group EventsCopy Location
 
@@ -6928,11 +6928,11 @@ def displayGroupUpdated(self, reqId: int, contractInfo: str):
 
 Cancels a TWS Window Group subscription.
 
--  
+-
 
 self.unsubscribeFromGroupEvents(19002)
 
- 
+
 
 ### Update Display GroupCopy Location
 
@@ -6949,11 +6949,11 @@ self.unsubscribeFromGroupEvents(19002)
 
 Updates the contract displayed in a TWS Window Group.
 
--  
+-
 
 self.updateDisplayGroup(19002, "8314@SMART")
 
- 
+
 
 **Note:** This request from the API does not get a response from TWS unless an error occurs.
 
@@ -7021,11 +7021,11 @@ In addition to the EClient.reqWshMetaData field being mandatory prior to the [EC
 
 Requests metadata from the WSH calendar.
 
--  
+-
 
 self.reqWshMetaData(1100)
 
- 
+
 
 ### Receive Meta DataCopy Location
 
@@ -7038,13 +7038,13 @@ self.reqWshMetaData(1100)
 
 Returns meta data from the WSH calendar
 
--  
+-
 
 def wshMetaData(self, reqId: int, dataJson: str):
 
   print("WshMetaData.", "ReqId:", reqId, "Data JSON:", dataJson)
 
- 
+
 
 Once the json content has been received, the specific event types used to filter [EClient.reqWshEventData()](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#event-data) are listed under “meta_data” -> “event_types”.
 
@@ -7061,11 +7061,11 @@ The “tag” field will return the filter used in your JSON query. The related 
 
 Cancels pending request for WSH metadata.
 
--  
+-
 
 self.cancelWshMetaData(1100)
 
- 
+
 
 ### Event DataCopy Location
 
@@ -7079,7 +7079,7 @@ Also note that TWS will not support multiple concurrent requests. Previous  requ
 
 When making a request to the Wall Street Horizons Event Calendar with the  API, users must create a wshEventData Object. This object contains  several fields, along with a filter field, which takes a json-formatted  string. The filter values are returned from WSH Meta Data requests.
 
-When creating the object, users are able to specify either the  WshEventData.conId, WshEventData.startDate, and WshEventData.endDate, or they may choose to use the WshEventData.filter value. Attempting to use both will result in an error. 
+When creating the object, users are able to specify either the  WshEventData.conId, WshEventData.startDate, and WshEventData.endDate, or they may choose to use the WshEventData.filter value. Attempting to use both will result in an error.
 
 Only one Event Type tag may be passed per request. Multiple submitted filters will be ignored beyond the final request.
 
@@ -7118,11 +7118,11 @@ Only one Event Type tag may be passed per request. Multiple submitted filters wi
 
 Requests event data from the WSH calendar.
 
--  
+-
 
 self.reqWshEventData(1101, eventDataObj, serverVersion)
 
- 
+
 
 ### Receive Event DataCopy Location
 
@@ -7135,13 +7135,13 @@ self.reqWshEventData(1101, eventDataObj, serverVersion)
 
 Returns calendar events from the WSH.
 
--  
+-
 
 def wshEventData(self, reqId: int, dataJson: str):
 
   print("WshEventData.", "ReqId:", reqId, "Data JSON:", dataJson)
 
- 
+
 
 ### Cancel Event DataCopy Location
 
@@ -7153,8 +7153,6 @@ def wshEventData(self, reqId: int, dataJson: str):
 
 Cancels pending WSH event data request.
 
--  
+-
 
 self.cancelWshEventData(1101, eventDataObj)
-
- 

@@ -2,8 +2,8 @@ package scanner
 
 import (
 	"encoding/json"
-	"io/ioutil"
 	"os"
+	"path/filepath"
 	"strconv"
 
 	"github.com/sirupsen/logrus"
@@ -23,6 +23,10 @@ type Config struct {
 
 	// Logging configuration
 	LogLevel string `json:"log_level"`
+
+	// Cache configuration
+	CacheTTL     int `json:"cache_ttl"`
+	ScanInterval int `json:"scan_interval"`
 }
 
 // NewDefaultConfig creates a new configuration with default values
@@ -33,31 +37,54 @@ func NewDefaultConfig() *Config {
 		DataProviderType: getEnvOrDefault("DATA_PROVIDER_TYPE", "mock"),
 		APIKey:           getEnvOrDefault("API_KEY", ""),
 		LogLevel:         getEnvOrDefault("LOG_LEVEL", "info"),
+		CacheTTL:         getEnvIntOrDefault("CACHE_TTL", 15),
+		ScanInterval:     getEnvIntOrDefault("SCAN_INTERVAL", 5),
 	}
 }
 
-// LoadConfig loads configuration from a JSON file
-func LoadConfig(filePath string) (*Config, error) {
-	config := NewDefaultConfig()
-
-	// If file doesn't exist, use default config
-	if _, err := os.Stat(filePath); os.IsNotExist(err) {
-		logrus.Warnf("Config file %s not found, using defaults", filePath)
-		return config, nil
+// LoadConfig loads the scanner service configuration from a JSON file
+func LoadConfig(configPath string) (*Config, error) {
+	// Resolve relative path if needed
+	if !filepath.IsAbs(configPath) {
+		workDir, err := os.Getwd()
+		if err != nil {
+			return nil, err
+		}
+		configPath = filepath.Join(workDir, configPath)
 	}
 
-	// Read the file
-	data, err := ioutil.ReadFile(filePath)
+	logrus.Infof("Loading configuration from: %s", configPath)
+
+	// Read the configuration file
+	configData, err := os.ReadFile(configPath)
 	if err != nil {
 		return nil, err
 	}
 
-	// Parse JSON
-	if err := json.Unmarshal(data, config); err != nil {
+	// Parse the JSON data
+	var config Config
+	if err := json.Unmarshal(configData, &config); err != nil {
 		return nil, err
 	}
 
-	return config, nil
+	// Set defaults for empty values
+	if config.ServerAddress == "" {
+		config.ServerAddress = ":50051"
+	}
+
+	if config.LogLevel == "" {
+		config.LogLevel = "info"
+	}
+
+	if config.CacheTTL == 0 {
+		config.CacheTTL = 15 // 15 minutes default
+	}
+
+	if config.ScanInterval == 0 {
+		config.ScanInterval = 5 // 5 minutes default
+	}
+
+	return &config, nil
 }
 
 // getEnvOrDefault gets an environment variable or returns a default value

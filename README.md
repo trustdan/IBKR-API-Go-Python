@@ -15,7 +15,7 @@ An automated trading system that implements vertical spread trading strategies u
 The system is structured into the following components:
 
 1. **Scanner**: Identifies trading opportunities based on technical patterns
-2. **Strategy Engine**: Implements multiple technical trading strategies 
+2. **Strategy Engine**: Implements multiple technical trading strategies
 3. **Option Selector**: Selects the optimal vertical spread for a given trade signal
 4. **Trade Executor**: Handles trade execution timing and order management
 5. **Risk Manager**: Controls position sizing and overall risk exposure
@@ -44,7 +44,13 @@ The system is structured into the following components:
    pip install -r requirements.txt
    ```
 
-3. Configure your system:
+3. Install and set up pre-commit hooks:
+   ```
+   pip install pre-commit
+   pre-commit install
+   ```
+
+4. Configure your system:
    - Copy `config.yaml.example` to `config.yaml`
    - Edit settings to match your requirements and risk tolerance
    - Set your IBKR credentials via environment variables or in the config
@@ -122,4 +128,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## Disclaimer
 
-Trading involves risk. This software is for educational and informational purposes only. It is not intended as financial advice or a recommendation to trade. Use at your own risk. 
+Trading involves risk. This software is for educational and informational purposes only. It is not intended as financial advice or a recommendation to trade. Use at your own risk.

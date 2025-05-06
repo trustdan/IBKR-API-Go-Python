@@ -1,4 +1,4 @@
-Introduction 
+Introduction
 
 The TWS API is a simple yet powerful interface through which IB clients can automate their trading strategies, request market data and monitor your account balance and portfolio in real  time.
 
@@ -16,7 +16,7 @@ This guide reflects the very latest version of the TWS API -**9.72 and higher**-
    • To make use of TWS API 9.73+, will require [TWS build](https://www.interactivebrokers.com/en/index.php?f=14099#tws-software) 952.x or higher.
    • A working knowledge of the programming language our **Testbed** sample projects are developed in.
    • Python version 3.1 or higher is required to interpret Python API client.
-    
+
 
 # Limitations
 
@@ -42,7 +42,7 @@ This product includes Intel® Decimal Floating-Point Math Library (in  binary fo
 
 
 
-Initial Setup 
+Initial Setup
 
 The TWS API is an interface to IB's standalone trading applications, TWS and IB Gateway. These are both standalone,  Java-based trading applications which were designed to require the use  of a graphical user interface for secure user authentication. For that  reason "headless" operation of either application without a GUI is not  supported.
 
@@ -140,7 +140,7 @@ Another crucial element is the [IBApi.EReaderSignal](https://interactivebrokers.
 
   ​    3        EClient.__init__(self, wrapper)
 
-   ... 
+   ...
 
   ​    1 class TestApp(TestWrapper, TestClient):
 
@@ -158,7 +158,7 @@ Another crucial element is the [IBApi.EReaderSignal](https://interactivebrokers.
 
 
 
-Connectivity 
+Connectivity
 
 A socket connection between the API client application and TWS is established with the [IBApi.EClientSocket.eConnect](https://interactivebrokers.github.io/tws-api/classIBApi_1_1EClientSocket.html#a315a7f7a34afc504d84c4f0ca462d924) function. TWS acts as a server to receive requests from the API  application (the client) and responds by taking appropriate actions. The first step is for the API client to initiate a connection to TWS on a  socket port where TWS is already listening. It is possible to have  multiple TWS instances running on the same computer if each is  configured with a different API socket port number. Also, each TWS  session can receive up to **32 different client applications** simultaneously. The **client ID** field specified in the API connection is used to distinguish different API clients.
 
@@ -186,11 +186,11 @@ API programs always have at least two threads of execution. One  thread is used 
 
 The class which has functionality for reading and parsing raw messages from TWS is the [IBApi.EReader](https://interactivebrokers.github.io/tws-api/classIBApi_1_1EReader.html) class.
 
-- In Python IB API, the code below is included in Client::connect(), so  the EReader thread is automatically started upon connection. There is 
+- In Python IB API, the code below is included in Client::connect(), so  the EReader thread is automatically started upon connection. There is
 
   no need
 
-   for user to start the reader. 
+   for user to start the reader.
 
   ​    1        # You don't need to run this in your code!
 
@@ -198,11 +198,11 @@ The class which has functionality for reading and parsing raw messages from TWS 
 
   ​    3        self.reader.start()   # start thread
 
-   Once the client is connected, a reader thread will be automatically  created to handle incoming messages and put the messages into a message  queue for further process. User 
+   Once the client is connected, a reader thread will be automatically  created to handle incoming messages and put the messages into a message  queue for further process. User
 
   is required
 
-   to trigger  Client::run() below, where the message queue is processed in an infinite loop and the EWrapper call-back functions are automatically triggered. 
+   to trigger  Client::run() below, where the message queue is processed in an infinite loop and the EWrapper call-back functions are automatically triggered.
 
   ​    1        app.run()
 
@@ -242,7 +242,7 @@ The socket EOF is handled slightly differently in different API  languages. For 
 
 
 
-Financial Instruments (Contracts) 
+Financial Instruments (Contracts)
 
 # Overview
 
@@ -295,12 +295,12 @@ Through the TWS API it is possible to define most orders already available withi
 
 ## Changes in the date/time field
 
-With the release of **TWS 10.17** and **TWS API 10.18** clients now can send date/time in different formats: 
+With the release of **TWS 10.17** and **TWS API 10.18** clients now can send date/time in different formats:
 
 - API allows UTC format "yyyymmdd-hh:mm:ss" in date/time fields.
-   Example: *20220930-15:00:00* 
+   Example: *20220930-15:00:00*
 - API allows date/time field format with instrument's exchange timezone  (for all non-operator fields) and operator's time zone (for all fields).
-   Example: *IBM 20220930-15:00:00 US/Eastern* 
+   Example: *IBM 20220930-15:00:00 US/Eastern*
 
 
 
@@ -308,7 +308,7 @@ With the release of **TWS 10.17** and **TWS API 10.18** clients now can send dat
 
 
 
-Streaming Market Data 
+Streaming Market Data
 
 It is possible to fetch different kinds market data from the TWS:
 
@@ -365,9 +365,9 @@ By default, every user has a maxTicker Limit of 100 market data lines and as suc
 
 # Quotes in shares
 
-Previously, US stock size quotes were displayed in round lots (of 100 shares). 
- Effective with TWS release 985 and above, the bid, ask, and last size quotes are displayed in shares instead of lots. 
- API users have the option to configure the TWS API to work in  compatibility mode for older programs, but we recommend migrating to  "quotes in shares" at your earliest convenience. 
+Previously, US stock size quotes were displayed in round lots (of 100 shares).
+ Effective with TWS release 985 and above, the bid, ask, and last size quotes are displayed in shares instead of lots.
+ API users have the option to configure the TWS API to work in  compatibility mode for older programs, but we recommend migrating to  "quotes in shares" at your earliest convenience.
  To use compatibility mode, from the Global Configuration > API >  Settings page, check "Bypass US Stocks market data in shares warning for API orders."
 
 
@@ -376,7 +376,7 @@ Previously, US stock size quotes were displayed in round lots (of 100 shares).
 
 
 
-Historical Market Data 
+Historical Market Data
 
 Receiving historical data from the API has the same market data subscription requirement as receiving streaming  top-of-book live data [Live Market Data](https://interactivebrokers.github.io/tws-api/market_data.html#market_subscriptions). The API historical data functionality pulls certain types of data from  TWS charts or the historical Time&Sales Window. So if data is not  available for a specific instrument, data type, or period within a TWS  chart it will also not be available from the API. Unlike TWS, which can  create 'delayed charts' for most instruments without any market data  subscriptions that have data up until 10-15 minutes prior to the current moment; the API always requires Level 1 streaming real time data to  return historical data.
 
@@ -400,12 +400,12 @@ Note about Interactive Brokers' historical data:
 
 ## Changes in the date/time field
 
-With the release of **TWS 10.17** and **TWS API 10.18** clients now can send date/time in different formats: 
+With the release of **TWS 10.17** and **TWS API 10.18** clients now can send date/time in different formats:
 
 - API allows UTC format "yyyymmdd-hh:mm:ss" in date/time fields.
-   Example: *20220930-15:00:00* 
+   Example: *20220930-15:00:00*
 - API allows date/time field format with instrument's exchange timezone  (for all non-operator fields) and operator's time zone (for all fields).
-   Example: *IBM 20220930-15:00:00 US/Eastern* 
+   Example: *IBM 20220930-15:00:00 US/Eastern*
 
 
 
@@ -421,7 +421,7 @@ The TWS offers a comprehensive overview of  your account and portfolio through i
 - [Account Summary](https://interactivebrokers.github.io/tws-api/account_summary.html)
 - [Positions](https://interactivebrokers.github.io/tws-api/positions.html)
 - [Profit And Loss (P&L)](https://interactivebrokers.github.io/tws-api/pnl.html)
-- [White Branding User Info](https://interactivebrokers.github.io/tws-api/wb_user_info.html) 
+- [White Branding User Info](https://interactivebrokers.github.io/tws-api/wb_user_info.html)
 
 
 
@@ -429,7 +429,7 @@ The TWS offers a comprehensive overview of  your account and portfolio through i
 
 
 
-Options 
+Options
 
 # Option Chains
 
@@ -447,7 +447,7 @@ The example below shows an "incomplete" option [IBApi.Contract](https://interact
 
   ​    5        contract.currency = "USD"
 
-   ... 
+   ...
 
   ​    1        self.reqContractDetails(210, ContractSamples.OptionForQuery())
 
@@ -474,7 +474,7 @@ One limitation of this technique is that the return of option chains  will be th
 
 - ​    1        self.reqSecDefOptParams(0, "IBM", "", "STK", 8314)
 
-   ... 
+   ...
 
   ​    1    def securityDefinitionOptionParameter(self, reqId: int, exchange: str,
 
@@ -515,7 +515,7 @@ Options are exercised or lapsed from the API with the function [IBApi.EClient.ex
 
 
 
-Fundamental Data 
+Fundamental Data
 
 Starting with *TWS v985+* and after *API v985+*, **Fundamental** data from the **Wall Street Horizon Event Calendar** can be accessed via the TWS API through the functions [IBApi.EClient.reqWshMetaData](https://interactivebrokers.github.io/tws-api/classIBApi_1_1EClient.html#a66b482661e36604c43c4a7087bd7840f) and [IBApi.EClient.reqWshEventData](https://interactivebrokers.github.io/tws-api/classIBApi_1_1EClient.html#ac3dcd47d72844657c71e9de109eb15d0). It is necessary to have the Wall Street Horizon Enchilada Pro research subscription activated first in [Account Management](http://interactivebrokers.github.io/tws-api/market_data.html#market_subscriptions).
  WSH provides IBKR with corporate event datasets, including earnings  dates, dividend dates, options expiration dates, splits, spinoffs and a  wide variety of investor-related conferences.
@@ -532,7 +532,7 @@ The metadata is then received via the callback [IBApi.EWrapper.wshMetaData](http
 
   ​    3        print("WshMetaData.", "ReqId:", reqId, "Data JSON:", dataJson)
 
-Pending metadata requests can be canceled with the function [IBApi.EClient.cancelWshMetaData](https://interactivebrokers.github.io/tws-api/classIBApi_1_1EClient.html#aba0873c63be720f0c7349931df58376b) 
+Pending metadata requests can be canceled with the function [IBApi.EClient.cancelWshMetaData](https://interactivebrokers.github.io/tws-api/classIBApi_1_1EClient.html#aba0873c63be720f0c7349931df58376b)
 
 The function [IBApi.EClient.reqWshEventData](https://interactivebrokers.github.io/tws-api/classIBApi_1_1EClient.html#ac3dcd47d72844657c71e9de109eb15d0) is used to request the calendar events. *Note:* Prior to sending this message, it is expected that the API client request metadata via [IBApi.EClient.reqWshMetaData](https://interactivebrokers.github.io/tws-api/classIBApi_1_1EClient.html#a66b482661e36604c43c4a7087bd7840f), else an error may be reported.
 

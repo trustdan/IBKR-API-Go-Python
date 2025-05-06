@@ -21,4 +21,4 @@ COPY . /app/
 ENV PYTHONPATH=/app
 
 # Run the application
-CMD ["python", "src/app/main.py"] 
+CMD ["python", "src/app/main.py"]

@@ -62,4 +62,4 @@ IBKR_ACCOUNT_ID: ""  # Set via environment variable for security
 
 # Logging
 LOG_LEVEL: "INFO"
-LOG_FILE: "auto_trader.log" 
+LOG_FILE: "auto_trader.log"
