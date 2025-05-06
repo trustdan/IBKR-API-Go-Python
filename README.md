@@ -158,20 +158,20 @@ The system follows a modular architecture designed for flexibility and extensibi
 
 ```
 python/
-Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ src/
-Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ app/              # Application-level code
-Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ brokers/          # Broker integration code
-Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ models/           # Data models and classes
-Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ strategies/       # Trading strategy implementations
-Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ trading/          # Core trading components
-Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ utils/            # Utility functions
-Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ config.yaml           # Configuration file
+├── src/
+│   ├── app/              # Application-level code
+│   ├── brokers/          # Broker integration code
+│   ├── models/           # Data models and classes
+│   ├── strategies/       # Trading strategy implementations
+│   ├── trading/          # Core trading components
+│   └── utils/            # Utility functions
+└── config.yaml           # Configuration file
 
 go/
-Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ cmd/
-Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ scanner/          # Go scanner application
-Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ pkg/                  # Shared Go packages
-Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ config.json           # Go scanner configuration
+├── cmd/
+│   └── scanner/          # Go scanner application
+├── pkg/                  # Shared Go packages
+└── config.json           # Go scanner configuration
 ```
 
 ## Advanced Usage
