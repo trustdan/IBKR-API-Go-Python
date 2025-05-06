@@ -1,8 +1,8 @@
 # Auto Vertical Spread Trader
 
 [![CI/CD Pipeline](https://github.com/trustdan/ibkr-trader/actions/workflows/ci.yml/badge.svg)](https://github.com/trustdan/ibkr-trader/actions/workflows/ci.yml)
-[![Python Status](https://img.shields.io/github/workflow/status/trustdan/ibkr-trader/CI/CD%20Pipeline?label=python)](https://github.com/trustdan/ibkr-trader/actions/workflows/ci.yml)
-[![Go Status](https://img.shields.io/github/workflow/status/trustdan/ibkr-trader/CI/CD%20Pipeline?label=go)](https://github.com/trustdan/ibkr-trader/actions/workflows/ci.yml)
+[![Python Status](https://img.shields.io/github/actions/workflow/status/trustdan/ibkr-trader/ci.yml?label=python)](https://github.com/trustdan/ibkr-trader/actions/workflows/ci.yml)
+[![Go Status](https://img.shields.io/github/actions/workflow/status/trustdan/ibkr-trader/ci.yml?label=go)](https://github.com/trustdan/ibkr-trader/actions/workflows/ci.yml)
 [![Docker Image](https://img.shields.io/docker/pulls/trustdan/auto-vertical-spread-python)](https://hub.docker.com/r/trustdan/auto-vertical-spread-python)
 [![Docker Image](https://img.shields.io/docker/pulls/trustdan/auto-vertical-spread-go)](https://hub.docker.com/r/trustdan/auto-vertical-spread-go)
 
