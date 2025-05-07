@@ -9,7 +9,7 @@ require (
 	github.com/sirupsen/logrus v1.9.3
 	golang.org/x/net v0.33.0
 	google.golang.org/grpc v1.60.1
-	golang.org/x/exp v0.0.0-20240425143311-092eef134407 // expvar
+	golang.org/x/exp v0.0.0-20231226003508-02704c960a9b // expvar
 	gopkg.in/yaml.v3 v3.0.1
 )
 
