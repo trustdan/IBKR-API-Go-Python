@@ -1,5 +1,16 @@
-[build-system]
-requires = ["setuptools>=42", "wheel"]
-build-backend = "setuptools.build_meta"
+[tool.poetry]
+name = "ibkr-trader"
+version = "0.1.0"
+description = "Interactive Brokers Trading System"
+authors = ["Dan <user@example.com>"]
+readme = "README.md"
+packages = [{include = "src"}]
 
-# Let setup.py handle the rest of the configuration
+[tool.poetry.dependencies]
+python = ">=3.8.1,<4.0"
+pyyaml = "^6.0"
+requests = "^2.28.1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
