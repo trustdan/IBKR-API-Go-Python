@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  go-scanner:
+    image: trustdan/auto-vertical-spread-go:latest
+    container_name: vertical-spread-go
+    ports:
+      - "50051:50051"
+      - "2112:2112"
+    volumes:
+      - ./go/config.json:/root/config.json
+    environment:
+      - SERVER_ADDRESS=0.0.0.0:50051
+      - MAX_CONCURRENCY=50
+      - LOG_LEVEL=info
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:2112/metrics"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  python-orchestrator:
+    image: trustdan/auto-vertical-spread-python:latest
+    container_name: vertical-spread-python
+    depends_on:
+      go-scanner:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./python/config:/app/config
+    environment:
+      - SCANNER_HOST=go-scanner
+      - SCANNER_PORT=50051
+      - CONFIG_PATH=/app/config/config.yaml
+    restart: unless-stopped
+
+networks:
+  default:
+    name: vertical-spread-network
