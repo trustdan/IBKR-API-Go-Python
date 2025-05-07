@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vertical-spread-python
+  namespace: vertical-spread-staging
+  labels:
+    app: vertical-spread-python
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vertical-spread-python
+  template:
+    metadata:
+      labels:
+        app: vertical-spread-python
+    spec:
+      containers:
+      - name: vertical-spread-python
+        image: trustdan/auto-vertical-spread-python:latest
+        ports:
+        - containerPort: 8000
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+          requests:
+            cpu: "200m"
+            memory: "256Mi"
+        env:
+        - name: ENV
+          value: "staging"
+        - name: LOG_LEVEL
+          value: "INFO"
+        - name: GO_SERVICE_HOST
+          value: "vertical-spread-go"
+        - name: GO_SERVICE_PORT
+          value: "50051"
+        volumeMounts:
+        - name: config-volume
+          mountPath: /app/config
+      volumes:
+      - name: config-volume
+        configMap:
+          name: vertical-spread-config
