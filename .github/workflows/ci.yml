@@ -347,8 +347,10 @@ jobs:
           tags: |
             trustdan/auto-vertical-spread-go:${{ steps.set-tag.outputs.ENV_TAG }}
             trustdan/auto-vertical-spread-go:${{ github.sha }}
-          cache-from: type=registry,ref=trustdan/auto-vertical-spread-go:buildcache
+          cache-from: type=registry,ref=trustdan/auto-vertical-spread-go:buildcache,mode=max-age=720h
           cache-to: type=registry,ref=trustdan/auto-vertical-spread-go:buildcache,mode=max
+          build-args: |
+            GO_VERSION=1.21
 
   deploy-staging:
     needs: build-and-push

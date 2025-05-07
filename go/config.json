@@ -1,0 +1,5 @@
+{
+  "log_level": "info",
+  "grpc_port": 50051,
+  "metrics_port": 2112
+}
