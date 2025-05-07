@@ -17,4 +17,4 @@ exclude_lines =
     except ImportError
 
 [html]
-directory = coverage_html_report 
+directory = coverage_html_report

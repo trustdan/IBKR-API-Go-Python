@@ -1,1 +1,1 @@
-"""Integration tests package for IBKR-trader.""" 
+"""Integration tests package for IBKR-trader."""
