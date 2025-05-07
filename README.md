@@ -1,5 +1,11 @@
 # Auto Vertical Spread Trader
 
+[![CI/CD Pipeline](https://github.com/trustdan/ibkr-trader/actions/workflows/ci.yml/badge.svg)](https://github.com/trustdan/ibkr-trader/actions/workflows/ci.yml)
+[![Python Status](https://img.shields.io/github/workflow/status/trustdan/ibkr-trader/CI/CD%20Pipeline?label=python)](https://github.com/trustdan/ibkr-trader/actions/workflows/ci.yml)
+[![Go Status](https://img.shields.io/github/workflow/status/trustdan/ibkr-trader/CI/CD%20Pipeline?label=go)](https://github.com/trustdan/ibkr-trader/actions/workflows/ci.yml)
+[![Docker Image](https://img.shields.io/docker/pulls/trustdan/auto-vertical-spread-python)](https://hub.docker.com/r/trustdan/auto-vertical-spread-python)
+[![Docker Image](https://img.shields.io/docker/pulls/trustdan/auto-vertical-spread-go)](https://hub.docker.com/r/trustdan/auto-vertical-spread-go)
+
 An automated trading system that implements vertical spread trading strategies using Interactive Brokers (IBKR) API. The system scans for specific technical patterns, selects optimal option spreads, and handles trade execution for equity options.
 
 ## Features
