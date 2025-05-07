@@ -102,7 +102,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v3
         with:
-          go-version: '1.20'
+          go-version: '1.21'
       - name: Install Protobuf compiler
         run: |
           sudo apt-get update && sudo apt-get install -y protobuf-compiler
@@ -124,7 +124,7 @@ jobs:
           cat > go.mod << EOF
           module github.com/trustdan/ibkr-trader/go
 
-          go 1.20
+          go 1.21
 
           require (
             github.com/patrickmn/go-cache v2.1.0+incompatible
