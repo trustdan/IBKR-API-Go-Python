@@ -60,8 +60,12 @@ jobs:
           namespace_packages = True
           explicit_package_bases = True
 
-          # Paths setup
+          # Add this to fix the duplicate module issue
+          no_implicit_reexport = True
+
+          # Specifically set module to use src as base
           mypy_path = \$MYPY_CONFIG_FILE_DIR/src
+          packages = src
 
           # Per-module options
           [src.*]
@@ -148,6 +152,13 @@ jobs:
           # Show resolved dependencies
           go list -m all
 
+          # Manually download problematic dependencies
+          go get -v expvar
+          go get -v golang.org/x/net/trace
+          go get -v net/http/httputil@latest
+          go get -v golang.org/x/net/http2
+          go get -v github.com/prometheus/common/expfmt
+
           # Create main package as fallback if module resolution fails
           mkdir -p src/config
           cat > src/config/config.go << EOF
@@ -221,8 +232,10 @@ jobs:
           cd go
           # Update go.sum to match go.mod
           go mod tidy
-          # Try building with verbose output
-          go build -v ./...
+          # Find all packages with build tags
+          go list ./... > packages.txt
+          # Try building with verbose output and ignore std lib imports
+          go build -v -tags nobuildtags,forceimports ./...
       - name: Upload build diagnostic files
         uses: actions/upload-artifact@v4
         with:
