@@ -43,6 +43,8 @@ jobs:
       - name: Format and lint code
         run: |
           cd python
+          # Install black explicitly
+          poetry run pip install black
           # Auto-format with Black instead of just checking
           poetry run black src
           # Create a mypy.ini file to fix import errors
@@ -217,6 +219,8 @@ jobs:
       - name: Build Go code
         run: |
           cd go
+          # Update go.sum to match go.mod
+          go mod tidy
           # Try building with verbose output
           go build -v ./...
       - name: Upload build diagnostic files
