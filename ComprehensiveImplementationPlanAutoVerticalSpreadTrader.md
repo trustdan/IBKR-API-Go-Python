@@ -28,12 +28,12 @@ A key enhancement to the system is the implementation of dual execution modes to
 This dual-mode implementation ensures the system can seamlessly transition from testing to production while accounting for the different execution mechanics of paper vs. live trading environments.
 
 ```plaintext
-[ Market Data/API ] ↔ [ Python Orchestrator ] ←gRPC→ [ Go Scanner Service ]
-         ↓                      ↓                           ↓
+[ Market Data/API ] Ã¢â€ â€ [ Python Orchestrator ] Ã¢â€ ÂgRPCÃ¢â€ â€™ [ Go Scanner Service ]
+         Ã¢â€ â€œ                      Ã¢â€ â€œ                           Ã¢â€ â€œ
 [ Data Cache Layer ] [ Strategy & Options Logic ]   [ Performance Metrics ]
-         ↓                      ↓                           ↓
+         Ã¢â€ â€œ                      Ã¢â€ â€œ                           Ã¢â€ â€œ
 [ Backtesting Engine ]  [ IBKR API / Order Management ]  [ Monitoring ]
-                               ↓
+                               Ã¢â€ â€œ
                    [ Alerting & Notification System ]
 ```
 

@@ -20,9 +20,9 @@ The Auto Vertical Spread Trader aims to create a robust, production-ready automa
 Our development approach follows these key phases:
 
 1. **Universe Selection & Filtering**
-   - Filter S&P 500 for stocks with sufficient market cap (≥$10B)
+   - Filter S&P 500 for stocks with sufficient market cap (Ã¢â€°Â¥$10B)
    - Filter for minimum price (>$20) and optionability
-   - Implement volume filtering (≥1,000,000 daily volume)
+   - Implement volume filtering (Ã¢â€°Â¥1,000,000 daily volume)
 
 2. **Technical Analysis Engine**
    - Fetch historical data with appropriate caching
@@ -33,12 +33,12 @@ Our development approach follows these key phases:
    - Select liquid option contracts based on:
      - Target delta range (0.30-0.50)
      - Maximum cost ($500 per spread)
-     - Minimum reward-to-risk ratio (≥1.0)
-     - Maximum bid-ask spread (≤15% of mid-price)
+     - Minimum reward-to-risk ratio (Ã¢â€°Â¥1.0)
+     - Maximum bid-ask spread (Ã¢â€°Â¤15% of mid-price)
 
 4. **Trade Execution & Management**
    - Place trades at optimal times (after 3 PM ET)
-   - Implement stop-loss monitoring based on ATR (2.0 × ATR)
+   - Implement stop-loss monitoring based on ATR (2.0 Ãƒâ€” ATR)
    - Manage trade exits based on configurable profit target strategies
 
 5. **System Architecture**

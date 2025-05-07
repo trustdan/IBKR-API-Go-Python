@@ -11,8 +11,8 @@ Here's a robust, structured implementation plan for your **Auto Vertical Spread 
 * API Contract defined clearly via gRPC/Protobuf.
 
 ```plaintext
-[ Market Data/API ] ↔ [ Python Orchestrator ] ←gRPC→ [ Go Scanner Service ]
-                                ↓
+[ Market Data/API ] Ã¢â€ â€ [ Python Orchestrator ] Ã¢â€ ÂgRPCÃ¢â€ â€™ [ Go Scanner Service ]
+                                Ã¢â€ â€œ
                          [ IBKR API / Order Management ]
 ```
 
@@ -130,7 +130,7 @@ func (s *ScannerService) Scan(req *scannerpb.ScanRequest) (*scannerpb.ScanRespon
 
 ---
 
-### **5. Integration: Python ↔ Go (Phase 4)**
+### **5. Integration: Python Ã¢â€ â€ Go (Phase 4)**
 
 #### Python gRPC Client Stub Pseudocode:
 
@@ -156,7 +156,7 @@ Feature: Universe Filtering
   Scenario: Select tradable stocks
     Given the S&P 500 universe data
     When I filter by MIN_MARKET_CAP, MIN_PRICE, MIN_VOLUME
-    Then all returned stocks have cap ≥ $10B, price > $20, volume ≥ 1M
+    Then all returned stocks have cap Ã¢â€°Â¥ $10B, price > $20, volume Ã¢â€°Â¥ 1M
 ```
 
 #### Pseudocode (Universe Filter):
@@ -183,7 +183,7 @@ def filter_universe(stocks, config):
 Feature: ATR-based Risk Management
   Scenario: Stop-loss triggered
     Given an open vertical spread on AAPL
-    And an ATR-based stop-loss at 2 × ATR
+    And an ATR-based stop-loss at 2 Ãƒâ€” ATR
     When price reaches the stop-loss level
     Then the system exits the trade automatically
     And sends a notification alerting me

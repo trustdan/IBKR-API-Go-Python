@@ -21,11 +21,64 @@ The system is structured into the following components:
 5. **Risk Manager**: Controls position sizing and overall risk exposure
 6. **IBKR Integration**: Connects to Interactive Brokers for data and trading
 
-## Installation
+## Quick Start with Docker
+
+The easiest way to run the system is using Docker:
+
+### Prerequisites
+
+- Docker Desktop installed and running
+- Internet connection to pull images
+
+### Running Locally
+
+1. Using the provided scripts:
+
+   **On Windows (PowerShell):**
+   ```powershell
+   # Run with latest version
+   .\run-local.ps1
+
+   # Or specify a specific tag/version
+   .\run-local.ps1 develop
+   ```
+
+   **On Linux/Mac:**
+   ```bash
+   # Make the script executable
+   chmod +x run-local.sh
+
+   # Run with latest version
+   ./run-local.sh
+
+   # Or specify a specific tag/version
+   ./run-local.sh develop
+   ```
+
+2. The services will be available at:
+   - Go scanner: http://localhost:50051
+   - Go metrics: http://localhost:2112
+   - Python orchestrator: http://localhost:8000
+
+3. To stop the services:
+   ```
+   docker stop vertical-spread-go vertical-spread-python
+   ```
+
+4. To view logs:
+   ```
+   docker logs vertical-spread-go -f
+   docker logs vertical-spread-python -f
+   ```
+
+## Standard Installation
+
+If you prefer not to use Docker, you can set up the system directly:
 
 ### Prerequisites
 
 - Python 3.8+
+- Go 1.23+
 - Interactive Brokers account and TWS/Gateway installed
 - Either IBKR Paper Trading or Live Trading account
 
@@ -99,15 +152,41 @@ The system follows a modular architecture designed for flexibility and extensibi
 
 ```
 python/
-├── src/
-│   ├── app/              # Application-level code
-│   ├── brokers/          # Broker integration code
-│   ├── models/           # Data models and classes
-│   ├── strategies/       # Trading strategy implementations
-│   ├── trading/          # Core trading components
-│   └── utils/            # Utility functions
-└── config.yaml           # Configuration file
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ src/
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ app/              # Application-level code
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ brokers/          # Broker integration code
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ models/           # Data models and classes
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ strategies/       # Trading strategy implementations
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ trading/          # Core trading components
+Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ utils/            # Utility functions
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ config.yaml           # Configuration file
+
+go/
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ cmd/
+Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ scanner/          # Go scanner application
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ pkg/                  # Shared Go packages
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ config.json           # Go scanner configuration
 ```
+
+## Advanced Usage
+
+### Building Your Own Docker Images
+
+You can build your own Docker images:
+
+```bash
+# Build Go scanner
+cd go
+docker build -t local/auto-vertical-spread-go:latest -f Dockerfile .
+
+# Build Python orchestrator
+cd python
+docker build -t local/auto-vertical-spread-python:latest -f Dockerfile .
+```
+
+### Kubernetes Deployment
+
+For production deployments, Kubernetes manifests are available in the `kubernetes/` directory. However, this is optional and not required for local usage.
 
 ## Safety Features
 

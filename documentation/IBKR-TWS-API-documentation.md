@@ -8,7 +8,7 @@ In short, a library written  in any other languages must be sending and receivin
 
 Our TWS API components are aimed at experienced professional developers  willing to enhance the current TWS functionality. Before you use TWS  API, please make sure you fully understand the concepts of OOP (https://www.geeksforgeeks.org/introduction-of-object-oriented-programming/) and other Computer Science Concepts. Regrettably, Interactive Brokers  cannot offer any programming consulting. Before contacting our API  support, please always refer to our available documentation, sample  applications and Recorded Webinars
 
-This guide references the Java, VB, C#, C++ and Python Testbed sample projects to demonstrate the TWS  API functionality. Code snippets are extracted from these projects and  we suggest all those users new to the TWS API to get familiar with them  in order to quickly understand the fundamentals of our programming  interface. The Testbed sample projects can be found within the samples  folder of the TWS API’s installation directory.
+This guide references the Java, VB, C#, C++ and Python Testbed sample projects to demonstrate the TWS  API functionality. Code snippets are extracted from these projects and  we suggest all those users new to the TWS API to get familiar with them  in order to quickly understand the fundamentals of our programming  interface. The Testbed sample projects can be found within the samples  folder of the TWS APIÃ¢â‚¬â„¢s installation directory.
 
 ## Notes & LimitationsCopy Location
 
@@ -31,7 +31,7 @@ Minimum supported Python release is version 3.0.0.
 
 ### LimitationsCopy Location
 
-Our programming interface is designed to automate some of the operations a  user normally performs manually within the TWS Software such as placing  orders, monitoring your account balance and positions, viewing an  instrument’s live data… etc. There is no logic within the API other than to ensure the integrity of the exchanged messages. Most validations and checks occur in the backend of TWS and our servers. Because of this it  is highly convenient to familiarize with the TWS itself, in order to  gain a better understanding on how our platform works. Before spending  precious development time troubleshooting on the API side, it is  recommended to first experiment with the TWS directly.
+Our programming interface is designed to automate some of the operations a  user normally performs manually within the TWS Software such as placing  orders, monitoring your account balance and positions, viewing an  instrumentÃ¢â‚¬â„¢s live dataÃ¢â‚¬Â¦ etc. There is no logic within the API other than to ensure the integrity of the exchanged messages. Most validations and checks occur in the backend of TWS and our servers. Because of this it  is highly convenient to familiarize with the TWS itself, in order to  gain a better understanding on how our platform works. Before spending  precious development time troubleshooting on the API side, it is  recommended to first experiment with the TWS directly.
 
 **Remember:** If a certain feature or operation is not available in the TWS, it will not be available on the API side either!
 
@@ -61,15 +61,15 @@ Some TWS Settings affect API.
 
 ### TWS Configuration For API UseCopy Location
 
-The settings required to use the TWS API with the Trader Workstation are  managed in the Global Configuration under “API” -> “Settings”
+The settings required to use the TWS API with the Trader Workstation are  managed in the Global Configuration under Ã¢â‚¬Å“APIÃ¢â‚¬Â -> Ã¢â‚¬Å“SettingsÃ¢â‚¬Â
 
 In this section, only the most important API settings for API connection are covered.
 
 Please:
 
-- Enable “ActiveX and Socket Clients”
-- Disable “Read-Only API”
-- Verify the “Socket Port” value
+- Enable Ã¢â‚¬Å“ActiveX and Socket ClientsÃ¢â‚¬Â
+- Disable Ã¢â‚¬Å“Read-Only APIÃ¢â‚¬Â
+- Verify the Ã¢â‚¬Å“Socket PortÃ¢â‚¬Â value
 
 ![TWS Global Configuration window displaying API Settings and the required API configuration.](https://www.interactivebrokers.com/campus/wp-content/uploads/sites/2/2023/06/API-settings-700x489.png)
 
@@ -81,17 +81,17 @@ The information listed below are not required or necessary in order to  operate 
 
 ### "Never Lock Trader Workstation" SettingCopy Location
 
-Note: For IBHK API users, it is commended to use IB Gateway instead of TWS.  It is because all IBHK users cannot choose “Never Lock Trader  Workstation” in TWS – Global Configuration – Lock and Exit. If there is  inactivity, TWS will be locked and there will be API disconnection.
+Note: For IBHK API users, it is commended to use IB Gateway instead of TWS.  It is because all IBHK users cannot choose Ã¢â‚¬Å“Never Lock Trader  WorkstationÃ¢â‚¬Â in TWS Ã¢â‚¬â€œ Global Configuration Ã¢â‚¬â€œ Lock and Exit. If there is  inactivity, TWS will be locked and there will be API disconnection.
 
 ### Memory AllocationCopy Location
 
-In TWS/ IB Gateway – “Global Configuration” – “General”, you can adjust the **Memory Allocation (in MB)\***.
+In TWS/ IB Gateway Ã¢â‚¬â€œ Ã¢â‚¬Å“Global ConfigurationÃ¢â‚¬Â Ã¢â‚¬â€œ Ã¢â‚¬Å“GeneralÃ¢â‚¬Â, you can adjust the **Memory Allocation (in MB)\***.
 
 This feature is to control how much memory your computer can assign to the  TWS/ IB Gateway application. Usually, higher value allows users to have  faster data returning speed.
 
 Normally, it is recommended for API  users to set 4000. However, it depends on your computer memory size  because setting too high may cause High Memory Usage and application not responding.
 
-![TWS Global Configuration window displaying General Settings and the Memory Allocation section.](https://www.interactivebrokers.com/campus/wp-content/uploads/sites/2/2023/06/擷取2-700x439.png)
+![TWS Global Configuration window displaying General Settings and the Memory Allocation section.](https://www.interactivebrokers.com/campus/wp-content/uploads/sites/2/2023/06/Ã¦â€œÂ·Ã¥Ââ€“2-700x439.png)
 
 
 
@@ -101,15 +101,15 @@ For details, please visit: https://www.ibkrguides.com/traderworkstation/increase
 
 Note:
 
-1. In IB Gateway Global Configuration – API – settings, there is no  “Compatibility Mode: Send ISLAND for US stocks trading on NASDAQ”.  Specifying NASDAQ exchange in contract details may cause error if  connecting to IB Gateway. For this error, please specify ISLAND  exchange.
+1. In IB Gateway Global Configuration Ã¢â‚¬â€œ API Ã¢â‚¬â€œ settings, there is no  Ã¢â‚¬Å“Compatibility Mode: Send ISLAND for US stocks trading on NASDAQÃ¢â‚¬Â.  Specifying NASDAQ exchange in contract details may cause error if  connecting to IB Gateway. For this error, please specify ISLAND  exchange.
 
 ### Daily & Weekly ReauthenticationCopy Location
 
 ### **Daily Reauthentication**
 
-In TWS/ IB Gateway – “Global Configuration” – “Lock and Exit”, you can choose the time of your TWS being shut down.
+In TWS/ IB Gateway Ã¢â‚¬â€œ Ã¢â‚¬Å“Global ConfigurationÃ¢â‚¬Â Ã¢â‚¬â€œ Ã¢â‚¬Å“Lock and ExitÃ¢â‚¬Â, you can choose the time of your TWS being shut down.
 
-For API users, it is recommended to choose “Never lock Trader Workstation” and “Auto restart”.
+For API users, it is recommended to choose Ã¢â‚¬Å“Never lock Trader WorkstationÃ¢â‚¬Â and Ã¢â‚¬Å“Auto restartÃ¢â‚¬Â.
 
 ![TWS Global Configuration window displaying Lock and Exit Settings.](https://www.interactivebrokers.com/campus/wp-content/uploads/sites/2/2023/06/Image-3-1-700x560.png)
 
@@ -117,7 +117,7 @@ For API users, it is recommended to choose “Never lock Trader Workstation” a
 
 Note:
 
-1. IBHK users do not have “**Never lock Trader Workstation**” and “**Auto restart**” in TWS. It is suggested for IBHK users to use IB Gateway in order to  have stable API connection because IB Gateway won’t be locked due to  inactivity. Also, IBHK users can choose “**Auto restart**” in IB Gateway.
+1. IBHK users do not have Ã¢â‚¬Å“**Never lock Trader Workstation**Ã¢â‚¬Â and Ã¢â‚¬Å“**Auto restart**Ã¢â‚¬Â in TWS. It is suggested for IBHK users to use IB Gateway in order to  have stable API connection because IB Gateway wonÃ¢â‚¬â„¢t be locked due to  inactivity. Also, IBHK users can choose Ã¢â‚¬Å“**Auto restart**Ã¢â‚¬Â in IB Gateway.
 
 
 
@@ -127,47 +127,47 @@ The weekly authentication cycle starts on every Monday. If you receive `Login fa
 
 ### Order PrecautionsCopy Location
 
-In TWS – “Global Configuration” – “API” – “Precautions”, you can enable  the following items to stop receiving the order submission messages.
+In TWS Ã¢â‚¬â€œ Ã¢â‚¬Å“Global ConfigurationÃ¢â‚¬Â Ã¢â‚¬â€œ Ã¢â‚¬Å“APIÃ¢â‚¬Â Ã¢â‚¬â€œ Ã¢â‚¬Å“PrecautionsÃ¢â‚¬Â, you can enable  the following items to stop receiving the order submission messages.
 
-- Enable “Bypass Order Precautions for API orders”.
-- Enable “Bypass Bond warning for API orders”.
-- Enable “Bypass negative yield to worst confirmation for API orders”.
-- Enable “Bypass Called Bond warning for API orders”.
-- Enable “Bypass “same action pair trade” warning for API orders”.
-- Enable “Bypass price-based volatility risk warning for API orders”.
-- Enable “Bypass US Stocks market data in shares warning for API orders”.
-- Enable “Bypass Redirect Order warning for Stock API orders”.
-- Enable “Bypass No Overfill Protection precaution for destinations where implied natively”.
+- Enable Ã¢â‚¬Å“Bypass Order Precautions for API ordersÃ¢â‚¬Â.
+- Enable Ã¢â‚¬Å“Bypass Bond warning for API ordersÃ¢â‚¬Â.
+- Enable Ã¢â‚¬Å“Bypass negative yield to worst confirmation for API ordersÃ¢â‚¬Â.
+- Enable Ã¢â‚¬Å“Bypass Called Bond warning for API ordersÃ¢â‚¬Â.
+- Enable Ã¢â‚¬Å“Bypass Ã¢â‚¬Å“same action pair tradeÃ¢â‚¬Â warning for API ordersÃ¢â‚¬Â.
+- Enable Ã¢â‚¬Å“Bypass price-based volatility risk warning for API ordersÃ¢â‚¬Â.
+- Enable Ã¢â‚¬Å“Bypass US Stocks market data in shares warning for API ordersÃ¢â‚¬Â.
+- Enable Ã¢â‚¬Å“Bypass Redirect Order warning for Stock API ordersÃ¢â‚¬Â.
+- Enable Ã¢â‚¬Å“Bypass No Overfill Protection precaution for destinations where implied nativelyÃ¢â‚¬Â.
 
-![TWS Global Configuration window displaying API Precautions.](https://www.interactivebrokers.com/campus/wp-content/uploads/sites/2/2023/06/擷取4-700x445.png)
+![TWS Global Configuration window displaying API Precautions.](https://www.interactivebrokers.com/campus/wp-content/uploads/sites/2/2023/06/Ã¦â€œÂ·Ã¥Ââ€“4-700x445.png)
 
 
 
 ### Connected IB Server Location in TWSCopy Location
 
-Each IB account has a pre-decided IB server. You can visit this link to know our IB servers’ locations: https://www.interactivebrokers.com/download/IB-Host-and-Ports.pdf
+Each IB account has a pre-decided IB server. You can visit this link to know our IB serversÃ¢â‚¬â„¢ locations: https://www.interactivebrokers.com/download/IB-Host-and-Ports.pdf
 
 Yet, all IB paper accounts are connected to US server by default and its location cannot be changed.
 
 As IB servers in different regions have different scheduled server maintenance time ( [https://www.interactivebrokers.com/en/software/systemStatus.php ](https://www.interactivebrokers.com/en/software/systemStatus.php)), you may need to change the IB server location in order to avoid service downtime.
 
-For checking your connected IB server location, you can go to TWS and click “Data” to see your Primary server. In the below image, the pre-decided  IB server location is: cdc1.ibllc.com
+For checking your connected IB server location, you can go to TWS and click Ã¢â‚¬Å“DataÃ¢â‚¬Â to see your Primary server. In the below image, the pre-decided  IB server location is: cdc1.ibllc.com
 
-![TWS Connections Window. ](https://www.interactivebrokers.com/campus/wp-content/uploads/sites/2/2023/06/擷取5.png)
+![TWS Connections Window. ](https://www.interactivebrokers.com/campus/wp-content/uploads/sites/2/2023/06/Ã¦â€œÂ·Ã¥Ââ€“5.png)
 
 
 
-If you want to change your live IB account server location in TWS, please  submit a web ticket to “Technical Assistance” – “Connectivity” in order  to request changing the IB server location.
+If you want to change your live IB account server location in TWS, please  submit a web ticket to Ã¢â‚¬Å“Technical AssistanceÃ¢â‚¬Â Ã¢â‚¬â€œ Ã¢â‚¬Å“ConnectivityÃ¢â‚¬Â in order  to request changing the IB server location.
 
 In the web ticket, you need to provide:
 
 1. Which account do you want to have IB server location change?
 2. Which IB server location would you like to connect to?
-   - TWS AMERICA – EAST (New York)
-   - TWS AMERICA – CENTRAL (Chicago)
+   - TWS AMERICA Ã¢â‚¬â€œ EAST (New York)
+   - TWS AMERICA Ã¢â‚¬â€œ CENTRAL (Chicago)
    - TWS Europe (Zurich)
    - TWS Asia (Hong Kong)
-   - TWS Asia – CHINA (For mainland China users, if the account server is hosted in Hong Kong, they will automatically connect with the Shenzhen Gateway mcgw1.ibllc.com.cn)
+   - TWS Asia Ã¢â‚¬â€œ CHINA (For mainland China users, if the account server is hosted in Hong Kong, they will automatically connect with the Shenzhen Gateway mcgw1.ibllc.com.cn)
 3. Which IB scheduled maintenance  time do you choose? (Recommended to choose the default schedule  maintenance time of its own IB server location)
    - North America
    - Europe
@@ -186,7 +186,7 @@ Note:
 
 ### SMART AlgorithmCopy Location
 
-In TWS Global Configuration – Orders – Smart Routing, you can set your  SMART order routing algorithm. For available SMART Routing via TWS API,  please visit: https://www.interactivebrokers.com/campus/ibkr-api-page/contracts/#smart-routing
+In TWS Global Configuration Ã¢â‚¬â€œ Orders Ã¢â‚¬â€œ Smart Routing, you can set your  SMART order routing algorithm. For available SMART Routing via TWS API,  please visit: https://www.interactivebrokers.com/campus/ibkr-api-page/contracts/#smart-routing
 
 ![TWS Global Configuration window displaying Smart Routing.](data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==)
 
@@ -194,7 +194,7 @@ In TWS Global Configuration – Orders – Smart Routing, you can set your  SMAR
 
 ### Allocation Setup (For Financial Advisors)Copy Location
 
-In TWS Global Configuration – Advisor Setup – Presets, you can need to  choose Allocation Preference in order to avoid wrong allocation result.
+In TWS Global Configuration Ã¢â‚¬â€œ Advisor Setup Ã¢â‚¬â€œ Presets, you can need to  choose Allocation Preference in order to avoid wrong allocation result.
 
 ![TWS Global Configuration window displaying Presets for Advisors.](https://www.interactivebrokers.com/campus/wp-content/uploads/sites/2/2023/06/Advisor-setup-700x524.png)
 
@@ -214,7 +214,7 @@ It is recommended for API users to use same TWS API version to make sure  the TW
 
 
 
-Running the Windows version of the API installer creates a directory “C:\\TWS API\” for the API source  code in addition to automatically copying two files into the Windows  directory for the DDE and C++ APIs. ***It is important that the API installs to the C: drive\***, as otherwise API applications may not be able to find the associated  files. The Windows installer also copies compiled dynamic linked  libraries (DLL) of the ActiveX control TWSLib.dll, C# API CSharpAPI.dll, and C++ API TwsSocketClient.dll. Starting in API version **973.07**, running the API installer is designed to install an ActiveX control  TWSLib.dll, and TwsRtdServer control TwsRTDServer.dll which are  compatible with both 32 and 64 bit applications.
+Running the Windows version of the API installer creates a directory Ã¢â‚¬Å“C:\\TWS API\Ã¢â‚¬Â for the API source  code in addition to automatically copying two files into the Windows  directory for the DDE and C++ APIs. ***It is important that the API installs to the C: drive\***, as otherwise API applications may not be able to find the associated  files. The Windows installer also copies compiled dynamic linked  libraries (DLL) of the ActiveX control TWSLib.dll, C# API CSharpAPI.dll, and C++ API TwsSocketClient.dll. Starting in API version **973.07**, running the API installer is designed to install an ActiveX control  TWSLib.dll, and TwsRtdServer control TwsRTDServer.dll which are  compatible with both 32 and 64 bit applications.
 
 
 
@@ -230,7 +230,7 @@ It is important to know that the TWS API is **only** available through the inter
 
 2. This will direct you to Interactive Brokers **API License Agreement**, please review it
 
-3. Once you have clicked “***I Agree*****“**, refer to the *Windows* section to download the API Software version of your preference
+3. Once you have clicked Ã¢â‚¬Å“***I Agree*****Ã¢â‚¬Å“**, refer to the *Windows* section to download the API Software version of your preference
 
 4.
 
@@ -240,7 +240,7 @@ It is important to know that the TWS API is **only** available through the inter
 
 6. Go to your IDE and Open Terminal
 
-7. Navigate to the directory where the installer has been downloaded (normally it  should be your C: drive or D: drive) and confirm the file is present.  Now, let’s take an example: install TWS API Python
+7. Navigate to the directory where the installer has been downloaded (normally it  should be your C: drive or D: drive) and confirm the file is present.  Now, letÃ¢â‚¬â„¢s take an example: install TWS API Python
 
     **$** ***cd ~/TWS API/source/pythonclient***
      **$** ***python3 setup.py install***
@@ -255,11 +255,11 @@ It is important to know that the TWS API is **only** available through the inter
 
 2. This will direct you to Interactive Brokers **API License Agreement**, please review it
 
-3. Once you have clicked “
+3. Once you have clicked Ã¢â‚¬Å“
 
    **I Agree**
 
-   “
+   Ã¢â‚¬Å“
 
    , refer to the
 
@@ -288,7 +288,7 @@ It is important to know that the TWS API is **only** available through the inter
 
    **NOTE:**
 
-   replace the values ‘n.m’ with the name of your installed file.
+   replace the values Ã¢â‚¬Ëœn.mÃ¢â‚¬â„¢ with the name of your installed file.
 
    $
 
@@ -303,7 +303,7 @@ It is important to know that the TWS API is **only** available through the inter
 
 Note:
 
-- When running “***python3 setup.py install***“, you may get “***ModuleNotFoundError: No Module named ‘setuptools’***“. As “**setuptools**” is deprecated, please grant the write permission on the target folder (e.g. **source/pythonclient**) using “***sudo chmod -R 777***” in order to avoid “***error: could not create ‘ibapi.egg-info’: Permission denied***“. After that, run “***python3 -m pip install .***“
+- When running Ã¢â‚¬Å“***python3 setup.py install***Ã¢â‚¬Å“, you may get Ã¢â‚¬Å“***ModuleNotFoundError: No Module named Ã¢â‚¬ËœsetuptoolsÃ¢â‚¬â„¢***Ã¢â‚¬Å“. As Ã¢â‚¬Å“**setuptools**Ã¢â‚¬Â is deprecated, please grant the write permission on the target folder (e.g. **source/pythonclient**) using Ã¢â‚¬Å“***sudo chmod -R 777***Ã¢â‚¬Â in order to avoid Ã¢â‚¬Å“***error: could not create Ã¢â‚¬Ëœibapi.egg-infoÃ¢â‚¬â„¢: Permission denied***Ã¢â‚¬Å“. After that, run Ã¢â‚¬Å“***python3 -m pip install .***Ã¢â‚¬Å“
 
 
 
@@ -313,11 +313,11 @@ Note:
 
 2. This will direct you to Interactive Brokers **API License Agreement**, please review it
 
-3. Once you have clicked “
+3. Once you have clicked Ã¢â‚¬Å“
 
    **I Agree**
 
-   “
+   Ã¢â‚¬Å“
 
    , refer to the
 
@@ -342,7 +342,7 @@ Note:
 
 
 
-Note: On MacOS, if you directly open the **twsapi_macunix.<Major Version>.<Minor Version>.zip** file, you will get an error: “**Unable to expand…… It is an unsupported format**“. It is required for users to unzip the zipped TWS API file using the above MacOS Terminal command.
+Note: On MacOS, if you directly open the **twsapi_macunix.<Major Version>.<Minor Version>.zip** file, you will get an error: Ã¢â‚¬Å“**Unable to expandÃ¢â‚¬Â¦Ã¢â‚¬Â¦ It is an unsupported format**Ã¢â‚¬Å“. It is required for users to unzip the zipped TWS API file using the above MacOS Terminal command.
 
 
 
@@ -352,7 +352,7 @@ Note: On MacOS, if you directly open the **twsapi_macunix.<Major Version>.<Minor
 
 
 
-- **“API_VersionNum.txt”**
+- **Ã¢â‚¬Å“API_VersionNum.txtÃ¢â‚¬Â**
 
 **File Path:** ~\TWS API\API_VersionNum.txt
 
@@ -360,7 +360,7 @@ You can check your API version in this file.
 
 
 
-- **“IBSampleApp.exe”**
+- **Ã¢â‚¬Å“IBSampleApp.exeÃ¢â‚¬Â**
 
 **File Path:** ~\TWS API\samples\CSharp\IBSampleApp\bin\Release\IBSampleApp.exe
 
@@ -368,7 +368,7 @@ You can manually use the IBSampleApp to test the API functions.
 
 
 
-- **“ApiDemo.jar”**
+- **Ã¢â‚¬Å“ApiDemo.jarÃ¢â‚¬Â**
 
 **File Path:** ~\TWS API\samples\Java\ApiDemo.jar
 
@@ -391,23 +391,23 @@ This tutorial covers:
 
 ## Third Party API PlatformsCopy Location
 
-Third party software vendors make use of the TWS’ programming interface (API) to integrate their platforms with Interactive Broker’s. Thanks to the  TWS API, well known platforms such as Ninja Trader or Multicharts can  interact with the TWS to fetch market data, place orders and/or manage  account and portfolio information.
+Third party software vendors make use of the TWSÃ¢â‚¬â„¢ programming interface (API) to integrate their platforms with Interactive BrokerÃ¢â‚¬â„¢s. Thanks to the  TWS API, well known platforms such as Ninja Trader or Multicharts can  interact with the TWS to fetch market data, place orders and/or manage  account and portfolio information.
 
 **It is important to keep in mind that most third party API platforms are not compatible with all IBKR account structures**. Always check first with the software vendor before opening a specific  account type or converting an IBKR account type. For instance, many  third party API platforms such as NinjaTrader and TradeNavigator are **not** compatible with IBKR linked account structures, so it is highly  recommended to first check with the third party vendor before linking  your IBKR accounts.
 
 An ongoing list of common [Third Party Connections](https://www.interactivebrokers.com/campus/ibkr-api-page/third-party-connections/) are available within our documentation. This resource will also link  out to connection guides detailing how a user can connect with a given  platform.
 
-A non-exhaustive list of third party platforms implementing our interface can be found in our [Investor’s Marketplace](https://www.interactivebrokers.com/Universal/servlet/MarketPlace.MarketPlaceServlet). As stated in the marketplace, the vendors’ list is in no way a  recommendation from Interactive Brokers. If you are interested in a  given platform that is not listed, please contact the platform’s vendor  directly for further information.
+A non-exhaustive list of third party platforms implementing our interface can be found in our [InvestorÃ¢â‚¬â„¢s Marketplace](https://www.interactivebrokers.com/Universal/servlet/MarketPlace.MarketPlaceServlet). As stated in the marketplace, the vendorsÃ¢â‚¬â„¢ list is in no way a  recommendation from Interactive Brokers. If you are interested in a  given platform that is not listed, please contact the platformÃ¢â‚¬â„¢s vendor  directly for further information.
 
 ### Non-Standard TWS API Languages and PackagesCopy Location
 
-Noted in further depth through our [Architecture](https://www.interactivebrokers.com/ibkr-api-page/twsapi-doc/#architecture) section, the TWS API is built using standardized socket protocol. As a  result, users may develop or access alternative third party modules and  classes in place of Interactive Brokers default modules through the [TWS API Download](https://www.interactivebrokers.com/ibkr-api-page/twsapi-doc/#find-the-api). While the API is adaptable for client implementations, please understand that **Interactive Brokers API Support cannot provide support for non-standard implementations.** While we can review your [API logs](https://www.interactivebrokers.com/ibkr-api-page/twsapi-doc/#api-logs) to affirm what content is being submitted, any further assistance will need to take place with the module’s original developer.
+Noted in further depth through our [Architecture](https://www.interactivebrokers.com/ibkr-api-page/twsapi-doc/#architecture) section, the TWS API is built using standardized socket protocol. As a  result, users may develop or access alternative third party modules and  classes in place of Interactive Brokers default modules through the [TWS API Download](https://www.interactivebrokers.com/ibkr-api-page/twsapi-doc/#find-the-api). While the API is adaptable for client implementations, please understand that **Interactive Brokers API Support cannot provide support for non-standard implementations.** While we can review your [API logs](https://www.interactivebrokers.com/ibkr-api-page/twsapi-doc/#api-logs) to affirm what content is being submitted, any further assistance will need to take place with the moduleÃ¢â‚¬â„¢s original developer.
 
 *This is neither an endorsement or admonishment of third party  implementations. Interactive Brokers will always advise clients use our  direct TWS API implementation whenever possible.*
 
 ### ib_insync and ib_asyncCopy Location
 
-While Interactive Brokers’ API Support is aware of the ib_insync package, we [cannot provide coding assistance](https://www.interactivebrokers.com/ibkr-api-page/twsapi-doc/#troubleshooting) for the package.
+While Interactive BrokersÃ¢â‚¬â„¢ API Support is aware of the ib_insync package, we [cannot provide coding assistance](https://www.interactivebrokers.com/ibkr-api-page/twsapi-doc/#troubleshooting) for the package.
 
 With that in mind, users should be aware that the original ib_insync package is built using a legacy release of the TWS API and is no longer  updated. Users who wish to implement the ib_insync structure using  supported releases of the Trader Workstation should migrate to the [ib_async package](https://pypi.org/project/ib_async/), which is a modernized implementation of the package by one of its original developers.
 
@@ -419,15 +419,15 @@ While all of the available Trader Workstation API default samples provide  equiv
 
 ### Implementing the Intel Decimal Library for MacOS and LinuxCopy Location
 
-Due to the malleability of the many Linux distributions including MacOS,  Interactive Brokers is unable to provide a pre-built binary for the  library. As such, users programming in C++ on a Linux machine must  manually build the Intel® Decimal Floating-Point Math Library manually.
+Due to the malleability of the many Linux distributions including MacOS,  Interactive Brokers is unable to provide a pre-built binary for the  library. As such, users programming in C++ on a Linux machine must  manually build the IntelÃ‚Â® Decimal Floating-Point Math Library manually.
 
-As described in the README file from the linked page, you can find the  library’s build steps within the ~/IntelRDFPMathLib20U2/LIBRARY/README  file.
+As described in the README file from the linked page, you can find the  libraryÃ¢â‚¬â„¢s build steps within the ~/IntelRDFPMathLib20U2/LIBRARY/README  file.
 
- [Download the Intel® Decimal Floating-Point Math Library](https://www.intel.com/content/www/us/en/developer/articles/tool/intel-decimal-floating-point-math-library.html)
+ [Download the IntelÃ‚Â® Decimal Floating-Point Math Library](https://www.intel.com/content/www/us/en/developer/articles/tool/intel-decimal-floating-point-math-library.html)
 
 ### Updating The Python InterpreterCopy Location
 
-Python has a unique system for importing libraries into it’s IDEs. This  extends even further when it comes to virtual environments. In order to  utilize Python code with the TWS API, you must run our setup file in  order to import the code.
+Python has a unique system for importing libraries into itÃ¢â‚¬â„¢s IDEs. This  extends even further when it comes to virtual environments. In order to  utilize Python code with the TWS API, you must run our setup file in  order to import the code.
 
 ### 1. Open Command Prompt or TerminalCopy Location
 
@@ -451,7 +451,7 @@ Customers should then change their directory to
 
 
 
-It is then recommend to display the contents of the directory with “ls” for Unix, or “dir” for Windows users.
+It is then recommend to display the contents of the directory with Ã¢â‚¬Å“lsÃ¢â‚¬Â for Unix, or Ã¢â‚¬Å“dirÃ¢â‚¬Â for Windows users.
 
 ![Contents of python source directory.](https://www.interactivebrokers.com/campus/wp-content/uploads/sites/2/2023/06/setupCmdCd-700x511.png)
 
@@ -534,27 +534,27 @@ import sys
 
 if sys.version_info < (3, 1):
 
-​    sys.exit("Only Python 3.1 and greater is supported")
+Ã¢â‚¬â€¹    sys.exit("Only Python 3.1 and greater is supported")
 
 setup(
 
-​    name="ibapi",
+Ã¢â‚¬â€¹    name="ibapi",
 
-​    version=get_version_string(),
+Ã¢â‚¬â€¹    version=get_version_string(),
 
-​    packages=["ibapi","ibapi/protobuf"],
+Ã¢â‚¬â€¹    packages=["ibapi","ibapi/protobuf"],
 
-​    install_requires=["protobuf"],
+Ã¢â‚¬â€¹    install_requires=["protobuf"],
 
-​    url="https://interactivebrokers.github.io/tws-api",
+Ã¢â‚¬â€¹    url="https://interactivebrokers.github.io/tws-api",
 
-​    license="IB API Non-Commercial License or the IB API Commercial License",
+Ã¢â‚¬â€¹    license="IB API Non-Commercial License or the IB API Commercial License",
 
-​    author="IBG LLC",
+Ã¢â‚¬â€¹    author="IBG LLC",
 
-​    author_email="api@interactivebrokers.com",
+Ã¢â‚¬â€¹    author_email="api@interactivebrokers.com",
 
-​    description="Python IB API",
+Ã¢â‚¬â€¹    description="Python IB API",
 
 )
 
@@ -581,10 +581,10 @@ from ibapi.protobuf.ExecutionRequest_pb2 import ExecutionRequest as ExecutionReq
 
 ### ibapi/decoder.pyCopy Location
 
-Identical to client.py, we’ll need to reference the ibapi.protobuf file rather than the google.protobuf file.
+Identical to client.py, weÃ¢â‚¬â„¢ll need to reference the ibapi.protobuf file rather than the google.protobuf file.
 
 1. Include `ibapi.` on line 33 prior to the protobuf reference. Our final line should appear as `from ibapi.protobuf.ExecutionDetails_pb2 import ExecutionDetails as ExecutionDetailsProto`.
-2. We’ll do the same on line 34 for `from ibapi.protobuf.ExecutionDetailsEnd_pb2 import ExecutionDetailsEnd as ExecutionDetailsEndProto`.
+2. WeÃ¢â‚¬â„¢ll do the same on line 34 for `from ibapi.protobuf.ExecutionDetailsEnd_pb2 import ExecutionDetailsEnd as ExecutionDetailsEndProto`.
 3. Save the file.
 
 -
@@ -599,7 +599,7 @@ from ibapi.protobuf.ExecutionDetailsEnd_pb2 import ExecutionDetailsEnd as Execut
 
 Again, we wil reference ibapi.protobuf rather than a direct protobuf package.
 
-1. On line 25, we’ll prepend the value to `ibapi.protobuf.` rather than as the direct package reference. The final line 25 should appear as `import ibapi.protobuf.ComboLeg_pb2 as ComboLeg__pb2`.
+1. On line 25, weÃ¢â‚¬â„¢ll prepend the value to `ibapi.protobuf.` rather than as the direct package reference. The final line 25 should appear as `import ibapi.protobuf.ComboLeg_pb2 as ComboLeg__pb2`.
 2. We will do the same on line 26, `import ibapi.protobuf.DeltaNeutralContract_pb2 as DeltaNeutralContract__pb2`.
 3. Save the file.
 
@@ -615,7 +615,7 @@ import ibapi.protobuf.DeltaNeutralContract_pb2 as DeltaNeutralContract__pb2
 
 We will again prepend `ibapi.protobuf.`.
 
-1. We’ll first modify line 25, to show `import ibapi.protobuf.Contract_pb2 as Contract__pb2`.
+1. WeÃ¢â‚¬â„¢ll first modify line 25, to show `import ibapi.protobuf.Contract_pb2 as Contract__pb2`.
 2. We will do the same for line 26, `import ibapi.protobuf.Execution_pb2 as Execution__pb2`.
 3. Save the file.
 
@@ -654,7 +654,7 @@ After resolving the reference errors, using the TWSAPI may print a  UserWarning 
 
 ### Implementing Visual Basic .NETCopy Location
 
-Our VB.NET code is provided for demonstration purposes only; there is no  pure, standalone VB.NET-based TWS API library. Both our “VB_API_Sample”  and the VB.NET “Testbed” projects included with our TWS API releases  call the C# TWS API source. The provided VB.NET code only interfaces  with the C# source. Please keep in mind that these samples are in  VB.NET, not Visual Basic for Applications.
+Our VB.NET code is provided for demonstration purposes only; there is no  pure, standalone VB.NET-based TWS API library. Both our Ã¢â‚¬Å“VB_API_SampleÃ¢â‚¬Â  and the VB.NET Ã¢â‚¬Å“TestbedÃ¢â‚¬Â projects included with our TWS API releases  call the C# TWS API source. The provided VB.NET code only interfaces  with the C# source. Please keep in mind that these samples are in  VB.NET, not Visual Basic for Applications.
 
 ## Troubleshooting & SupportCopy Location
 
@@ -678,21 +678,21 @@ These logs will recycle every 7 days. This would include the current day and the
 
 ### API LogsCopy Location
 
-TWS and IB Gateway can be configured to create a separate log file which  has a record of just communications with API applications. This log is  not enabled by default; but needs to be enabled by the Global  Configuration setting **“Create API Message Log File”**(picture below).
+TWS and IB Gateway can be configured to create a separate log file which  has a record of just communications with API applications. This log is  not enabled by default; but needs to be enabled by the Global  Configuration setting **Ã¢â‚¬Å“Create API Message Log FileÃ¢â‚¬Â**(picture below).
 
 - API logs contain a record of exchanged messages between API applications  and TWS/IB Gateway. Since only API messages are recorded, the API logs  are more compact and easier to handle. However they do not contain  general diagnostic information about TWS/IBG as the TWS/IBG logs. The  TWS/IBG settings folder is by default **C:\Jts** (or IBJts on Mac/Linux). The API logs are named **api.[clientId].[day].log**, where [clientId] corresponds to the Id the client application used to  connect to the TWS and [day] to the week day (i.e. api.123.Thu.log).
-- There is also a setting “Include Market Data in API Log” that will include  streaming market data values in the API log file. Historical candlestick data is always recorded in the API log.
+- There is also a setting Ã¢â‚¬Å“Include Market Data in API LogÃ¢â‚¬Â that will include  streaming market data values in the API log file. Historical candlestick data is always recorded in the API log.
 
 **Note:** Both  the API and TWS logs are encrypted locally. The API logs can be  decrypted for review from the associated TWS or IB Gateway session, just like the TWS logs, as shown in the section describing the Local  location of logs.
 
-**Note:** The TWS/IB Gateway log file setting has to be set to ‘Detail’ level before an issue occurs so that  information recorded correctly when it manifests. However due to the  high amount of information that will be generated under this level, the  resulting logs can grow considerably in size.
+**Note:** The TWS/IB Gateway log file setting has to be set to Ã¢â‚¬ËœDetailÃ¢â‚¬â„¢ level before an issue occurs so that  information recorded correctly when it manifests. However due to the  high amount of information that will be generated under this level, the  resulting logs can grow considerably in size.
 
 
 **Enabling creation of API logs**
 
 TWS:
 
-1. Navigate to File/Edit → Global Configuration → API → Settings
+1. Navigate to File/Edit Ã¢â€ â€™ Global Configuration Ã¢â€ â€™ API Ã¢â€ â€™ Settings
 2. Check the box *Create API message log file*
 3. Set *Logging Level* to *Detail*
 4. Click Apply and Ok
@@ -705,7 +705,7 @@ TWS:
 
 IB Gateway:
 
-1. Navigate to Configure → Settings → API → Settings
+1. Navigate to Configure Ã¢â€ â€™ Settings Ã¢â€ â€™ API Ã¢â€ â€™ Settings
 2. Check the box *Create API message log file*
 3. Set *Logging Level* to *Detail*
 4. Click Apply and Ok
@@ -727,9 +727,9 @@ Setting debug=1 has added benefits in TWS.
 
 1. Debug=1 also allows you to enter conIds into a watchlist to resolve them into  symbols. Type/paste the conId in an empty watchlist row, add |C  (vertical bar, capital C) at the end, and press Enter. Example: 265598|C will resolve immediately to AAPL (exchange will be SMART where  available, primary otherwise).
    - If the instrument is already present in the watchlist, nothing will happen.
-2. Additional detail in the “Description” window for an instrument, normally  available by right-clicking on an instrument in a watchlist and  selecting Financial Instrument Info >> Description from the  context menu. Debug=1 will add the conId, min order sizes, market rules  (i.e., min price increments and thresholds), all available order types,  and all available exchanges to this interface. Changing the behavior of  TWS to bring up that Description window on double-click can make it  easier to find.
+2. Additional detail in the Ã¢â‚¬Å“DescriptionÃ¢â‚¬Â window for an instrument, normally  available by right-clicking on an instrument in a watchlist and  selecting Financial Instrument Info >> Description from the  context menu. Debug=1 will add the conId, min order sizes, market rules  (i.e., min price increments and thresholds), all available order types,  and all available exchanges to this interface. Changing the behavior of  TWS to bring up that Description window on double-click can make it  easier to find.
    1. In TWS, go to Global Configuration >> Display >> Ticker Row
-   2. Change “Double-click on Financial Instrument will” dropdown menu to “Open Contract Details”
+   2. Change Ã¢â‚¬Å“Double-click on Financial Instrument willÃ¢â‚¬Â dropdown menu to Ã¢â‚¬Å“Open Contract DetailsÃ¢â‚¬Â
 
 
 
@@ -748,43 +748,43 @@ In some instances, your logs may be too large to export or upload for  Client Se
 To delete your logs:
 
 1. [Locate your Logs](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#log-location).
-2. Exit TWS or IB Gateway session by clicking “File” and “Exit”.
+2. Exit TWS or IB Gateway session by clicking Ã¢â‚¬Å“FileÃ¢â‚¬Â and Ã¢â‚¬Å“ExitÃ¢â‚¬Â.
 3. In your terminal or window explorer, navigate to your user subdirectory.
-4. Once in the directory, select the files labeled like  “api.0.20250110.105733.ibgzenc”, “tws.20250110.105733.ibgzenc” or  “ibgateway.20250110.105733.ibgzenc” and press the “Delete” key on your  keyboard, or type ‘del {filename}’ into your terminal.
+4. Once in the directory, select the files labeled like  Ã¢â‚¬Å“api.0.20250110.105733.ibgzencÃ¢â‚¬Â, Ã¢â‚¬Å“tws.20250110.105733.ibgzencÃ¢â‚¬Â or  Ã¢â‚¬Å“ibgateway.20250110.105733.ibgzencÃ¢â‚¬Â and press the Ã¢â‚¬Å“DeleteÃ¢â‚¬Â key on your  keyboard, or type Ã¢â‚¬Ëœdel {filename}Ã¢â‚¬â„¢ into your terminal.
 
 ### Uploading LogsCopy Location
 
-If API logging has been enabled with the setting “Create API Message Log”  during the time when an issue occurs, it can be uploaded to the API  group.
+If API logging has been enabled with the setting Ã¢â‚¬Å“Create API Message LogÃ¢â‚¬Â  during the time when an issue occurs, it can be uploaded to the API  group.
 
 **Important:** Please be aware that the  process of uploading logs does not notify support, nor is a ticket  logged. You will need to contact our representatives through a direct  call, chat, or  secure message center message for our representatives to be aware of the upload.
 
 To upload logs as a Windows user:
 
 1. In TWS or IB Gateway, press CTRL+ALT+H to bring up the Upload Diagnostics window.
-2. In the “reason” text field, please type the reason for your upload.
-   - Alternatively, type “ATTENTION: ” and then the ticket number you are working with, or  the name of your customer service representative.
-3. Find the small arrow in the upper right corner, click it and select “Advanced View”
-4. Make sure “Full internal state of the application” is checked
-5. Make sure “Include previous days logs and settings” is unchecked, unless the error happened on a prior day.
+2. In the Ã¢â‚¬Å“reasonÃ¢â‚¬Â text field, please type the reason for your upload.
+   - Alternatively, type Ã¢â‚¬Å“ATTENTION: Ã¢â‚¬Â and then the ticket number you are working with, or  the name of your customer service representative.
+3. Find the small arrow in the upper right corner, click it and select Ã¢â‚¬Å“Advanced ViewÃ¢â‚¬Â
+4. Make sure Ã¢â‚¬Å“Full internal state of the applicationÃ¢â‚¬Â is checked
+5. Make sure Ã¢â‚¬Å“Include previous days logs and settingsÃ¢â‚¬Â is unchecked, unless the error happened on a prior day.
 6. Click Submit
 
 To upload logs as a Mac and Linux user:
 
 1. In TWS or IB Gateway, press CMD+OPT+H to bring up the Upload Diagnostics window.
-2. In the “reason” text field, please type the reason for your upload.
-   - Alternatively, type “ATTENTION: ” and then the ticket number you are working with, or  the name of your customer service representative.
-3. Find the small arrow in the upper right corner, click it and select “Advanced View”
-4. Make sure “Full internal state of the application” is checked
-5. Make sure “Include previous days logs and settings” is unchecked, unless the error happened on a prior day.
+2. In the Ã¢â‚¬Å“reasonÃ¢â‚¬Â text field, please type the reason for your upload.
+   - Alternatively, type Ã¢â‚¬Å“ATTENTION: Ã¢â‚¬Â and then the ticket number you are working with, or  the name of your customer service representative.
+3. Find the small arrow in the upper right corner, click it and select Ã¢â‚¬Å“Advanced ViewÃ¢â‚¬Â
+4. Make sure Ã¢â‚¬Å“Full internal state of the applicationÃ¢â‚¬Â is checked
+5. Make sure Ã¢â‚¬Å“Include previous days logs and settingsÃ¢â‚¬Â is unchecked, unless the error happened on a prior day.
 6. Click Submit
 
 If logs have been uploaded, please let the API Support group know by **creating a webticket** in the Message Center in Account Management (under Support) indicating the **username** of the associated TWS session. In some cases a TWS log may also be  requested at the Detailed logging level. The TWS log can grow quite  large and may not be uploadable by the automatic method; in this case an alternative means of upload can be found.
 
 ### Exporting LogsCopy Location
 
-1. In TWS, navigate to Help menu >> Troubleshooting >> Diagnostics >> “API Logs” or “TWS Logs”.
-2. In IBG, both “API Logs” and “Gateway Logs” are accessible directly from the File menu.
-3. Click “Export Today Logs…” to decrypt the logs and save them in plaintext (logs are stored encrypted on your local machine)
+1. In TWS, navigate to Help menu >> Troubleshooting >> Diagnostics >> Ã¢â‚¬Å“API LogsÃ¢â‚¬Â or Ã¢â‚¬Å“TWS LogsÃ¢â‚¬Â.
+2. In IBG, both Ã¢â‚¬Å“API LogsÃ¢â‚¬Â and Ã¢â‚¬Å“Gateway LogsÃ¢â‚¬Â are accessible directly from the File menu.
+3. Click Ã¢â‚¬Å“Export Today LogsÃ¢â‚¬Â¦Ã¢â‚¬Â to decrypt the logs and save them in plaintext (logs are stored encrypted on your local machine)
 
 ### Reading Exported LogsCopy Location
 
@@ -846,9 +846,9 @@ The primary distinction in EClient and EClientSocket is the involvement of the  
 
 class TestClient(EClient):
 
-​     def __init__(self, wrapper):
+Ã¢â‚¬â€¹     def __init__(self, wrapper):
 
-​         EClient.__init__(self, wrapper)
+Ã¢â‚¬â€¹         EClient.__init__(self, wrapper)
 
 ...
 
@@ -858,7 +858,7 @@ class TestApp(TestWrapper, TestClient):
 
   TestWrapper.__init__(self)
 
-​         TestClient.__init__(self, wrapper=self)
+Ã¢â‚¬â€¹         TestClient.__init__(self, wrapper=self)
 
 **Note**: The EReaderSignal class is not used for Python API. The Python Queue module is used for inter-thread communication and data exchange.
 
@@ -868,17 +868,17 @@ Our market maker-designed IBKR Trader Workstation (TWS) lets traders,  investors
 
 ### The IB GatewayCopy Location
 
-As an alternative to TWS for API users, IBKR also offers IB Gateway  (IBGW). From the perspective of an API application, IB Gateway and TWS  are identical; both represent a server to which an API client  application can open a socket connection after the user has  authenticated. With either application (TWS or IBGW), the user must  manually enter their username and password into a login window. For  security reasons, a headless session of TWS or IBGW without a GUI is not supported. From the user’s perspective, IB Gateway may be advantageous  because it is a lighter application which consumes about 40% fewer  resources.
+As an alternative to TWS for API users, IBKR also offers IB Gateway  (IBGW). From the perspective of an API application, IB Gateway and TWS  are identical; both represent a server to which an API client  application can open a socket connection after the user has  authenticated. With either application (TWS or IBGW), the user must  manually enter their username and password into a login window. For  security reasons, a headless session of TWS or IBGW without a GUI is not supported. From the userÃ¢â‚¬â„¢s perspective, IB Gateway may be advantageous  because it is a lighter application which consumes about 40% fewer  resources.
 
 Both TWS and IBGW were designed to be restarted daily.  This is necessary to perform functions such as re-downloading contract  definitions in cases where contracts have been changed or new contracts  have been added. Beginning in version 974+ both applications offer an  autorestart feature that allows the application to restart daily without user intervention. With this option enabled, TWS or IBGW can  potentially run from Sunday to Sunday without re-authenticating. After  the nightly server reset on Saturday night it will be necessary to again enter security credentials.
 
 The advantages of TWS over IBGW is  that it provides the end user with many tools (Risk Navigator,  OptionTrader, BookTrader, etc) and a graphical user interface which can  be used to monitor an account or place orders. For beginning API users,  it is recommended to first become acquainted with TWS before using IBGW.
 
-**For simplicity, this guide will mostly refer to the TWS although the reader should understand that for the TWS API’s purposes, TWS and IB Gateway  are synonymous.**
+**For simplicity, this guide will mostly refer to the TWS although the reader should understand that for the TWS APIÃ¢â‚¬â„¢s purposes, TWS and IB Gateway  are synonymous.**
 
 ## Pacing LimitationsCopy Location
 
-Pacing Limitations with regards to the TWS API are based on the number of  requests submitted by a client connection. A “request” is a  user-submitted query to retrieve some form of data.
+Pacing Limitations with regards to the TWS API are based on the number of  requests submitted by a client connection. A Ã¢â‚¬Å“requestÃ¢â‚¬Â is a  user-submitted query to retrieve some form of data.
 
 An example of a request is a query to retrieve [live watchlist data](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#watchlist-data). While you may make a single request for market data, you will receive  market data until the subscription is cancelled or your session is  disconnected. Only the original request to begin the flow of data will  contribute to the pacing limitation.
 
@@ -908,13 +908,13 @@ app.connect("127.0.0.1", args.port, clientId=0)
 
 
 
-eConnect starts by requesting from the operating system that a TCP socket be  opened to the specified IP address and socket port. If the socket cannot be opened, the operating system (not TWS) returns an error which is  received by the API client as error code 502  to IBApi.EWrapper.error (Note: since this error is not generated by TWS  it is not captured in TWS log files). Most commonly error 502 will  indicate that TWS is not running with the API enabled, or it is  listening for connections on a different socket port. If connecting  across a network, the error can also occur if there is a firewall or  antivirus program blocking connections, or if the router’s IP address is not listed in the “Trusted IPs” in TWS.
+eConnect starts by requesting from the operating system that a TCP socket be  opened to the specified IP address and socket port. If the socket cannot be opened, the operating system (not TWS) returns an error which is  received by the API client as error code 502  to IBApi.EWrapper.error (Note: since this error is not generated by TWS  it is not captured in TWS log files). Most commonly error 502 will  indicate that TWS is not running with the API enabled, or it is  listening for connections on a different socket port. If connecting  across a network, the error can also occur if there is a firewall or  antivirus program blocking connections, or if the routerÃ¢â‚¬â„¢s IP address is not listed in the Ã¢â‚¬Å“Trusted IPsÃ¢â‚¬Â in TWS.
 
 After the socket has been opened, there must be an initial handshake in which information is  exchanged about the supported version of the TWS and API to ensure each  platform can interpret received messages correctly.
 
 - For this  reason it is important that the main EReader object is not created until after a connection has been established. The initial connection results in a negotiated common version between TWS and the API client which  will be needed by the EReader thread in interpreting subsequent  messages.
 
-After the highest version number which can be used for communication is established, TWS will return certain pieces of  data that correspond specifically to the logged-in TWS user’s session.  This includes (1) the account number(s) accessible in this TWS session,  (2) the next valid order identifier (ID), and (3) the time of  connection. In the most common mode of operation the  EClient.AsyncEConnect field is set to false and the initial handshake is taken to completion immediately after the socket connection is  established. TWS will then immediately provides the API client with this information.
+After the highest version number which can be used for communication is established, TWS will return certain pieces of  data that correspond specifically to the logged-in TWS userÃ¢â‚¬â„¢s session.  This includes (1) the account number(s) accessible in this TWS session,  (2) the next valid order identifier (ID), and (3) the time of  connection. In the most common mode of operation the  EClient.AsyncEConnect field is set to false and the initial handshake is taken to completion immediately after the socket connection is  established. TWS will then immediately provides the API client with this information.
 
 - Important: The **IBApi.EWrapper.nextValidID** callback is commonly used to indicate that the connection is completed and other messages can be sent from the API client to TWS. There is the  possibility that function calls made prior to this time could be dropped by TWS.
 
@@ -922,7 +922,7 @@ There is an alternative, deprecated mode of  connection used in special cases in
 
 ### The EReader ThreadCopy Location
 
-API programs always have at least two threads of execution. One thread is  used for sending messages to TWS, and another thread is used for reading returned messages. The second thread uses the API EReader class to read from the socket and add messages to a queue. Everytime a new message is added to the message queue, a notification flag is triggered to let  other threads know that there is a message waiting to be processed. In  the two-thread design of an API program, the message queue is also  processed by the first thread. In a three-thread design, an additional  thread is created to perform this task. The thread responsible for the  message queue will decode messages and invoke the appropriate functions  in EWrapper. The two-threaded design is used in the IB Python sample  Program.py and the C++ sample TestCppClient, while the ‘Testbed’ samples in the other languages use a three-threaded design. Commonly in a  Python asynchronous network application, the asyncio module will be used to create a more sequential looking code design.
+API programs always have at least two threads of execution. One thread is  used for sending messages to TWS, and another thread is used for reading returned messages. The second thread uses the API EReader class to read from the socket and add messages to a queue. Everytime a new message is added to the message queue, a notification flag is triggered to let  other threads know that there is a message waiting to be processed. In  the two-thread design of an API program, the message queue is also  processed by the first thread. In a three-thread design, an additional  thread is created to perform this task. The thread responsible for the  message queue will decode messages and invoke the appropriate functions  in EWrapper. The two-threaded design is used in the IB Python sample  Program.py and the C++ sample TestCppClient, while the Ã¢â‚¬ËœTestbedÃ¢â‚¬â„¢ samples in the other languages use a three-threaded design. Commonly in a  Python asynchronous network application, the asyncio module will be used to create a more sequential looking code design.
 
 The class which has functionality for reading and parsing raw messages from TWS is the IBApi.EReader class.
 
@@ -932,7 +932,7 @@ For C#, Java, C++, and Visual Basic, we instead maintain a triple thread  struct
 
 -
 
-Now it is time to revisit the role of IBApi.EReaderSignal initially  introduced in The EClientSocket Class. As mentioned in the previous  paragraph, after the EReader thread places a message in the queue, a  notification is issued to make known that a message is ready for  processing. In the (C++, C#/.NET, Java) APIs, this is done via the  IBApi.EReaderSignal object we initiated within the IBApi.EWrapper’s  implementer.
+Now it is time to revisit the role of IBApi.EReaderSignal initially  introduced in The EClientSocket Class. As mentioned in the previous  paragraph, after the EReader thread places a message in the queue, a  notification is issued to make known that a message is ready for  processing. In the (C++, C#/.NET, Java) APIs, this is done via the  IBApi.EReaderSignal object we initiated within the IBApi.EWrapperÃ¢â‚¬â„¢s  implementer.
 
 ### Python ImplementationCopy Location
 
@@ -944,11 +944,11 @@ Now it  is time to revisit the role of IBApi.EReaderSignal initially introduced 
 
 ### Remote TWS API Connections with Trader WorkstationCopy Location
 
-If you want to connect TWS/ IB Gateway from a remote server, uncheck the  “Allow connection from localhost only” setting. Under the “Trusted IPs”  section, click “Create” and enter the IP Address detected in “Accept  incoming connection attempt from <IP Address>” into “Trusted IPs”.
+If you want to connect TWS/ IB Gateway from a remote server, uncheck the  Ã¢â‚¬Å“Allow connection from localhost onlyÃ¢â‚¬Â setting. Under the Ã¢â‚¬Å“Trusted IPsÃ¢â‚¬Â  section, click Ã¢â‚¬Å“CreateÃ¢â‚¬Â and enter the IP Address detected in Ã¢â‚¬Å“Accept  incoming connection attempt from <IP Address>Ã¢â‚¬Â into Ã¢â‚¬Å“Trusted IPsÃ¢â‚¬Â.
 
-“Trusted IPs” does not accept subnet (e.g. /27, /28). It only accepts single IP  Addresses. In the following example, there is a remote computing cluster /27 which has 32 IP Addresses and the remote computing cluster will  randomly assign one of the computing nodes to connect to TWS in every  connection. To make this happen, every Private IPv4 Address of the  subnet are put into the “Trusted IPs” (You can also exclude the first IP Network Address and the last IP Broadcast Address of the subnet).
+Ã¢â‚¬Å“Trusted IPsÃ¢â‚¬Â does not accept subnet (e.g. /27, /28). It only accepts single IP  Addresses. In the following example, there is a remote computing cluster /27 which has 32 IP Addresses and the remote computing cluster will  randomly assign one of the computing nodes to connect to TWS in every  connection. To make this happen, every Private IPv4 Address of the  subnet are put into the Ã¢â‚¬Å“Trusted IPsÃ¢â‚¬Â (You can also exclude the first IP Network Address and the last IP Broadcast Address of the subnet).
 
-![TWS Global Configuration API Settings showing Trusted IPs section.](https://www.interactivebrokers.com/campus/wp-content/uploads/sites/2/2023/06/擷取2-1.png)
+![TWS Global Configuration API Settings showing Trusted IPs section.](https://www.interactivebrokers.com/campus/wp-content/uploads/sites/2/2023/06/Ã¦â€œÂ·Ã¥Ââ€“2-1.png)
 
 
 
@@ -985,13 +985,13 @@ If a different username is utilized to login to Client Portal in either of these
 
 If there is a problem with the socket connection between TWS and the API  client, for instance if TWS suddenly closes, this will trigger an  exception in the EReader thread which is reading from the socket. This  exception will also occur if an API client attempts to connect with a  client ID that is already in use.
 
-The socket EOF is handled  slightly differently in different API languages. For instance in Java,  it is caught and sent to the client application to  IBApi::EWrapper::error with errorCode 507: “Bad Message”. In C# it is  caught and sent to IBApi::EWrapper::error with errorCode -1. The client  application needs to handle this error message and use it to indicate  that an exception has been thrown in the socket connection.
+The socket EOF is handled  slightly differently in different API languages. For instance in Java,  it is caught and sent to the client application to  IBApi::EWrapper::error with errorCode 507: Ã¢â‚¬Å“Bad MessageÃ¢â‚¬Â. In C# it is  caught and sent to IBApi::EWrapper::error with errorCode -1. The client  application needs to handle this error message and use it to indicate  that an exception has been thrown in the socket connection.
 
 Clients can validate a broken connection with the EWrapper.connectionClosed and EClient.isConnected functions.
 
 ## Account & Portfolio DataCopy Location
 
-The IBApi.EClient.reqAccountSummary method creates a subscription for the  account data displayed in the TWS Account Summary window. It is commonly used with multiple-account structures. Introducing broker (IBroker)  accounts with more than 50 subaccounts or configured for on-demand  account lookup cannot use reqAccountSummary with group=”All”. A profile  name can be accepted in place of group. See Unification of Groups and  Profiles.
+The IBApi.EClient.reqAccountSummary method creates a subscription for the  account data displayed in the TWS Account Summary window. It is commonly used with multiple-account structures. Introducing broker (IBroker)  accounts with more than 50 subaccounts or configured for on-demand  account lookup cannot use reqAccountSummary with group=Ã¢â‚¬ÂAllÃ¢â‚¬Â. A profile  name can be accepted in place of group. See Unification of Groups and  Profiles.
 
 The TWS offers a comprehensive overview of your account  and portfolio through its Account and Portfolio windows. This  information can be obtained via the TWS API through three different kind of requests/operations.
 
@@ -1001,7 +1001,7 @@ The initial invocation of reqAccountSummary will result in a list of all  reques
 
 ### Requesting Account SummaryCopy Location
 
-Requests a specific account’s summary. This method will subscribe to the account summary as presented in the TWS’ Account Summary tab. Customers can  specify the data received by using a specific tags value. See the  Account Summary Tags section for available options.
+Requests a specific accountÃ¢â‚¬â„¢s summary. This method will subscribe to the account summary as presented in the TWSÃ¢â‚¬â„¢ Account Summary tab. Customers can  specify the data received by using a specific tags value. See the  Account Summary Tags section for available options.
 
 Alternatively, many languages offer the import of AccountSummaryTags with a method to retrieve all tag values.
 
@@ -1009,7 +1009,7 @@ Alternatively, many languages offer the import of AccountSummaryTags with a meth
 
 **reqId:** int. The unique request identifier.
 
-**group:** String. set to “All” to return account summary data for all accounts,  or set to a specific Advisor Account Group name that has already been  created in TWS Global Configuration.
+**group:** String. set to Ã¢â‚¬Å“AllÃ¢â‚¬Â to return account summary data for all accounts,  or set to a specific Advisor Account Group name that has already been  created in TWS Global Configuration.
 
 **tags:** String. A comma separated list with the [desired tags](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#account-summary-tags)
 
@@ -1035,21 +1035,21 @@ import time
 
 class TradeApp(EWrapper, EClient):
 
-​    def __init__(self):
+Ã¢â‚¬â€¹    def __init__(self):
 
-​        EClient.__init__(self, self)
+Ã¢â‚¬â€¹        EClient.__init__(self, self)
 
-​    def accountSummary(self, reqId: int, account: str, tag: str, value: str,currency: str):
+Ã¢â‚¬â€¹    def accountSummary(self, reqId: int, account: str, tag: str, value: str,currency: str):
 
-​        print("AccountSummary. ReqId:", reqId, "Account:", account,"Tag: ", tag, "Value:", value, "Currency:", currency)
+Ã¢â‚¬â€¹        print("AccountSummary. ReqId:", reqId, "Account:", account,"Tag: ", tag, "Value:", value, "Currency:", currency)
 
-​
+Ã¢â‚¬â€¹
 
-​    def accountSummaryEnd(self, reqId: int):
+Ã¢â‚¬â€¹    def accountSummaryEnd(self, reqId: int):
 
-​        print("AccountSummaryEnd. ReqId:", reqId)
+Ã¢â‚¬â€¹        print("AccountSummaryEnd. ReqId:", reqId)
 
-​
+Ã¢â‚¬â€¹
 
 app = TradeApp()
 
@@ -1069,7 +1069,7 @@ app.run()
 | --------------------------- | ------------------------------------------------------------ |
 | NetLiquidation              | The basis for determining the price of the assets in your account. Total cash value + stock value + options value + bond value |
 | TotalCashValue              | Total cash balance recognized at the time of trade + futures PNL |
-| SettledCash                 | Cash recognized at the time of settlement – purchases at the time of trade – commissions – taxes – fees |
+| SettledCash                 | Cash recognized at the time of settlement Ã¢â‚¬â€œ purchases at the time of trade Ã¢â‚¬â€œ commissions Ã¢â‚¬â€œ taxes Ã¢â‚¬â€œ fees |
 | AccruedCash                 | Total accrued cash value of stock, commodities and securities |
 | BuyingPower                 | Buying power serves as a measurement of the dollar value of securities that  one may purchase in a securities account without depositing additional  funds |
 | EquityWithLoanValue         | Forms the basis for  determining whether a client has the necessary assets to either initiate or maintain security positions. Cash + stocks + bonds + mutual funds |
@@ -1088,12 +1088,12 @@ app.run()
 | FullAvailableFunds          | Available funds of whole portfolio with no discounts or intraday credits |
 | FullExcessLiquidity         | Excess liquidity of whole portfolio with no discounts or intraday credits |
 | LookAheadNextChange         | Time when look-ahead values take effect                      |
-| LookAheadInitMarginReq      | Initial Margin requirement of whole portfolio as of next period’s margin change |
-| LookAheadMaintMarginReq     | Maintenance Margin requirement of whole portfolio as of next period’s margin change |
+| LookAheadInitMarginReq      | Initial Margin requirement of whole portfolio as of next periodÃ¢â‚¬â„¢s margin change |
+| LookAheadMaintMarginReq     | Maintenance Margin requirement of whole portfolio as of next periodÃ¢â‚¬â„¢s margin change |
 | LookAheadAvailableFunds     | This value reflects your available funds at the next margin change |
 | LookAheadExcessLiquidity    | This value reflects your excess liquidity at the next margin change |
 | HighestSeverity             | A measure of how close the account is to liquidation         |
-| DayTradesRemaining          | The Number of Open/Close trades a user could put on before Pattern Day  Trading is detected. A value of “-1” means that the user can put on  unlimited day trades. |
+| DayTradesRemaining          | The Number of Open/Close trades a user could put on before Pattern Day  Trading is detected. A value of Ã¢â‚¬Å“-1Ã¢â‚¬Â means that the user can put on  unlimited day trades. |
 | Leverage                    | GrossPositionValue / NetLiquidation                          |
 | $LEDGER                     | Single flag to relay all cash balance tags*, only in base currency. |
 | $LEDGER:CURRENCY            | Single flag to relay all cash balance tags*, only in the specified currency. |
@@ -1103,19 +1103,19 @@ app.run()
 
 #### EWrapper.accountSummary (
 
-**reqId:** int. the request’s unique identifier.
+**reqId:** int. the requestÃ¢â‚¬â„¢s unique identifier.
 
 **account:** String. the account id
 
-**tag:** String. the account’s attribute being received.
+**tag:** String. the accountÃ¢â‚¬â„¢s attribute being received.
 
-**value:** String. the account’s attribute’s value.
+**value:** String. the accountÃ¢â‚¬â„¢s attributeÃ¢â‚¬â„¢s value.
 
 **currency:** String. the currency on which the value is expressed.
 
 )
 
-Receives the account information. This method will receive the account  information just as it appears in the TWS’ Account Summary Window.
+Receives the account information. This method will receive the account  information just as it appears in the TWSÃ¢â‚¬â„¢ Account Summary Window.
 
 -
 
@@ -1125,17 +1125,17 @@ def accountSummary(self, reqId: int, account: str, tag: str, value: str,currency
 
 #### EWrapper.accountSummaryEnd(
 
-**reqId:** String. The request’s identifier.
+**reqId:** String. The requestÃ¢â‚¬â„¢s identifier.
 
 )
 
-Notifies when all the accounts’ information has ben received. Requires TWS 967+  to receive accountSummaryEnd in linked account structures.
+Notifies when all the accountsÃ¢â‚¬â„¢ information has ben received. Requires TWS 967+  to receive accountSummaryEnd in linked account structures.
 
 -
 
 def accountSummaryEnd(self, reqId: int):
 
-​    print("AccountSummaryEnd. ReqId:", reqId)
+Ã¢â‚¬â€¹    print("AccountSummaryEnd. ReqId:", reqId)
 
 
 
@@ -1157,7 +1157,7 @@ self.cancelAccountSummary(9001)
 
 ### Account UpdatesCopy Location
 
-The IBApi.EClient.reqAccountUpdates function creates a subscription to the  TWS through which account and portfolio information is delivered. This  information is the exact same as the one displayed within the TWS’  Account Window. Just as with the TWS’ Account Window, unless there is a  position change this information is updated at a fixed interval of three minutes.
+The IBApi.EClient.reqAccountUpdates function creates a subscription to the  TWS through which account and portfolio information is delivered. This  information is the exact same as the one displayed within the TWSÃ¢â‚¬â„¢  Account Window. Just as with the TWSÃ¢â‚¬â„¢ Account Window, unless there is a  position change this information is updated at a fixed interval of three minutes.
 
 Unrealized and Realized P&L is sent to the API function  IBApi.EWrapper.updateAccountValue function after a subscription request  is made with IBApi.EClient.reqAccountUpdates. This information  corresponds to the data in the TWS Account Window, and has a different  source of information, a different update frequency, and different reset schedule than PnL data in the TWS Portfolio Window and associated API  functions (below). In particular, the unrealized P&L information  shown in the TWS Account Window which is sent to updatePortfolioValue  will update either (1) when a trade for that particular instrument  occurs or (2) every 3 minutes. The realized P&L data in the TWS  Account Window is reset to 0 once per day.
 
@@ -1167,7 +1167,7 @@ See [Profit & Loss](https://www.interactivebrokers.com/campus/ibkr-api-page/twsa
 
 ### Requesting Account UpdatesCopy Location
 
-Subscribes to a specific account’s information and portfolio. Through this method, a single account’s subscription can be started/stopped. As a result  from the subscription, the account’s information, portfolio and last  update time will be received at EWrapper.updateAccountValue,  EWrapper.updatePortfolio, EWrapper.updateAccountTime respectively. All  account values and positions will be returned initially, and then there  will only be updates when there is a change in a position, or to an  account value every 3 minutes if it has changed. Only one account can be subscribed at a time. A second subscription request for another account when the previous one is still active will cause the first one to be  canceled in favor of the second one.
+Subscribes to a specific accountÃ¢â‚¬â„¢s information and portfolio. Through this method, a single accountÃ¢â‚¬â„¢s subscription can be started/stopped. As a result  from the subscription, the accountÃ¢â‚¬â„¢s information, portfolio and last  update time will be received at EWrapper.updateAccountValue,  EWrapper.updatePortfolio, EWrapper.updateAccountTime respectively. All  account values and positions will be returned initially, and then there  will only be updates when there is a change in a position, or to an  account value every 3 minutes if it has changed. Only one account can be subscribed at a time. A second subscription request for another account when the previous one is still active will cause the first one to be  canceled in favor of the second one.
 
 #### EClient.reqAccountUpdates (
 
@@ -1195,29 +1195,29 @@ import time
 
 class TradeApp(EWrapper, EClient):
 
-​    def __init__(self):
+Ã¢â‚¬â€¹    def __init__(self):
 
-​        EClient.__init__(self, self)
+Ã¢â‚¬â€¹        EClient.__init__(self, self)
 
-​    def updateAccountValue(self, key: str, val: str, currency: str,accountName: str):
+Ã¢â‚¬â€¹    def updateAccountValue(self, key: str, val: str, currency: str,accountName: str):
 
-​        print("UpdateAccountValue. Key:", key, "Value:", val, "Currency:", currency, "AccountName:", accountName)
+Ã¢â‚¬â€¹        print("UpdateAccountValue. Key:", key, "Value:", val, "Currency:", currency, "AccountName:", accountName)
 
-​
+Ã¢â‚¬â€¹
 
-​    def updatePortfolio(self, contract: Contract, position: Decimal,marketPrice: float, marketValue: float, averageCost: float, unrealizedPNL: float, realizedPNL: float, accountName: str):
+Ã¢â‚¬â€¹    def updatePortfolio(self, contract: Contract, position: Decimal,marketPrice: float, marketValue: float, averageCost: float, unrealizedPNL: float, realizedPNL: float, accountName: str):
 
-​        print("UpdatePortfolio.", "Symbol:", contract.symbol, "SecType:", contract.secType, "Exchange:",contract.exchange, "Position:", decimalMaxString(position), "MarketPrice:", floatMaxString(marketPrice),"MarketValue:", floatMaxString(marketValue), "AverageCost:", floatMaxString(averageCost), "UnrealizedPNL:", floatMaxString(unrealizedPNL), "RealizedPNL:", floatMaxString(realizedPNL), "AccountName:", accountName)
+Ã¢â‚¬â€¹        print("UpdatePortfolio.", "Symbol:", contract.symbol, "SecType:", contract.secType, "Exchange:",contract.exchange, "Position:", decimalMaxString(position), "MarketPrice:", floatMaxString(marketPrice),"MarketValue:", floatMaxString(marketValue), "AverageCost:", floatMaxString(averageCost), "UnrealizedPNL:", floatMaxString(unrealizedPNL), "RealizedPNL:", floatMaxString(realizedPNL), "AccountName:", accountName)
 
-​    def updateAccountTime(self, timeStamp: str):
+Ã¢â‚¬â€¹    def updateAccountTime(self, timeStamp: str):
 
-​        print("UpdateAccountTime. Time:", timeStamp)
+Ã¢â‚¬â€¹        print("UpdateAccountTime. Time:", timeStamp)
 
-​    def accountDownloadEnd(self, accountName: str):
+Ã¢â‚¬â€¹    def accountDownloadEnd(self, accountName: str):
 
-​        print("AccountDownloadEnd. Account:", accountName)
+Ã¢â‚¬â€¹        print("AccountDownloadEnd. Account:", accountName)
 
-​
+Ã¢â‚¬â€¹
 
 app = TradeApp()
 
@@ -1246,15 +1246,15 @@ Resulting account and portfolio information will be delivered via the  IBApi.EWr
 **accountName:** String. The account identifier.
  )
 
-Receives the subscribed account’s information. Only one account can be  subscribed at a time. After the initial callback to updateAccountValue,  callbacks only occur for values which have changed. This occurs at the  time of a position change, or every 3 minutes at most. This frequency  cannot be adjusted.
+Receives the subscribed accountÃ¢â‚¬â„¢s information. Only one account can be  subscribed at a time. After the initial callback to updateAccountValue,  callbacks only occur for values which have changed. This occurs at the  time of a position change, or every 3 minutes at most. This frequency  cannot be adjusted.
 
-**Note:** An important key passed back in EWrapper.updateAccountValue after a call to  EClient.reqAccountUpdates is a boolean value ‘accountReady’. If an  accountReady value of false is returned that means that the IB server is in the process of resetting at that moment, i.e. the account is ‘not  ready’. When this occurs subsequent key values returned to  EWrapper.updateAccountValue in the current update can be out of date or  incorrect.
+**Note:** An important key passed back in EWrapper.updateAccountValue after a call to  EClient.reqAccountUpdates is a boolean value Ã¢â‚¬ËœaccountReadyÃ¢â‚¬â„¢. If an  accountReady value of false is returned that means that the IB server is in the process of resetting at that moment, i.e. the account is Ã¢â‚¬Ëœnot  readyÃ¢â‚¬â„¢. When this occurs subsequent key values returned to  EWrapper.updateAccountValue in the current update can be out of date or  incorrect.
 
 -
 
 def updateAccountValue(self, key: str, val: str, currency: str,accountName: str):
 
-​    print("UpdateAccountValue. Key:", key, "Value:", val, "Currency:", currency, "AccountName:", accountName)
+Ã¢â‚¬â€¹    print("UpdateAccountValue. Key:", key, "Value:", val, "Currency:", currency, "AccountName:", accountName)
 
 
 
@@ -1264,7 +1264,7 @@ def updateAccountValue(self, key: str, val: str, currency: str,accountName: str)
 
 **position:** Decimal. The number of positions held.
 
-**marketPrice:** Double. The instrument’s unitary price
+**marketPrice:** Double. The instrumentÃ¢â‚¬â„¢s unitary price
 
 **marketValue:** Double. Total market value of the instrument.
 
@@ -1278,13 +1278,13 @@ def updateAccountValue(self, key: str, val: str, currency: str,accountName: str)
 
 )
 
-Receives the subscribed account’s portfolio. This function will receive only the portfolio of the subscribed account. After the initial callback to  updatePortfolio, callbacks only occur for positions which have changed.
+Receives the subscribed accountÃ¢â‚¬â„¢s portfolio. This function will receive only the portfolio of the subscribed account. After the initial callback to  updatePortfolio, callbacks only occur for positions which have changed.
 
 -
 
 def updatePortfolio(self, contract: Contract, position: Decimal,marketPrice: float, marketValue: float, averageCost: float, unrealizedPNL: float, realizedPNL: float, accountName: str):
 
-​    print("UpdatePortfolio.", "Symbol:", contract.symbol, "SecType:", contract.secType, "Exchange:",contract.exchange, "Position:", decimalMaxString(position), "MarketPrice:", floatMaxString(marketPrice),"MarketValue:", floatMaxString(marketValue), "AverageCost:", floatMaxString(averageCost), "UnrealizedPNL:", floatMaxString(unrealizedPNL), "RealizedPNL:", floatMaxString(realizedPNL), "AccountName:", accountName)
+Ã¢â‚¬â€¹    print("UpdatePortfolio.", "Symbol:", contract.symbol, "SecType:", contract.secType, "Exchange:",contract.exchange, "Position:", decimalMaxString(position), "MarketPrice:", floatMaxString(marketPrice),"MarketValue:", floatMaxString(marketValue), "AverageCost:", floatMaxString(averageCost), "UnrealizedPNL:", floatMaxString(unrealizedPNL), "RealizedPNL:", floatMaxString(realizedPNL), "AccountName:", accountName)
 
 
 
@@ -1300,7 +1300,7 @@ Receives the last time on which the account was updated.
 
 def updateAccountTime(self, timeStamp: str):
 
-​     print("UpdateAccountTime. Time:", timeStamp)
+Ã¢â‚¬â€¹     print("UpdateAccountTime. Time:", timeStamp)
 
 
 
@@ -1310,13 +1310,13 @@ def updateAccountTime(self, timeStamp: str):
 
 )
 
-Notifies when all the account’s information has finished.
+Notifies when all the accountÃ¢â‚¬â„¢s information has finished.
 
 -
 
 def accountDownloadEnd(self, accountName: str):
 
-​    print("AccountDownloadEnd. Account:", accountName)
+Ã¢â‚¬â€¹    print("AccountDownloadEnd. Account:", accountName)
 
 
 
@@ -1326,29 +1326,29 @@ When requesting [reqAccountUpdates](https://www.interactivebrokers.com/campus/ib
 
 Account values delivered via [IBApi.EWrapper.updateAccountValue](https://www.interactivebrokers.com/campus/ibkr-api-page/trader-workstation-api/#receive-account-updates) can be classified in the following way:
 
-- Commodities: suffixed by a “-C”
-- Securities: suffixed by a “-S”
+- Commodities: suffixed by a Ã¢â‚¬Å“-CÃ¢â‚¬Â
+- Securities: suffixed by a Ã¢â‚¬Å“-SÃ¢â‚¬Â
 - Totals: no suffix
 
 | Key                              | Description                                                  |
 | -------------------------------- | ------------------------------------------------------------ |
 | AccountCode                      | The account ID number                                        |
-| AccountOrGroup                   | “All” to return account summary data for all accounts, or set to a specific  Advisor Account Group name that has already been created in TWS Global  Configuration |
-| AccountReady                     | If an accountReady  value of false is returned that means that the IB server is in the  process of resetting at that moment, i.e. the account is ‘not ready’.  When this occurs subsequent key values returned to  EWrapper.updateAccountValue in the current update can be out of date or  incorrect. |
+| AccountOrGroup                   | Ã¢â‚¬Å“AllÃ¢â‚¬Â to return account summary data for all accounts, or set to a specific  Advisor Account Group name that has already been created in TWS Global  Configuration |
+| AccountReady                     | If an accountReady  value of false is returned that means that the IB server is in the  process of resetting at that moment, i.e. the account is Ã¢â‚¬Ëœnot readyÃ¢â‚¬â„¢.  When this occurs subsequent key values returned to  EWrapper.updateAccountValue in the current update can be out of date or  incorrect. |
 | AccountType                      | Identifies the IB account structure                          |
 | AccruedCash                      | Total accrued cash value of stock, commodities and securities |
-| AccruedCash-C                    | Reflects the current’s month accrued debit and credit interest to date, updated daily in commodity segment |
-| AccruedCash-S                    | Reflects the current’s month accrued debit and credit interest to date, updated daily in security segment |
+| AccruedCash-C                    | Reflects the currentÃ¢â‚¬â„¢s month accrued debit and credit interest to date, updated daily in commodity segment |
+| AccruedCash-S                    | Reflects the currentÃ¢â‚¬â„¢s month accrued debit and credit interest to date, updated daily in security segment |
 | AccruedDividend                  | Total portfolio value of dividends accrued                   |
 | AccruedDividend-C                | Dividends accrued but not paid in commodity segment          |
 | AccruedDividend-S                | Dividends accrued but not paid in security segment           |
 | AvailableFunds                   | This value tells what you have available for trading         |
-| AvailableFunds-C                 | Net Liquidation Value – Initial Margin                       |
-| AvailableFunds-S                 | Equity with Loan Value – Initial Margin                      |
+| AvailableFunds-C                 | Net Liquidation Value Ã¢â‚¬â€œ Initial Margin                       |
+| AvailableFunds-S                 | Equity with Loan Value Ã¢â‚¬â€œ Initial Margin                      |
 | Billable                         | Total portfolio value of treasury bills                      |
 | Billable-C                       | Value of treasury bills in commodity segment                 |
 | Billable-S                       | Value of treasury bills in security segment                  |
-| BuyingPower                      | Cash Account: Minimum (Equity with Loan Value, Previous Day Equity with Loan Value)-Initial Margin, Standard Margin Account: Minimum (Equity with  Loan Value, Previous Day Equity with Loan Value) – Initial Margin *4 |
+| BuyingPower                      | Cash Account: Minimum (Equity with Loan Value, Previous Day Equity with Loan Value)-Initial Margin, Standard Margin Account: Minimum (Equity with  Loan Value, Previous Day Equity with Loan Value) Ã¢â‚¬â€œ Initial Margin *4 |
 | CashBalance                      | Cash recognized at the time of trade + futures PNL           |
 | CorporateBondValue               | Value of non-Government bonds such as corporate bonds and municipal bonds |
 | Currency                         | Open positions are grouped by currency                       |
@@ -1359,24 +1359,24 @@ Account values delivered via [IBApi.EWrapper.updateAccountValue](https://www.int
 | DayTradesRemainingT+3            | Number of Open/Close trades one could do three days from today before Pattern Day Trading is detected |
 | DayTradesRemainingT+4            | Number of Open/Close trades one could do four days from today before Pattern Day Trading is detected |
 | EquityWithLoanValue              | Forms the basis for determining whether a client has the necessary assets to either initiate or maintain security positions |
-| EquityWithLoanValue-C            | Cash account: Total cash value + commodities option value – futures  maintenance margin requirement + minimum (0, futures PNL) Margin  account: Total cash value + commodities option value – futures  maintenance margin requirement |
+| EquityWithLoanValue-C            | Cash account: Total cash value + commodities option value Ã¢â‚¬â€œ futures  maintenance margin requirement + minimum (0, futures PNL) Margin  account: Total cash value + commodities option value Ã¢â‚¬â€œ futures  maintenance margin requirement |
 | EquityWithLoanValue-S            | Cash account: Settled Cash Margin Account: Total cash value + stock value +  bond value + (non-U.S. & Canada securities options value) |
 | ExcessLiquidity                  | This value shows your margin cushion, before liquidation     |
-| ExcessLiquidity-C                | Equity with Loan Value – Maintenance Margin                  |
-| ExcessLiquidity-S                | Net Liquidation Value – Maintenance Margin                   |
+| ExcessLiquidity-C                | Equity with Loan Value Ã¢â‚¬â€œ Maintenance Margin                  |
+| ExcessLiquidity-S                | Net Liquidation Value Ã¢â‚¬â€œ Maintenance Margin                   |
 | ExchangeRate                     | The exchange rate of the currency to your base currency      |
 | FullAvailableFunds               | Available funds of whole portfolio with no discounts or intraday credits |
-| FullAvailableFunds-C             | Net Liquidation Value – Full Initial Margin                  |
-| FullAvailableFunds-S             | Equity with Loan Value – Full Initial Margin                 |
+| FullAvailableFunds-C             | Net Liquidation Value Ã¢â‚¬â€œ Full Initial Margin                  |
+| FullAvailableFunds-S             | Equity with Loan Value Ã¢â‚¬â€œ Full Initial Margin                 |
 | FullExcessLiquidity              | Excess liquidity of whole portfolio with no discounts or intraday credits |
-| FullExcessLiquidity-C            | Net Liquidation Value – Full Maintenance Margin              |
-| FullExcessLiquidity-S            | Equity with Loan Value – Full Maintenance Margin             |
+| FullExcessLiquidity-C            | Net Liquidation Value Ã¢â‚¬â€œ Full Maintenance Margin              |
+| FullExcessLiquidity-S            | Equity with Loan Value Ã¢â‚¬â€œ Full Maintenance Margin             |
 | FullInitMarginReq                | Initial Margin of whole portfolio with no discounts or intraday credits |
-| FullInitMarginReq-C              | Initial Margin of commodity segment’s portfolio with no discounts or intraday credits |
-| FullInitMarginReq-S              | Initial Margin of security segment’s portfolio with no discounts or intraday credits |
+| FullInitMarginReq-C              | Initial Margin of commodity segmentÃ¢â‚¬â„¢s portfolio with no discounts or intraday credits |
+| FullInitMarginReq-S              | Initial Margin of security segmentÃ¢â‚¬â„¢s portfolio with no discounts or intraday credits |
 | FullMaintMarginReq               | Maintenance Margin of whole portfolio with no discounts or intraday credits |
-| FullMaintMarginReq-C             | Maintenance Margin of commodity segment’s portfolio with no discounts or intraday credits |
-| FullMaintMarginReq-S             | Maintenance Margin of security segment’s portfolio with no discounts or intraday credits |
+| FullMaintMarginReq-C             | Maintenance Margin of commodity segmentÃ¢â‚¬â„¢s portfolio with no discounts or intraday credits |
+| FullMaintMarginReq-S             | Maintenance Margin of security segmentÃ¢â‚¬â„¢s portfolio with no discounts or intraday credits |
 | FundValue                        | Value of funds value (money market funds + mutual funds)     |
 | FutureOptionValue                | Real-time market-to-market value of futures options          |
 | FuturesPNL                       | Real-time changes in futures value since last settlement     |
@@ -1391,17 +1391,17 @@ Account values delivered via [IBApi.EWrapper.updateAccountValue](https://www.int
 | Leverage-S                       | GrossPositionValue / NetLiquidation in security segment      |
 | LookAheadNextChange              | Time when look-ahead values take effect                      |
 | LookAheadAvailableFunds          | This value reflects your available funds at the next margin change |
-| LookAheadAvailableFunds-C        | Net Liquidation Value – look ahead Initial Margin            |
-| LookAheadAvailableFunds-S        | Equity with Loan Value – look ahead Initial Margin           |
+| LookAheadAvailableFunds-C        | Net Liquidation Value Ã¢â‚¬â€œ look ahead Initial Margin            |
+| LookAheadAvailableFunds-S        | Equity with Loan Value Ã¢â‚¬â€œ look ahead Initial Margin           |
 | LookAheadExcessLiquidity         | This value reflects your excess liquidity at the next margin change |
-| LookAheadExcessLiquidity-C       | Net Liquidation Value – look ahead Maintenance Margin        |
-| LookAheadExcessLiquidity-S       | Equity with Loan Value – look ahead Maintenance Margin       |
-| LookAheadInitMarginReq           | Initial margin requirement of whole portfolio as of next period’s margin change |
-| LookAheadInitMarginReq-C         | Initial margin requirement as of next period’s margin change in the base currency of the account |
-| LookAheadInitMarginReq-S         | Initial margin requirement as of next period’s margin change in the base currency of the account |
-| LookAheadMaintMarginReq          | Maintenance margin requirement of whole portfolio as of next period’s margin change |
-| LookAheadMaintMarginReq-C        | Maintenance margin requirement as of next period’s margin change in the base currency of the account |
-| LookAheadMaintMarginReq-S        | Maintenance margin requirement as of next period’s margin change in the base currency of the account |
+| LookAheadExcessLiquidity-C       | Net Liquidation Value Ã¢â‚¬â€œ look ahead Maintenance Margin        |
+| LookAheadExcessLiquidity-S       | Equity with Loan Value Ã¢â‚¬â€œ look ahead Maintenance Margin       |
+| LookAheadInitMarginReq           | Initial margin requirement of whole portfolio as of next periodÃ¢â‚¬â„¢s margin change |
+| LookAheadInitMarginReq-C         | Initial margin requirement as of next periodÃ¢â‚¬â„¢s margin change in the base currency of the account |
+| LookAheadInitMarginReq-S         | Initial margin requirement as of next periodÃ¢â‚¬â„¢s margin change in the base currency of the account |
+| LookAheadMaintMarginReq          | Maintenance margin requirement of whole portfolio as of next periodÃ¢â‚¬â„¢s margin change |
+| LookAheadMaintMarginReq-C        | Maintenance margin requirement as of next periodÃ¢â‚¬â„¢s margin change in the base currency of the account |
+| LookAheadMaintMarginReq-S        | Maintenance margin requirement as of next periodÃ¢â‚¬â„¢s margin change in the base currency of the account |
 | MaintMarginReq                   | Maintenance Margin requirement of whole portfolio            |
 | MaintMarginReq-C                 | Maintenance Margin for the commodity segment                 |
 | MaintMarginReq-S                 | Maintenance Margin for the security segment                  |
@@ -1416,16 +1416,16 @@ Account values delivered via [IBApi.EWrapper.updateAccountValue](https://www.int
 | PASharesValue                    | Personal Account shares value of whole portfolio             |
 | PASharesValue-C                  | Personal Account shares value in commodity segment           |
 | PASharesValue-S                  | Personal Account shares value in security segment            |
-| PostExpirationExcess             | Total projected “at expiration” excess liquidity             |
-| PostExpirationExcess-C           | Provides a projected “at expiration” excess liquidity based on the soon-to  expire contracts in your portfolio in commodity segment |
-| PostExpirationExcess-S           | Provides a projected “at expiration” excess liquidity based on the soon-to  expire contracts in your portfolio in security segment |
-| PostExpirationMargin             | Total projected “at expiration” margin                       |
-| PostExpirationMargin-C           | Provides a projected “at expiration” margin value based on the soon-to expire contracts in your portfolio in commodity segment |
-| PostExpirationMargin-S           | Provides a projected “at expiration” margin value based on the soon-to expire contracts in your portfolio in security segment |
+| PostExpirationExcess             | Total projected Ã¢â‚¬Å“at expirationÃ¢â‚¬Â excess liquidity             |
+| PostExpirationExcess-C           | Provides a projected Ã¢â‚¬Å“at expirationÃ¢â‚¬Â excess liquidity based on the soon-to  expire contracts in your portfolio in commodity segment |
+| PostExpirationExcess-S           | Provides a projected Ã¢â‚¬Å“at expirationÃ¢â‚¬Â excess liquidity based on the soon-to  expire contracts in your portfolio in security segment |
+| PostExpirationMargin             | Total projected Ã¢â‚¬Å“at expirationÃ¢â‚¬Â margin                       |
+| PostExpirationMargin-C           | Provides a projected Ã¢â‚¬Å“at expirationÃ¢â‚¬Â margin value based on the soon-to expire contracts in your portfolio in commodity segment |
+| PostExpirationMargin-S           | Provides a projected Ã¢â‚¬Å“at expirationÃ¢â‚¬Â margin value based on the soon-to expire contracts in your portfolio in security segment |
 | PreviousDayEquityWithLoanValue   | Marginable Equity with Loan value as of 16:00 ET the previous day in securities segment |
 | PreviousDayEquityWithLoanValue-S | IMarginable Equity with Loan value as of 16:00 ET the previous day |
 | RealCurrency                     | Open positions are grouped by currency                       |
-| RealizedPnL                      | Shows your profit on closed positions, which is the difference between your  entry execution cost and exit execution costs, or (execution price +  commissions to open the positions) – (execution price + commissions to  close the position) |
+| RealizedPnL                      | Shows your profit on closed positions, which is the difference between your  entry execution cost and exit execution costs, or (execution price +  commissions to open the positions) Ã¢â‚¬â€œ (execution price + commissions to  close the position) |
 | RegTEquity                       | Regulation T equity for universal account                    |
 | RegTEquity-S                     | Regulation T equity for security segment                     |
 | RegTMargin                       | Regulation T margin for universal account                    |
@@ -1441,7 +1441,7 @@ Account values delivered via [IBApi.EWrapper.updateAccountValue](https://www.int
 | TotalCashValue-C                 | CashBalance in commodity segment                             |
 | TotalCashValue-S                 | CashBalance in security segment                              |
 | TradingType-S                    | Account Type                                                 |
-| UnrealizedPnL                    | The difference between the current market value of your open positions and the average cost, or Value – Average Cost |
+| UnrealizedPnL                    | The difference between the current market value of your open positions and the average cost, or Value Ã¢â‚¬â€œ Average Cost |
 | WarrantValue                     | Value of warrants                                            |
 | WhatIfPMEnabled                  | To check projected margin requirements under Portfolio Margin model |
 
@@ -1449,7 +1449,7 @@ Account values delivered via [IBApi.EWrapper.updateAccountValue](https://www.int
 
 Once the subscription to account updates is no longer needed, it can be  cancelled by invoking the IBApi.EClient.reqAccountUpdates method while  specifying the susbcription flag to be False.
 
-**Important:** only one account at a time can be subscribed at a time. Attempting a  second subscription without previously cancelling an active one will not yield any error message although it will override the already  subscribed account with the new one. With Financial Advisory (FA)  account structures there is an alternative way of specifying the account code such that information is returned for ‘All’ sub accounts- this is  done by appending the letter ‘A’ to the end of the account number, i.e.  reqAccountUpdates(true, “F123456A”)
+**Important:** only one account at a time can be subscribed at a time. Attempting a  second subscription without previously cancelling an active one will not yield any error message although it will override the already  subscribed account with the new one. With Financial Advisory (FA)  account structures there is an alternative way of specifying the account code such that information is returned for Ã¢â‚¬ËœAllÃ¢â‚¬â„¢ sub accounts- this is  done by appending the letter Ã¢â‚¬ËœAÃ¢â‚¬â„¢ to the end of the account number, i.e.  reqAccountUpdates(true, Ã¢â‚¬Å“F123456AÃ¢â‚¬Â)
 
 #### EClient.reqAccountUpdates (
 
@@ -1485,7 +1485,7 @@ The IBApi.EClient.reqAccountUpdatesMulti can be used in any account  structure t
 
 Requests account updates for account and/or model.
 
-IBApi.EClient.reqAccountUpdatesMulti cannot be used with Account=”All” in IBroker accounts with more than 50 subaccounts.
+IBApi.EClient.reqAccountUpdatesMulti cannot be used with Account=Ã¢â‚¬ÂAllÃ¢â‚¬Â in IBroker accounts with more than 50 subaccounts.
 
 A profile name can be accepted in place of group in the account parameter for [Financial Advisors](https://www.interactivebrokers.com/campus/ibkr-api-page/trader-workstation-api/#financial-advisors)
 
@@ -1505,19 +1505,19 @@ import time
 
 class TradeApp(EWrapper, EClient):
 
-​    def __init__(self):
+Ã¢â‚¬â€¹    def __init__(self):
 
-​        EClient.__init__(self, self)
+Ã¢â‚¬â€¹        EClient.__init__(self, self)
 
-​    def accountUpdateMulti(self, reqId: int, account: str, modelCode: str, key: str, value: str, currency: str):
+Ã¢â‚¬â€¹    def accountUpdateMulti(self, reqId: int, account: str, modelCode: str, key: str, value: str, currency: str):
 
-​        print("AccountUpdateMulti. RequestId:", reqId, "Account:", account, "ModelCode:", modelCode, "Key:", key, "Value:", value, "Currency:", currency)
+Ã¢â‚¬â€¹        print("AccountUpdateMulti. RequestId:", reqId, "Account:", account, "ModelCode:", modelCode, "Key:", key, "Value:", value, "Currency:", currency)
 
-​    def accountUpdateMultiEnd(self, reqId: int):
+Ã¢â‚¬â€¹    def accountUpdateMultiEnd(self, reqId: int):
 
-​        print("AccountUpdateMultiEnd. RequestId:", reqId)
+Ã¢â‚¬â€¹        print("AccountUpdateMultiEnd. RequestId:", reqId)
 
-​
+Ã¢â‚¬â€¹
 
 app = TradeApp()
 
@@ -1572,7 +1572,7 @@ Indicates all the account updates have been transmitted.
 
 def accountUpdateMultiEnd(self, reqId: int):
 
-​    print("AccountUpdateMultiEnd. RequestId:", reqId)
+Ã¢â‚¬â€¹    print("AccountUpdateMultiEnd. RequestId:", reqId)
 
 
 
@@ -1600,7 +1600,7 @@ self.reqAccountUpdatesMulti(reqId, self.account, "", False)
 
 It is possible to determine from the API whether an account exists under  an account family, and find the family code using the function  reqFamilyCodes.
 
-For instance, if individual account U112233 is  under a financial advisor with account number F445566, if the function  reqFamilyCodes is invoked for the user of account U112233, the family  code “F445566A” will be returned, indicating that it belongs within that account family.
+For instance, if individual account U112233 is  under a financial advisor with account number F445566, if the function  reqFamilyCodes is invoked for the user of account U112233, the family  code Ã¢â‚¬Å“F445566AÃ¢â‚¬Â will be returned, indicating that it belongs within that account family.
 
 ### Request Family CodesCopy Location
 
@@ -1628,7 +1628,7 @@ Returns array of family codes.
 
 def familyCodes(self, familyCodes: ListOfFamilyCode):
 
-​    print("Family Codes:", familyCode)
+Ã¢â‚¬â€¹    print("Family Codes:", familyCode)
 
 
 
@@ -1662,7 +1662,7 @@ Returns a string of all available accounts for the logged in user. Occurs automa
 
 def managedAccounts(self, accountsList: str):
 
-​    print("Account list:", accountsList)
+Ã¢â‚¬â€¹    print("Account list:", accountsList)
 
 
 
@@ -1698,27 +1698,27 @@ import time
 
 class TradingApp(EWrapper, EClient):
 
-​    def __init__(self):
+Ã¢â‚¬â€¹    def __init__(self):
 
-​        EClient.__init__(self,self)
+Ã¢â‚¬â€¹        EClient.__init__(self,self)
 
-​    def position(self, account: str, contract: Contract, position: Decimal, avgCost: float):
+Ã¢â‚¬â€¹    def position(self, account: str, contract: Contract, position: Decimal, avgCost: float):
 
-​        print("Position.", "Account:", account, "Contract:", contract, "Position:", position, "Avg cost:", avgCost)
+Ã¢â‚¬â€¹        print("Position.", "Account:", account, "Contract:", contract, "Position:", position, "Avg cost:", avgCost)
 
-​
+Ã¢â‚¬â€¹
 
-​    def positionEnd(self):
+Ã¢â‚¬â€¹    def positionEnd(self):
 
-​       print("PositionEnd")
+Ã¢â‚¬â€¹       print("PositionEnd")
 
-​
+Ã¢â‚¬â€¹
 
 def websocket_con():
 
-​    app.run()
+Ã¢â‚¬â€¹    app.run()
 
-​
+Ã¢â‚¬â€¹
 
 app = TradingApp()
 
@@ -1742,14 +1742,14 @@ time.sleep(1)
 
 **account:** String. The account holding the position.
 
-**contract:** Contract. The position’s Contract
+**contract:** Contract. The positionÃ¢â‚¬â„¢s Contract
 
 **pos:** decimal. The number of positions held. avgCost the average cost of the position.
 
 **avgCost:** double. The total average cost of all trades for the currently held position.
  )
 
-Provides the portfolio’s open positions. After the initial callback (only) of  all positions, the IBApi.EWrapper.positionEnd function will be  triggered.
+Provides the portfolioÃ¢â‚¬â„¢s open positions. After the initial callback (only) of  all positions, the IBApi.EWrapper.positionEnd function will be  triggered.
 
 For futures, the exchange field will not be populated in the position callback as some futures trade on multiple exchanges
 
@@ -1793,11 +1793,11 @@ The function IBApi.EClient.reqPositionsMulti can be used with any account  struc
 
 #### EClient.reqPositionsMulti(
 
-**requestId:** int. Request’s identifier.
+**requestId:** int. RequestÃ¢â‚¬â„¢s identifier.
 
-**account:** String. If an account Id is provided, only the account’s positions belonging to the specified model will be delivered.
+**account:** String. If an account Id is provided, only the accountÃ¢â‚¬â„¢s positions belonging to the specified model will be delivered.
 
-**modelCode:** String. The code of the model’s positions we are interested in.
+**modelCode:** String. The code of the modelÃ¢â‚¬â„¢s positions we are interested in.
  )
 
 Requests position subscription for account and/or model Initially all positions  are returned, and then updates are returned for any position changes in  real time.
@@ -1820,29 +1820,29 @@ import time
 
 class TradingApp(EWrapper, EClient):
 
-​    def __init__(self):
+Ã¢â‚¬â€¹    def __init__(self):
 
-​        EClient.__init__(self,self)
+Ã¢â‚¬â€¹        EClient.__init__(self,self)
 
-​
+Ã¢â‚¬â€¹
 
-​    def positionMulti(self, reqId: int, account: str, modelCode: str, contract: Contract, pos: Decimal, avgCost: float):
+Ã¢â‚¬â€¹    def positionMulti(self, reqId: int, account: str, modelCode: str, contract: Contract, pos: Decimal, avgCost: float):
 
-​       print("PositionMulti. RequestId:", reqId, "Account:", account, "ModelCode:", modelCode, "Contract:", contract, ",Position:", pos, "AvgCost:", avgCost)
+Ã¢â‚¬â€¹       print("PositionMulti. RequestId:", reqId, "Account:", account, "ModelCode:", modelCode, "Contract:", contract, ",Position:", pos, "AvgCost:", avgCost)
 
-​
+Ã¢â‚¬â€¹
 
-​    def positionMultiEnd(self, reqId: int):
+Ã¢â‚¬â€¹    def positionMultiEnd(self, reqId: int):
 
-​        print("")
+Ã¢â‚¬â€¹        print("")
 
-​        print("PositionMultiEnd. RequestId:", reqId)
+Ã¢â‚¬â€¹        print("PositionMultiEnd. RequestId:", reqId)
 
 def websocket_con():
 
-​    app.run()
+Ã¢â‚¬â€¹    app.run()
 
-​
+Ã¢â‚¬â€¹
 
 app = TradingApp()
 
@@ -1874,14 +1874,14 @@ time.sleep(1)
 
 **modelCode:** String. The model code holding the position.
 
-**contract:** Contract. The position’s Contract
+**contract:** Contract. The positionÃ¢â‚¬â„¢s Contract
 
 **pos:** decimal. The number of positions held.
 
 **avgCost:** double. The average cost of the position.
  )
 
-Provides the portfolio’s open positions.
+Provides the portfolioÃ¢â‚¬â„¢s open positions.
 
 -
 
@@ -1924,7 +1924,7 @@ self.cancelPositionsMulti(requestid)
 
 ### Profit & Loss (PnL)Copy Location
 
-Requests can be made to receive real time updates about the daily P&L and  unrealized P&L for an account, or for individual positions.  Financial Advisors can also request P&L figures for ‘All’  subaccounts, or for a portfolio model. This is further extended to  include realized P&L information at the account or individual  position level.
+Requests can be made to receive real time updates about the daily P&L and  unrealized P&L for an account, or for individual positions.  Financial Advisors can also request P&L figures for Ã¢â‚¬ËœAllÃ¢â‚¬â„¢  subaccounts, or for a portfolio model. This is further extended to  include realized P&L information at the account or individual  position level.
 
 The P&L API functions demonstrated below  return the data which is displayed in the TWS Portfolio Window in  current versions of TWS. As such, the P&L values are calculated  based on the reset schedule specified in TWS Global Configuration (by  default an instrument-specific reset schedule) and this setting affects  values sent to the associated API functions as well. Also in TWS,  P&L data from virtual forex positions will be included in the  account P&L if and only if the Virtual Fx section of the Account  Window is expanded.
 
@@ -1932,12 +1932,12 @@ See [Account Updates](https://www.interactivebrokers.com/campus/ibkr-api-page/tw
 
 ### Request P&L for individual positionsCopy Location
 
-Subscribe using the IBApi::EClient::reqPnLSingle function Cannot be used with  IBroker accounts configured for on-demand lookup with account = ‘All’.  Currently updates are returned to IBApi.EWrapper.pnlSingle approximately once per second*.
+Subscribe using the IBApi::EClient::reqPnLSingle function Cannot be used with  IBroker accounts configured for on-demand lookup with account = Ã¢â‚¬ËœAllÃ¢â‚¬â„¢.  Currently updates are returned to IBApi.EWrapper.pnlSingle approximately once per second*.
 
 - If a P&L subscription request is made for an invalid conId or contract not in the account, there will not be a response.
-- As elsewhere in the API, a max double value will indicate an ‘unset’ value. This corresponds to an empty cell in TWS.
-- Introducing broker accounts without a large number of subaccounts (<50) can  receive aggregate data by specifying the account as “All”.
-- *Cannot be used with IBroker accounts configured for on-demand lookup with account = ‘All’
+- As elsewhere in the API, a max double value will indicate an Ã¢â‚¬ËœunsetÃ¢â‚¬â„¢ value. This corresponds to an empty cell in TWS.
+- Introducing broker accounts without a large number of subaccounts (<50) can  receive aggregate data by specifying the account as Ã¢â‚¬Å“AllÃ¢â‚¬Â.
+- *Cannot be used with IBroker accounts configured for on-demand lookup with account = Ã¢â‚¬ËœAllÃ¢â‚¬â„¢
 
 *subject to change in the future.
 
@@ -1971,15 +1971,15 @@ import time
 
 class TradeApp(EWrapper, EClient):
 
-​    def __init__(self):
+Ã¢â‚¬â€¹    def __init__(self):
 
-​        EClient.__init__(self, self)
+Ã¢â‚¬â€¹        EClient.__init__(self, self)
 
-​    def pnlSingle(self, reqId: int, pos: Decimal, dailyPnL: float, unrealizedPnL: float, realizedPnL: float, value: float):
+Ã¢â‚¬â€¹    def pnlSingle(self, reqId: int, pos: Decimal, dailyPnL: float, unrealizedPnL: float, realizedPnL: float, value: float):
 
-​        print("Daily PnL Single. ReqId:", reqId, "Position:", pos, "DailyPnL:", dailyPnL, "UnrealizedPnL:", unrealizedPnL, "RealizedPnL:", realizedPnL, "Value:", value)
+Ã¢â‚¬â€¹        print("Daily PnL Single. ReqId:", reqId, "Position:", pos, "DailyPnL:", dailyPnL, "UnrealizedPnL:", unrealizedPnL, "RealizedPnL:", realizedPnL, "Value:", value)
 
-​
+Ã¢â‚¬â€¹
 
 app = TradeApp()
 
@@ -2039,9 +2039,9 @@ self.cancelPnLSingle(requestId);
 
 Subscribe using the IBApi::EClient::reqPnL function. Updates are sent to IBApi.EWrapper.pnl.
 
-- Introducing broker accounts with less than 50 subaccounts can receive aggregate PnL for all subaccounts by specifying ‘All’ as the account code.
+- Introducing broker accounts with less than 50 subaccounts can receive aggregate PnL for all subaccounts by specifying Ã¢â‚¬ËœAllÃ¢â‚¬â„¢ as the account code.
 - With requests for advisor accounts with many subaccounts and/or positions  can take several seconds for aggregated P&L to be computed and  returned.
-- For account P&L data the TWS setting “Prepare portfolio PnL data when downloading positions” must be checked.
+- For account P&L data the TWS setting Ã¢â‚¬Å“Prepare portfolio PnL data when downloading positionsÃ¢â‚¬Â must be checked.
 
 #### EClient.reqPnL (
 
@@ -2070,15 +2070,15 @@ import time
 
 class TradeApp(EWrapper, EClient):
 
-​    def __init__(self):
+Ã¢â‚¬â€¹    def __init__(self):
 
-​        EClient.__init__(self, self)
+Ã¢â‚¬â€¹        EClient.__init__(self, self)
 
-​    def pnl(self, reqId: int, dailyPnL: float, unrealizedPnL: float, realizedPnL: float):
+Ã¢â‚¬â€¹    def pnl(self, reqId: int, dailyPnL: float, unrealizedPnL: float, realizedPnL: float):
 
-​        print("Daily PnL. ReqId:", reqId, "DailyPnL:", dailyPnL, "UnrealizedPnL:", unrealizedPnL, "RealizedPnL:", realizedPnL)
+Ã¢â‚¬â€¹        print("Daily PnL. ReqId:", reqId, "DailyPnL:", dailyPnL, "UnrealizedPnL:", unrealizedPnL, "RealizedPnL:", realizedPnL)
 
-​
+Ã¢â‚¬â€¹
 
 app = TradeApp()
 
@@ -2177,7 +2177,7 @@ From time to time, IB sends out important [News Bulletins](https://ibkrguides.co
 **allMessages:** bool. If set to true, will return all the existing bulletins for the  current day, set to false to receive only the new bulletins.
  )
 
-Subscribes to IB’s News Bulletins.
+Subscribes to IBÃ¢â‚¬â„¢s News Bulletins.
 
 -
 
@@ -2189,7 +2189,7 @@ self.reqNewsBulletins(True)
 
 #### EWrapper.updateNewsBulletin (
 
-**msgId:** int. The bulletin’s identifier.
+**msgId:** int. The bulletinÃ¢â‚¬â„¢s identifier.
 
 **msgType:** int. 1: Regular news bulletin; 2: Exchange no longer available for trading; 3: Exchange is available for trading.
 
@@ -2198,7 +2198,7 @@ self.reqNewsBulletins(True)
 **origExchange:** String. The exchange where the message comes from.
  )
 
-Provides IB’s bulletins
+Provides IBÃ¢â‚¬â„¢s bulletins
 
 -
 
@@ -2212,7 +2212,7 @@ def updateNewsBulletin(self, msgId: int, msgType: int, newsMessage: str, originE
 
 #### EClient.cancelNewsBulletin ()
 
-Cancels IB’s news bulletin subscription.
+Cancels IBÃ¢â‚¬â„¢s news bulletin subscription.
 
 -
 
@@ -2263,7 +2263,7 @@ Given additional structures for contracts are ever evolving, it is  recommended 
 
 If there is more than one contract matching the same description, TWS will return an error notifying you there is an ambiguity. In these cases the TWS needs further information to narrow down the list of contracts  matching the provided description to a single element.
 
-The best  way of finding a contract’s description is within TWS itself. Within  TWS, you can easily check a contract’s description either by double  clicking it or through the Financial Instrument Info -> Description  menu, which you access by right-clicking a contract in TWS:
+The best  way of finding a contractÃ¢â‚¬â„¢s description is within TWS itself. Within  TWS, you can easily check a contractÃ¢â‚¬â„¢s description either by double  clicking it or through the Financial Instrument Info -> Description  menu, which you access by right-clicking a contract in TWS:
 
 ![Right click menu containing Financial Instrument Info.](https://www.interactivebrokers.com/campus/wp-content/uploads/sites/2/2023/09/financial_instr-description.png)
 
@@ -2283,7 +2283,7 @@ The simplest way to define a contract  is by providing its symbol, security type
 
 ### Contract DetailsCopy Location
 
-Complete details about a contract in IB’s database can be retrieved using the function [IBApi.EClient.reqContractDetails](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#request-contract-details). This includes information about a contract’s conID, symbol, local  symbol, currency, etc. which is returned in a IBApi.ContractDetails  object. reqContractDetails takes as an argument a Contract object which  may uniquely match one contract, and unlike other API functions it can  also take a Contract object which matches multiple contracts in IB’s  database. When there are multiple matches, they will each be returned  individually to the function[ IBApi::EWrapper::contractDetails.](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#receive-contract-details)
+Complete details about a contract in IBÃ¢â‚¬â„¢s database can be retrieved using the function [IBApi.EClient.reqContractDetails](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#request-contract-details). This includes information about a contractÃ¢â‚¬â„¢s conID, symbol, local  symbol, currency, etc. which is returned in a IBApi.ContractDetails  object. reqContractDetails takes as an argument a Contract object which  may uniquely match one contract, and unlike other API functions it can  also take a Contract object which matches multiple contracts in IBÃ¢â‚¬â„¢s  database. When there are multiple matches, they will each be returned  individually to the function[ IBApi::EWrapper::contractDetails.](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#receive-contract-details)
 
 Request for Bond details will be returned to [IBApi::EWrapper::bondContractDetails](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#receive-bond-details) instead. Because of bond market data license restrictions, there are  only a few available fields to be returned in a bond contract  description, namely the minTick, exchange, and short name.
 
@@ -2338,7 +2338,7 @@ self.reqContractDetails(reqId, contract)
 **contract:** ContractDetails. Contains the full contract object contents including all information about a specific traded instrument.
  )
 
-Receives the full contract’s definitions This method will return all contracts  matching the requested via EClientSocket::reqContractDetails. For  example, one can obtain the whole option chain with it.
+Receives the full contractÃ¢â‚¬â„¢s definitions This method will return all contracts  matching the requested via EClientSocket::reqContractDetails. For  example, one can obtain the whole option chain with it.
 
 -
 
@@ -2389,7 +2389,7 @@ The option chain for a given security can be returned using the function [EClien
 One limitation of this technique is that the return of option chains will  be throttled and take a longer time the more ambiguous the contract  definition. The function [EClient.reqSecDefOptParams](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#request-opt-chain) was introduced that does not have the throttling limitation.
 
 - It is not recommended to use [EClient.reqContractDetails](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#request-contract-details) to receive complete option chains on an underlying, e.g. all combinations of strikes/rights/expiries.
-- For very large option chains returned from [EClient.reqContractDetails](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#request-contract-details), unchecking the setting in TWS Global Configuration at API ->  Settings -> “Expose entire trading schedule to the API” will decrease the amount of data returned per option and help to return the contract  list more quickly.
+- For very large option chains returned from [EClient.reqContractDetails](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#request-contract-details), unchecking the setting in TWS Global Configuration at API ->  Settings -> Ã¢â‚¬Å“Expose entire trading schedule to the APIÃ¢â‚¬Â will decrease the amount of data returned per option and help to return the contract  list more quickly.
 
 [EClient.reqSecDefOptParams](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#request-opt-chain) returns a list of expiries and a list of strike prices. In some cases,  it is possible there are combinations of strike and expiry that would  not give a valid option contract.
 
@@ -2401,14 +2401,14 @@ One limitation of this technique is that the return of option chains will  be th
 
 **underlyingSymbol:** String. Contract symbol of the underlying.
 
-**futFopExchange:** String. The exchange on which the returned options are trading. Can be set to the empty string “” for all exchanges.
+**futFopExchange:** String. The exchange on which the returned options are trading. Can be set to the empty string Ã¢â‚¬Å“Ã¢â‚¬Â for all exchanges.
 
 **underlyingSecType:** String. The type of the underlying security, i.e. STK
 
 **underlyingConId:** int. The contract ID of the underlying security.
  )
 
-Requests security definition option parameters for viewing a contract’s option chain.
+Requests security definition option parameters for viewing a contractÃ¢â‚¬â„¢s option chain.
 
 -
 
@@ -2447,7 +2447,7 @@ def securityDefinitionOptionParameter(self, reqId: int, exchange: str, underlyin
 
 ### Stock Symbol SearchCopy Location
 
-The function IBApi::EClient::reqMatchingSymbols is available to search for  stock contracts. The input can be either the first few letters of the  ticker symbol, or for longer strings, a character sequence matching a  word in the security name. For instance to search for the stock symbol  ‘IBKR’, the input ‘I’ or ‘IB’ can be used, as well as the word  ‘Interactive’. Up to 16 matching results are returned.
+The function IBApi::EClient::reqMatchingSymbols is available to search for  stock contracts. The input can be either the first few letters of the  ticker symbol, or for longer strings, a character sequence matching a  word in the security name. For instance to search for the stock symbol  Ã¢â‚¬ËœIBKRÃ¢â‚¬â„¢, the input Ã¢â‚¬ËœIÃ¢â‚¬â„¢ or Ã¢â‚¬ËœIBÃ¢â‚¬â„¢ can be used, as well as the word  Ã¢â‚¬ËœInteractiveÃ¢â‚¬â„¢. Up to 16 matching results are returned.
 
 There must be an interval of at least 1 second between successive calls to reqMatchingSymbols
 
@@ -2489,31 +2489,31 @@ def symbolSamples(self, reqId: int, contractDescriptions: ListOfContractDescript
 
   for contractDescription in contractDescriptions:
 
-​    derivSecTypes = ""
+Ã¢â‚¬â€¹    derivSecTypes = ""
 
-​    for derivSecType in contractDescription.derivativeSecTypes:
+Ã¢â‚¬â€¹    for derivSecType in contractDescription.derivativeSecTypes:
 
-​      derivSecTypes += " "
+Ã¢â‚¬â€¹      derivSecTypes += " "
 
-​      derivSecTypes += derivSecType
+Ã¢â‚¬â€¹      derivSecTypes += derivSecType
 
-​      print("Contract: conId:%s, symbol:%s, secType:%s primExchange:%s, "
+Ã¢â‚¬â€¹      print("Contract: conId:%s, symbol:%s, secType:%s primExchange:%s, "
 
-​        "currency:%s, derivativeSecTypes:%s, description:%s, issuerId:%s" % (
+Ã¢â‚¬â€¹        "currency:%s, derivativeSecTypes:%s, description:%s, issuerId:%s" % (
 
-​        contractDescription.contract.conId,
+Ã¢â‚¬â€¹        contractDescription.contract.conId,
 
-​        contractDescription.contract.symbol,
+Ã¢â‚¬â€¹        contractDescription.contract.symbol,
 
-​        contractDescription.contract.secType,
+Ã¢â‚¬â€¹        contractDescription.contract.secType,
 
-​        contractDescription.contract.primaryExchange,
+Ã¢â‚¬â€¹        contractDescription.contract.primaryExchange,
 
-​        contractDescription.contract.currency, derivSecTypes,
+Ã¢â‚¬â€¹        contractDescription.contract.currency, derivSecTypes,
 
-​        contractDescription.contract.description,
+Ã¢â‚¬â€¹        contractDescription.contract.description,
 
-​        contractDescription.contract.issuerId))
+Ã¢â‚¬â€¹        contractDescription.contract.issuerId))
 
 
 
@@ -2537,7 +2537,7 @@ ForecastEx Website: https://forecastex.com/
 
 ### CME Event ContractsCopy Location
 
-CME event contracts let you trade your view on whether the price of key  futures markets will move up or down by the end of each day’s trading  session.
+CME event contracts let you trade your view on whether the price of key  futures markets will move up or down by the end of each dayÃ¢â‚¬â„¢s trading  session.
 
 Each contract pays USD 100.00 at expiry if expiring  in-the-money, and your max profit per contract is USD 100.00 minus the  premium you paid to purchase the contract (plus fees and commissions).  CME event contracts are quoted in USD 1.00 increments.
 
@@ -2545,7 +2545,7 @@ ForecastEx Website: https://www.cmegroup.com/activetrader/event-contracts.html
 
 ### Contract Definition & DiscoveryCopy Location
 
-IB’s Event Contract instrument records use the following fields inherited from the options model:
+IBÃ¢â‚¬â„¢s Event Contract instrument records use the following fields inherited from the options model:
 
 - An
 
@@ -2553,8 +2553,8 @@ IB’s Event Contract instrument records use the following fields inherited from
 
   , which may or may not be artificial:
 
-  - For **CME products**, a tradable Event Contract will have the relevant CME future as its  underlier. Therefore, the security type of the CME contract will be a  futures option, or “FOP”.
-  - For **ForecastEx products**, IB has generated an artificial underlying index which serves as a  container for related Event Contracts in the same product class. These  artificial indices do not have any associated reference values and are  purely an artifact of the option instrument model used to represent  these Event Contracts. However, these artificial underlying indices can  be used to search for groups of related Event Contracts, just as with  index options. Therefore, the security type of ForecastEx products are  always options, or “OPT”.
+  - For **CME products**, a tradable Event Contract will have the relevant CME future as its  underlier. Therefore, the security type of the CME contract will be a  futures option, or Ã¢â‚¬Å“FOPÃ¢â‚¬Â.
+  - For **ForecastEx products**, IB has generated an artificial underlying index which serves as a  container for related Event Contracts in the same product class. These  artificial indices do not have any associated reference values and are  purely an artifact of the option instrument model used to represent  these Event Contracts. However, these artificial underlying indices can  be used to search for groups of related Event Contracts, just as with  index options. Therefore, the security type of ForecastEx products are  always options, or Ã¢â‚¬Å“OPTÃ¢â‚¬Â.
 
 - An
 
@@ -2562,18 +2562,18 @@ IB’s Event Contract instrument records use the following fields inherited from
 
    value will reflect the listing exchange of the given Event contract.
 
-  - ForecastEx contracts will always use “FORECASTX” as the exchange value. Note the  value does not include the final “E” in “ForecastEx”.
-  - A CME product may use “CBOT”, “CME”, “COMEX”, or “NYMEX” depending on the contract’s listing.
+  - ForecastEx contracts will always use Ã¢â‚¬Å“FORECASTXÃ¢â‚¬Â as the exchange value. Note the  value does not include the final Ã¢â‚¬Å“EÃ¢â‚¬Â in Ã¢â‚¬Å“ForecastExÃ¢â‚¬Â.
+  - A CME product may use Ã¢â‚¬Å“CBOTÃ¢â‚¬Â, Ã¢â‚¬Å“CMEÃ¢â‚¬Â, Ã¢â‚¬Å“COMEXÃ¢â‚¬Â, or Ã¢â‚¬Å“NYMEXÃ¢â‚¬Â depending on the contractÃ¢â‚¬â„¢s listing.
 
-- A **Symbol** value which matches the symbol of the underlier, and which reflects the issuer’s product code.
+- A **Symbol** value which matches the symbol of the underlier, and which reflects the issuerÃ¢â‚¬â„¢s product code.
 
 - A
 
   Trading Class
 
-   which also reflects the issuer’s product code for the instrument, and in the  case of CME Group products, is used to differentiate Event Contracts  from CME futures options.
+   which also reflects the issuerÃ¢â‚¬â„¢s product code for the instrument, and in the  case of CME Group products, is used to differentiate Event Contracts  from CME futures options.
 
-  - Note that many CME Group Event Contracts, which resolve against CME Group  futures, are assigned a Trading Class prefixed with “EC” and followed by the symbol of the relevant futures product, to avoid naming collisions  with other derivatives (i.e., proper futures options listed on the same  future).
+  - Note that many CME Group Event Contracts, which resolve against CME Group  futures, are assigned a Trading Class prefixed with Ã¢â‚¬Å“ECÃ¢â‚¬Â and followed by the symbol of the relevant futures product, to avoid naming collisions  with other derivatives (i.e., proper futures options listed on the same  future).
 
 - A
 
@@ -2589,7 +2589,7 @@ IB’s Event Contract instrument records use the following fields inherited from
 
    value, again used primarily for searching and filtering available instruments. Most Event Contract products do not follow monthly series as is common  with index or equity options, so these Contract Month values are  typically not a meaningful attribute of the instrument. Rather, they  permit filtering of instruments by calendar month.
 
-  - Requesting Contract Details for a given instrument will return a  “realExpirationDate”, which will correspond with the same values printed in the ForecastTrader page.
+  - Requesting Contract Details for a given instrument will return a  Ã¢â‚¬Å“realExpirationDateÃ¢â‚¬Â, which will correspond with the same values printed in the ForecastTrader page.
 
 - A **Last Trade Date, Time, and Millisecond** values, which together indicate precisely when trading in an Event Contract will cease, just as with index options.
 
@@ -2597,7 +2597,7 @@ IB’s Event Contract instrument records use the following fields inherited from
 
 - An
 
-  instrument description (or “local symbol”)
+  instrument description (or Ã¢â‚¬Å“local symbolÃ¢â‚¬Â)
 
    in the form
 
@@ -2607,9 +2607,9 @@ IB’s Event Contract instrument records use the following fields inherited from
 
   , where:
 
-  - `PRODUCT` is the issuer’s product identifier
-  - `EXPIRATION` is the date of the instrument’s resolution in the form `MmmDD'YY`, e.g., “Sep26’24”
-  - `STRIKE` is the numerical value that determines the contract’s moneyness at expiration
+  - `PRODUCT` is the issuerÃ¢â‚¬â„¢s product identifier
+  - `EXPIRATION` is the date of the instrumentÃ¢â‚¬â„¢s resolution in the form `MmmDD'YY`, e.g., Ã¢â‚¬Å“Sep26Ã¢â‚¬â„¢24Ã¢â‚¬Â
+  - `STRIKE` is the numerical value that determines the contractÃ¢â‚¬â„¢s moneyness at expiration
   - `RIGHT` is a value YES or NO
 
 ### ForecastEx Contract ExampleCopy Location
@@ -2618,17 +2618,17 @@ Given the information above, we can establish a working example against the Glob
 
 Reviewing the page to the right, we can see all of the contract details necessary to get started.
 
-1. Above the chart next to the contract name, we can see the Symbol, “GCE”.
-2. On the left side of the web page, we can find the contract’s expiration date, June 30, 2026.
-3. Equally important is the value on the right, “Market closes in 287 days.”
+1. Above the chart next to the contract name, we can see the Symbol, Ã¢â‚¬Å“GCEÃ¢â‚¬Â.
+2. On the left side of the web page, we can find the contractÃ¢â‚¬â„¢s expiration date, June 30, 2026.
+3. Equally important is the value on the right, Ã¢â‚¬Å“Market closes in 287 days.Ã¢â‚¬Â
 4. The bolded excess on the top, 40,5000, indicates our strike price. This can be corroborated by the table on the left which acts like an Option  Chain table users may be more familiar with.
 
 While not explicitly stated in the web page, there are several details that may be inferred based on the information present:
 
-1. All ForecastEx contracts use the “OPT” security type, as mentioned in the [Contract Definition & Discovery](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#ec-contracts) section above.
-2. The ForecastEx exchange value is always listed as “FORECASTX”.
-3. All currently offered Event Contracts are hosted in the United States of  America, and therefore will always use “USD” as their currency value.
-4. “Yes” or “No” contracts are based on option rights, “Call” and “Put” respectively.
+1. All ForecastEx contracts use the Ã¢â‚¬Å“OPTÃ¢â‚¬Â security type, as mentioned in the [Contract Definition & Discovery](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#ec-contracts) section above.
+2. The ForecastEx exchange value is always listed as Ã¢â‚¬Å“FORECASTXÃ¢â‚¬Â.
+3. All currently offered Event Contracts are hosted in the United States of  America, and therefore will always use Ã¢â‚¬Å“USDÃ¢â‚¬Â as their currency value.
+4. Ã¢â‚¬Å“YesÃ¢â‚¬Â or Ã¢â‚¬Å“NoÃ¢â‚¬Â contracts are based on option rights, Ã¢â‚¬Å“CallÃ¢â‚¬Â and Ã¢â‚¬Å“PutÃ¢â‚¬Â respectively.
 
 
 
@@ -2636,28 +2636,28 @@ While not explicitly stated in the web page, there are several details that may 
 
 
 
-In order to request our specific contract, we will need to focus on the  “Market closes in 287 days” statement. This value indicates the last day the contract may be traded.
+In order to request our specific contract, we will need to focus on the  Ã¢â‚¬Å“Market closes in 287 daysÃ¢â‚¬Â statement. This value indicates the last day the contract may be traded.
 
 This document is written on the 19th of March, 2025. That is the 78th day of the calendar year.
 
-Given the context that this is day 78, and the market will close in 287 days, the contract’s last trade date would then be the 365th day of the year, or December 31st, 2025.
+Given the context that this is day 78, and the market will close in 287 days, the contractÃ¢â‚¬â„¢s last trade date would then be the 365th day of the year, or December 31st, 2025.
 
 Given the TWS API date standards, this will be written as 20251231.
 
 
 This information can now be distilled into a standard TWS API contract definition:
 
-Symbol: “GCE”
+Symbol: Ã¢â‚¬Å“GCEÃ¢â‚¬Â
 
-SecType: “OPT”
+SecType: Ã¢â‚¬Å“OPTÃ¢â‚¬Â
 
-Exchange: “FORECASTX”
+Exchange: Ã¢â‚¬Å“FORECASTXÃ¢â‚¬Â
 
-Currency: “USD”
+Currency: Ã¢â‚¬Å“USDÃ¢â‚¬Â
 
-LastTradeDateOrContractMonth: “20251231”
+LastTradeDateOrContractMonth: Ã¢â‚¬Å“20251231Ã¢â‚¬Â
 
-Right: “C”
+Right: Ã¢â‚¬Å“CÃ¢â‚¬Â
 
 Strike: 40500
 
@@ -2686,9 +2686,9 @@ contract.strike = 40500
 
 Requesting market data for event contracts will follow the same request structure as for any other security type.
 
-Noted in our [Contract Definition & Discovery](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#ec-contracts) section, ForecastEx instruments do not support buying and selling.  Therefore, “BID” and “ASK” values will not correlate to buy and sell  values, but the “Highest Bid” and “Buy **Yes** Now at” prices for the Bid and Ask respectively.
+Noted in our [Contract Definition & Discovery](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#ec-contracts) section, ForecastEx instruments do not support buying and selling.  Therefore, Ã¢â‚¬Å“BIDÃ¢â‚¬Â and Ã¢â‚¬Å“ASKÃ¢â‚¬Â values will not correlate to buy and sell  values, but the Ã¢â‚¬Å“Highest BidÃ¢â‚¬Â and Ã¢â‚¬Å“Buy **Yes** Now atÃ¢â‚¬Â prices for the Bid and Ask respectively.
 
-Because “BID” and “ASK” do not correctly directly to Buying and Selling,  historical “Trades” nor real-time “Last” prices will not be available.
+Because Ã¢â‚¬Å“BIDÃ¢â‚¬Â and Ã¢â‚¬Å“ASKÃ¢â‚¬Â do not correctly directly to Buying and Selling,  historical Ã¢â‚¬Å“TradesÃ¢â‚¬Â nor real-time Ã¢â‚¬Å“LastÃ¢â‚¬Â prices will not be available.
 
 ### Order SubmissionCopy Location
 
@@ -2711,8 +2711,8 @@ Reviewing the same material as our [Contract Example](https://www.interactivebro
 
 We are already aware that:
 
-- ForecastEx contracts are always “BUY” orders.
-- Event Contracts only support “LMT” as the Order Type.
+- ForecastEx contracts are always Ã¢â‚¬Å“BUYÃ¢â‚¬Â orders.
+- Event Contracts only support Ã¢â‚¬Å“LMTÃ¢â‚¬Â as the Order Type.
 
 This leaves us to decide the quantity, limit price, and time-in-force values.
 
@@ -2725,15 +2725,15 @@ We can set our limit price based on the values shown in the Order Ticket, or bas
 
 Given the information above, we are able to create a full order ticket.
 
-Action: “BUY”
+Action: Ã¢â‚¬Å“BUYÃ¢â‚¬Â
 
 TotalQuantity: 1000
 
-OrderType: “LMT”
+OrderType: Ã¢â‚¬Å“LMTÃ¢â‚¬Â
 
 LmtPrice: 0.57
 
-Tif: “DAY”
+Tif: Ã¢â‚¬Å“DAYÃ¢â‚¬Â
 
 -
 
@@ -2752,7 +2752,7 @@ order.lmtPrice = 0.57
 ### Other FunctionalityCopy Location
 
 - Event Contracts fundamentally behave like Options or Futures Options. As a  result, instrument rules, position information, and instrument-specific  behavior will follow the same presentation in the Trader Workstation as  those other instruments.
-- Market Scanners are not currently  available to research Event Contracts. Users will need to discover Event Contract symbols through [Interactive Brokers’ ForecastTrader](https://forecasttrader.interactivebrokers.com/en/home.php).
+- Market Scanners are not currently  available to research Event Contracts. Users will need to discover Event Contract symbols through [Interactive BrokersÃ¢â‚¬â„¢ ForecastTrader](https://forecasttrader.interactivebrokers.com/en/home.php).
 
 
 
@@ -2760,17 +2760,17 @@ order.lmtPrice = 0.57
 
 When a client application sends a message to TWS which requires a response  which has an expected response (i.e. placing an order, requesting market data, subscribing to account updates, etc.), TWS will almost either  always 1) respond with the relevant data or 2) send an error message to [EWrapper.error()](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#error).
 
-- **Exceptions when no response can occur**: Also, if a request is made prior to full establishment of connection (denoted by a returned 2104 or 2106 error code *“Data Server is Ok”*), there may not be a response from the request.
+- **Exceptions when no response can occur**: Also, if a request is made prior to full establishment of connection (denoted by a returned 2104 or 2106 error code *Ã¢â‚¬Å“Data Server is OkÃ¢â‚¬Â*), there may not be a response from the request.
 
 Error messages sent by the TWS are handled by the [EWrapper.error()](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#error) method. The [EWrapper.error()](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#error) event contains the originating request Id (or the orderId in case the  error was raised when placing an order), a numeric error code and a  brief description. It is important to keep in mind that this function is used for *true* error messages as well as notifications that do not mean anything is wrong.
 
 **API Error Messages when TWS is not set to the English Language**
 
-- Currently on the Windows platform, error messages are sent using Latin1 encoding. If TWS is launched in a non-Western language, it is recommended to  enable the setting at Global Configuration -> API -> Settings to  “Show API error messages in English”.
+- Currently on the Windows platform, error messages are sent using Latin1 encoding. If TWS is launched in a non-Western language, it is recommended to  enable the setting at Global Configuration -> API -> Settings to  Ã¢â‚¬Å“Show API error messages in EnglishÃ¢â‚¬Â.
 
 ### Understanding Message CodesCopy Location
 
-The TWS uses the [EWrapper.error](https://www.interactivebrokers.com/campus/ibkr-api-page/trader-workstation-api/#error) method not only to deliver errors but also warnings or informative messages.  This is done mostly for simplicity’s sake. Below is a table with all the messages which can be sent by the TWS/IB Gateway. All messages  delivered by the TWS are usually accompanied by a brief but meaningful  description pointing in the direction of the problem.
+The TWS uses the [EWrapper.error](https://www.interactivebrokers.com/campus/ibkr-api-page/trader-workstation-api/#error) method not only to deliver errors but also warnings or informative messages.  This is done mostly for simplicityÃ¢â‚¬â„¢s sake. Below is a table with all the messages which can be sent by the TWS/IB Gateway. All messages  delivered by the TWS are usually accompanied by a brief but meaningful  description pointing in the direction of the problem.
 
 Remember  that the TWS API simply connects to a running TWS/IB Gateway which most  of times will be running on your local network if not in the same host  as the client application. It is your responsibility to provide reliable connectivity between the TWS and your client application.
 
@@ -2787,9 +2787,9 @@ The messages in the table below are not a consequence of any action  performed b
 | Code | TWS message                                                  | Additional notes                                             |
 | ---- | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | 1100 | Connectivity between IB and the TWS has been lost.           | Your TWS/IB Gateway has been disconnected from IB servers. This can occur  because of an internet connectivity issue, a nightly reset of the IB  servers, or a competing session. |
-| 1101 | Connectivity between IB and TWS has been restored- data lost.* | The TWS/IB Gateway has successfully reconnected to IB’s servers. Your  market data requests have been lost and need to be re-submitted. |
-| 1102 | Connectivity between IB and TWS has been restored- data maintained. | The TWS/IB Gateway has successfully reconnected to IB’s servers. Your  market data requests have been recovered and there is no need for you to re-submit them. |
-| 1300 | TWS socket port has been reset and this connection is being dropped. Please reconnect on the new port – <port_num> | The port number in the TWS/IBG settings has been changed during an active API connection. |
+| 1101 | Connectivity between IB and TWS has been restored- data lost.* | The TWS/IB Gateway has successfully reconnected to IBÃ¢â‚¬â„¢s servers. Your  market data requests have been lost and need to be re-submitted. |
+| 1102 | Connectivity between IB and TWS has been restored- data maintained. | The TWS/IB Gateway has successfully reconnected to IBÃ¢â‚¬â„¢s servers. Your  market data requests have been recovered and there is no need for you to re-submit them. |
+| 1300 | TWS socket port has been reset and this connection is being dropped. Please reconnect on the new port Ã¢â‚¬â€œ <port_num> | The port number in the TWS/IBG settings has been changed during an active API connection. |
 
 ### Error CodesCopy Location
 
@@ -2798,37 +2798,37 @@ Error codes in different ranges have different indications.
 | Code           | TWS message                                                  | Additional notes                                             |
 | -------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | 100            | Max rate of messages per second has been exceeded.           | The client application has exceeded the rate of 50 messages/second. The TWS will likely disconnect the client application after this message. |
-| 101            | Max number of tickers has been reached.                      | “The current number of active market data subscriptions in TWS and the API  altogether has been exceeded. This number is calculated based on a  formula which is based on the equity, commissions, and quote booster  packs in an account. Active lines can be checked in Tws using the  Ctrl-Alt-= combination” |
+| 101            | Max number of tickers has been reached.                      | Ã¢â‚¬Å“The current number of active market data subscriptions in TWS and the API  altogether has been exceeded. This number is calculated based on a  formula which is based on the equity, commissions, and quote booster  packs in an account. Active lines can be checked in Tws using the  Ctrl-Alt-= combinationÃ¢â‚¬Â |
 | 102            | Duplicate ticker ID.                                         | A market data request used a ticker ID which is already in use by an active request. |
 | 103            | Duplicate order ID.                                          | An order was placed with an order ID that is less than or equal to the order ID of a previous order from this client |
-| 104            | Can’t modify a filled order.                                 | An attempt was made to modify an order which has already been filled by the system. |
+| 104            | CanÃ¢â‚¬â„¢t modify a filled order.                                 | An attempt was made to modify an order which has already been filled by the system. |
 | 105            | Order being modified does not match original order.          | An order was placed with an order ID of a currently open order but basic  parameters differed (aside from quantity or price fields) |
-| 106            | Can’t transmit order ID:                                     |                                                              |
+| 106            | CanÃ¢â‚¬â„¢t transmit order ID:                                     |                                                              |
 | 107            | Cannot transmit incomplete order.                            | Order is missing a required field.                           |
 | 109            | Price is out of the range defined by the Percentage setting at order defaults frame. The order will not be transmitted. | Price entered is outside the range of prices set in TWS or IB Gateway Order Precautionary Settings |
 | 110            | The price does not conform to the minimum price variation for this contract. | An entered price field has more digits of precision than is allowed for  this particular contract. Minimum increment information can be found on  the IB Contracts and Securities Search page. |
 | 111            | The TIF (Tif type) and the order type are incompatible.      | The time in force specified cannot be used with this order type. Please  refer to order tickets in TWS for allowable combinations. |
-| 113            | The Tif option should be set to DAY for MOC and LOC orders.  | Market-on-close or Limit-on-close orders should be sent with time in force set to ‘DAY’ |
+| 113            | The Tif option should be set to DAY for MOC and LOC orders.  | Market-on-close or Limit-on-close orders should be sent with time in force set to Ã¢â‚¬ËœDAYÃ¢â‚¬â„¢ |
 | 114            | Relative orders are valid for stocks only.                   | This error is deprecated.                                    |
-| 115            | “Relative orders for US stocks can only be submitted to SMART, SMART_ECN, INSTINET, or PRIMEX.” | This error is deprecated.                                    |
+| 115            | Ã¢â‚¬Å“Relative orders for US stocks can only be submitted to SMART, SMART_ECN, INSTINET, or PRIMEX.Ã¢â‚¬Â | This error is deprecated.                                    |
 | 116            | The order cannot be transmitted to a dead exchange.          | Exchange field is invalid.                                   |
 | 117            | The block order size must be at least 50.                    |                                                              |
 | 118            | VWAP orders must be routed through the VWAP exchange.        |                                                              |
-| 119            | Only VWAP orders may be placed on the VWAP exchange.         | “When an order is routed to the VWAP exchange, the type of the order must be defined as ‘VWAP’.” |
+| 119            | Only VWAP orders may be placed on the VWAP exchange.         | Ã¢â‚¬Å“When an order is routed to the VWAP exchange, the type of the order must be defined as Ã¢â‚¬ËœVWAPÃ¢â‚¬â„¢.Ã¢â‚¬Â |
 | 120            | It is too late to place a VWAP order for today.              | The cutoff has passed for the current day to place VWAP orders. |
-| 121            | “Invalid BD flag for the order. Check “”Destination”” and “”BD”” flag.” | This error is deprecated.                                    |
+| 121            | Ã¢â‚¬Å“Invalid BD flag for the order. Check Ã¢â‚¬Å“Ã¢â‚¬ÂDestinationÃ¢â‚¬ÂÃ¢â‚¬Â and Ã¢â‚¬Å“Ã¢â‚¬ÂBDÃ¢â‚¬ÂÃ¢â‚¬Â flag.Ã¢â‚¬Â | This error is deprecated.                                    |
 | 122            | No request tag has been found for order:                     |                                                              |
 | 123            | No record is available for conid:                            | The specified contract ID cannot be found. This error is deprecated. |
 | 124            | No market rule is available for conid:                       |                                                              |
 | 125            | Buy price must be the same as the best asking price.         |                                                              |
 | 126            | Sell price must be the same as the best bidding price.       |                                                              |
 | 129            | VWAP orders must be submitted at least three minutes before the start time. | The start time specified in the VWAP order is less than 3 minutes after when it is placed. |
-| 131            | “The sweep-to-fill flag and display size are only valid for US stocks routed through SMART, and will be ignored.” |                                                              |
+| 131            | Ã¢â‚¬Å“The sweep-to-fill flag and display size are only valid for US stocks routed through SMART, and will be ignored.Ã¢â‚¬Â |                                                              |
 | 132            | This order cannot be transmitted without a clearing account. |                                                              |
 | 133            | Submit new order failed.                                     |                                                              |
 | 134            | Modify order failed.                                         |                                                              |
-| 135            | Can’t find order with ID =                                   | An attempt was made to cancel an order not currently in the system. |
-| 136            | This order cannot be cancelled.                              | “An attempt was made to cancel an order than cannot be cancelled, for instance because” |
+| 135            | CanÃ¢â‚¬â„¢t find order with ID =                                   | An attempt was made to cancel an order not currently in the system. |
+| 136            | This order cannot be cancelled.                              | Ã¢â‚¬Å“An attempt was made to cancel an order than cannot be cancelled, for instance becauseÃ¢â‚¬Â |
 | 137            | VWAP orders can only be cancelled up to three minutes before the start time. |                                                              |
 | 138            | Could not parse ticker request:                              |                                                              |
 | 139            | Parsing error:                                               | Error in command syntax generated parsing error.             |
@@ -2836,18 +2836,18 @@ Error codes in different ranges have different indications.
 | 141            | The price value should be a double:                          | A price field in the Order type has an invalid type.         |
 | 142            | Institutional customer account does not have account info    |                                                              |
 | 143            | Requested ID is not an integer number.                       | The IDs used in API requests must be integer values.         |
-| 144            | “Order size does not match total share allocation. To adjust the share  allocation, right-click on the order and select â€œModify > Share  Allocation.â€?” |                                                              |
-| 145            | Error in validating entry fields –                           | An error occurred with the syntax of a request field.        |
+| 144            | Ã¢â‚¬Å“Order size does not match total share allocation. To adjust the share  allocation, right-click on the order and select ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œModify > Share  Allocation.ÃƒÂ¢Ã¢â€šÂ¬?Ã¢â‚¬Â |                                                              |
+| 145            | Error in validating entry fields Ã¢â‚¬â€œ                           | An error occurred with the syntax of a request field.        |
 | 146            | Invalid trigger method.                                      | The trigger method specified for a method such as stop or trail stop was not one of the allowable methods. |
 | 147            | The conditional contract info is incomplete.                 |                                                              |
 | 148            | Conditional submission of orders is supported for Limit, Market, MidPrice, Relative and Snap order types only. Conditional cancelation of orders is  supported for Limit and MidPrice order types only. |                                                              |
 | 151            | This order cannot be transmitted without a user name.        | In DDE the user name is a required field in the place order command. |
-| 152            | “The “”hidden”” order attribute may not be specified for this order.” | The order in question cannot be placed as a hidden order. See- https://www.interactivebrokers.com/en/index.php?f=596 |
+| 152            | Ã¢â‚¬Å“The Ã¢â‚¬Å“Ã¢â‚¬ÂhiddenÃ¢â‚¬ÂÃ¢â‚¬Â order attribute may not be specified for this order.Ã¢â‚¬Â | The order in question cannot be placed as a hidden order. See- https://www.interactivebrokers.com/en/index.php?f=596 |
 | 153            | EFPs can only be limit orders.                               | This error is deprecated.                                    |
 | 154            | Orders cannot be transmitted for a halted security.          | A security was halted for trading when an order was placed.  |
 | 155            | A sizeOp order must have a user name and account.            | This error is deprecated.                                    |
 | 156            | A SizeOp order must go to IBSX                               | This error is deprecated.                                    |
-| 157            | An order can be EITHER Iceberg or Discretionary. Please remove either the Discretionary amount or the Display size. | In the Order class extended attributes the fields ‘Iceberg’ and ‘Discretionary’ cannot |
+| 157            | An order can be EITHER Iceberg or Discretionary. Please remove either the Discretionary amount or the Display size. | In the Order class extended attributes the fields Ã¢â‚¬ËœIcebergÃ¢â‚¬â„¢ and Ã¢â‚¬ËœDiscretionaryÃ¢â‚¬â„¢ cannot |
 | 158            | You must specify an offset amount or a percent offset value. | TRAIL and TRAIL STOP orders must have an absolute offset amount or offset percentage specified. |
 | 159            | The percent offset value must be between 0% and 100%.        | A percent offset value was specified outside the allowable range of 0% and 100%. |
 | 160            | The size value cannot be zero.                               | The size of an order must be a positive quantity.            |
@@ -2855,40 +2855,40 @@ Error codes in different ranges have different indications.
 | 162            | Historical market data Service error message.                |                                                              |
 | 163            | The price specified would violate the percentage constraint specified in the default order settings. | The order price entered is outside the allowable range specified in the Order Precautionary Settings of TWS or IB Gateway |
 | 164            | There is no market data to check price percent violations.   | No market data is available for the specified contract to determine  whether the specified price is outside the price percent precautionary  order setting. |
-| 165            | Historical market Data Service query message.                | “There was an issue with a historical data request, such is no such data in  IB’s database. Note this message is not specific to the API.” |
+| 165            | Historical market Data Service query message.                | Ã¢â‚¬Å“There was an issue with a historical data request, such is no such data in  IBÃ¢â‚¬â„¢s database. Note this message is not specific to the API.Ã¢â‚¬Â |
 | 166            | HMDS Expired Contract Violation.                             | Historical data is not available for the specified expired contract. |
 | 167            | VWAP order time must be in the future.                       | The start time of a VWAP order has already passed.           |
 | 168            | Discretionary amount does not conform to the minimum price variation for this contract. | The discretionary field is specified with a number of degrees of precision higher than what is allowed for a specified contract. |
-| 200            | No security definition has been found for the request.       | “The specified contract does not match any in IB’s database, usually because of an incorrect or missing parameter.” |
+| 200            | No security definition has been found for the request.       | Ã¢â‚¬Å“The specified contract does not match any in IBÃ¢â‚¬â„¢s database, usually because of an incorrect or missing parameter.Ã¢â‚¬Â |
 | 200            | The contract description specified for is ambiguous          | Ambiguity may occur when the contract definition provided is not unique. |
-| 200            |                                                              | “For some stocks that has the same Symbol, Currency and Exchange, you need  to specify the IBApi.Contract.PrimaryExch attribute to avoid ambiguity.  Please refer to a sample stock contract here.” |
-| 200            |                                                              | “For futures that has multiple multipliers for the same expiration, You need to specify the IBApi.Contract.Multiplier attribute to avoid ambiguity.  Please refer to a sample futures contract here.” |
-| 201            | Order rejected – Reason:                                     | An attempted order was rejected by the IB servers. See Order Placement  Considerations for additional information/considerations for these  errors. |
-| 202            | Order cancelled – Reason:                                    | An active order on the IB server was cancelled. See Order Placement  Considerations for additional information/considerations for these  errors. |
+| 200            |                                                              | Ã¢â‚¬Å“For some stocks that has the same Symbol, Currency and Exchange, you need  to specify the IBApi.Contract.PrimaryExch attribute to avoid ambiguity.  Please refer to a sample stock contract here.Ã¢â‚¬Â |
+| 200            |                                                              | Ã¢â‚¬Å“For futures that has multiple multipliers for the same expiration, You need to specify the IBApi.Contract.Multiplier attribute to avoid ambiguity.  Please refer to a sample futures contract here.Ã¢â‚¬Â |
+| 201            | Order rejected Ã¢â‚¬â€œ Reason:                                     | An attempted order was rejected by the IB servers. See Order Placement  Considerations for additional information/considerations for these  errors. |
+| 202            | Order cancelled Ã¢â‚¬â€œ Reason:                                    | An active order on the IB server was cancelled. See Order Placement  Considerations for additional information/considerations for these  errors. |
 | 203            | The security is not available or allowed for this account.   | The specified security has a trading restriction with a specific account. |
-| 300            | Can’t find EId with ticker Id:                               | An attempt was made to cancel market data for a ticker ID that was not  associated with a current subscription. With the DDE API this occurs by  clearing the spreadsheet cell. |
+| 300            | CanÃ¢â‚¬â„¢t find EId with ticker Id:                               | An attempt was made to cancel market data for a ticker ID that was not  associated with a current subscription. With the DDE API this occurs by  clearing the spreadsheet cell. |
 | 301            | Invalid ticker action:                                       |                                                              |
 | 302            | Error parsing stop ticker string:                            |                                                              |
 | 303            | Invalid action:                                              | An action field was specified that is not available for the account. For  most accounts this is only BUY or SELL. Some institutional accounts also have the options SSHORT or SLONG available. |
 | 304            | Invalid account value action:                                |                                                              |
-| 305            | “Request parsing error, the request has been ignored.”       | The syntax of a DDE request is invalid.                      |
+| 305            | Ã¢â‚¬Å“Request parsing error, the request has been ignored.Ã¢â‚¬Â       | The syntax of a DDE request is invalid.                      |
 | 306            | Error processing DDE request:                                | An issue with a DDE request prevented it from processing.    |
-| 307            | Invalid request topic:                                       | The ‘topic’ field in a DDE request is invalid.               |
-| 308            | Unable to create the ‘API’ page in TWS as the maximum number of pages already exists. | “An order placed from the API will automatically open a new page in classic TWS, however there are already the maximum number of pages open.” |
-| 309            | “Max number (3) of market depth requests has been reached. Note: TWS  currently limits users to a maximum of 3 distinct market depth requests. This same restriction applies to API clients, however API clients may  make multiple market depth requests for the same security.” |                                                              |
-| 310            | Can’t find the subscribed market depth with tickerId:        | An attempt was made to cancel market depth for a ticker not currently active. |
+| 307            | Invalid request topic:                                       | The Ã¢â‚¬ËœtopicÃ¢â‚¬â„¢ field in a DDE request is invalid.               |
+| 308            | Unable to create the Ã¢â‚¬ËœAPIÃ¢â‚¬â„¢ page in TWS as the maximum number of pages already exists. | Ã¢â‚¬Å“An order placed from the API will automatically open a new page in classic TWS, however there are already the maximum number of pages open.Ã¢â‚¬Â |
+| 309            | Ã¢â‚¬Å“Max number (3) of market depth requests has been reached. Note: TWS  currently limits users to a maximum of 3 distinct market depth requests. This same restriction applies to API clients, however API clients may  make multiple market depth requests for the same security.Ã¢â‚¬Â |                                                              |
+| 310            | CanÃ¢â‚¬â„¢t find the subscribed market depth with tickerId:        | An attempt was made to cancel market depth for a ticker not currently active. |
 | 311            | The origin is invalid.                                       | The origin field specified in the Order class is invalid.    |
 | 312            | The combo details are invalid.                               | Combination contract specified has invalid parameters.       |
-| 313            | The combo details for leg ” are invalid.                     | A combo leg was not defined correctly.                       |
-| 314            | Security type ‘BAG’ requires combo leg details.              | When specifying security type as ‘BAG’ make sure to also add combo legs with details. |
-| 315            | Stock combo legs are restricted to SMART order routing.      | Make sure to specify ‘SMART’ as an exchange when using stock combo contracts. |
+| 313            | The combo details for leg Ã¢â‚¬Â are invalid.                     | A combo leg was not defined correctly.                       |
+| 314            | Security type Ã¢â‚¬ËœBAGÃ¢â‚¬â„¢ requires combo leg details.              | When specifying security type as Ã¢â‚¬ËœBAGÃ¢â‚¬â„¢ make sure to also add combo legs with details. |
+| 315            | Stock combo legs are restricted to SMART order routing.      | Make sure to specify Ã¢â‚¬ËœSMARTÃ¢â‚¬â„¢ as an exchange when using stock combo contracts. |
 | 316            | Market depth data has been HALTED. Please re-subscribe.      | You need to re-subscribe to start receiving market depth data again. |
 | 317            | Market depth data has been RESET. Please empty deep book contents before applying any new entries. |                                                              |
 | 319            | Invalid log level                                            | Make sure that you are setting a log level to a value in range of 1 to 5. |
 | 320            | Server error when reading an API client request.             |                                                              |
 | 321            | Server error when validating an API client request.          |                                                              |
 | 322            | Server error when processing an API client request.          |                                                              |
-| 323            | Server error: cause – s                                      |                                                              |
+| 323            | Server error: cause Ã¢â‚¬â€œ s                                      |                                                              |
 | 324            | Server error when reading a DDE client request (missing information). | Make sure that you have specified all the needed information for your request. |
 | 325            | Discretionary orders are not supported for this combination of exchange and order type. | Make sure that you are specifying a valid combination of exchange and order type for the discretionary order. |
 | 326            | Unable to connect as the client id is already in use. Retry with a unique client id. | Another client application is already connected with the specified client id. |
@@ -2901,22 +2901,22 @@ Error codes in different ranges have different indications.
 | 333            | Invalid share allocation syntax.                             |                                                              |
 | 334            | Invalid Good Till Date order                                 | Check you order settings.                                    |
 | 335            | Invalid delta: The delta must be between 0 and 100.          |                                                              |
-| 336            | “The time or time zone is invalid. The correct format is hh:mm:ss xxx where  xxx is an optionally specified time-zone. E.g.: 15:59:00 EST Note that  there is a space between the time and the time zone. If no time zone is  specified, local time is assumed.” |                                                              |
-| 337            | “The date, time, or time-zone entered is invalid. The correct format is  yyyymmdd hh:mm:ss xxx where yyyymmdd and xxx are optional. E.g.:  20031126 15:59:00 ESTNote that there is a space between the date and  time, and between the time and time-zone.” |                                                              |
+| 336            | Ã¢â‚¬Å“The time or time zone is invalid. The correct format is hh:mm:ss xxx where  xxx is an optionally specified time-zone. E.g.: 15:59:00 EST Note that  there is a space between the time and the time zone. If no time zone is  specified, local time is assumed.Ã¢â‚¬Â |                                                              |
+| 337            | Ã¢â‚¬Å“The date, time, or time-zone entered is invalid. The correct format is  yyyymmdd hh:mm:ss xxx where yyyymmdd and xxx are optional. E.g.:  20031126 15:59:00 ESTNote that there is a space between the date and  time, and between the time and time-zone.Ã¢â‚¬Â |                                                              |
 | 338            | Good After Time orders are currently disabled on this exchange. |                                                              |
 | 339            | Futures spread are no longer supported. Please use combos instead. |                                                              |
 | 340            | Invalid improvement amount for box auction strategy.         |                                                              |
-| 341            | “Invalid delta. Valid values are from 1 to 100. You can set the delta from the  “”Pegged to Stock”” section of the Order Ticket Panel, or by selecting  Page/Layout from the main menu and adding the Delta column.” |                                                              |
+| 341            | Ã¢â‚¬Å“Invalid delta. Valid values are from 1 to 100. You can set the delta from the  Ã¢â‚¬Å“Ã¢â‚¬ÂPegged to StockÃ¢â‚¬ÂÃ¢â‚¬Â section of the Order Ticket Panel, or by selecting  Page/Layout from the main menu and adding the Delta column.Ã¢â‚¬Â |                                                              |
 | 342            | Pegged order is not supported on this exchange.              | You can review all order types and supported exchanges on the Order Types and Algos page. |
-| 343            | “The date, time, or time-zone entered is invalid. The correct format is yyyymmdd hh:mm:ss xxx” |                                                              |
+| 343            | Ã¢â‚¬Å“The date, time, or time-zone entered is invalid. The correct format is yyyymmdd hh:mm:ss xxxÃ¢â‚¬Â |                                                              |
 | 344            | The account logged into is not a financial advisor account.  | You are trying to perform an action that is only available for the financial advisor account. |
 | 345            | Generic combo is not supported for FA advisor account.       |                                                              |
 | 346            | Not an institutional account or an away clearing account.    |                                                              |
 | 347            | Short sale slot value must be 1 (broker holds shares) or 2 (delivered from elsewhere). | Make sure that your slot value is either 1 or 2.             |
-| 348            | Order not a short sale – type must be SSHORT to specify short sale slot. | Make sure that the action you specified is ‘SSHORT’.         |
-| 349            | “Generic combo does not support “”Good After”” attribute.”   |                                                              |
+| 348            | Order not a short sale Ã¢â‚¬â€œ type must be SSHORT to specify short sale slot. | Make sure that the action you specified is Ã¢â‚¬ËœSSHORTÃ¢â‚¬â„¢.         |
+| 349            | Ã¢â‚¬Å“Generic combo does not support Ã¢â‚¬Å“Ã¢â‚¬ÂGood AfterÃ¢â‚¬ÂÃ¢â‚¬Â attribute.Ã¢â‚¬Â   |                                                              |
 | 350            | Minimum quantity is not supported for best combo order.      |                                                              |
-| 351            | “The “”Regular Trading Hours only”” flag is not valid for this order.” |                                                              |
+| 351            | Ã¢â‚¬Å“The Ã¢â‚¬Å“Ã¢â‚¬ÂRegular Trading Hours onlyÃ¢â‚¬ÂÃ¢â‚¬Â flag is not valid for this order.Ã¢â‚¬Â |                                                              |
 | 352            | Short sale slot value of 2 (delivered from elsewhere) requires location. | You need to specify designatedLocation for your order.       |
 | 353            | Short sale slot value of 1 requires no location be specified. | You do not need to specify designatedLocation for your order. |
 | 354            | Not subscribed to requested market data.                     | You do not have live market data available in your account for the  specified instruments. For further details please refer to Streaming  Market Data. |
@@ -2935,17 +2935,17 @@ Error codes in different ranges have different indications.
 | 367            | Volatility type if set must be 1 or 2 for VOL orders. Do not set it for other order types. |                                                              |
 | 368            | Reference Price Type must be 1 or 2 for dynamic volatility management. Do not set it for non-VOL orders. |                                                              |
 | 369            | Volatility orders are only valid for US options.             | Make sure that you are placing an order for US OPT contract. |
-| 370            | “Dynamic Volatility orders must be SMART routed, or trade on a Price Improvement Exchange.” |                                                              |
+| 370            | Ã¢â‚¬Å“Dynamic Volatility orders must be SMART routed, or trade on a Price Improvement Exchange.Ã¢â‚¬Â |                                                              |
 | 371            | VOL order requires positive floating point value for volatility. Do not set it for other order types. |                                                              |
-| 372            | Cannot set dynamic VOL attribute on non-VOL order.           | Make sure that your order type is ‘VOL’.                     |
+| 372            | Cannot set dynamic VOL attribute on non-VOL order.           | Make sure that your order type is Ã¢â‚¬ËœVOLÃ¢â‚¬â„¢.                     |
 | 373            | Can only set stock range attribute on VOL or RELATIVE TO STOCK order. |                                                              |
-| 374            | “If both are set, the lower stock range attribute must be less than the upper stock range attribute.” |                                                              |
+| 374            | Ã¢â‚¬Å“If both are set, the lower stock range attribute must be less than the upper stock range attribute.Ã¢â‚¬Â |                                                              |
 | 375            | Stock range attributes cannot be negative.                   |                                                              |
 | 376            | The order is not eligible for continuous update. The option must trade on a cheap-to-reroute exchange. |                                                              |
 | 377            | Must specify valid delta hedge order aux. price.             |                                                              |
 | 378            | Delta hedge order type requires delta hedge aux. price to be specified. | Make sure your order has delta attribute.                    |
 | 379            | Delta hedge order type requires that no delta hedge aux. price be specified. | Make sure you do not specify aux. delta hedge price.         |
-| 380            | This order type is not allowed for delta hedge orders.       | “Limit, Market or Relative orders are supported.”            |
+| 380            | This order type is not allowed for delta hedge orders.       | Ã¢â‚¬Å“Limit, Market or Relative orders are supported.Ã¢â‚¬Â            |
 | 381            | Your DDE.dll needs to be upgraded.                           |                                                              |
 | 382            | The price specified violates the number of ticks constraint specified in the default order settings. |                                                              |
 | 383            | The size specified violates the size constraint specified in the default order settings. |                                                              |
@@ -2960,9 +2960,9 @@ Error codes in different ranges have different indications.
 | 392            | Invalid order: contract expired.                             | You can not place an order for the expired contract.         |
 | 393            | Short sale slot may be specified for delta hedge orders only. |                                                              |
 | 394            | Invalid Process Time: must be integer number of milliseconds between 100 and 2000. Found: |                                                              |
-| 395            | “Due to system problems, orders with OCA groups are currently not being accepted.” | Check TWS bulletins for more information.                    |
-| 396            | “Due to system problems, application is currently accepting only Market and Limit orders for this contract.” | Check TWS bulletins for more information.                    |
-| 397            | “Due to system problems, application is currently accepting only Market and Limit orders for this contract.” |                                                              |
+| 395            | Ã¢â‚¬Å“Due to system problems, orders with OCA groups are currently not being accepted.Ã¢â‚¬Â | Check TWS bulletins for more information.                    |
+| 396            | Ã¢â‚¬Å“Due to system problems, application is currently accepting only Market and Limit orders for this contract.Ã¢â‚¬Â | Check TWS bulletins for more information.                    |
+| 397            | Ã¢â‚¬Å“Due to system problems, application is currently accepting only Market and Limit orders for this contract.Ã¢â‚¬Â |                                                              |
 | 398            | cannot be used as a condition trigger.                       | Please make sure that you specify a valid condition          |
 | 399            | Order message error                                          |                                                              |
 | 400            | Algo order error.                                            |                                                              |
@@ -2976,7 +2976,7 @@ Error codes in different ranges have different indications.
 | 408            | Invalid scale order increment.                               |                                                              |
 | 409            | Invalid scale order. You must specify order component size.  | ScaleInitLevelSize specified is invalid                      |
 | 410            | Invalid subsequent component size for scale order.           | ScaleSubsLevelSize specified is invalid                      |
-| 411            | “The “”Outside Regular Trading Hours”” flag is not valid for this order.” | Trading outside of regular trading hours is not available for this security |
+| 411            | Ã¢â‚¬Å“The Ã¢â‚¬Å“Ã¢â‚¬ÂOutside Regular Trading HoursÃ¢â‚¬ÂÃ¢â‚¬Â flag is not valid for this order.Ã¢â‚¬Â | Trading outside of regular trading hours is not available for this security |
 | 412            | The contract is not available for trading.                   |                                                              |
 | 413            | What-if order should have the transmit flag set to true.     | You need to set IBApi.Order.Transmit to TRUE                 |
 | 414            | Snapshot market data subscription is not applicable to generic ticks. | You must leave Generic Tick List to be empty when requesting snapshot market data |
@@ -2995,13 +2995,13 @@ Error codes in different ranges have different indications.
 | 427            | Mutual Fund order requires monetary value to be specified.   | This error is deprecated.                                    |
 | 428            | Mutual Fund Sell order requires shares to be specified.      | This error is deprecated.                                    |
 | 429            | Delta neutral orders are only supported for combos (BAG security type). |                                                              |
-| 430            | “We are sorry, but fundamentals data for the security specified is not available.” |                                                              |
+| 430            | Ã¢â‚¬Å“We are sorry, but fundamentals data for the security specified is not available.Ã¢â‚¬Â |                                                              |
 | 431            | What to show field is missing or incorrect.                  | This error is deprecated.                                    |
 | 432            | Commission must not be negative.                             | This error is deprecated.                                    |
-| 433            | “Invalid “”Restore size after taking profit”” for multiple account allocation scale order.” |                                                              |
+| 433            | Ã¢â‚¬Å“Invalid Ã¢â‚¬Å“Ã¢â‚¬ÂRestore size after taking profitÃ¢â‚¬ÂÃ¢â‚¬Â for multiple account allocation scale order.Ã¢â‚¬Â |                                                              |
 | 434            | The order size cannot be zero.                               |                                                              |
 | 435            | You must specify an account.                                 | The function you invoked only works on a single account      |
-| 436            | “You must specify an allocation (either a single account, group, or profile).” | “When you try to place an order with a Financial Advisor account, you must  specify the order to be routed to either a single account, a group, or a profile.” |
+| 436            | Ã¢â‚¬Å“You must specify an allocation (either a single account, group, or profile).Ã¢â‚¬Â | Ã¢â‚¬Å“When you try to place an order with a Financial Advisor account, you must  specify the order to be routed to either a single account, a group, or a profile.Ã¢â‚¬Â |
 | 437            | Order can have only one flag Outside RTH or Allow PreOpen.   | This error is deprecated.                                    |
 | 438            | The application is now locked.                               | This error is deprecated.                                    |
 | 439            | Order processing failed. Algorithm definition not found.     | Please double check your specification for IBApi.Order.AlgoStrategy and IBApi.Order.AlgoParams |
@@ -3017,29 +3017,29 @@ Error codes in different ranges have different indications.
 | 449            | Unexpected scale price adjustment amount or interval.        | ScalePriceAdjustValue or ScalePriceAdjustInterval specified is invalid |
 | 481            | Order size reduced.                                          |                                                              |
 | 501            | Already Connected.                                           | Your client application is already connected to the TWS.     |
-| 502            | “Couldn’t connect to TWS. Confirm that “”Enable ActiveX and Socket Clients”” is  enabled and connection port is the same as “”Socket Port”” on the TWS  “”Edit->Global Configuration…->API->Settings”” menu.” | When you receive this error message it is either because you have not  enabled API connectivity in the TWS and/or you are trying to connect on  the wrong port. Refer to the TWS’ API Settings as explained in the error message. See also Connectivity |
+| 502            | Ã¢â‚¬Å“CouldnÃ¢â‚¬â„¢t connect to TWS. Confirm that Ã¢â‚¬Å“Ã¢â‚¬ÂEnable ActiveX and Socket ClientsÃ¢â‚¬ÂÃ¢â‚¬Â is  enabled and connection port is the same as Ã¢â‚¬Å“Ã¢â‚¬ÂSocket PortÃ¢â‚¬ÂÃ¢â‚¬Â on the TWS  Ã¢â‚¬Å“Ã¢â‚¬ÂEdit->Global ConfigurationÃ¢â‚¬Â¦->API->SettingsÃ¢â‚¬ÂÃ¢â‚¬Â menu.Ã¢â‚¬Â | When you receive this error message it is either because you have not  enabled API connectivity in the TWS and/or you are trying to connect on  the wrong port. Refer to the TWSÃ¢â‚¬â„¢ API Settings as explained in the error message. See also Connectivity |
 | 503            | The TWS is out of date and must be upgraded.                 | Indicates TWS or IBG is too old for use with the current API version. Can also be triggered if the TWS version does not support a specific API function. |
 | 504            | Not connected.                                               | You are trying to perform a request without properly connecting and/or  after connection to the TWS has been broken probably due to an unhandled exception within your client application. |
 | 505            | Fatal Error: Unknown message id.                             |                                                              |
-| 507            | Bad Message Length (Java-only)                               | “Indicates EOF exception was caught while reading from the socket. This can occur  if there is an attempt to connect to TWS with a client ID that is  already in use, or if TWS is locked, closes, or breaks the connection.  It should be handled by the client application and used to indicate that the socket connection is not valid.” |
-| 585            | FA Profile is not supported anymore, use FA Group instead    | “Indicates FaDataTypeEnum.PROFILES is deprecated. Use FaDataTypeEnum.GROUPS or 1 instead” |
-| 2100           | New account data requested from TWS. API client has been unsubscribed from account data. | “The TWS only allows one IBApi.EClient.reqAccountUpdates request at a time.  If the client application attempts to subscribe to a second account  without canceling the previous subscription, the new request will  override the old one and the TWS will send this message notifying so.” |
-| 2101           | Unable to subscribe to account as the following clients are subscribed to a different account. | “If a client application invokes IBApi.EClient.reqAccountUpdates when there is an active subscription started by a different client, the TWS will  reject the new subscription request with this message.” |
-| 2102           | Unable to modify this order as it is still being processed.  | “If you attempt to modify an order before it gets processed by the system,  the modification will be rejected. Wait until the order has been fully  processed before modifying it. See Placing Orders for further details.” |
-| 2103           | A market data farm is disconnected.                          | “Indicates a connectivity problem to an IB server. Outside of the nightly IB  server reset, this typically indicates an underlying ISP connectivity  issue.” |
-| 2104           | Market data farm connection is OK                            | “A notification that connection to the market data server is ok. This is a notification and not a true error condition, and is expected on first  establishing connection.” |
-| 2105           | A historical data farm is disconnected.                      | “Indicates a connectivity problem to an IB server. Outside of the nightly IB  server reset, this typically indicates an underlying ISP connectivity  issue.” |
-| 2106           | A historical data farm is connected.                         | “A notification that connection to the market data server is ok. This is a notification and not a true error condition, and is expected on first  establishing connection.” |
-| 2107           | A historical data farm connection has become inactive but should be available upon demand. | “Whenever a connection to the historical data farm is not being used because  there is not an active historical data request, the connection will go  inactive in IB Gateway. This does not indicate any connectivity issue or problem with IB Gateway. As soon as a historical data request is made  the status will change back to active.” |
-| 2108           | A market data farm connection has become inactive but should be available upon demand. | “Whenever a connection to our data farms is not needed, it will become dormant.  There is nothing abnormal nor wrong with your client application nor  with the TWS. You can safely ignore this message.” |
-| 2109           | “Order Event Warning: Attribute “”Outside Regular Trading Hours”” is ignored  based on the order type and destination. PlaceOrder is now processed.” | Indicates the outsideRth flag was set for an order for which there is not a regular vs outside regular trading hour distinction |
+| 507            | Bad Message Length (Java-only)                               | Ã¢â‚¬Å“Indicates EOF exception was caught while reading from the socket. This can occur  if there is an attempt to connect to TWS with a client ID that is  already in use, or if TWS is locked, closes, or breaks the connection.  It should be handled by the client application and used to indicate that the socket connection is not valid.Ã¢â‚¬Â |
+| 585            | FA Profile is not supported anymore, use FA Group instead    | Ã¢â‚¬Å“Indicates FaDataTypeEnum.PROFILES is deprecated. Use FaDataTypeEnum.GROUPS or 1 insteadÃ¢â‚¬Â |
+| 2100           | New account data requested from TWS. API client has been unsubscribed from account data. | Ã¢â‚¬Å“The TWS only allows one IBApi.EClient.reqAccountUpdates request at a time.  If the client application attempts to subscribe to a second account  without canceling the previous subscription, the new request will  override the old one and the TWS will send this message notifying so.Ã¢â‚¬Â |
+| 2101           | Unable to subscribe to account as the following clients are subscribed to a different account. | Ã¢â‚¬Å“If a client application invokes IBApi.EClient.reqAccountUpdates when there is an active subscription started by a different client, the TWS will  reject the new subscription request with this message.Ã¢â‚¬Â |
+| 2102           | Unable to modify this order as it is still being processed.  | Ã¢â‚¬Å“If you attempt to modify an order before it gets processed by the system,  the modification will be rejected. Wait until the order has been fully  processed before modifying it. See Placing Orders for further details.Ã¢â‚¬Â |
+| 2103           | A market data farm is disconnected.                          | Ã¢â‚¬Å“Indicates a connectivity problem to an IB server. Outside of the nightly IB  server reset, this typically indicates an underlying ISP connectivity  issue.Ã¢â‚¬Â |
+| 2104           | Market data farm connection is OK                            | Ã¢â‚¬Å“A notification that connection to the market data server is ok. This is a notification and not a true error condition, and is expected on first  establishing connection.Ã¢â‚¬Â |
+| 2105           | A historical data farm is disconnected.                      | Ã¢â‚¬Å“Indicates a connectivity problem to an IB server. Outside of the nightly IB  server reset, this typically indicates an underlying ISP connectivity  issue.Ã¢â‚¬Â |
+| 2106           | A historical data farm is connected.                         | Ã¢â‚¬Å“A notification that connection to the market data server is ok. This is a notification and not a true error condition, and is expected on first  establishing connection.Ã¢â‚¬Â |
+| 2107           | A historical data farm connection has become inactive but should be available upon demand. | Ã¢â‚¬Å“Whenever a connection to the historical data farm is not being used because  there is not an active historical data request, the connection will go  inactive in IB Gateway. This does not indicate any connectivity issue or problem with IB Gateway. As soon as a historical data request is made  the status will change back to active.Ã¢â‚¬Â |
+| 2108           | A market data farm connection has become inactive but should be available upon demand. | Ã¢â‚¬Å“Whenever a connection to our data farms is not needed, it will become dormant.  There is nothing abnormal nor wrong with your client application nor  with the TWS. You can safely ignore this message.Ã¢â‚¬Â |
+| 2109           | Ã¢â‚¬Å“Order Event Warning: Attribute Ã¢â‚¬Å“Ã¢â‚¬ÂOutside Regular Trading HoursÃ¢â‚¬ÂÃ¢â‚¬Â is ignored  based on the order type and destination. PlaceOrder is now processed.Ã¢â‚¬Â | Indicates the outsideRth flag was set for an order for which there is not a regular vs outside regular trading hour distinction |
 | 2110           | Connectivity between TWS and server is broken. It will be restored automatically. | Indicates a connectivity problem between TWS or IBG and the IB server. This will  usually only occur during the IB nightly server reset; cases at other  times indicate a problem in the local ISP connectivity. |
-| 2111           | The Start and/or End Time for algo order BUY/SELL a contract was adjusted  to use the next trading date. To modify this setting, use the  Auto-adjust algo order date item on the Orders configuration page | Please go to TWS Global Configuration – “Orders” – “Settings” to correct the configuration. |
+| 2111           | The Start and/or End Time for algo order BUY/SELL a contract was adjusted  to use the next trading date. To modify this setting, use the  Auto-adjust algo order date item on the Orders configuration page | Please go to TWS Global Configuration Ã¢â‚¬â€œ Ã¢â‚¬Å“OrdersÃ¢â‚¬Â Ã¢â‚¬â€œ Ã¢â‚¬Å“SettingsÃ¢â‚¬Â to correct the configuration. |
 | 2119           | Market data farm is connecting.                              |                                                              |
 | 2130           | Warning: products are trading on the basis of currency price with factor. |                                                              |
-| 2137           | Cross Side Warning                                           | “This warning message occurs in TWS version 955 and higher. It occurs when an order will change the position in an account from long to short or from short to long. To bypass the warning, a new feature has been added to  IB Gateway 956 (or higher) and TWS 957 (or higher) so that once can go  to Global Configuration > Messages and disable the “”Cross Side  Warning””.” |
+| 2137           | Cross Side Warning                                           | Ã¢â‚¬Å“This warning message occurs in TWS version 955 and higher. It occurs when an order will change the position in an account from long to short or from short to long. To bypass the warning, a new feature has been added to  IB Gateway 956 (or higher) and TWS 957 (or higher) so that once can go  to Global Configuration > Messages and disable the Ã¢â‚¬Å“Ã¢â‚¬ÂCross Side  WarningÃ¢â‚¬ÂÃ¢â‚¬Â.Ã¢â‚¬Â |
 | 2152           | Market depth smart depth exchanges.                          |                                                              |
-| 2158           | Sec-def data farm connection is OK                           | “A notification that connection to the Security definition data server is  ok. This is a notification and not a true error condition, and is  expected on first establishing connection.” |
+| 2158           | Sec-def data farm connection is OK                           | Ã¢â‚¬Å“A notification that connection to the Security definition data server is  ok. This is a notification and not a true error condition, and is  expected on first establishing connection.Ã¢â‚¬Â |
 | 2168           | Etrade Only Not Supported Warning                            | The EtradeOnly IBApi.Order attribute is no longer supported. Error received with TWS versions 983+. Remove attribute to place order. |
 | 2169           | Firm Quote Only Not Supported Warning                        | The firmQuoteOnly IBApi.Order attribute is no longer supported. Error  received with TWS versions 983+. Remove attribute to place order. |
 | 10000          | Cross currency combo error.                                  |                                                              |
@@ -3065,20 +3065,20 @@ Error codes in different ranges have different indications.
 | 10021          | Invalid leg2 to Mkt Offset API.                              | This error is deprecated                                     |
 | 10022          | Invalid Leg Prio API.                                        | This error is deprecated                                     |
 | 10023          | Invalid combo display size API.                              | This error is deprecated                                     |
-| 10024          | Invalid don’t start next legin API.                          | This error is deprecated                                     |
+| 10024          | Invalid donÃ¢â‚¬â„¢t start next legin API.                          | This error is deprecated                                     |
 | 10025          | Invalid leg2 to Mkt time1 API.                               | This error is deprecated                                     |
 | 10026          | Invalid leg2 to Mkt time2 API.                               | This error is deprecated                                     |
 | 10027          | Invalid combo routing tag API.                               | This error is deprecated                                     |
-| 10090          | Part of requested market data is not subscribed.             | “Indicates that some tick types requested require additional market data  subscriptions not held in the account. This commonly occurs for instance if a user has options subscriptions but not the underlying stock so the system cannot calculate the real time greek values (other default ticks will be returned). Or alternatively, if generic tick types are  specified in a market data request without the associated  subscriptions.” |
+| 10090          | Part of requested market data is not subscribed.             | Ã¢â‚¬Å“Indicates that some tick types requested require additional market data  subscriptions not held in the account. This commonly occurs for instance if a user has options subscriptions but not the underlying stock so the system cannot calculate the real time greek values (other default ticks will be returned). Or alternatively, if generic tick types are  specified in a market data request without the associated  subscriptions.Ã¢â‚¬Â |
 | 10147          | Order to be canceled was not found.                          |                                                              |
-| 10148          | “OrderId that needs to be cancelled can not be cancelled, state:” | An attempt was made to cancel an order that had already been filled by the system. |
+| 10148          | Ã¢â‚¬Å“OrderId that needs to be cancelled can not be cancelled, state:Ã¢â‚¬Â | An attempt was made to cancel an order that had already been filled by the system. |
 | 10186          | Requested market data is not subscribed. Delayed market data is not enabled | See Market Data Types on how to enable delayed data.         |
 | 10187          | Failed to request historical ticks:No market data permissions |                                                              |
 | 10189          | Failed to request tick-by-tick data. Invalid Real-time Query | Trading TWS session is connected from a different IP address. Or, No market data permissions |
-| 10197          | No market data during competing session                      | “Indicates that the user is logged into the paper account and live account  simultaneously trying to request live market data using both the  accounts. In such a scenario preference would be given to the live  account, for more details please refer: https://ibkr.info/node/1719” |
-| 10225          | “Bust event occurred, current subscription is deactivated. Please resubscribe real-time bars immediately” |                                                              |
-| 10230          | “You have unsaved FA changes. Please retry ‘request FA’ operation later, when ‘replace FA’ operation is complete” | There are pending Financial Advisor configuration changes. See Financial Advisors |
-| 10231          | The following Groups and/or Profiles contain invalid accounts: | “If the account(s) inside Groups or Profiles is/are incorrect in  xml-formatted configuration string of replaceFA request, then the error  shows list of such Groups and/or Profiles.” |
+| 10197          | No market data during competing session                      | Ã¢â‚¬Å“Indicates that the user is logged into the paper account and live account  simultaneously trying to request live market data using both the  accounts. In such a scenario preference would be given to the live  account, for more details please refer: https://ibkr.info/node/1719Ã¢â‚¬Â |
+| 10225          | Ã¢â‚¬Å“Bust event occurred, current subscription is deactivated. Please resubscribe real-time bars immediatelyÃ¢â‚¬Â |                                                              |
+| 10230          | Ã¢â‚¬Å“You have unsaved FA changes. Please retry Ã¢â‚¬Ëœrequest FAÃ¢â‚¬â„¢ operation later, when Ã¢â‚¬Ëœreplace FAÃ¢â‚¬â„¢ operation is completeÃ¢â‚¬Â | There are pending Financial Advisor configuration changes. See Financial Advisors |
+| 10231          | The following Groups and/or Profiles contain invalid accounts: | Ã¢â‚¬Å“If the account(s) inside Groups or Profiles is/are incorrect in  xml-formatted configuration string of replaceFA request, then the error  shows list of such Groups and/or Profiles.Ã¢â‚¬Â |
 | 10233          | Defaults were inherited from CASH preset during the creation of this order. |                                                              |
 | 10234          | The Decision Maker field is required and not set for this order (non-desktop). |                                                              |
 | 10235          | The Decision Maker field is required and not set for this order (ibbot). |                                                              |
@@ -3092,18 +3092,18 @@ Error codes in different ranges have different indications.
 | 10243          | Fractional-sized order cannot be placed via API. Please use desktop version to place this order. |                                                              |
 | 10244          | Cash Quantity cannot be used for this order                  |                                                              |
 | 10245          | This financial instrument does not support fractional shares trading |                                                              |
-| 10246          | This order doesn’t support fractional shares trading         |                                                              |
+| 10246          | This order doesnÃ¢â‚¬â„¢t support fractional shares trading         |                                                              |
 | 10247          | Only IB SmartRouting supports fractional shares              |                                                              |
-| 10248          | doesn’t have permission to trade fractional shares           |                                                              |
-| 10249          | “=””””> order doesn’t support fractional shares”             |                                                              |
+| 10248          | doesnÃ¢â‚¬â„¢t have permission to trade fractional shares           |                                                              |
+| 10249          | Ã¢â‚¬Å“=Ã¢â‚¬ÂÃ¢â‚¬ÂÃ¢â‚¬ÂÃ¢â‚¬Â> order doesnÃ¢â‚¬â„¢t support fractional sharesÃ¢â‚¬Â             |                                                              |
 | 10250          | The size does not conform to the minimum variation of for this contract |                                                              |
 | 10251          | Fractional shares are not supported for allocation orders    |                                                              |
-| 10252          | This non-close-position order doesn’t support fractional shares trading |                                                              |
+| 10252          | This non-close-position order doesnÃ¢â‚¬â„¢t support fractional shares trading |                                                              |
 | 10253          | Clear Away orders are not supported for multi-leg combo with attached hedge. |                                                              |
 | 10254          | Invalid Order: bond expired                                  |                                                              |
-| 10268          | The ‘EtradeOnly’ order attribute is not supported            | The EtradeOnly IBApi.Order attribute is no longer supported. Error received with TWS versions 983+ |
-| 10269          | The ‘firmQuoteOnly’ order attribute is not supported         | The firmQuoteOnly IBApi.Order attribute is no longer supported. Error received with TWS versions 983+ |
-| 10270          | The ‘nbboPriceCap’ order attribute is not supported          | The nbboPriceCap IBApi.Order attribute is no longer supported. Error received with TWS versions 983+ |
+| 10268          | The Ã¢â‚¬ËœEtradeOnlyÃ¢â‚¬â„¢ order attribute is not supported            | The EtradeOnly IBApi.Order attribute is no longer supported. Error received with TWS versions 983+ |
+| 10269          | The Ã¢â‚¬ËœfirmQuoteOnlyÃ¢â‚¬â„¢ order attribute is not supported         | The firmQuoteOnly IBApi.Order attribute is no longer supported. Error received with TWS versions 983+ |
+| 10270          | The Ã¢â‚¬ËœnbboPriceCapÃ¢â‚¬â„¢ order attribute is not supported          | The nbboPriceCap IBApi.Order attribute is no longer supported. Error received with TWS versions 983+ |
 | 10276          | News feed is not allowed                                     | The API client is not permissioned for receiving WSH news feed. |
 | 10277          | News feed permissions required                               | The API client is not subscribed to receive WSH news feed    |
 | 10278          | Duplicate WSH metadata request                               | A request is already pending for the same API client.        |
@@ -3128,7 +3128,7 @@ Error codes in different ranges have different indications.
 
 **errorCode:** int. The code identifying the error.
 
-**errorMsg:** String. The error’s description.
+**errorMsg:** String. The errorÃ¢â‚¬â„¢s description.
 
 **advancedOrderRejectJson:** String. Advanced order reject description in json format.
  )
@@ -3150,7 +3150,7 @@ The content below references some of the most common errors received by  clients
 
 Error code 2104, 2106, and 2158 all generally state that farm connection is  OK. What this means is that the API has successfully connected to Trader Workstation or the IB Gateway, and that connection is able to reach  Interactive Brokers servers. There is no issue with the connection, and  it is a sign you connected successfully.
 
-While using IB Gateway,  users may encounter the error, “A historical data farm connection has  become inactive but should be available upon demand.” This means that  while no historical data requests are being sent, the connection is  halted. Once a historical data request is sent over the API connection,  the market data farm will reconnect and supply market data.
+While using IB Gateway,  users may encounter the error, Ã¢â‚¬Å“A historical data farm connection has  become inactive but should be available upon demand.Ã¢â‚¬Â This means that  while no historical data requests are being sent, the connection is  halted. Once a historical data request is sent over the API connection,  the market data farm will reconnect and supply market data.
 
 ### Requested market data requires additional subscription for API. See link in  'Market Data Connections' dialog for more details.Delayed market data is available.Copy Location
 
@@ -3201,7 +3201,7 @@ self.requestFA(1)
 **faXmlData:** String. The xml-formatted configuration.
  )
 
-Receives the Financial Advisor’s configuration available in the TWS.
+Receives the Financial AdvisorÃ¢â‚¬â„¢s configuration available in the TWS.
 
 -
 
@@ -3267,9 +3267,9 @@ Marks the ending of the replaceFA reception.
 
 def replaceFAEnd(self, reqId: int, text: str):
 
-​    super().replaceFAEnd(reqId, text)
+Ã¢â‚¬â€¹    super().replaceFAEnd(reqId, text)
 
-​    print("ReplaceFAEnd.", "ReqId:", reqId, "Text:", text)
+Ã¢â‚¬â€¹    print("ReplaceFAEnd.", "ReqId:", reqId, "Text:", text)
 
 
 
@@ -3300,7 +3300,7 @@ Interactive Brokers supports two forms of allocation methods. Allocation methods
 
 ### Allocation Method XML FormatCopy Location
 
-Allocation methods for financial advisor’s allocation groups are created using an  XML format. The content below signifies the supported allocation groups  and how to format them in their respective XML.
+Allocation methods for financial advisorÃ¢â‚¬â„¢s allocation groups are created using an  XML format. The content below signifies the supported allocation groups  and how to format them in their respective XML.
 
 ### Available EquityCopy Location
 
@@ -3316,25 +3316,25 @@ Requires you to specify an order size. This method distributes shares based on  
 
   <Group>
 
-​    <name>MyTestProfile2</name>
+Ã¢â‚¬â€¹    <name>MyTestProfile2</name>
 
-​    <defaultMethod>AvailableEquity</defaultMethod>
+Ã¢â‚¬â€¹    <defaultMethod>AvailableEquity</defaultMethod>
 
-​    <ListOfAccts varName="list">
+Ã¢â‚¬â€¹    <ListOfAccts varName="list">
 
-​      <Account>
+Ã¢â‚¬â€¹      <Account>
 
-​        <acct>DU6202167</acct>
+Ã¢â‚¬â€¹        <acct>DU6202167</acct>
 
-​      </Account>
+Ã¢â‚¬â€¹      </Account>
 
-​      <Account>
+Ã¢â‚¬â€¹      <Account>
 
-​        <acct>DU6202168</acct>
+Ã¢â‚¬â€¹        <acct>DU6202168</acct>
 
-​      </Account>
+Ã¢â‚¬â€¹      </Account>
 
-​    </ListOfAccts>
+Ã¢â‚¬â€¹    </ListOfAccts>
 
   </Group>
 
@@ -3372,17 +3372,17 @@ In the example code shown in the right side, you can see that:
 
   <Account>
 
-​    <acct>DU6202167</acct>
+Ã¢â‚¬â€¹    <acct>DU6202167</acct>
 
-​    <amount>100.0</amount>
+Ã¢â‚¬â€¹    <amount>100.0</amount>
 
   </Account>
 
   <Account>
 
-​    <acct>DU6202168</acct>
+Ã¢â‚¬â€¹    <acct>DU6202168</acct>
 
-​    <amount>200.0</amount>
+Ã¢â‚¬â€¹    <amount>200.0</amount>
 
   </Account>
 
@@ -3408,25 +3408,25 @@ Requires you to specify an order size. This method distributes shares equally be
 
   <Group>
 
-​    <name>MyTestProfile2</name>
+Ã¢â‚¬â€¹    <name>MyTestProfile2</name>
 
-​    <defaultMethod>Equal</defaultMethod>
+Ã¢â‚¬â€¹    <defaultMethod>Equal</defaultMethod>
 
-​    <ListOfAccts varName="list">
+Ã¢â‚¬â€¹    <ListOfAccts varName="list">
 
-​      <Account>
+Ã¢â‚¬â€¹      <Account>
 
-​        <acct>DU6202167</acct>
+Ã¢â‚¬â€¹        <acct>DU6202167</acct>
 
-​      </Account>
+Ã¢â‚¬â€¹      </Account>
 
-​      <Account>
+Ã¢â‚¬â€¹      <Account>
 
-​        <acct>DU6202168</acct>
+Ã¢â‚¬â€¹        <acct>DU6202168</acct>
 
-​      </Account>
+Ã¢â‚¬â€¹      </Account>
 
-​    </ListOfAccts>
+Ã¢â‚¬â€¹    </ListOfAccts>
 
   </Group>
 
@@ -3452,17 +3452,17 @@ The Monetary Amount method calculates the number of units to be allocated based 
 
   <Account>
 
-​    <acct>DU6202167</acct>
+Ã¢â‚¬â€¹    <acct>DU6202167</acct>
 
-​    <amount>1000.0</amount>
+Ã¢â‚¬â€¹    <amount>1000.0</amount>
 
   </Account>
 
   <Account>
 
-​    <acct>DU6202168</acct>
+Ã¢â‚¬â€¹    <acct>DU6202168</acct>
 
-​    <amount>2000.0</amount>
+Ã¢â‚¬â€¹    <amount>2000.0</amount>
 
   </Account>
 
@@ -3488,25 +3488,25 @@ Requires you to specify an order size. This method distributes shares based on  
 
   <Group>
 
-​    <name>MyTestProfile2</name>
+Ã¢â‚¬â€¹    <name>MyTestProfile2</name>
 
-​    <defaultMethod>NetLiq</defaultMethod>
+Ã¢â‚¬â€¹    <defaultMethod>NetLiq</defaultMethod>
 
-​    <ListOfAccts varName="list">
+Ã¢â‚¬â€¹    <ListOfAccts varName="list">
 
-​      <Account>
+Ã¢â‚¬â€¹      <Account>
 
-​        <acct>DU6202167</acct>
+Ã¢â‚¬â€¹        <acct>DU6202167</acct>
 
-​      </Account>
+Ã¢â‚¬â€¹      </Account>
 
-​      <Account>
+Ã¢â‚¬â€¹      <Account>
 
-​        <acct>DU6202168</acct>
+Ã¢â‚¬â€¹        <acct>DU6202168</acct>
 
-​      </Account>
+Ã¢â‚¬â€¹      </Account>
 
-​    </ListOfAccts>
+Ã¢â‚¬â€¹    </ListOfAccts>
 
   </Group>
 
@@ -3561,17 +3561,17 @@ While making modifications to  allocations for profiles, the method uses an enum
 
   <Account>
 
-​    <acct>DU6202167</acct>
+Ã¢â‚¬â€¹    <acct>DU6202167</acct>
 
-​    <amount>60.0</amount>
+Ã¢â‚¬â€¹    <amount>60.0</amount>
 
   </Account>
 
   <Account>
 
-​    <acct>DU6202168</acct>
+Ã¢â‚¬â€¹    <acct>DU6202168</acct>
 
-​    <amount>40.0</amount>
+Ã¢â‚¬â€¹    <amount>40.0</amount>
 
   </Account>
 
@@ -3611,17 +3611,17 @@ In the example code shown in the right side, you can see that:
 
   <Account>
 
-​    <acct>DU6202167</acct>
+Ã¢â‚¬â€¹    <acct>DU6202167</acct>
 
-​    <amount>1.0</amount>
+Ã¢â‚¬â€¹    <amount>1.0</amount>
 
   </Account>
 
   <Account>
 
-​    <acct>DU6202168</acct>
+Ã¢â‚¬â€¹    <acct>DU6202168</acct>
 
-​    <amount>2.0</amount>
+Ã¢â‚¬â€¹    <amount>2.0</amount>
 
   </Account>
 
@@ -3635,7 +3635,7 @@ In the example code shown in the right side, you can see that:
 
 ### Model Portfolios and the APICopy Location
 
-Advisors can use Model Portfolios to easily invest some or all of a client’s  assets into one or multiple custom-created portfolios, rather than  tediously managing individual investments in single instruments.
+Advisors can use Model Portfolios to easily invest some or all of a clientÃ¢â‚¬â„¢s  assets into one or multiple custom-created portfolios, rather than  tediously managing individual investments in single instruments.
 
 [More about Model Portfolios](https://www.interactivebrokers.com/en/index.php?f=20917)
 
@@ -3667,13 +3667,13 @@ self.placeOrder(self.nextOrderId(), contract, modelOrder)
 
 ### Unification of Groups and ProfilesCopy Location
 
-With TWS/IBGW build 983+, the API settings will have a new flag/checkbox, **“Use Account Groups with Allocation Methods”** (enabled by default for new users). If not enabled, groups and profiles would  behave the same as before. If it is checked, group and profile  functionality will be merged.
+With TWS/IBGW build 983+, the API settings will have a new flag/checkbox, **Ã¢â‚¬Å“Use Account Groups with Allocation MethodsÃ¢â‚¬Â** (enabled by default for new users). If not enabled, groups and profiles would  behave the same as before. If it is checked, group and profile  functionality will be merged.
 
 With TWS/IBGW Build 10.20+, this  setting is now enabled by default, and moving forward into new versions, the two systems can be deemed as interchangeable for modifying  allocation groups, placing orders, requesting account or portfolio  summaries, or requesting multiple positions.
 
 ### Order PlacementCopy Location
 
-For advisors to place orders to their [allocation groups](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#replace-fa) users would simply declare their allocation group name in the order  object. This would be done with the Order’s faGroup field. The example  to the right references a standard market order placed to our allocation group, MyTestProfile.
+For advisors to place orders to their [allocation groups](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#replace-fa) users would simply declare their allocation group name in the order  object. This would be done with the OrderÃ¢â‚¬â„¢s faGroup field. The example  to the right references a standard market order placed to our allocation group, MyTestProfile.
 
 -
 
@@ -3700,16 +3700,16 @@ The API can request Live, Frozen, Delayed and Delayed Frozen market data  from T
 | Market Data Type | ID   | Description                                                  |
 | ---------------- | ---- | ------------------------------------------------------------ |
 | Live             | 1    | Live market data is streaming data relayed back in real time. Market data  subscriptions are required to receive live market data. |
-| Frozen           | 2    | Frozen market data is the last data recorded at market close. In TWS, Frozen  data is displayed in gray numbers. When you set the market data type to  Frozen, you are asking TWS to send the last available quote when there  is not one currently available. For instance, if a market is currently  closed and real time data is requested, -1 values will commonly be  returned for the bid and ask prices to indicate there is no current  bid/ask data available. TWS will often show a ‘frozen’ bid/ask which  represents the last value recorded by the system. To receive the last  know bid/ask price before the market close, switch to market data type 2 from the API before requesting market data. API frozen data requires  TWS/IBG v.962 or higher and the same market data subscriptions necessary for real time streaming data. |
-| Delayed          | 3    | Free, delayed data is 15 – 20 minutes delayed. In TWS, delayed data is  displayed in brown background. When you set market data type to delayed, you are telling TWS to automatically switch to delayed market data if  the user does not have the necessary real time data subscription. If  live data is available a request for delayed data would be ignored by  TWS. Delayed market data is returned with delayed [Tick Types](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#available-tick-types) (Tick ID 66~76). |
-| Delayed Frozen   | 4    | Requests delayed “frozen” data for a user without market data subscriptions. |
+| Frozen           | 2    | Frozen market data is the last data recorded at market close. In TWS, Frozen  data is displayed in gray numbers. When you set the market data type to  Frozen, you are asking TWS to send the last available quote when there  is not one currently available. For instance, if a market is currently  closed and real time data is requested, -1 values will commonly be  returned for the bid and ask prices to indicate there is no current  bid/ask data available. TWS will often show a Ã¢â‚¬ËœfrozenÃ¢â‚¬â„¢ bid/ask which  represents the last value recorded by the system. To receive the last  know bid/ask price before the market close, switch to market data type 2 from the API before requesting market data. API frozen data requires  TWS/IBG v.962 or higher and the same market data subscriptions necessary for real time streaming data. |
+| Delayed          | 3    | Free, delayed data is 15 Ã¢â‚¬â€œ 20 minutes delayed. In TWS, delayed data is  displayed in brown background. When you set market data type to delayed, you are telling TWS to automatically switch to delayed market data if  the user does not have the necessary real time data subscription. If  live data is available a request for delayed data would be ignored by  TWS. Delayed market data is returned with delayed [Tick Types](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#available-tick-types) (Tick ID 66~76). |
+| Delayed Frozen   | 4    | Requests delayed Ã¢â‚¬Å“frozenÃ¢â‚¬Â data for a user without market data subscriptions. |
 
 ### Market Data Type BehaviorCopy Location
 
-1) If user sends reqMarketDataType(1) – TWS will start sending only regular (1) market data.
-2) If user sends reqMarketDataType(2) – frozen, TWS will start sending  regular (1) as default and frozen (2) market data. TWS sends  marketDataType callback (1 or 2) indicating what market data will be  sent after this callback. It can be regular or frozen.
-3) If user sends reqMarketDataType(3) – delayed, TWS will start sending regular (1) as default and delayed (3) market data.
-4) If user sends reqMarketDataType(4) – delayed-frozen, TWS will start  sending regular (1) as default, delayed (3) and delayed-frozen (4)  market data.
+1) If user sends reqMarketDataType(1) Ã¢â‚¬â€œ TWS will start sending only regular (1) market data.
+2) If user sends reqMarketDataType(2) Ã¢â‚¬â€œ frozen, TWS will start sending  regular (1) as default and frozen (2) market data. TWS sends  marketDataType callback (1 or 2) indicating what market data will be  sent after this callback. It can be regular or frozen.
+3) If user sends reqMarketDataType(3) Ã¢â‚¬â€œ delayed, TWS will start sending regular (1) as default and delayed (3) market data.
+4) If user sends reqMarketDataType(4) Ã¢â‚¬â€œ delayed-frozen, TWS will start  sending regular (1) as default, delayed (3) and delayed-frozen (4)  market data.
 
 Interactive Brokers data will always try to provide  the most up to date market data possible, but will permit additional  delayed or frozen data if available upon request.
 
@@ -3751,7 +3751,7 @@ Historical Market data is available for Interactive Brokers market data  subscri
 
 ### Historical Data LimitationsCopy Location
 
-Historical market data has it’s own set of market data limitations unique to other requests such as real time market data. This section will cover all  limitations that effect historical market data in the Trader Workstation API.
+Historical market data has itÃ¢â‚¬â„¢s own set of market data limitations unique to other requests such as real time market data. This section will cover all  limitations that effect historical market data in the Trader Workstation API.
 
 ### Historical Data FilteringCopy Location
 
@@ -3766,8 +3766,8 @@ As historical data at IB gets adjusted, compressed  and filtered by default, the
 Volume data returned for historical bars can be modified to return in shares or lots.
 
 1. Open the Global Configuration window
-2. Navigate to “API” and then “Settings” on the left pane
-3. Scroll down to the “Send market data in lots for US Stocks for dual-mode API clients”
+2. Navigate to Ã¢â‚¬Å“APIÃ¢â‚¬Â and then Ã¢â‚¬Å“SettingsÃ¢â‚¬Â on the left pane
+3. Scroll down to the Ã¢â‚¬Å“Send market data in lots for US Stocks for dual-mode API clientsÃ¢â‚¬Â
 
 If the setting is checked, historical volume data will return as a [Round Lot](https://www.investopedia.com/terms/r/roundlot.asp).
 
@@ -3781,21 +3781,21 @@ If the setting is unchecked, historical volume data will return in Shares.
 
 Although Interactive Brokers offers our clients high quality market data, IB is  not a specialised market data provider and as such it is forced to put  in place restrictions to limit traffic which is not directly associated  to trading. A Pacing Violation occurs whenever one or more of the  following restrictions is not observed:
 
-Important: these  limitations apply to all our clients and it is not possible to overcome  them. If your trading strategy’s market data requirements are not met by our market data services please consider contacting a specialized  provider.
+Important: these  limitations apply to all our clients and it is not possible to overcome  them. If your trading strategyÃ¢â‚¬â„¢s market data requirements are not met by our market data services please consider contacting a specialized  provider.
 
 
 
 - Making identical historical data requests within 15 seconds.
 - Making six or more historical data requests for the same Contract, Exchange and Tick Type within two seconds.
 - Making more than 60 requests within any ten minute period.
-- Note that when BID_ASK historical data is requested, each request is counted twice. In a nutshell, the information above can simply be put as “do  not request too much data too quick”.
+- Note that when BID_ASK historical data is requested, each request is counted twice. In a nutshell, the information above can simply be put as Ã¢â‚¬Å“do  not request too much data too quickÃ¢â‚¬Â.
 
 ### Unavailable Historical DataCopy Location
 
 The other historical data limitations listed are general limitations for all trading platforms:
 
 - Bars whose size is 30 seconds or less older than six months
-- Expired futures data older than two years counting from the future’s expiration date.
+- Expired futures data older than two years counting from the futureÃ¢â‚¬â„¢s expiration date.
 - Expired options, FOPs, warrants and structured products.
 - End of Day (EOD) data for options, FOPs, warrants and structured products.
 - Data for expired future spreads
@@ -3808,7 +3808,7 @@ The other historical data limitations listed are general limitations for all tra
 
 For many functions, such as EClient.reqHistoricalData, you will need to  request market data for a contract. Given that you may not know how long a symbol has been available, you can use EClient.reqHeadTimestamp to  find the first available point of data for a given whatToShow value.
 
-ReqHeadTimeStamp counts as an ongoing historical data request, similar to using  EClient.reqHistoricalData’s keepUpToDate=True flag. As a result, users  should always:
+ReqHeadTimeStamp counts as an ongoing historical data request, similar to using  EClient.reqHistoricalDataÃ¢â‚¬â„¢s keepUpToDate=True flag. As a result, users  should always:
 
 - Cancel timestamp requests using [EClient.cancelHeadTimeStamp](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#cancelling-earliest-data).
 - All EClient.reqHeadTimestamp requests follow the [30 second bar limitations](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#historical-pacing-limitations), regardless of which bar size value has been requested.
@@ -3851,7 +3851,7 @@ The data requested will be returned to EWrapper.headTimeStamp.
 
 def headTimestamp(self, reqId, headTimestamp):
 
-​        print(reqId, headTimestamp)
+Ã¢â‚¬â€¹        print(reqId, headTimestamp)
 
 
 
@@ -3882,18 +3882,18 @@ Historical Bar data returns a candlestick value based on the requested duration 
 
 **contract:** Contract, The IBApi.Contract object you are working with.
 
-**endDateTime:** String, The request’s end date and time. This should be formatted as  “YYYYMMDD HH:mm:ss TMZ” or an empty string indicates current present  moment).
+**endDateTime:** String, The requestÃ¢â‚¬â„¢s end date and time. This should be formatted as  Ã¢â‚¬Å“YYYYMMDD HH:mm:ss TMZÃ¢â‚¬Â or an empty string indicates current present  moment).
  Please be aware that endDateTime must be left as an empty string when requesting continuous futures contracts.
 
-**[durationStr:](https://www.interactivebrokers.com/campus/ibkr-api-page/trader-workstation-api/#hist-duration)** String, The amount of time (or Valid Duration String units) to go back from the request’s given end date and time.
+**[durationStr:](https://www.interactivebrokers.com/campus/ibkr-api-page/trader-workstation-api/#hist-duration)** String, The amount of time (or Valid Duration String units) to go back from the requestÃ¢â‚¬â„¢s given end date and time.
 
-**[barSizeSetting:](https://www.interactivebrokers.com/campus/ibkr-api-page/trader-workstation-api/#hist-bar-size)** String, The data’s granularity or Valid Bar Sizes
+**[barSizeSetting:](https://www.interactivebrokers.com/campus/ibkr-api-page/trader-workstation-api/#hist-bar-size)** String, The dataÃ¢â‚¬â„¢s granularity or Valid Bar Sizes
 
 **[whatToShow:](https://www.interactivebrokers.com/campus/ibkr-api-page/trader-workstation-api/#historical-whattoshow)** String, The type of data to retrieve. See Historical Data Types
 
 **useRTH:** bool, Whether (1) or not (0) to retrieve data generated only within Regular Trading Hours (RTH)
 
-**[formatDate:](https://www.interactivebrokers.com/campus/ibkr-api-page/trader-workstation-api/#hist-format-date)** bool, The format in which the incoming bars’ date should be presented.  Note that for day bars, only yyyyMMdd format is available.
+**[formatDate:](https://www.interactivebrokers.com/campus/ibkr-api-page/trader-workstation-api/#hist-format-date)** bool, The format in which the incoming barsÃ¢â‚¬â„¢ date should be presented.  Note that for day bars, only yyyyMMdd format is available.
 
 **[keepUpToDate:](https://www.interactivebrokers.com/campus/ibkr-api-page/trader-workstation-api/#hist-keepUp-date)** bool, Whether a subscription is made to return updates of unfinished  real time bars as they are available (True), or all data is returned on a one-time basis (False). If *True*, and endDateTime cannot be specified.
  Supported whatToShow values: Trades, Midpoint, Bid, Ask.
@@ -3957,7 +3957,7 @@ The functionality of market data requests are predicated on preset step  sizes. 
 
 The table below displays the maximum duration values allowed for a given bar.
 
-As an example, the maximum duration for Seconds values supported for 5  seconds bars are 86400 S. This means that if I want to retrieve more  than 1 day’s worth of 5 second bars, I will then need to request data in increments of D (days).
+As an example, the maximum duration for Seconds values supported for 5  seconds bars are 86400 S. This means that if I want to retrieve more  than 1 dayÃ¢â‚¬â„¢s worth of 5 second bars, I will then need to request data in increments of D (days).
 
 | Bar Size | Max Second Duration | Max Day Duration | Max Week Duration | Max Month Duration | Max Year Duration |
 | -------- | ------------------- | ---------------- | ----------------- | ------------------ | ----------------- |
@@ -3991,9 +3991,9 @@ Interactive Brokers will return historical market data based on the format set f
 
 | Value | Description           | Example                              |
 | ----- | --------------------- | ------------------------------------ |
-| 1     | String Time Zone Date | “20231019 16:11:48 America/New_York” |
+| 1     | String Time Zone Date | Ã¢â‚¬Å“20231019 16:11:48 America/New_YorkÃ¢â‚¬Â |
 | 2     | Epoch Date            | 1697746308                           |
-| 3     | Day & Time Date       | “1019 16:11:48 America/New_York”     |
+| 3     | Day & Time Date       | Ã¢â‚¬Å“1019 16:11:48 America/New_YorkÃ¢â‚¬Â     |
 
 ### Keep Up To DateCopy Location
 
@@ -4073,7 +4073,7 @@ Date: 20241111-16:53:15, Open: 222.98, High: 222.98, Low: 222.96, Close: 222.97,
 **sessions:** HistoricalSession[]. Returns the full block of historical schedule data for the duration.
  )
 
-In the case of whatToShow=”schedule”, you will need to also define the  EWrapper.historicalSchedule value. This is a unique method that will  only be called in the case of the unique whatToShow value to display  calendar information.
+In the case of whatToShow=Ã¢â‚¬ÂscheduleÃ¢â‚¬Â, you will need to also define the  EWrapper.historicalSchedule value. This is a unique method that will  only be called in the case of the unique whatToShow value to display  calendar information.
 
 -
 
@@ -4083,7 +4083,7 @@ def historicalSchedule(self, reqId: int, startDateTime: str, endDateTime: str, t
 
   for session in sessions:
 
-​    print("\tSession. Start:", session.startDateTime, "End:", session.endDateTime, "Ref Date:", session.refDate)
+Ã¢â‚¬â€¹    print("\tSession. Start:", session.startDateTime, "End:", session.endDateTime, "Ref Date:", session.refDate)
 
 
 
@@ -4340,7 +4340,7 @@ self.reqHistogramData(4004)
 
 ### Historical Time & SalesCopy Location
 
-The highest granularity of historical data from IB’s database can be retrieved using the API function [EClient.reqHistoricalTicks](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#requesting-time-and-sales) for historical time and sales values. Historical Time & Sales will  return the same data as what is available in Trader Workstation under  the Time and Sales window. This is a series of ticks indicating each  trade based on the requested values.
+The highest granularity of historical data from IBÃ¢â‚¬â„¢s database can be retrieved using the API function [EClient.reqHistoricalTicks](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#requesting-time-and-sales) for historical time and sales values. Historical Time & Sales will  return the same data as what is available in Trader Workstation under  the Time and Sales window. This is a series of ticks indicating each  trade based on the requested values.
 
 - Historical Tick-By-Tick data is not available for combos.
 - Data will not be returned from multiple trading sessions in a single request; Multiple requests must be used.
@@ -4355,9 +4355,9 @@ The highest granularity of historical data from IB’s database can be retrieved
 
 **contract:** *Contract*, Contract object that is subject of query.
 
-**startDateTime:** *String*, i.e. “20170701 12:01:00”. Uses TWS timezone specified at login.
+**startDateTime:** *String*, i.e. Ã¢â‚¬Å“20170701 12:01:00Ã¢â‚¬Â. Uses TWS timezone specified at login.
 
-**endDateTime:** *String*, i.e. “20170701 13:01:00”. In TWS timezone. Exactly one of startDateTime or endDateTime must be defined.
+**endDateTime:** *String*, i.e. Ã¢â‚¬Å“20170701 13:01:00Ã¢â‚¬Â. In TWS timezone. Exactly one of startDateTime or endDateTime must be defined.
 
 **numberOfTicks:** *int*, Number of distinct data points. Max is 1000 per request.
 
@@ -4404,7 +4404,7 @@ def historicalTicks(self, reqId: int, ticks: ListOfHistoricalTickLast, done: boo
 
   for tick in ticks:
 
-​    print("historicalTicks. ReqId:", reqId, tick)
+Ã¢â‚¬â€¹    print("historicalTicks. ReqId:", reqId, tick)
 
 
 
@@ -4425,7 +4425,7 @@ def historicalTicksBidAsk(self, reqId: int, ticks: ListOfHistoricalTickLast, don
 
   for tick in ticks:
 
-​    print("historicalTicksBidAsk. ReqId:", reqId, tick)
+Ã¢â‚¬â€¹    print("historicalTicksBidAsk. ReqId:", reqId, tick)
 
 
 
@@ -4446,7 +4446,7 @@ def historicalTicksLast(self, reqId: int, ticks: ListOfHistoricalTickLast, done:
 
   for tick in ticks:
 
-​    print("HistoricalTickLast. ReqId:", reqId, tick)
+Ã¢â‚¬â€¹    print("HistoricalTickLast. ReqId:", reqId, tick)
 
 
 
@@ -4454,8 +4454,8 @@ def historicalTicksLast(self, reqId: int, ticks: ListOfHistoricalTickLast, done:
 
 The tick attribute pastLimit is also returned with streaming Tick-By-Tick responses. Check Halted and Unhalted ticks section.
 
-- If tick has zero price, zero size and pastLimit flag is set – this is “Halted” tick.
-- If tick has zero price, zero size and followed immediately after “Halted” tick – this is “Unhalted” tick.
+- If tick has zero price, zero size and pastLimit flag is set Ã¢â‚¬â€œ this is Ã¢â‚¬Å“HaltedÃ¢â‚¬Â tick.
+- If tick has zero price, zero size and followed immediately after Ã¢â‚¬Å“HaltedÃ¢â‚¬Â tick Ã¢â‚¬â€œ this is Ã¢â‚¬Å“UnhaltedÃ¢â‚¬Â tick.
 
 ### Historical Date FormattingCopy Location
 
@@ -4469,31 +4469,31 @@ When creating dates in the TWS API, Interactive Brokers typically supports three
 
 Operator Time Zone is the local time set by the user in Trader Workstation. The  Operator Time Zone typically maintains a unique formatting structure  separate from Exchange Time Zones; however, they can match.
 
-A user can confirm their Operator Time Zone by launching Trader Workstation then, before logging in, click “More Options >”.
+A user can confirm their Operator Time Zone by launching Trader Workstation then, before logging in, click Ã¢â‚¬Å“More Options >Ã¢â‚¬Â.
 
 ![More Options button on the TWS login window. ](https://www.interactivebrokers.com/campus/wp-content/uploads/sites/2/2023/09/twsLogin-700x407.png)
 
 
 
-Users can then confirm their active Operator Time Zone by referencing the “Time Zone” field.
+Users can then confirm their active Operator Time Zone by referencing the Ã¢â‚¬Å“Time ZoneÃ¢â‚¬Â field.
 
-For US residents, this will typically appear as “America/New_York”,  “America/Chicago”, or “America/Los_Angeles”. It is essential to note the Time Zone value, as this will be the value supplied when making  requests with the Operator Time Zone.
+For US residents, this will typically appear as Ã¢â‚¬Å“America/New_YorkÃ¢â‚¬Â,  Ã¢â‚¬Å“America/ChicagoÃ¢â‚¬Â, or Ã¢â‚¬Å“America/Los_AngelesÃ¢â‚¬Â. It is essential to note the Time Zone value, as this will be the value supplied when making  requests with the Operator Time Zone.
 
 ![More Options settings on the TWS login window.](https://www.interactivebrokers.com/campus/wp-content/uploads/sites/2/2023/09/twsMoreOptions-1-700x406.png)
 
 
 
-After logging in to Trader Workstation or IB Gateway, you would be able to  submit time stamps in the format of “YYYYMMDD HH:mm:ss  Operator/Time_Zone”.
+After logging in to Trader Workstation or IB Gateway, you would be able to  submit time stamps in the format of Ã¢â‚¬Å“YYYYMMDD HH:mm:ss  Operator/Time_ZoneÃ¢â‚¬Â.
 
-Given our prior example, a historical data  endDateTime value would appear as”20250101 23:59:59 America/Chicago”.  This would mean the latest value I want is just before midnight in  Chicago on January 1st, 2025. Even if I am trading contracts in New York or overseas, all historical data requests would be relative to my own  time zone.
+Given our prior example, a historical data  endDateTime value would appear asÃ¢â‚¬Â20250101 23:59:59 America/ChicagoÃ¢â‚¬Â.  This would mean the latest value I want is just before midnight in  Chicago on January 1st, 2025. Even if I am trading contracts in New York or overseas, all historical data requests would be relative to my own  time zone.
 
 ### Exchange Time ZoneCopy Location
 
 The exchange Time Zone is the value the exchange itself uses to calculate  time. This value is typically unique to the Operator Time Zone, but  these values can overlap.
 
-As an example, the New York Stock Exchange operates on “US/Eastern”.  However, the CME operates on “US/Central”. This values can be  programmatically requested using the EClient.reqContractDetails method,  and then received from EWrapper.contractDetails in contractDetails.Time  ZoneId.
+As an example, the New York Stock Exchange operates on Ã¢â‚¬Å“US/EasternÃ¢â‚¬Â.  However, the CME operates on Ã¢â‚¬Å“US/CentralÃ¢â‚¬Â. This values can be  programmatically requested using the EClient.reqContractDetails method,  and then received from EWrapper.contractDetails in contractDetails.Time  ZoneId.
 
-Note that this will be interpreted differently from “America/Chicago”.
+Note that this will be interpreted differently from Ã¢â‚¬Å“America/ChicagoÃ¢â‚¬Â.
 
 ![Time Zone response from a reqContractDetails request.](https://www.interactivebrokers.com/campus/wp-content/uploads/sites/2/2023/09/exchangeTimeZone.png)
 
@@ -4501,16 +4501,16 @@ Note that this will be interpreted differently from “America/Chicago”.
 
 ### Coordinated Universal Time (UTC)Copy Location
 
-UTC is a time standard centered around Greenwich Mean Time (GMT). UTC  historical data can be formatted as “YYYYMMDD-hh:mm:ss”. Please keep in  mind this is based on UTC+0, and as a reference, US/Eastern time is  approximately UTC-4 or UTC-5 depending on U.S. Daylight savings.
+UTC is a time standard centered around Greenwich Mean Time (GMT). UTC  historical data can be formatted as Ã¢â‚¬Å“YYYYMMDD-hh:mm:ssÃ¢â‚¬Â. Please keep in  mind this is based on UTC+0, and as a reference, US/Eastern time is  approximately UTC-4 or UTC-5 depending on U.S. Daylight savings.
 
-Please note GMT is unaffected by Daylight savings, and so 09:00:00 will be the same time of day year round regardless of the exchange’s or your local  daylight savings observation.
+Please note GMT is unaffected by Daylight savings, and so 09:00:00 will be the same time of day year round regardless of the exchangeÃ¢â‚¬â„¢s or your local  daylight savings observation.
 
 ### Modifying Returned DateCopy Location
 
-You may also log in to the Trader Workstation and modify this in the Global Configuration under API and then Settings. Here, you will find a  modifiable setting labeled “Send instrument-specific attributes for  dual-mode API client in” Here you can select one of the following:
+You may also log in to the Trader Workstation and modify this in the Global Configuration under API and then Settings. Here, you will find a  modifiable setting labeled Ã¢â‚¬Å“Send instrument-specific attributes for  dual-mode API client inÃ¢â‚¬Â Here you can select one of the following:
 
 - operator timezone: refers to the local timezone you have set in the Trader Workstation or IB Gateway
-- instrument timezone: refers to the timezone of the requested exchange. If “SMART”  is used, this will use the instrument’s primary exchange.
+- instrument timezone: refers to the timezone of the requested exchange. If Ã¢â‚¬Å“SMARTÃ¢â‚¬Â  is used, this will use the instrumentÃ¢â‚¬â„¢s primary exchange.
 - UTC format: refers to a standardized return using UTC as the timezone. This will be returned in the format YYYYMMDD-hh:mm:ss
 
 ![img](https://www.interactivebrokers.com/campus/wp-content/uploads/sites/2/2023/06/Hist_Return_Setting-700x448.png)
@@ -4524,14 +4524,14 @@ You may also log in to the Trader Workstation and modify this in the Global Conf
 For all data, besides [Delayed Watchlist Data](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#delayed-market-data), a paid data subscription is required to receive market data through the API. See the [Market Data Subscriptions](https://www.interactivebrokers.com/campus/ibkr-api-page/market-data-subscriptions/) page for more information.
 
 - Live market data and historical bars are currently not available from the API for the exchange **OSE**. Only 15 minute delayed streaming data will be available for this exchange.
-- Some [Available Tick Types](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#available-tick-types) may not be provided due to the contract details, the time that you run  the code…… ,etc. To verify whether the specific Available Tick Type is  provided, it is suggested to manually check the data in TWS.
+- Some [Available Tick Types](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#available-tick-types) may not be provided due to the contract details, the time that you run  the codeÃ¢â‚¬Â¦Ã¢â‚¬Â¦ ,etc. To verify whether the specific Available Tick Type is  provided, it is suggested to manually check the data in TWS.
 - Different [Available Tick Types](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#available-tick-types) have different updating frequency.
 
 The bid, ask, and last size quotes are displayed in shares instead of lots.
 
-API users have the option to configure the TWS API to work in compatibility mode for older programs, but we recommend migrating to “quotes in  shares” at your earliest convenience.
+API users have the option to configure the TWS API to work in compatibility mode for older programs, but we recommend migrating to Ã¢â‚¬Å“quotes in  sharesÃ¢â‚¬Â at your earliest convenience.
 
-To display quotes as lots,  from the Global Configuration > API > Settings page, check “Bypass US Stocks market data in shares warning for API orders.”
+To display quotes as lots,  from the Global Configuration > API > Settings page, check Ã¢â‚¬Å“Bypass US Stocks market data in shares warning for API orders.Ã¢â‚¬Â
 
 ![Highlights the "Bypass US Stocks market data in shares warning for API Orders" under API Precautions.](data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==)
 
@@ -4587,15 +4587,15 @@ import time
 
 class TradeApp(EWrapper, EClient):
 
-​    def __init__(self):
+Ã¢â‚¬â€¹    def __init__(self):
 
-​        EClient.__init__(self, self)
+Ã¢â‚¬â€¹        EClient.__init__(self, self)
 
-​    def realtimeBar(self, reqId: TickerId, time:int, open_: float, high: float, low: float, close: float, volume: Decimal, wap: Decimal, count: int):
+Ã¢â‚¬â€¹    def realtimeBar(self, reqId: TickerId, time:int, open_: float, high: float, low: float, close: float, volume: Decimal, wap: Decimal, count: int):
 
-​        print("RealTimeBar. TickerId:", reqId, RealTimeBar(time, -1, open_, high, low, close, volume, wap, count))
+Ã¢â‚¬â€¹        print("RealTimeBar. TickerId:", reqId, RealTimeBar(time, -1, open_, high, low, close, volume, wap, count))
 
-​
+Ã¢â‚¬â€¹
 
 app = TradeApp()
 
@@ -4623,21 +4623,21 @@ app.run()
 
 **reqId:** int. Request identifier used to track data.
 
-**time:** long. The bar’s start date and time (Epoch/Unix time)
+**time:** long. The barÃ¢â‚¬â„¢s start date and time (Epoch/Unix time)
 
-**open:** double. The bar’s open point
+**open:** double. The barÃ¢â‚¬â„¢s open point
 
-**high:** double. The bar’s high point
+**high:** double. The barÃ¢â‚¬â„¢s high point
 
-**low:** double. The bar’s low point
+**low:** double. The barÃ¢â‚¬â„¢s low point
 
-**close:** double. The bar’s closing point
+**close:** double. The barÃ¢â‚¬â„¢s closing point
 
-**volume:** decimal. The bar’s traded volume (only returned for TRADES data)
+**volume:** decimal. The barÃ¢â‚¬â„¢s traded volume (only returned for TRADES data)
 
-**WAP:** decimal. The bar’s Weighted Average Price rounded to minimum increment (only available for TRADES).
+**WAP:** decimal. The barÃ¢â‚¬â„¢s Weighted Average Price rounded to minimum increment (only available for TRADES).
 
-**count:** int. The number of trades during the bar’s timespan (only available for TRADES).
+**count:** int. The number of trades during the barÃ¢â‚¬â„¢s timespan (only available for TRADES).
  )
 
 Receives the real time 5 second bars.
@@ -4657,7 +4657,7 @@ def realtimeBar(self, reqId: TickerId, time:int, open_: float, high: float, low:
 **tickerId:** int. Request identifier used to track data.
  )
 
-Cancels Real Time Bars’ subscription.
+Cancels Real Time BarsÃ¢â‚¬â„¢ subscription.
 
 -
 
@@ -4667,11 +4667,11 @@ self.cancelRealTimeBars(3001)
 
 ### Component ExchangesCopy Location
 
-A single data request from the API can receive aggregate quotes from  multiple exchanges. The tick types ‘bidExch’ (tick type 32), ‘askExch’  (tick type 33), ‘lastExch’ (tick type 84) are used to identify the  source of a quote. To preserve bandwidth, the data returned to these  tick types consists of a sequence of capital letters rather than a long  list of exchange names for every returned exchange name field. To find  the full exchange name corresponding to a single letter code returned in tick types 32, 33, or 84, and API function IBApi::[EClient::reqSmartComponents](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#exchange-component-mapping) is available. Note: This function can only be used when the exchange is open.
+A single data request from the API can receive aggregate quotes from  multiple exchanges. The tick types Ã¢â‚¬ËœbidExchÃ¢â‚¬â„¢ (tick type 32), Ã¢â‚¬ËœaskExchÃ¢â‚¬â„¢  (tick type 33), Ã¢â‚¬ËœlastExchÃ¢â‚¬â„¢ (tick type 84) are used to identify the  source of a quote. To preserve bandwidth, the data returned to these  tick types consists of a sequence of capital letters rather than a long  list of exchange names for every returned exchange name field. To find  the full exchange name corresponding to a single letter code returned in tick types 32, 33, or 84, and API function IBApi::[EClient::reqSmartComponents](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#exchange-component-mapping) is available. Note: This function can only be used when the exchange is open.
 
-Different IB contracts have a different exchange map containing the set of  exchanges on which they trade. Each exchange map has a different code,  such as “a6” or “a9”. This exchange mapping code is returned to [EWrapper.tickReqParams](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#exchange-component-mapping) immediately after a market data request is made by a user with market  data subscriptions. To find a particular map of single letter codes to  full exchange names, the function reqSmartComponents is invoked with the exchange mapping code returned to tickReqParams.
+Different IB contracts have a different exchange map containing the set of  exchanges on which they trade. Each exchange map has a different code,  such as Ã¢â‚¬Å“a6Ã¢â‚¬Â or Ã¢â‚¬Å“a9Ã¢â‚¬Â. This exchange mapping code is returned to [EWrapper.tickReqParams](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#exchange-component-mapping) immediately after a market data request is made by a user with market  data subscriptions. To find a particular map of single letter codes to  full exchange names, the function reqSmartComponents is invoked with the exchange mapping code returned to tickReqParams.
 
-For instance, a market data request for the IBKR US contract may return the exchange mapping identifier “a6” to [EWrapper.tickReqParams](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#exchange-component-mapping) . Invoking the function [EClient.reqSmartComponents](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#exchange-component-mapping) with the symbol “a9” will reveal the list of exchanges offering market  data for the IBKR US contract, and their single letter codes. The code  for “ARCA” may be “P”. In that case if “P” is returned to the exchange  tick types, that would indicate the quote was provided by ARCA.
+For instance, a market data request for the IBKR US contract may return the exchange mapping identifier Ã¢â‚¬Å“a6Ã¢â‚¬Â to [EWrapper.tickReqParams](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#exchange-component-mapping) . Invoking the function [EClient.reqSmartComponents](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#exchange-component-mapping) with the symbol Ã¢â‚¬Å“a9Ã¢â‚¬Â will reveal the list of exchanges offering market  data for the IBKR US contract, and their single letter codes. The code  for Ã¢â‚¬Å“ARCAÃ¢â‚¬Â may be Ã¢â‚¬Å“PÃ¢â‚¬Â. In that case if Ã¢â‚¬Å“PÃ¢â‚¬Â is returned to the exchange  tick types, that would indicate the quote was provided by ARCA.
 
 ### Request Component ExchangesCopy Location
 
@@ -4709,7 +4709,7 @@ def smartComponents(self, reqId:int, smartComponentMap:SmartComponentMap):
 
   for smartComponent in smartComponentMap:
 
-​    print("SmartComponent.", smartComponent)
+Ã¢â‚¬â€¹    print("SmartComponent.", smartComponent)
 
 
 
@@ -4717,7 +4717,7 @@ def smartComponents(self, reqId:int, smartComponentMap:SmartComponentMap):
 
 To check which exchanges offer deep book data, the function  EClient.reqMktDepthExchanges can be invoked. It will return a list of  exchanges from where market depth is available if the user has the  appropriate market data subscription.
 
-API ‘Exchange’ fields for  which a market depth request would return market maker information and  result in a callback to EWrapper.updateMktDepthL2 will be indicated in  the results from the  EWrapper.mktDepthExchanges field by a ‘True’ value in the ‘isL2’ field:
+API Ã¢â‚¬ËœExchangeÃ¢â‚¬â„¢ fields for  which a market depth request would return market maker information and  result in a callback to EWrapper.updateMktDepthL2 will be indicated in  the results from the  EWrapper.mktDepthExchanges field by a Ã¢â‚¬ËœTrueÃ¢â‚¬â„¢ value in the Ã¢â‚¬ËœisL2Ã¢â‚¬â„¢ field:
 
 ### Requesting Market Depth ExchangesCopy Location
 
@@ -4748,19 +4748,19 @@ def mktDepthExchanges(self, depthMktDataDescriptions:ListOfDepthExchanges):
 
   for desc in depthMktDataDescriptions:
 
-​    print("DepthMktDataDescription.", desc)
+Ã¢â‚¬â€¹    print("DepthMktDataDescription.", desc)
 
 
 
 ### Market Depth (L2)Copy Location
 
-Market depth data, also known as level II, represents an instrument’s order  book. Via the TWS API it is possible to obtain this information with the [EClient.reqMarketDepth](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#request-market-depth) function. Unlike [Top Market Data (Level I)](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#watchlist-data), market depth data is sent without sampling nor filtering, however we  cannot guarantee that every price quoted for a particular security will  be displayed when you invoke [EClient.reqMarketDepth](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#request-market-depth).
+Market depth data, also known as level II, represents an instrumentÃ¢â‚¬â„¢s order  book. Via the TWS API it is possible to obtain this information with the [EClient.reqMarketDepth](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#request-market-depth) function. Unlike [Top Market Data (Level I)](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#watchlist-data), market depth data is sent without sampling nor filtering, however we  cannot guarantee that every price quoted for a particular security will  be displayed when you invoke [EClient.reqMarketDepth](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#request-market-depth).
 
 In particular, odd lot orders are not included.
 
 It is possible to Smart-route a [EClient.reqMarketDepth](https://www.interactivebrokers.com/ibkr-api-page/twsapi-doc/#request-market-depth) request to receive aggregated data from all available exchanges, similar to the TWS Market Depth window display.
 
-An integral part of processing the incoming data is monitoring  EWrapper::error for message 317 “Market depth data has been RESET.  Please empty deep book contents before applying any new entries.” and  handling it appropriately, otherwise the update process would be  corrupted.
+An integral part of processing the incoming data is monitoring  EWrapper::error for message 317 Ã¢â‚¬Å“Market depth data has been RESET.  Please empty deep book contents before applying any new entries.Ã¢â‚¬Â and  handling it appropriately, otherwise the update process would be  corrupted.
 
 Market Depth is not support for Calendar Spreads or Combos.
 
@@ -4785,7 +4785,7 @@ The Python, Java, and C++ APIs use **reqMktDepth()**.
 **mktDepthOptions:** List. Internal use only. Leave an empty array.
  )
 
-Requests the contract’s market depth (order book).
+Requests the contractÃ¢â‚¬â„¢s market depth (order book).
 
 -
 
@@ -4799,21 +4799,21 @@ self.reqMktDepth(2001, contract, 5, False, [])
 
 **tickerId:** int. Request identifier used to track data.
 
-**position:** int. The order book’s row being updated
+**position:** int. The order bookÃ¢â‚¬â„¢s row being updated
 
-**operation:** int. Indicates a change in the row’s value.:
+**operation:** int. Indicates a change in the rowÃ¢â‚¬â„¢s value.:
 
 - 0 = insert (insert this new order into the row
-   identified by ‘position’)·
+   identified by Ã¢â‚¬ËœpositionÃ¢â‚¬â„¢)Ã‚Â·
 - 1 = update (update the existing order in the row identified by
-   ‘position’)·
-- 2 = delete (delete the existing order at the row identified by ‘position’).
+   Ã¢â‚¬ËœpositionÃ¢â‚¬â„¢)Ã‚Â·
+- 2 = delete (delete the existing order at the row identified by Ã¢â‚¬ËœpositionÃ¢â‚¬â„¢).
 
 **side:** int. 0 for ask, 1 for bid
 
-**price:** double. The order’s price
+**price:** double. The orderÃ¢â‚¬â„¢s price
 
-**size:** decimal. The order’s size
+**size:** decimal. The orderÃ¢â‚¬â„¢s size
  )
 
 Returns the order book. Used for direct routed requests only.
@@ -4822,7 +4822,7 @@ Returns the order book. Used for direct routed requests only.
 
 def updateMktDepth(self, reqId: TickerId, position: int, operation: int, side: int, price: float, size: Decimal):
 
-​    print("UpdateMarketDepth. ReqId:", reqId, "Position:", position, "Operation:", operation, "Side:", side, "Price:", floatMaxString(price), "Size:", decimalMaxString(size))
+Ã¢â‚¬â€¹    print("UpdateMarketDepth. ReqId:", reqId, "Position:", position, "Operation:", operation, "Side:", side, "Price:", floatMaxString(price), "Size:", decimalMaxString(size))
 
 
 
@@ -4830,23 +4830,23 @@ def updateMktDepth(self, reqId: TickerId, position: int, operation: int, side: i
 
 **tickerId:** int. Request identifier used to track data.
 
-**position:** int. The order book’s row being updated.
+**position:** int. The order bookÃ¢â‚¬â„¢s row being updated.
 
 **marketMaker:** String. The exchange holding the order if isSmartDepth is True, otherwise the MPID of the market maker.
 
-**operation:** int. Indicates a change in the row’s value.:
+**operation:** int. Indicates a change in the rowÃ¢â‚¬â„¢s value.:
 
 - 0 = insert (insert this new order into the row
-   identified by ‘position’)·
+   identified by Ã¢â‚¬ËœpositionÃ¢â‚¬â„¢)Ã‚Â·
 - 1 = update (update the existing order in the row identified by
-   ‘position’)·
-- 2 = delete (delete the existing order at the row identified by ‘position’).
+   Ã¢â‚¬ËœpositionÃ¢â‚¬â„¢)Ã‚Â·
+- 2 = delete (delete the existing order at the row identified by Ã¢â‚¬ËœpositionÃ¢â‚¬â„¢).
 
 **side:** int. 0 for ask, 1 for bid
 
-**price:** double. The order’s price
+**price:** double. The orderÃ¢â‚¬â„¢s price
 
-**size:** decimal. The order’s size
+**size:** decimal. The orderÃ¢â‚¬â„¢s size
 
 **isSmartDepth:** bool. Flag indicating if this is smart depth response
  )
@@ -4871,7 +4871,7 @@ def updateMktDepthL2(self, reqId: TickerId, position: int, marketMaker: str, ope
 
 )
 
-Cancel’s market depth’s request.
+CancelÃ¢â‚¬â„¢s market depthÃ¢â‚¬â„¢s request.
 
 -
 
@@ -4883,7 +4883,7 @@ self.cancelMktDepth(2001, False)
 
 The option greek values- delta, gamma, theta, vega- are returned by default following a reqMktData() request for the option. See Available Tick  Types
 
-Tick types “Bid Option Computation” (#10), “Ask Option  Computation” (#11), “Last Option Computation” (#12), and “Model Option  Computation” (#13) return all Greeks (delta, gamma, vega, theta), the  underlying price and the stock and option reference price when  requested.
+Tick types Ã¢â‚¬Å“Bid Option ComputationÃ¢â‚¬Â (#10), Ã¢â‚¬Å“Ask Option  ComputationÃ¢â‚¬Â (#11), Ã¢â‚¬Å“Last Option ComputationÃ¢â‚¬Â (#12), and Ã¢â‚¬Å“Model Option  ComputationÃ¢â‚¬Â (#13) return all Greeks (delta, gamma, vega, theta), the  underlying price and the stock and option reference price when  requested.
 
 MODEL_OPTION_COMPUTATION also returns model implied volatility.
 
@@ -4930,12 +4930,12 @@ self.reqMktData(reqId, OptionContract, "", False, False, [])
 
 **volatility:** double. Hypothetical volatility.
 
-**underPrice:** double. Hypothetical option’s underlying price.
+**underPrice:** double. Hypothetical optionÃ¢â‚¬â„¢s underlying price.
 
 **optionPriceOptions:** List<TagValue>. Internal use only. Send an empty tag value list.
  )
 
-Calculates an option’s price based on the provided volatility and its underlying’s price.
+Calculates an optionÃ¢â‚¬â„¢s price based on the provided volatility and its underlyingÃ¢â‚¬â„¢s price.
 
 -
 
@@ -4953,7 +4953,7 @@ self.calculateOptionPrice(5002, OptionContract, 0.6, 55, [])
 
 **optionPrice:** double. Hypothetical option price.
 
-**underPrice:** double. Hypothetical option’s underlying price.
+**underPrice:** double. Hypothetical optionÃ¢â‚¬â„¢s underlying price.
 
 **impliedVolatilityOptions:** List<TagValue>. Internal use only. Send an empty tag value list.
  )
@@ -4970,13 +4970,13 @@ self.calculateImpliedVolatility(5001, OptionContract, 0.5, 55, [])
 
 #### EWrapper.tickOptionComputation (
 
-**tickerId** the request’s unique identifier.
+**tickerId** the requestÃ¢â‚¬â„¢s unique identifier.
 
 **field:** int. Specifies the type of option computation.
  Pass the field value into
  TickType.getField(int tickType) to retrieve the field description. For  example, a field value of 13 will map to modelOptComp, etc. 10 = Bid 11 = Ask 12 = Last
 
-**tickAttrib:** int. 0 – return based, 1- price based.
+**tickAttrib:** int. 0 Ã¢â‚¬â€œ return based, 1- price based.
 
 **impliedVolatility:** double. the implied volatility calculated by the TWS option modeler, using the specified tick type value.
 
@@ -4984,7 +4984,7 @@ self.calculateImpliedVolatility(5001, OptionContract, 0.5, 55, [])
 
 **optPrice:** double. The option price.
 
-**pvDividend:** double. The present value of dividends expected on the option’s underlying.
+**pvDividend:** double. The present value of dividends expected on the optionÃ¢â‚¬â„¢s underlying.
 
 **gamma:** double. The option gamma value.
 
@@ -4995,7 +4995,7 @@ self.calculateImpliedVolatility(5001, OptionContract, 0.5, 55, [])
 **undPrice:** double. The price of the underlying.
  )
 
-Receives option specific market data. This method is called when the market in  an option or its underlier moves. TWS’s option model volatilities,  prices, and deltas, along with the present value of dividends expected  on that options underlier are received.
+Receives option specific market data. This method is called when the market in  an option or its underlier moves. TWSÃ¢â‚¬â„¢s option model volatilities,  prices, and deltas, along with the present value of dividends expected  on that options underlier are received.
 
 -
 
@@ -5007,7 +5007,7 @@ def tickOptionComputation(self, reqId: TickerId, tickType: TickType, tickAttrib:
 
 ### Top of Book (L1)Copy Location
 
-Streaming market data values corresponding to data shown in TWS watchlists is  available via the EClient.reqMktData. This data is not tick-by-tick but  consists of aggregate snapshots taken several times per second. A set of ‘default’ tick types are returned by default from a call to  EClient.reqMktData, and additional tick types are available by  specifying the corresponding generic tick type in the market data  request. Including the generic tick types many, but not all, types of  data are available that can be displayed in TWS watchlists by adding  additional columns.
+Streaming market data values corresponding to data shown in TWS watchlists is  available via the EClient.reqMktData. This data is not tick-by-tick but  consists of aggregate snapshots taken several times per second. A set of Ã¢â‚¬ËœdefaultÃ¢â‚¬â„¢ tick types are returned by default from a call to  EClient.reqMktData, and additional tick types are available by  specifying the corresponding generic tick type in the market data  request. Including the generic tick types many, but not all, types of  data are available that can be displayed in TWS watchlists by adding  additional columns.
 
 Using the TWS API, you can request real time market data for trading and  analysis. From the API, market data returned from the  function IBApi.EClient.reqMktData corresponds to market data displayed  in TWS watchlists. This data is not tick-by-tick but consists of  aggregated snapshots taken at intra-second intervals which differ  depending on the type of instrument:
 
@@ -5071,11 +5071,11 @@ def tickSnapshotEnd(self, reqId: int):
 
 The fifth argument to reqMktData specifies a regulatory snapshot request to US stocks and options.
 
-For stocks, there are individual exchange-specific market data  subscriptions necessary to receive streaming quotes. For instance, for  NYSE stocks this subscription is known as “Network A”, for ARCA/AMEX  stocks it is called “Network B” and for NASDAQ stocks it is “Network C”. Each subscription is added a la carte and has a separate market data  fee.
+For stocks, there are individual exchange-specific market data  subscriptions necessary to receive streaming quotes. For instance, for  NYSE stocks this subscription is known as Ã¢â‚¬Å“Network AÃ¢â‚¬Â, for ARCA/AMEX  stocks it is called Ã¢â‚¬Å“Network BÃ¢â‚¬Â and for NASDAQ stocks it is Ã¢â‚¬Å“Network CÃ¢â‚¬Â. Each subscription is added a la carte and has a separate market data  fee.
 
-Alternatively, there is also a “US Securities Snapshot  Bundle” subscription which does not provide streaming data but which  allows for real time calculated snapshots of US market NBBO prices. By  setting the 5th parameter in the function EClient::reqMktData to **True**, a regulatory snapshot request can be made from the API. The returned  value is a calculation of the current market state based on data from  all available exchanges.
+Alternatively, there is also a Ã¢â‚¬Å“US Securities Snapshot  BundleÃ¢â‚¬Â subscription which does not provide streaming data but which  allows for real time calculated snapshots of US market NBBO prices. By  setting the 5th parameter in the function EClient::reqMktData to **True**, a regulatory snapshot request can be made from the API. The returned  value is a calculation of the current market state based on data from  all available exchanges.
 
-**Important: Each regulatory snapshot made will incur a fee of 0.01 USD to the account. This applies to both live \*and\* paper accounts.**. If the monthly fee for regulatory snapshots reaches the price of a  particular ‘Network’ subscription, the user will automatically be  subscribed to that Network subscription for continuous streaming quotes  and charged the associated fee for that month. At the end of the month  the subscription will be terminated. Each listing exchange will be  capped independently and will not be combined across listing exchanges.
+**Important: Each regulatory snapshot made will incur a fee of 0.01 USD to the account. This applies to both live \*and\* paper accounts.**. If the monthly fee for regulatory snapshots reaches the price of a  particular Ã¢â‚¬ËœNetworkÃ¢â‚¬â„¢ subscription, the user will automatically be  subscribed to that Network subscription for continuous streaming quotes  and charged the associated fee for that month. At the end of the month  the subscription will be terminated. Each listing exchange will be  capped independently and will not be combined across listing exchanges.
 
 Requesting regulatory snapshots is subject to pacing limitations:
 
@@ -5178,9 +5178,9 @@ def tickString(self, reqId: TickerId, tickType: TickType, value: str):
 
 ### Exchange Component MappingCopy Location
 
-A market data request is able to return data from multiple exchanges.  After a market data request is made for an instrument covered by market  data subscriptions, a message will be sent to function  IBApi::EWrapper::tickReqParams with information about ‘minTick’, BBO  exchange mapping, and available snapshot permissions.
+A market data request is able to return data from multiple exchanges.  After a market data request is made for an instrument covered by market  data subscriptions, a message will be sent to function  IBApi::EWrapper::tickReqParams with information about Ã¢â‚¬ËœminTickÃ¢â‚¬â„¢, BBO  exchange mapping, and available snapshot permissions.
 
-The exchange mapping identifier bboExchange will be a symbol such as “a6” which can  be used to decode the single letter exchange abbreviations returned to  the bidExch, askExch, and lastExch fields by invoking the function  IBApi::EClient::reqSmartComponents. More information about Component  Exchanges.
+The exchange mapping identifier bboExchange will be a symbol such as Ã¢â‚¬Å“a6Ã¢â‚¬Â which can  be used to decode the single letter exchange abbreviations returned to  the bidExch, askExch, and lastExch fields by invoking the function  IBApi::EClient::reqSmartComponents. More information about Component  Exchanges.
 
 The minTick returned to tickReqParams indicates the  minimum increment in market data values returned to the API. It can  differ from the minTick value in the ContractDetails class. For  instance, combos will often have a minimum increment of 0.01 for market  data and a minTick of 0.05 for order placement.
 
@@ -5207,9 +5207,9 @@ def tickReqParams(self, tickerId:int, minTick:float, bboExchange:str, snapshotPe
 
 ### Re-Routing CFDsCopy Location
 
-IB does not provide market data for certain types of instruments, such as  stock CFDs and forex CFDs. If a stock CFD or forex CFD is entered into a TWS watchlist, TWS will automatically display market data for the  underlying ticker and show a ‘U’ icon next to the instrument name to  indicate that the data is for the underlying instrument.
+IB does not provide market data for certain types of instruments, such as  stock CFDs and forex CFDs. If a stock CFD or forex CFD is entered into a TWS watchlist, TWS will automatically display market data for the  underlying ticker and show a Ã¢â‚¬ËœUÃ¢â‚¬â„¢ icon next to the instrument name to  indicate that the data is for the underlying instrument.
 
-From the  API, when level 1 or level 2 market data is requested for a stock CFD or a forex CFD, a callback is made to the functions  EWrapper.rerouteMktDataReq or EWrapper.rerouteMktDepthReq respectively  with details about the underlying instrument in IB’s database which does have market data.
+From the  API, when level 1 or level 2 market data is requested for a stock CFD or a forex CFD, a callback is made to the functions  EWrapper.rerouteMktDataReq or EWrapper.rerouteMktDepthReq respectively  with details about the underlying instrument in IBÃ¢â‚¬â„¢s database which does have market data.
 
 #### EWrapper.rerouteMktDataReq (
 
@@ -5239,7 +5239,7 @@ def rerouteMktDataReq(self, reqId: int, conId: int, exchange: str):
 **exchange:** int. Primary exchange of the underlying.
  )
 
-Returns the conId and exchange for an underlying contract when a request is  made for level 2 data for an instrument which does not have data in IB’s database. For example stock CFDs and index CFDs.
+Returns the conId and exchange for an underlying contract when a request is  made for level 2 data for an instrument which does not have data in IBÃ¢â‚¬â„¢s database. For example stock CFDs and index CFDs.
 
 -
 
@@ -5270,26 +5270,26 @@ EClient.reqMktData will return data to various methods such as EWrapper.tickPric
 
 *RDD: These tick types are provided only when the user makes a request to [EClient.reqMarketDataType(3)](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#delayed-market-data) prior to their market data request.
 
-– : These ticks are returned by default and do not have any generic tick requirements.
+Ã¢â‚¬â€œ : These ticks are returned by default and do not have any generic tick requirements.
 
 | Tick Name                    | Description                                                  | Generic tick required | Delivery Method                      | Tick Id |
 | ---------------------------- | ------------------------------------------------------------ | --------------------- | ------------------------------------ | ------- |
-| Disable Default Market Data  | Disables standard market data stream and allows the TWS & API feed to prioritize other listed generic tick types. | mdoff                 | –                                    | –       |
-| Bid Size                     | Number of contracts or lots offered at the bid price.        | –                     | IBApi.EWrapper.tickSize              | 0       |
-| Bid Price                    | Highest priced bid for the contract.                         | –                     | IBApi.EWrapper.tickPrice             | 1       |
-| Ask Price                    | Lowest price offer on the contract.                          | –                     | IBApi.EWrapper.tickPrice             | 2       |
-| Ask Size                     | Number of contracts or lots offered at the ask price.        | –                     | IBApi.EWrapper.tickSize              | 3       |
-| Last Price                   | Last price at which the contract traded (does not include some trades in RTVolume). | –                     | IBApi.EWrapper.tickPrice             | 4       |
-| Last Size                    | Number of contracts or lots traded at the last price.        | –                     | IBApi.EWrapper.tickSize              | 5       |
-| High                         | High price for the day.                                      | –                     | IBApi.EWrapper.tickPrice             | 6       |
-| Low                          | Low price for the day.                                       | –                     | IBApi.EWrapper.tickPrice             | 7       |
-| Volume                       | Trading volume for the day for the selected contract (US Stocks volume is display as [Round Lots](https://www.investopedia.com/terms/r/roundlot.asp)). | –                     | IBApi.EWrapper.tickSize              | 8       |
-| Close Price                  | “The last available closing price for the previous day. For US Equities we  use corporate action processing to get the closing price so the close  price is adjusted to reflect forward and reverse splits and cash and  stock dividends.” | –                     | IBApi.EWrapper.tickPrice             | 9       |
-| Bid Option Computation       | Computed Greeks and implied volatility based on the underlying stock price and the option bid price. See Option Greeks | –                     | IBApi.EWrapper.tickOptionComputation | 10      |
-| Ask Option Computation       | Computed Greeks and implied volatility based on the underlying stock price and the option ask price. See Option Greeks | –                     | IBApi.EWrapper.tickOptionComputation | 11      |
-| Last Option Computation      | Computed Greeks and implied volatility based on the underlying stock price and the option last traded price. See Option Greeks | –                     | IBApi.EWrapper.tickOptionComputation | 12      |
-| Model Option Computation     | Computed Greeks and implied volatility based on the underlying stock price and  the option model price. Correspond to greeks shown in TWS. See Option  Greeks | –                     | IBApi.EWrapper.tickOptionComputation | 13      |
-| Open Tick                    | Current session’s opening price. Before open will refer to previous day. The  official opening price requires a market data subscription to the native exchange of the instrument. | –                     | IBApi.EWrapper.tickPrice             | 14      |
+| Disable Default Market Data  | Disables standard market data stream and allows the TWS & API feed to prioritize other listed generic tick types. | mdoff                 | Ã¢â‚¬â€œ                                    | Ã¢â‚¬â€œ       |
+| Bid Size                     | Number of contracts or lots offered at the bid price.        | Ã¢â‚¬â€œ                     | IBApi.EWrapper.tickSize              | 0       |
+| Bid Price                    | Highest priced bid for the contract.                         | Ã¢â‚¬â€œ                     | IBApi.EWrapper.tickPrice             | 1       |
+| Ask Price                    | Lowest price offer on the contract.                          | Ã¢â‚¬â€œ                     | IBApi.EWrapper.tickPrice             | 2       |
+| Ask Size                     | Number of contracts or lots offered at the ask price.        | Ã¢â‚¬â€œ                     | IBApi.EWrapper.tickSize              | 3       |
+| Last Price                   | Last price at which the contract traded (does not include some trades in RTVolume). | Ã¢â‚¬â€œ                     | IBApi.EWrapper.tickPrice             | 4       |
+| Last Size                    | Number of contracts or lots traded at the last price.        | Ã¢â‚¬â€œ                     | IBApi.EWrapper.tickSize              | 5       |
+| High                         | High price for the day.                                      | Ã¢â‚¬â€œ                     | IBApi.EWrapper.tickPrice             | 6       |
+| Low                          | Low price for the day.                                       | Ã¢â‚¬â€œ                     | IBApi.EWrapper.tickPrice             | 7       |
+| Volume                       | Trading volume for the day for the selected contract (US Stocks volume is display as [Round Lots](https://www.investopedia.com/terms/r/roundlot.asp)). | Ã¢â‚¬â€œ                     | IBApi.EWrapper.tickSize              | 8       |
+| Close Price                  | Ã¢â‚¬Å“The last available closing price for the previous day. For US Equities we  use corporate action processing to get the closing price so the close  price is adjusted to reflect forward and reverse splits and cash and  stock dividends.Ã¢â‚¬Â | Ã¢â‚¬â€œ                     | IBApi.EWrapper.tickPrice             | 9       |
+| Bid Option Computation       | Computed Greeks and implied volatility based on the underlying stock price and the option bid price. See Option Greeks | Ã¢â‚¬â€œ                     | IBApi.EWrapper.tickOptionComputation | 10      |
+| Ask Option Computation       | Computed Greeks and implied volatility based on the underlying stock price and the option ask price. See Option Greeks | Ã¢â‚¬â€œ                     | IBApi.EWrapper.tickOptionComputation | 11      |
+| Last Option Computation      | Computed Greeks and implied volatility based on the underlying stock price and the option last traded price. See Option Greeks | Ã¢â‚¬â€œ                     | IBApi.EWrapper.tickOptionComputation | 12      |
+| Model Option Computation     | Computed Greeks and implied volatility based on the underlying stock price and  the option model price. Correspond to greeks shown in TWS. See Option  Greeks | Ã¢â‚¬â€œ                     | IBApi.EWrapper.tickOptionComputation | 13      |
+| Open Tick                    | Current sessionÃ¢â‚¬â„¢s opening price. Before open will refer to previous day. The  official opening price requires a market data subscription to the native exchange of the instrument. | Ã¢â‚¬â€œ                     | IBApi.EWrapper.tickPrice             | 14      |
 | Low 13 Weeks                 | Lowest price for the last 13 weeks. For stocks only.         | 165                   | IBApi.EWrapper.tickPrice             | 15      |
 | High 13 Weeks                | Highest price for the last 13 weeks. For stocks only.        | 165                   | IBApi.EWrapper.tickPrice             | 16      |
 | Low 26 Weeks                 | Lowest price for the last 26 weeks. For stocks only.         | 165                   | IBApi.EWrapper.tickPrice             | 17      |
@@ -5297,47 +5297,47 @@ EClient.reqMktData will return data to various methods such as EWrapper.tickPric
 | Low 52 Weeks                 | Lowest price for the last 52 weeks. For stocks only.         | 165                   | IBApi.EWrapper.tickPrice             | 19      |
 | High 52 Weeks                | Highest price for the last 52 weeks. For stocks only.        | 165                   | IBApi.EWrapper.tickPrice             | 20      |
 | Average Volume               | The average daily trading volume over 90 days. Multiplier of 100. For stocks only. | 165                   | IBApi.EWrapper.tickSize              | 21      |
-| Open Interest                | “(Deprecated not currently in use) Total number of options that are not closed.” | –                     | IBApi.EWrapper.tickSize              | 22      |
+| Open Interest                | Ã¢â‚¬Å“(Deprecated not currently in use) Total number of options that are not closed.Ã¢â‚¬Â | Ã¢â‚¬â€œ                     | IBApi.EWrapper.tickSize              | 22      |
 | Option Historical Volatility | The 30-day historical volatility (currently for stocks).     | 104                   | IBApi.EWrapper.tickGeneric           | 23      |
-| Option Implied Volatility    | “A prediction of how volatile an underlying will be in the future. The IB  30-day volatility is the at-market volatility estimated for a maturity  thirty calendar days forward of the current trading day and is based on  option prices from two consecutive expiration months.” | 106                   | IBApi.EWrapper.tickGeneric           | 24      |
-| Option Bid Exchange          | Not Used.                                                    | –                     | IBApi.EWrapper.tickString            | 25      |
-| Option Ask Exchange          | Not Used.                                                    | –                     | IBApi.EWrapper.tickString            | 26      |
+| Option Implied Volatility    | Ã¢â‚¬Å“A prediction of how volatile an underlying will be in the future. The IB  30-day volatility is the at-market volatility estimated for a maturity  thirty calendar days forward of the current trading day and is based on  option prices from two consecutive expiration months.Ã¢â‚¬Â | 106                   | IBApi.EWrapper.tickGeneric           | 24      |
+| Option Bid Exchange          | Not Used.                                                    | Ã¢â‚¬â€œ                     | IBApi.EWrapper.tickString            | 25      |
+| Option Ask Exchange          | Not Used.                                                    | Ã¢â‚¬â€œ                     | IBApi.EWrapper.tickString            | 26      |
 | Option Call Open Interest    | Call option open interest.                                   | 101                   | IBApi.EWrapper.tickSize              | 27      |
 | Option Put Open Interest     | Put option open interest.                                    | 101                   | IBApi.EWrapper.tickSize              | 28      |
 | Option Call Volume           | Call option volume for the trading day.                      | 100                   | IBApi.EWrapper.tickSize              | 29      |
 | Option Put Volume            | Put option volume for the trading day.                       | 100                   | IBApi.EWrapper.tickSize              | 30      |
 | Index Future Premium         | The number of points that the index is over the cash index.  | 162                   | IBApi.EWrapper.tickGeneric           | 31      |
-| Bid Exchange                 | “For stock and options identifies the exchange(s) posting the bid price. See Component Exchanges” | –                     | IBApi.EWrapper.tickString            | 32      |
-| Ask Exchange                 | “For stock and options identifies the exchange(s) posting the ask price. See Component Exchanges” | –                     | IBApi.EWrapper.tickString            | 33      |
+| Bid Exchange                 | Ã¢â‚¬Å“For stock and options identifies the exchange(s) posting the bid price. See Component ExchangesÃ¢â‚¬Â | Ã¢â‚¬â€œ                     | IBApi.EWrapper.tickString            | 32      |
+| Ask Exchange                 | Ã¢â‚¬Å“For stock and options identifies the exchange(s) posting the ask price. See Component ExchangesÃ¢â‚¬Â | Ã¢â‚¬â€œ                     | IBApi.EWrapper.tickString            | 33      |
 | Auction Volume               | The number of shares that would trade if no new orders were received and the auction were held now. | 225                   | IBApi.EWrapper.tickSize              | 34      |
 | Auction Price                | The price at which the auction would occur if no new orders were received  and the auction were held now- the indicative price for the auction.  Typically received after Auction imbalance (tick type 36) | 225                   | IBApi.EWrapper.tickPrice             | 35      |
 | Auction Imbalance            | The number of unmatched shares for the next auction; returns how many more  shares are on one side of the auction than the other. Typically received after Auction Volume (tick type 34) | 225                   | IBApi.EWrapper.tickSize              | 36      |
-| Mark Price                   | “The mark price is the current theoretical calculated value of an  instrument. Since it is a calculated value it will typically have many  digits of precision.” | 232                   | IBApi.EWrapper.tickPrice             | 37      |
-| Bid EFP Computation          | Computed EFP bid price                                       | –                     | IBApi.EWrapper.tickEFP               | 38      |
-| Ask EFP Computation          | Computed EFP ask price                                       | –                     | IBApi.EWrapper.tickEFP               | 39      |
-| Last EFP Computation         | Computed EFP last price                                      | –                     | IBApi.EWrapper.tickEFP               | 40      |
-| Open EFP Computation         | Computed EFP open price                                      | –                     | IBApi.EWrapper.tickEFP               | 41      |
-| High EFP Computation         | Computed high EFP traded price for the day                   | –                     | IBApi.EWrapper.tickEFP               | 42      |
-| Low EFP Computation          | Computed low EFP traded price for the day                    | –                     | IBApi.EWrapper.tickEFP               | 43      |
-| Close EFP Computation        | Computed closing EFP price for previous day                  | –                     | IBApi.EWrapper.tickEFP               | 44      |
-| Last Timestamp               | Time of the last trade (in UNIX time).                       | –                     | IBApi.EWrapper.tickString            | 45      |
+| Mark Price                   | Ã¢â‚¬Å“The mark price is the current theoretical calculated value of an  instrument. Since it is a calculated value it will typically have many  digits of precision.Ã¢â‚¬Â | 232                   | IBApi.EWrapper.tickPrice             | 37      |
+| Bid EFP Computation          | Computed EFP bid price                                       | Ã¢â‚¬â€œ                     | IBApi.EWrapper.tickEFP               | 38      |
+| Ask EFP Computation          | Computed EFP ask price                                       | Ã¢â‚¬â€œ                     | IBApi.EWrapper.tickEFP               | 39      |
+| Last EFP Computation         | Computed EFP last price                                      | Ã¢â‚¬â€œ                     | IBApi.EWrapper.tickEFP               | 40      |
+| Open EFP Computation         | Computed EFP open price                                      | Ã¢â‚¬â€œ                     | IBApi.EWrapper.tickEFP               | 41      |
+| High EFP Computation         | Computed high EFP traded price for the day                   | Ã¢â‚¬â€œ                     | IBApi.EWrapper.tickEFP               | 42      |
+| Low EFP Computation          | Computed low EFP traded price for the day                    | Ã¢â‚¬â€œ                     | IBApi.EWrapper.tickEFP               | 43      |
+| Close EFP Computation        | Computed closing EFP price for previous day                  | Ã¢â‚¬â€œ                     | IBApi.EWrapper.tickEFP               | 44      |
+| Last Timestamp               | Time of the last trade (in UNIX time).                       | Ã¢â‚¬â€œ                     | IBApi.EWrapper.tickString            | 45      |
 | Shortable                    | Describes the level of difficulty with which the contract can be sold short. See Shortable | 236                   | IBApi.EWrapper.tickGeneric           | 46      |
-| Fundamental_Ratios           | Contains an array of fundamental market data that correlate with the Fundamental Data available in the TWS Watchlist. Data returned in the format of,  “KEY1=VALUE1;KEY2=VALUE2;…KEY_N=VALUE_N”. | 258                   | IBApi.EWrapper.tickString            | 47      |
-| RT Volume (Time & Sales)     | “Last trade details (Including both “”Last”” and “”Unreportable Last”” trades). See RT Volume” | 233                   | IBApi.EWrapper.tickString            | 48      |
-| Halted                       | Indicates if a contract is halted. See Halted                | –                     | IBApi.EWrapper.tickGeneric           | 49      |
-| Bid Yield                    | Implied yield of the bond if it is purchased at the current bid. | –                     | IBApi.EWrapper.tickPrice             | 50      |
-| Ask Yield                    | Implied yield of the bond if it is purchased at the current ask. | –                     | IBApi.EWrapper.tickPrice             | 51      |
-| Last Yield                   | Implied yield of the bond if it is purchased at the last price. | –                     | IBApi.EWrapper.tickPrice             | 52      |
-| Custom Option Computation    | Greek values are based off a user customized price.          | –                     | IBApi.EWrapper.tickOptionComputation | 53      |
+| Fundamental_Ratios           | Contains an array of fundamental market data that correlate with the Fundamental Data available in the TWS Watchlist. Data returned in the format of,  Ã¢â‚¬Å“KEY1=VALUE1;KEY2=VALUE2;Ã¢â‚¬Â¦KEY_N=VALUE_NÃ¢â‚¬Â. | 258                   | IBApi.EWrapper.tickString            | 47      |
+| RT Volume (Time & Sales)     | Ã¢â‚¬Å“Last trade details (Including both Ã¢â‚¬Å“Ã¢â‚¬ÂLastÃ¢â‚¬ÂÃ¢â‚¬Â and Ã¢â‚¬Å“Ã¢â‚¬ÂUnreportable LastÃ¢â‚¬ÂÃ¢â‚¬Â trades). See RT VolumeÃ¢â‚¬Â | 233                   | IBApi.EWrapper.tickString            | 48      |
+| Halted                       | Indicates if a contract is halted. See Halted                | Ã¢â‚¬â€œ                     | IBApi.EWrapper.tickGeneric           | 49      |
+| Bid Yield                    | Implied yield of the bond if it is purchased at the current bid. | Ã¢â‚¬â€œ                     | IBApi.EWrapper.tickPrice             | 50      |
+| Ask Yield                    | Implied yield of the bond if it is purchased at the current ask. | Ã¢â‚¬â€œ                     | IBApi.EWrapper.tickPrice             | 51      |
+| Last Yield                   | Implied yield of the bond if it is purchased at the last price. | Ã¢â‚¬â€œ                     | IBApi.EWrapper.tickPrice             | 52      |
+| Custom Option Computation    | Greek values are based off a user customized price.          | Ã¢â‚¬â€œ                     | IBApi.EWrapper.tickOptionComputation | 53      |
 | Trade Count                  | Trade count for the day.                                     | 293                   | IBApi.EWrapper.tickGeneric           | 54      |
 | Trade Rate                   | Trade count per minute.                                      | 294                   | IBApi.EWrapper.tickGeneric           | 55      |
 | Volume Rate                  | Volume per minute.                                           | 295                   | IBApi.EWrapper.tickGeneric           | 56      |
 | Last RTH Trade               | Last Regular Trading Hours traded price.                     | 318                   | IBApi.EWrapper.tickPrice             | 57      |
 | RT Historical Volatility     | 30-day real time historical volatility.                      | 411                   | IBApi.EWrapper.tickGeneric           | 58      |
-| IB Dividends                 | Contract’s dividends. See IB Dividends.                      | 456                   | IBApi.EWrapper.tickString            | 59      |
+| IB Dividends                 | ContractÃ¢â‚¬â„¢s dividends. See IB Dividends.                      | 456                   | IBApi.EWrapper.tickString            | 59      |
 | Bond Factor Multiplier       | The bond factor is a number that indicates the ratio of the current bond principal to the original principal | 460                   | IBApi.EWrapper.tickGeneric           | 60      |
 | Regulatory Imbalance         | The imbalance that is used to determine which at-the-open or at-the-close  orders can be entered following the publishing of the regulatory  imbalance. | 225                   | IBApi.EWrapper.tickSize              | 61      |
-| News                         | Contract’s news feed.                                        | 292                   | IBApi.EWrapper.tickString            | 62      |
+| News                         | ContractÃ¢â‚¬â„¢s news feed.                                        | 292                   | IBApi.EWrapper.tickString            | 62      |
 | Short-Term Volume 3 Minutes  | The past three minutes volume. Interpolation may be applied. For stocks only. | 595                   | IBApi.EWrapper.tickSize              | 63      |
 | Short-Term Volume 5 Minutes  | The past five minutes volume. Interpolation may be applied. For stocks only. | 595                   | IBApi.EWrapper.tickSize              | 64      |
 | Short-Term Volume 10 Minutes | The past ten minutes volume. Interpolation may be applied. For stocks only. | 595                   | IBApi.EWrapper.tickSize              | 65      |
@@ -5350,26 +5350,26 @@ EClient.reqMktData will return data to various methods such as EWrapper.tickPric
 | Delayed High Price           | Delayed highest price of the day. See Market Data Types.     | *RDD                  | IBApi.EWrapper.tickPrice             | 72      |
 | Delayed Low Price            | Delayed lowest price of the day. See Market Data Types       | *RDD                  | IBApi.EWrapper.tickPrice             | 73      |
 | Delayed Volume               | Delayed traded volume of the day. See Market Data Types      | *RDD                  | IBApi.EWrapper.tickSize              | 74      |
-| Delayed Close                | The prior day’s closing price.                               | *RDD                  | IBApi.EWrapper.tickPrice             | 75      |
-| Delayed Open                 | Displays the current day’s Open price. The price will return 15 minutes after the Open price is made available. | *RDD                  | IBApi.EWrapper.tickPrice             | 76      |
-| RT Trade Volume              | “Last trade details that excludes “”Unreportable Trades””. See RT Trade Volume” | 375                   | IBApi.EWrapper.tickString            | 77      |
-| Creditman mark price         | Not currently available                                      | –                     | IBApi.EWrapper.tickPrice             | 78      |
+| Delayed Close                | The prior dayÃ¢â‚¬â„¢s closing price.                               | *RDD                  | IBApi.EWrapper.tickPrice             | 75      |
+| Delayed Open                 | Displays the current dayÃ¢â‚¬â„¢s Open price. The price will return 15 minutes after the Open price is made available. | *RDD                  | IBApi.EWrapper.tickPrice             | 76      |
+| RT Trade Volume              | Ã¢â‚¬Å“Last trade details that excludes Ã¢â‚¬Å“Ã¢â‚¬ÂUnreportable TradesÃ¢â‚¬ÂÃ¢â‚¬Â. See RT Trade VolumeÃ¢â‚¬Â | 375                   | IBApi.EWrapper.tickString            | 77      |
+| Creditman mark price         | Not currently available                                      | Ã¢â‚¬â€œ                     | IBApi.EWrapper.tickPrice             | 78      |
 | Creditman slow mark price    | Slower mark price update used in system calculations         | 619                   | IBApi.EWrapper.tickPrice             | 79      |
 | Delayed Bid Option           | Computed greeks based on delayed bid price. See Market Data Types and Option Greeks. | *RDD                  | IBApi.EWrapper.tickOptionComputation | 80      |
 | Delayed Ask Option           | Computed greeks based on delayed ask price. See Market Data Types and Option Greeks. | *RDD                  | IBApi.EWrapper.tickOptionComputation | 81      |
 | Delayed Last Option          | Computed greeks based on delayed last price. See Market Data Types and Option Greeks. | *RDD                  | IBApi.EWrapper.tickOptionComputation | 82      |
-| Delayed Model Option         | Computed Greeks and model’s implied volatility based on delayed stock and option prices. | *RDD                  | IBApi.EWrapper.tickOptionComputation | 83      |
-| Last Exchange                | Exchange of last traded price                                | –                     | IBApi.EWrapper.tickString            | 84      |
-| Last Regulatory Time         | Timestamp (in Unix ms time) of last trade returned with regulatory snapshot | –                     | IBApi.EWrapper.tickString            | 85      |
+| Delayed Model Option         | Computed Greeks and modelÃ¢â‚¬â„¢s implied volatility based on delayed stock and option prices. | *RDD                  | IBApi.EWrapper.tickOptionComputation | 83      |
+| Last Exchange                | Exchange of last traded price                                | Ã¢â‚¬â€œ                     | IBApi.EWrapper.tickString            | 84      |
+| Last Regulatory Time         | Timestamp (in Unix ms time) of last trade returned with regulatory snapshot | Ã¢â‚¬â€œ                     | IBApi.EWrapper.tickString            | 85      |
 | Futures Open Interest        | Total number of outstanding futures contracts. *HSI open interest requested with generic tick 101 | 588                   | IBApi.EWrapper.tickSize              | 86      |
 | Average Option Volume        | Average volume of the corresponding option contracts(TWS Build 970+ is required) | 105                   | IBApi.EWrapper.tickSize              | 87      |
 | Delayed Last Timestamp       | Delayed time of the last trade (in UNIX time) (TWS Build 970+ is required) | *RDD                  | IBApi.EWrapper.tickString            | 88      |
 | Shortable Shares             | Number of shares available to short (TWS Build 974+ is required) | 236                   | IBApi.EWrapper.tickSize              | 89      |
-| ETF Nav Last                 | The last price of Net Asset Value (NAV). For ETFs: Calculation is based on  prices of ETF’s underlying securities. For NextShares: Value is provided by NASDAQ | 577                   | IBApi.EWrapper.tickPrice             | 96      |
+| ETF Nav Last                 | The last price of Net Asset Value (NAV). For ETFs: Calculation is based on  prices of ETFÃ¢â‚¬â„¢s underlying securities. For NextShares: Value is provided by NASDAQ | 577                   | IBApi.EWrapper.tickPrice             | 96      |
 | ETF Nav Frozen Last          | ETF Nav Last for Frozen data                                 | 623                   | IBApi.EWrapper.tickPrice             | 97      |
-| ETF Nav High                 | The high price of ETF’s Net Asset Value (NAV)                | 614                   | IBApi.EWrapper.tickPrice             | 98      |
-| ETF Nav Low                  | The low price of ETF’s Net Asset Value (NAV)                 | 614                   | IBApi.EWrapper.tickPrice             | 99      |
-| Estimated IPO – Midpoint     | Midpoint is calculated based on IPO price range              | 586                   | IBApi.EWrapper.tickGeneric           | 101     |
+| ETF Nav High                 | The high price of ETFÃ¢â‚¬â„¢s Net Asset Value (NAV)                | 614                   | IBApi.EWrapper.tickPrice             | 98      |
+| ETF Nav Low                  | The low price of ETFÃ¢â‚¬â„¢s Net Asset Value (NAV)                 | 614                   | IBApi.EWrapper.tickPrice             | 99      |
+| Estimated IPO Ã¢â‚¬â€œ Midpoint     | Midpoint is calculated based on IPO price range              | 586                   | IBApi.EWrapper.tickGeneric           | 101     |
 | Final IPO Price              | Final price for IPO                                          | 586                   | IBApi.EWrapper.tickGeneric           | 102     |
 | Delayed Yield Bid            | Delayed implied yield of the bond if it is purchased at the current bid. | *RDD                  | IBApi.EWrapper.tickPrice             | 103     |
 | Delayed Yield Ask            | Delayed implied yield of the bond if it is purchased at the current ask. | *RDD                  | IBApi.EWrapper.tickPrice             | 104     |
@@ -5399,15 +5399,15 @@ Receiving the actual number of shares available to short requires TWS 974+. For 
 
 ### Volume DataCopy Location
 
-The API reports the current day’s volume in several ways. They are summarized as follows:
+The API reports the current dayÃ¢â‚¬â„¢s volume in several ways. They are summarized as follows:
 
-- Volume tick type 8: The ‘native volume’. This includes delayed transactions,  busted trades, and combos, but will not update with every tick.
+- Volume tick type 8: The Ã¢â‚¬Ëœnative volumeÃ¢â‚¬â„¢. This includes delayed transactions,  busted trades, and combos, but will not update with every tick.
 - RTVolume: highest number, includes non-reportable trades such as odd lots, average price and derivative trades.
-- RTTradeVolume: only includes ‘last’ ticks, similar to number also used in charts/historical data.
+- RTTradeVolume: only includes Ã¢â‚¬ËœlastÃ¢â‚¬â„¢ ticks, similar to number also used in charts/historical data.
 
 ### RT VolumeCopy Location
 
-The RT Volume tick type corresponds to the TWS’ Time & Sales window and contains the last trade’s price, size and time along with current day’s total traded volume, Volume Weighted Average Price (VWAP) and whether  or not the trade was filled by a single market maker.
+The RT Volume tick type corresponds to the TWSÃ¢â‚¬â„¢ Time & Sales window and contains the last tradeÃ¢â‚¬â„¢s price, size and time along with current dayÃ¢â‚¬â„¢s total traded volume, Volume Weighted Average Price (VWAP) and whether  or not the trade was filled by a single market maker.
 
 There is a  setting in TWS which displays tick-by-tick data in the TWS Time &  Sales Window. If this setting is checked, it will provide a higher  granularity of data than RTVolume.
 
@@ -5415,13 +5415,13 @@ Example: 701.28;1;1348075471534;67854;701.46918464;true
 
 As volume for US stocks is reported in lots, a volume of 0 reported in  RTVolume will typically indicate an odd lot data point (less than 100  shares).
 
-It is important to note that while the TWS Time &  Sales Window also has information about trade conditions available with  data points, this data is not available through the API. So for  instance, the ‘unreportable’ trade status displayed with points in the  Time & Sales Window is not available through the API, and that trade data will appear in the API just as any other data point. As always, an API application needs to exercise caution in responding to single data  points.
+It is important to note that while the TWS Time &  Sales Window also has information about trade conditions available with  data points, this data is not available through the API. So for  instance, the Ã¢â‚¬ËœunreportableÃ¢â‚¬â„¢ trade status displayed with points in the  Time & Sales Window is not available through the API, and that trade data will appear in the API just as any other data point. As always, an API application needs to exercise caution in responding to single data  points.
 
 **Note:** Please be aware that RT Volume is not supported with Cryptocurrencies.
 
 RT Trade Volume
 
-The RT Trade Volume is similar to RT Volume, but designed to avoid relaying back “Unreportable Trades” shown in TWS Time&Sales via the API. RT  Trade Volume will not contain average price or derivative trades which  are included in RTVolume.
+The RT Trade Volume is similar to RT Volume, but designed to avoid relaying back Ã¢â‚¬Å“Unreportable TradesÃ¢â‚¬Â shown in TWS Time&Sales via the API. RT  Trade Volume will not contain average price or derivative trades which  are included in RTVolume.
 
 ### IB DividendsCopy Location
 
@@ -5445,7 +5445,7 @@ In TWS, tick-by-tick data is available in the Time & Sales Window.
 From the API, this corresponds to the function [EClient.reqTickByTickData](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#request-tick-data). The maximum number of simultaneous tick-by-tick subscriptions allowed  for a user is determined by the same formula used to calculate maximum  number of market depth subscriptions [Limitations](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#live-data-limitations). For some securities, getting tick-by-tick data requires Level 2 data bundles.
 
 - Real time tick-by-tick data is currently not available for options. Historical tick-by-tick data is available.
-- The tick type field is case sensitive – it must be BidAsk, Last, AllLast,  MidPoint. AllLast has additional trade types such as combos,  derivatives, and average price trades which are not included in Last.
+- The tick type field is case sensitive Ã¢â‚¬â€œ it must be BidAsk, Last, AllLast,  MidPoint. AllLast has additional trade types such as combos,  derivatives, and average price trades which are not included in Last.
 - Tick-by-tick data for options is currently only available historically and not in real time.
 - Tick-by-tick data for indices is only provided for indices which are on CME.
 - Tick-by-tick data is not available for combos.
@@ -5460,7 +5460,7 @@ From the API, this corresponds to the function [EClient.reqTickByTickData](https
 
 **contract:** Contract. the contract for which tick-by-tick data is requested.
 
-**tickType:** String. tick-by-tick data type: “Last”, “AllLast”, “BidAsk” or “MidPoint”.
+**tickType:** String. tick-by-tick data type: Ã¢â‚¬Å“LastÃ¢â‚¬Â, Ã¢â‚¬Å“AllLastÃ¢â‚¬Â, Ã¢â‚¬Å“BidAskÃ¢â‚¬Â or Ã¢â‚¬Å“MidPointÃ¢â‚¬Â.
 
 **numberOfTicks:** int. If a non-zero value is entered, then historical tick data is first returned via one of the [Historical Time and Sales Ewrapper Methods](https://www.interactivebrokers.com/campus/ibkr-api-page/trader-workstation-api/#receiving-time-and-sales) respectively. (Max number of historical Ticks is 1000)
 
@@ -5487,7 +5487,7 @@ self.reqTickByTickData(19001, contract, "Last", 0, True)
 
 **reqId:** int. unique identifier of the request.
 
-**tickType:** int. 0: “Last” or 1: “AllLast”.
+**tickType:** int. 0: Ã¢â‚¬Å“LastÃ¢â‚¬Â or 1: Ã¢â‚¬Å“AllLastÃ¢â‚¬Â.
 
 **time:** long. tick-by-tick real-time tick timestamp.
 
@@ -5495,14 +5495,14 @@ self.reqTickByTickData(19001, contract, "Last", 0, True)
 
 **size:** decimal. tick-by-tick real-time tick last size.
 
-**tickAttribLast:** TickAttribLast. tick-by-tick real-time last tick attribs (bit 0 – past limit, bit 1 – unreported).
+**tickAttribLast:** TickAttribLast. tick-by-tick real-time last tick attribs (bit 0 Ã¢â‚¬â€œ past limit, bit 1 Ã¢â‚¬â€œ unreported).
 
 **exchange:** String. tick-by-tick real-time tick exchange.
 
 **specialConditions:** String. tick-by-tick real-time tick special conditions. Conditions under which the operation took place (Refer to [Trade Conditions Page](https://www.interactivebrokers.com/en/index.php?f=7235))
  )
 
-Returns “Last” or “AllLast” tick-by-tick real-time tick.
+Returns Ã¢â‚¬Å“LastÃ¢â‚¬Â or Ã¢â‚¬Å“AllLastÃ¢â‚¬Â tick-by-tick real-time tick.
 
 -
 
@@ -5526,10 +5526,10 @@ def tickByTickAllLast(self, reqId: int, tickType: int, time: int, price: float, 
 
 **askSize:** decimal. ask size of the tick.
 
-**tickAttribBidAsk:** TickAttribBidAsk. tick-by-tick real-time bid/ask tick attribs (bit 0 – bid past low, bit 1 – ask past high).
+**tickAttribBidAsk:** TickAttribBidAsk. tick-by-tick real-time bid/ask tick attribs (bit 0 Ã¢â‚¬â€œ bid past low, bit 1 Ã¢â‚¬â€œ ask past high).
  )
 
-Returns “BidAsk” tick-by-tick real-time tick.
+Returns Ã¢â‚¬Å“BidAskÃ¢â‚¬Â tick-by-tick real-time tick.
 
 -
 
@@ -5548,7 +5548,7 @@ Returns “BidAsk” tick-by-tick real-time tick.
 **midPoint:** double. Mid point value of the tick.
  )
 
-Returns “MidPoint” tick-by-tick real-time tick.
+Returns Ã¢â‚¬Å“MidPointÃ¢â‚¬Â tick-by-tick real-time tick.
 
 -
 
@@ -5577,24 +5577,24 @@ self.cancelTickByTickData(19001)
 
 The Tick-By-Tick attribute has been introduced. The tick attribute *pastLimit* is also returned with historical Tick-By-Tick responses.
 
-- If tick has zero price, zero size and pastLimit flag is set – this is “Halted” tick.
-- If tick has zero price, zero size and followed immediately after “Halted” tick – this is “Unhalted” tick.
+- If tick has zero price, zero size and pastLimit flag is set Ã¢â‚¬â€œ this is Ã¢â‚¬Å“HaltedÃ¢â‚¬Â tick.
+- If tick has zero price, zero size and followed immediately after Ã¢â‚¬Å“HaltedÃ¢â‚¬Â tick Ã¢â‚¬â€œ this is Ã¢â‚¬Å“UnhaltedÃ¢â‚¬Â tick.
 
 ## Market ScannerCopy Location
 
 Some scans in the TWS Advanced Market Scanner can be accessed via the TWS API through the EClient.reqScannerSubscription.
 
-Results are delivered via EWrapper.scannerData and the EWrapper.scannerDataEnd  marker will indicate when all results have been delivered. The returned  results to scannerData simply consist of a list of contracts. There are  no market data fields (bid, ask, last, volume, …) returned from the  scanner, and so if these are desired they have to be requested  separately with the reqMktData function. Since the scanner results do  not include any market data fields, it is not necessary to have market  data subscriptions to use the API scanner. However to use filters,  market data subscriptions are generally required.
+Results are delivered via EWrapper.scannerData and the EWrapper.scannerDataEnd  marker will indicate when all results have been delivered. The returned  results to scannerData simply consist of a list of contracts. There are  no market data fields (bid, ask, last, volume, Ã¢â‚¬Â¦) returned from the  scanner, and so if these are desired they have to be requested  separately with the reqMktData function. Since the scanner results do  not include any market data fields, it is not necessary to have market  data subscriptions to use the API scanner. However to use filters,  market data subscriptions are generally required.
 
 Since the  EClient.reqScannerSubscription request keeps a subscription open you  will keep receiving periodic updates until the request is cancelled via  EClient.cancelScannerSubscription :
 
 Scans are limited to a maximum result of 50 results per scan code, and only 10 API scans can be active at a time.
 
-scannerSubscriptionFilterOptions has been added to the API to allow for generic filters. This field is  entered as a list of TagValues which have a tag followed by its value,  e.g. TagValue(“usdMarketCapAbove”, “10000”) indicates a market cap above 10000 USD. Available filters can be found using the  EClient.reqScannerParameters function.
+scannerSubscriptionFilterOptions has been added to the API to allow for generic filters. This field is  entered as a list of TagValues which have a tag followed by its value,  e.g. TagValue(Ã¢â‚¬Å“usdMarketCapAboveÃ¢â‚¬Â, Ã¢â‚¬Å“10000Ã¢â‚¬Â) indicates a market cap above 10000 USD. Available filters can be found using the  EClient.reqScannerParameters function.
 
 A string containing all available XML-formatted parameters will then be returned via EWrapper.scannerParameters.
 
-**Important:** remember the TWS API is just an interface to the TWS. If you are having problems defining a scanner, always make sure you can create a similar scanner  using the TWS’ [Advanced Market Scanner](https://ibkrguides.com/tws/usersguidebook/mosaic/advancedscanner.htm).
+**Important:** remember the TWS API is just an interface to the TWS. If you are having problems defining a scanner, always make sure you can create a similar scanner  using the TWSÃ¢â‚¬â„¢ [Advanced Market Scanner](https://ibkrguides.com/tws/usersguidebook/mosaic/advancedscanner.htm).
 
 ### Market Scanner ParametersCopy Location
 
@@ -5799,7 +5799,7 @@ News articles provided through the API may not correspond to what is  available 
 
 When  invoking IBApi.EClient.reqMktData, for a specific IBApi.Contract you  will follow the same format convention as any other basic contracts. The News Source is identified by the genericTickList argument.
 
-**Note:** The error message “invalid tick type” will be returned if the username has not added the appropriate API news subscription.
+**Note:** The error message Ã¢â‚¬Å“invalid tick typeÃ¢â‚¬Â will be returned if the username has not added the appropriate API news subscription.
 
 ***\*Note\**:** For Briefing Trader live head lines via the API is only offered on a  case-by-case basis directly from Briefing.com offers Briefing Trader  subscribers access to the subscription live head lines via the API. For  more information and to submit an API entitlement application, please  contact Briefing.com directly at [dbeasley@briefing.com](https://interactivebrokers.github.io/tws-api/news.html#).
 
@@ -5820,8 +5820,8 @@ When  invoking IBApi.EClient.reqMktData, for a specific IBApi.Contract you  will
 **mktDataOptions:** List<TagValue>. Internal use only.
  )
 
-Used to request market data typically, but can also be used to retrieve  news. “mdoff” can be specified to disable standard market data while  retrieving news.
- For news sources, genericTick 292 needs to be specified followed by a colon and the news provider’s code.
+Used to request market data typically, but can also be used to retrieve  news. Ã¢â‚¬Å“mdoffÃ¢â‚¬Â can be specified to disable standard market data while  retrieving news.
+ For news sources, genericTick 292 needs to be specified followed by a colon and the news providerÃ¢â‚¬â„¢s code.
 
 -
 
@@ -5835,7 +5835,7 @@ self.reqMktData(reqId, contract, "mdoff,292:BRFG", False, False, [])
 
 For BroadTape News you specify the contract for the specific news source.  This is uniquely identified by the symbol and exchange. The symbol of an instrument can easily be obtained via the [EClientSocket.reqContractDetails](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#request-contract-details) request.
 
-The symbol is typically the proivder code, a colon, then the news provider codes appended with “_ALL”
+The symbol is typically the proivder code, a colon, then the news provider codes appended with Ã¢â‚¬Å“_ALLÃ¢â‚¬Â
 
 -
 
@@ -5866,7 +5866,7 @@ contract.exchange = "BRF"
 **mktDataOptions:** List<TagValue>. Internal use only.
  )
 
-Used to request market data typically, but can also be used to retrieve  news. “mdoff” can be specified to disable standard market data while  retrieving news.
+Used to request market data typically, but can also be used to retrieve  news. Ã¢â‚¬Å“mdoffÃ¢â‚¬Â can be specified to disable standard market data while  retrieving news.
 
 For news sources, genericTick 292 needs to be specified.
 
@@ -5882,7 +5882,7 @@ self.reqMktData(reqId, contract, "mdoff,292", False, False, [])
 
 **tickerId:** int. Request identifier used to track data.
 
-**timeStamp:** int. Epoch time of the article’s published time.
+**timeStamp:** int. Epoch time of the articleÃ¢â‚¬â„¢s published time.
 
 **providerCode:** String. News provider code based on requested data.
 
@@ -5915,13 +5915,13 @@ With the appropriate API news subscription, historical news headlines can be req
 
 **conId:** int. Contract id of ticker. See Contract Details for how to retrieve conId.
 
-**providerCodes:** String. A ‘+’-separated list of provider codes.
+**providerCodes:** String. A Ã¢â‚¬Ëœ+Ã¢â‚¬â„¢-separated list of provider codes.
 
 **startDateTime:** String. Marks the (exclusive) start of the date range. The format is yyyy-MM-dd HH:mm:ss.
 
 **endDateTime:** String. Marks the (inclusive) end of the date range. The format is yyyy-MM-dd HH:mm:ss.
 
-**totalResults:** int. The maximum number of headlines to fetch (1 – 300)
+**totalResults:** int. The maximum number of headlines to fetch (1 Ã¢â‚¬â€œ 300)
 
 **historicalNewsOptions:** Null. Reserved for internal use. Should be defined as null.
  )
@@ -5940,7 +5940,7 @@ self.reqHistoricalNews(reqId, 8314, "BRFG", "", "", 10, [])
 
 **requestId:** int. Request identifier used to track data.
 
-**time:** int. Epoch time of the article’s published time.
+**time:** int. Epoch time of the articleÃ¢â‚¬â„¢s published time.
 
 **providerCode:** String. News provider code based on requested data.
 
@@ -5972,7 +5972,7 @@ Returns news headlines end marker
 
 def historicalDataEnd(self, reqId: int, hasMore: bool):
 
-​    print("historicalDataEnd. ReqId:", reqId, "Has More:", hasMore)
+Ã¢â‚¬â€¹    print("historicalDataEnd. ReqId:", reqId, "Has More:", hasMore)
 
 
 
@@ -6007,7 +6007,7 @@ self.reqNewsArticle(10002,"BRFG", "BRFG$04fb9da2", [])
 
 **requestId:** int. Request identifier used to track data.
 
-**articleType:** int. The type of news article (0 – plain text or html, 1 – binary data / pdf).
+**articleType:** int. The type of news article (0 Ã¢â‚¬â€œ plain text or html, 1 Ã¢â‚¬â€œ binary data / pdf).
 
 **articleText:** String. The body of article (if articleType == 1, the binary data is encoded using the Base64 scheme).
  )
@@ -6056,7 +6056,7 @@ Will be invoked automatically upon successful API client connection, or after ca
 
 def nextValidId(self, orderId: int):
 
-​    print("NextValidId:", orderId)
+Ã¢â‚¬â€¹    print("NextValidId:", orderId)
 
 
 
@@ -6087,7 +6087,7 @@ The Master ClientID value can be assigned to 0 so that a connection can  retriev
 
 ### Commission And Fees ReportCopy Location
 
-When an order is filled either fully or partially, the [IBApi.EWrapper.execDetails](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#exec-details) and IBApi.EWrapper.commissionReport events will deliver [IBApi.Execution](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#exec-details) and IBApi.CommissionAndFeesReport objects. This allows to obtain the full picture of the order’s execution and the resulting commissions.
+When an order is filled either fully or partially, the [IBApi.EWrapper.execDetails](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#exec-details) and IBApi.EWrapper.commissionReport events will deliver [IBApi.Execution](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#exec-details) and IBApi.CommissionAndFeesReport objects. This allows to obtain the full picture of the orderÃ¢â‚¬â„¢s execution and the resulting commissions.
 
 - Advisors executing allocation orders  will receive execution details and commissions for the allocation order  itself. To receive allocation details and commissions for a specific  subaccount [IBApi.EClient.reqExecutions](https://www.interactivebrokers.com/campus/ibkr-api-page/trader-workstation-api/#request-exec-details) can be used.
 
@@ -6102,7 +6102,7 @@ Provides the Commission Report of an Execution
 
 def commissionAndFeesReport(self, commissionAndFeesReport: CommissionAndFeesReport):
 
-​    print("CommissionReport.", commissionAndFeesReport)
+Ã¢â‚¬â€¹    print("CommissionReport.", commissionAndFeesReport)
 
 
 
@@ -6112,7 +6112,7 @@ IBApi.Execution and IBApi.CommissionReport can be requested on demand via the  I
 
 Once all matching executions have been delivered, an IBApi.EWrapper.execDetailsEnd event will be triggered.
 
-Important: By default, only those executions occurring since midnight for that  particular account will be delivered. If you want to request executions  from the last 7 days, TWS’s Trade Log setting “Show trades for …” must  be adjusted to your requirement. The IB Gateway is limited to only  executions from the current trading day since midnight.
+Important: By default, only those executions occurring since midnight for that  particular account will be delivered. If you want to request executions  from the last 7 days, TWSÃ¢â‚¬â„¢s Trade Log setting Ã¢â‚¬Å“Show trades for Ã¢â‚¬Â¦Ã¢â‚¬Â must  be adjusted to your requirement. The IB Gateway is limited to only  executions from the current trading day since midnight.
 
 ### ExecID BehaviorCopy Location
 
@@ -6122,17 +6122,17 @@ By default,  most ExecID values will return as 4-segment alphanumeric sequence t
 
 ### The Execution ObjectCopy Location
 
-The Execution object is used to maintain all data related to a user’s  traded orders. This can be used in both querying execution details and  navigating received data. The details provided will display all  information pertaining to the execution, including how many shares were  filled, the price of the execution, and what time it took place.
+The Execution object is used to maintain all data related to a userÃ¢â‚¬â„¢s  traded orders. This can be used in both querying execution details and  navigating received data. The details provided will display all  information pertaining to the execution, including how many shares were  filled, the price of the execution, and what time it took place.
 
 #### Execution()
 
-**OrderId:** int. The API client’s order Id. May not be unique to an account.
+**OrderId:** int. The API clientÃ¢â‚¬â„¢s order Id. May not be unique to an account.
 
 **ClientId:** int. The API client identifier which placed the order which originated this execution.
 
-**ExecId:** String. The execution’s identifier. Each partial fill has a separate  ExecId. A correction is indicated by an ExecId which differs from a  previous ExecId in only the digits after the final period, e.g. an  ExecId ending in “.02” would be a correction of a previous execution  with an ExecId ending in “.01”.
+**ExecId:** String. The executionÃ¢â‚¬â„¢s identifier. Each partial fill has a separate  ExecId. A correction is indicated by an ExecId which differs from a  previous ExecId in only the digits after the final period, e.g. an  ExecId ending in Ã¢â‚¬Å“.02Ã¢â‚¬Â would be a correction of a previous execution  with an ExecId ending in Ã¢â‚¬Å“.01Ã¢â‚¬Â.
 
-**Time:** String. The execution’s server time.
+**Time:** String. The executionÃ¢â‚¬â„¢s server time.
 
 **AcctNumber:** String. The account to which the order was allocated.
 
@@ -6142,7 +6142,7 @@ The Execution object is used to maintain all data related to a user’s  traded 
 
 **Shares:** decimal. The number of shares filled.
 
-**Price:** double. The order’s execution price excluding commissions.
+**Price:** double. The orderÃ¢â‚¬â„¢s execution price excluding commissions.
 
 **PermId:** int. The TWS order identifier. The PermId can be 0 for trades originating outside IB.
 
@@ -6172,12 +6172,12 @@ Given additional structures for executions are ever evolving, it is  recommended
 
 #### EClient.reqExecutions (
 
-**reqId:** int. The request’s unique identifier.
+**reqId:** int. The requestÃ¢â‚¬â„¢s unique identifier.
 
 **filter:** ExecutionFilter. The filter criteria used to determine which execution reports are returned.
  )
 
-Requests current day’s (since midnight) executions and commission report  matching the filter. Only the current day’s executions can be retrieved.
+Requests current dayÃ¢â‚¬â„¢s (since midnight) executions and commission report  matching the filter. Only the current dayÃ¢â‚¬â„¢s executions can be retrieved.
 
 -
 
@@ -6189,7 +6189,7 @@ self.reqExecutions(10001, ExecutionFilter())
 
 #### EWrapper.execDetails (
 
-**reqId:** int. The request’s identifier.
+**reqId:** int. The requestÃ¢â‚¬â„¢s identifier.
 
 **contract:** Contract. The Contract of the Order.
 
@@ -6208,7 +6208,7 @@ def execDetails(self, reqId: int, contract: Contract, execution: Execution):
 
 #### EWrapper.execDetailsEnd (
 
-**reqId:** int. The request’s identifier
+**reqId:** int. The requestÃ¢â‚¬â„¢s identifier
  )
 
 Indicates the end of the Execution reception.
@@ -6225,13 +6225,13 @@ def execDetailsEnd(self, reqId: int):
 
 #### EWrapper.openOrder (
 
-**orderId:** int. The order’s unique id
+**orderId:** int. The orderÃ¢â‚¬â„¢s unique id
 
-**contract:** Contract. The order’s Contract.
+**contract:** Contract. The orderÃ¢â‚¬â„¢s Contract.
 
 **order:** Order. The currently active Order.
 
-**orderState:** OrderState. The order’s OrderState
+**orderState:** OrderState. The orderÃ¢â‚¬â„¢s OrderState
  )
 
 Feeds in currently open orders.
@@ -6240,13 +6240,13 @@ Feeds in currently open orders.
 
 def openOrder(self, orderId: OrderId, contract: Contract, order: Order, orderState: OrderState):
 
-​    print(orderId, contract, order, orderState)
+Ã¢â‚¬â€¹    print(orderId, contract, order, orderState)
 
 
 
 #### EWrapper.openOrderEnd ()
 
-Notifies the end of the open orders’ reception.
+Notifies the end of the open ordersÃ¢â‚¬â„¢ reception.
 
 -
 
@@ -6260,7 +6260,7 @@ def openOrderEnd(self):
 
 #### EWrapper.orderStatus (
 
-**orderId:** int. The order’s client id.
+**orderId:** int. The orderÃ¢â‚¬â„¢s client id.
 
 **status:** String. The current status of the order.
 
@@ -6270,15 +6270,15 @@ def openOrderEnd(self):
 
 **avgFillPrice:** double. Average filling price.
 
-**permId:** int. The order’s permId used by the TWS to identify orders.
+**permId:** int. The orderÃ¢â‚¬â„¢s permId used by the TWS to identify orders.
 
-**parentId:** int. Parent’s id. Used for bracket and auto trailing stop orders.
+**parentId:** int. ParentÃ¢â‚¬â„¢s id. Used for bracket and auto trailing stop orders.
 
 **lastFillPrice:** double. Price at which the last positions were filled.
 
 **clientId:** int. API client which submitted the order.
 
-**whyHeld:** String. this field is used to identify an order held when TWS is trying to locate shares for a short sell. The value used to indicate this is  ‘locate’.
+**whyHeld:** String. this field is used to identify an order held when TWS is trying to locate shares for a short sell. The value used to indicate this is  Ã¢â‚¬ËœlocateÃ¢â‚¬â„¢.
 
 **mktCapPrice:** double. If an order has been capped, this indicates the current capped price.
  )
@@ -6314,9 +6314,9 @@ As long as an order is active, it is possible to retrieve it using the TWS API. 
 
 ### API client's ordersCopy Location
 
-The IBApi.EClient.reqOpenOrders method allows to obtain all active orders  submitted by the client application connected with the exact same client Id with which the order was sent to the TWS. If client 0 invokes  reqOpenOrders, it will cause currently open orders placed from TWS  manually to be ‘bound’, i.e. assigned an order ID so that they can be  modified or cancelled by the API client 0.
+The IBApi.EClient.reqOpenOrders method allows to obtain all active orders  submitted by the client application connected with the exact same client Id with which the order was sent to the TWS. If client 0 invokes  reqOpenOrders, it will cause currently open orders placed from TWS  manually to be Ã¢â‚¬ËœboundÃ¢â‚¬â„¢, i.e. assigned an order ID so that they can be  modified or cancelled by the API client 0.
 
-When an order is bound  by API client 0 there will be callback to IBApi::EWrapper::orderBound.  This indicates the mapping between API order ID and permID. The [IBApi.EWrapper.orderBound](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#order-bound-notification) callback in response to newly bound orders that indicates the mapping  between the permID (unique account-wide) and API Order ID (specific to  an API client). In the API settings in Global Configuration, is a  setting checked by default “Use negative numbers to bind automatic  orders” which will specify how manual TWS orders are assigned an API  order ID.
+When an order is bound  by API client 0 there will be callback to IBApi::EWrapper::orderBound.  This indicates the mapping between API order ID and permID. The [IBApi.EWrapper.orderBound](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#order-bound-notification) callback in response to newly bound orders that indicates the mapping  between the permID (unique account-wide) and API Order ID (specific to  an API client). In the API settings in Global Configuration, is a  setting checked by default Ã¢â‚¬Å“Use negative numbers to bind automatic  ordersÃ¢â‚¬Â which will specify how manual TWS orders are assigned an API  order ID.
 
 #### EClient.reqOpenOrders ()
 
@@ -6400,16 +6400,16 @@ self.reqCompletedOrders(True)
 
 #### EWrapper.completedOrders(
 
-**contract:** Contract. The order’s Contract.
+**contract:** Contract. The orderÃ¢â‚¬â„¢s Contract.
  **order:** Order. The currently active Order.
- **orderState:** OrderState. The order’s OrderState
+ **orderState:** OrderState. The orderÃ¢â‚¬â„¢s OrderState
  )
 
 -
 
 def completedOrder(self, orderId: OrderId, contract: Contract, order: Order, orderState: OrderState):
 
-​    print(orderId, contract, order, orderState)
+Ã¢â‚¬â€¹    print(orderId, contract, order, orderState)
 
 
 
@@ -6480,12 +6480,12 @@ self.reqGlobalCancel()
 
 Options are exercised or lapsed from the API with the function EClient.exerciseOptions.
 
-- Option exercise will appear with order status side = “BUY” and limit price of 0, but only at the time the request is made
+- Option exercise will appear with order status side = Ã¢â‚¬Å“BUYÃ¢â‚¬Â and limit price of 0, but only at the time the request is made
 - Option exercise can be distinguished by price = 0
 
 #### EClient.exerciseOptions (
 
-**tickerId:** int. Exercise request’s identifier
+**tickerId:** int. Exercise requestÃ¢â‚¬â„¢s identifier
 
 **contract:** Contract. the option Contract to be exercised.
 
@@ -6495,10 +6495,10 @@ Options are exercised or lapsed from the API with the function EClient.exerciseO
 
 **account:** String. Destination account
 
-**ovrd:** int. Specifies whether your setting will override the system’s natural action.
+**ovrd:** int. Specifies whether your setting will override the systemÃ¢â‚¬â„¢s natural action.
  Set to 1 to override, set to 0 not to.
 
-For example, if your action is “exercise” and the option is not  in-the-money, by natural action the option would not exercise. If you  have override set to “yes” the natural action would be overridden and  the out-of-the money option would be exercised.
+For example, if your action is Ã¢â‚¬Å“exerciseÃ¢â‚¬Â and the option is not  in-the-money, by natural action the option would not exercise. If you  have override set to Ã¢â‚¬Å“yesÃ¢â‚¬Â the natural action would be overridden and  the out-of-the money option would be exercised.
 
 **manualOrderTime:** String. Specify the time at which the options should be exercised. An empty string will assume the current time.
  Required TWS API 10.26 or higher.
@@ -6516,9 +6516,9 @@ self.exerciseOptions(5003, contract, 1, 1, self.account, 1, "")
 
 ### Minimum Price IncrementCopy Location
 
-The minimum increment is the minimum difference between price levels at  which a contract can trade. Some trades have constant price increments  at all price levels. However some contracts have difference minimum  increments on different exchanges on which they trade and/or different  minimum increments at different price levels. In the contractDetails  class, there is a field ‘minTick’ which specifies the smallest possible  minimum increment encountered on any exchange or price. For complete  information about minimum price increment structure, there is the IB  Contracts and Securities search site, or the API function  EClient.reqMarketRule.
+The minimum increment is the minimum difference between price levels at  which a contract can trade. Some trades have constant price increments  at all price levels. However some contracts have difference minimum  increments on different exchanges on which they trade and/or different  minimum increments at different price levels. In the contractDetails  class, there is a field Ã¢â‚¬ËœminTickÃ¢â‚¬â„¢ which specifies the smallest possible  minimum increment encountered on any exchange or price. For complete  information about minimum price increment structure, there is the IB  Contracts and Securities search site, or the API function  EClient.reqMarketRule.
 
-The function [EClient.reqContractDetails](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#request-contract-details) when used with a Contract object will return contractDetails object to  the contractDetails function which has a list of the valid exchanges  where the instrument trades. Also within the contractDetails object is a field called marketRuleIDs which has a list of “market rules”. A market rule is defined as a rule which defines the minimum price increment  given the price. The market rule list returned in contractDetails has a  list of market rules in the same order as the list of valid exchanges.  In this way, the market rule ID for a contract on a particular exchange  can be determined.
+The function [EClient.reqContractDetails](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#request-contract-details) when used with a Contract object will return contractDetails object to  the contractDetails function which has a list of the valid exchanges  where the instrument trades. Also within the contractDetails object is a field called marketRuleIDs which has a list of Ã¢â‚¬Å“market rulesÃ¢â‚¬Â. A market rule is defined as a rule which defines the minimum price increment  given the price. The market rule list returned in contractDetails has a  list of market rules in the same order as the list of valid exchanges.  In this way, the market rule ID for a contract on a particular exchange  can be determined.
 
 - Market rule for forex and forex CFDs indicates default configuration (1/2 and  not 1/10 pips). It can be adjusted to 1/10 pips through TWS or IB  Gateway Global Configuration.
 - Some non-US securities, for  instance on the SEHK exchange, have a minimum lot size. This information is not available from the API but can be obtained from the IB Contracts and Securities search page. It will also be indicated in the error  message returned from an order which does not conform to the minimum lot size.
@@ -6574,37 +6574,37 @@ For EEA investment firms required to comply with MiFIR reporting, and who  have 
 
 New order attributes include:
 
-- **IBApi.Order.Mifid2DecisionMaker** – Used to send “investment decision within the firm” value (if IBApi.Order.Mifid2DecisionAlgo is not used).
-- **IBApi.Order.Mifid2DecisionAlgo** – Used to send “investment decision within the firm” value (if IBApi.Order.Mifid2DecisionMaker is not used).
-- **IBApi.Order.Mifid2ExecutionTrader** – Used to send “execution within the firm” value (if IBApi.Order.Mifid2ExecutionAlgo is not used).
-- **IBApi.Order.Mifid2ExecutionAlgo** – Used to send “execution within the firm” value (if IBApi.Order.Mifid2ExecutionTrader is not used).
+- **IBApi.Order.Mifid2DecisionMaker** Ã¢â‚¬â€œ Used to send Ã¢â‚¬Å“investment decision within the firmÃ¢â‚¬Â value (if IBApi.Order.Mifid2DecisionAlgo is not used).
+- **IBApi.Order.Mifid2DecisionAlgo** Ã¢â‚¬â€œ Used to send Ã¢â‚¬Å“investment decision within the firmÃ¢â‚¬Â value (if IBApi.Order.Mifid2DecisionMaker is not used).
+- **IBApi.Order.Mifid2ExecutionTrader** Ã¢â‚¬â€œ Used to send Ã¢â‚¬Å“execution within the firmÃ¢â‚¬Â value (if IBApi.Order.Mifid2ExecutionAlgo is not used).
+- **IBApi.Order.Mifid2ExecutionAlgo** Ã¢â‚¬â€œ Used to send Ã¢â‚¬Å“execution within the firmÃ¢â‚¬Â value (if IBApi.Order.Mifid2ExecutionTrader is not used).
 
 New TWS and IB Gateway Order Presets can be found in the Orders > MiFIR  page of Global Configuration, and include TWS Decision-Maker Defaults,  API Decision-Maker Defaults, and Executing Trader/Algo presets.
 
-The following choices are available for the “investment decision within the  firm” IBApi.Order.Mifid2DecisionMaker and IBApi.Order.Mifid2DecisionAlgo attributes:
+The following choices are available for the Ã¢â‚¬Å“investment decision within the  firmÃ¢â‚¬Â IBApi.Order.Mifid2DecisionMaker and IBApi.Order.Mifid2DecisionAlgo attributes:
 
 1. This field does not need to be reported if you are:
 
    - Using the TWS API to transmit orders, AND
    - The investment decision is always made by the client, AND
-   - None of these clients are an EEA investment firm with delegated reporting selected (the “delegated reporting firm”).
+   - None of these clients are an EEA investment firm with delegated reporting selected (the Ã¢â‚¬Å“delegated reporting firmÃ¢â‚¬Â).
 
    You can configure the preset to indicate this via TWS Global Configuration  using the Orders > MiFIR page. In this scenario, the orders for the  proprietary account will need to be placed via TWS.
 
 2. If you  are using the TWS API to transmit orders, and the investment decision is made by a person, or a group of people within a delegated reporting  firm, with one person being the primary decision maker:
 
-   - Your TWS  API program can, on each order, transmit a decision maker’s IB-assigned  short code using the field IBApi.Order.Mifid2DecisionMaker. You can  define persons who can be the decision-makers via IB Account Management. To obtain the short codes that IB assigned to those persons, please  contact IB Client Services.
+   - Your TWS  API program can, on each order, transmit a decision makerÃ¢â‚¬â„¢s IB-assigned  short code using the field IBApi.Order.Mifid2DecisionMaker. You can  define persons who can be the decision-makers via IB Account Management. To obtain the short codes that IB assigned to those persons, please  contact IB Client Services.
    - If your TWS API program is unable to transmit the above field, and the investment decision is either made  by, or approved by, a single person who can be deemed to be the primary  investment decision maker, you can pre-configure a default investment  decision-maker that will be used for orders where the above fields are  not present. You must define the investment decision-maker(s) in IB  Account Management, and can then configure the default investment  decision-maker in TWS Global Configuration using the Orders > MiFIR  page.
 
 3. If you are using the TWS API to transmit orders and the investment decision is made by an algorithm:
 
-   - Your TWS API program can, on each order, transmit a decision maker’s  IB-assigned short code using the field IBApi.Order.Mifid2DecisionAlgo.  You can define algorithms that can be the decision-makers via IB Account Management. To obtain the short codes that IB assigned to those  persons, please contact IB Client Services.
+   - Your TWS API program can, on each order, transmit a decision makerÃ¢â‚¬â„¢s  IB-assigned short code using the field IBApi.Order.Mifid2DecisionAlgo.  You can define algorithms that can be the decision-makers via IB Account Management. To obtain the short codes that IB assigned to those  persons, please contact IB Client Services.
 
    - If your TWS API  program is unable to transmit the above field, and/or the investment  decision is made by a single or primary decision-maker algorithm, you  can pre-configure a default investment decision-maker algo that will be  used for orders where the above field is not sent. You must define the  investment decision-maker(s) in IB Account Management, and can then  configure the default investment decision-maker in TWS Global  Configuration using the Orders > MiFIR page.
 
      *NOTE: Only ONE  investment decision-maker, either a primary person or algorithm, should  be provided on an order, or selected as the default.*
 
-The following choices are available for “execution within the  firm” IBApi.Order.Mifid2ExecutionTrader and IBApi.Order.Mifid2ExecutionAlgo attributes:
+The following choices are available for Ã¢â‚¬Å“execution within the  firmÃ¢â‚¬Â IBApi.Order.Mifid2ExecutionTrader and IBApi.Order.Mifid2ExecutionAlgo attributes:
 
 1. No additional information is needed if you are using the TWS API to  transmit orders entered in a third-party trading interface, and you are  the trader responsible for execution within the firm.
 2. If your TWS API program transmits orders to IB automatically without human intervention, please contact **IB Client Services** to register the program or programs with IB as an algo. Only the primary  program or algo needs to be registered and identified. You can then  configure the default in TWS Global Configuration using the Orders >  MiFIR page.
@@ -6620,23 +6620,23 @@ Modification of an API order can be done if the API client is connected to a ses
 
 - To modify or cancel an individual order placed manually from TWS, it is  necessary to connect with client ID 0 and then bind the order before  attempting to modify it. The process of binding assigns the order an API order ID; prior to binding it will be returned to the API with an **API order ID of 0**. Orders with API order ID 0 cannot be modified/cancelled from the API.  The function reqOpenOrders binds orders open at that moment which do not already have an API order ID, and the function reqAutoOpenOrders binds  future orders automatically. The function reqAllOpenOrders does not bind orders.
 - To modify API orders when connecting to a different  session of TWS (logged in with a different username than used for the  original order), it is necessary to first bind the order with client ID 0 in the same manner as manual TWS orders are bound before they can be  modified. The binding assignment of API order IDs is independent for  each TWS user, so the same order can have different API order IDs for  different users. The permID returned in the API Order class which is  assigned by TWS can be used to identify an order in an account uniquely.
-- The process of order binding from the API cancels/resubmits an order  working on an exchange. This may affect the order’s place in the  exchange queue. Enhancements are planned to allow for API binding with  modification of exchange queue priority.
+- The process of order binding from the API cancels/resubmits an order  working on an exchange. This may affect the orderÃ¢â‚¬â„¢s place in the  exchange queue. Enhancements are planned to allow for API binding with  modification of exchange queue priority.
 
 ### Place OrderCopy Location
 
 Orders are submitted via the EClient.placeOrder method.
 
-Immediately after an order is submitted correctly, the TWS will start sending events concerning the order’s activity via [EWrapper.openOrder](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#open-order) and [EWrapper.orderStatus](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#order-status)
+Immediately after an order is submitted correctly, the TWS will start sending events concerning the orderÃ¢â‚¬â„¢s activity via [EWrapper.openOrder](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#open-order) and [EWrapper.orderStatus](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#order-status)
 
 Advisors executing allocation orders will receive execution details and  commissions for the allocation order itself. To receive allocation  details and commissions for a specific subaccount [EClient.reqExecutions](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#request-exec-details) can be used.
 
-An order can be sent to TWS but not transmitted to the IB server by  setting the Order.Transmit flag in the order class to False.  Untransmitted orders will only be available within that TWS session (not for other usernames) and will be cleared on restart. Also, they can be  cancelled or transmitted from the API but not viewed while they remain  in the “untransmitted” state.
+An order can be sent to TWS but not transmitted to the IB server by  setting the Order.Transmit flag in the order class to False.  Untransmitted orders will only be available within that TWS session (not for other usernames) and will be cleared on restart. Also, they can be  cancelled or transmitted from the API but not viewed while they remain  in the Ã¢â‚¬Å“untransmittedÃ¢â‚¬Â state.
 
 #### EClient.placeOrder (
 
-**id:** int. The order’s unique identifier. If a new order is placed with an  order ID less than or equal to the order ID of a previous order an error will occur.
+**id:** int. The orderÃ¢â‚¬â„¢s unique identifier. If a new order is placed with an  order ID less than or equal to the order ID of a previous order an error will occur.
 
-**contract:** Contract. The order’s contract
+**contract:** Contract. The orderÃ¢â‚¬â„¢s contract
 
 **order:** Order. The order object.
  )
@@ -6658,16 +6658,16 @@ By default, the Trader Workstation implements several precautionary  settings th
 
 1. Log in to the Trader Workstation
 2. Open the Global Configuration by selecting the Cog Wheel icon in the top right corner
-3. Navigate to the “Messages” section on the left.
+3. Navigate to the Ã¢â‚¬Å“MessagesÃ¢â‚¬Â section on the left.
 4. **Carefully read each message before disabling it**. You can then disable the warning by unchecking the box on the right of the message description.
 
 ### Modifying Precautionary Settings
 
 1. Log in to the Trader Workstation
 2. Open the Global Configuration by selecting the Cog Wheel icon in the top right corner
-3. Navigate to the “Presets” section on the left
+3. Navigate to the Ã¢â‚¬Å“PresetsÃ¢â‚¬Â section on the left
 4. Select the instrument(s) you are trading
-5. **Carefully read each setting before making changes to it.** You may modify the values inside the “Precautionary Settings” settings to  be more or less restrictive. You may also set the value to ‘0’ to  disable the precaution entirely.
+5. **Carefully read each setting before making changes to it.** You may modify the values inside the Ã¢â‚¬Å“Precautionary SettingsÃ¢â‚¬Â settings to  be more or less restrictive. You may also set the value to Ã¢â‚¬Ëœ0Ã¢â‚¬â„¢ to  disable the precaution entirely.
 
 ### Order Placement ConsiderationsCopy Location
 
@@ -6712,7 +6712,7 @@ Common cases of order rejections, cancellations, and warnings, and the correspon
    indicating that the order could be subject to price capping.
 
   - If your order does not immediately execute, in accordance with our  regulatory obligations as a broker we may, depending on market  conditions, reject your order if the limit price of your order is more  than allowed distance from the current reference price. This is designed to ensure that the price of your order is in line with an orderly  market and reduce the impact your order has on the market. Please note  that such rejection will result in you not receiving a fill.
-  - ***[mktCapPrice](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#order-status)\*** – If an order has been capped, this indicates the current capped price (returned to[ **IBApi.EWrapper.orderStatus**](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#open-orders))
+  - ***[mktCapPrice](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#order-status)\*** Ã¢â‚¬â€œ If an order has been capped, this indicates the current capped price (returned to[ **IBApi.EWrapper.orderStatus**](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#open-orders))
 
 ### Pre-Borrow Shares For ShortingCopy Location
 
@@ -6723,9 +6723,9 @@ The TWS API supports the ability to pre-borrow shares for shorting.
 
 To place a Pre-Borrow order, users must:
 
-- Assign the contract’s exchange to “PREBORROW”
-- Assign the contract’s security type to “SBL”
--  Assign the order’s orderType to “MKT”
+- Assign the contractÃ¢â‚¬â„¢s exchange to Ã¢â‚¬Å“PREBORROWÃ¢â‚¬Â
+- Assign the contractÃ¢â‚¬â„¢s security type to Ã¢â‚¬Å“SBLÃ¢â‚¬Â
+-  Assign the orderÃ¢â‚¬â„¢s orderType to Ã¢â‚¬Å“MKTÃ¢â‚¬Â
 
 -
 
@@ -6753,7 +6753,7 @@ order.totalQuantity = quantity
 
 From the API it is possible to check how a specified trade execution is  expected to change the account margin requirements for an account in  real time. This is done by creating an Order object which has the  IBApi.Order.WhatIf flag set to true. By default, the whatif boolean in  Order has a false value, but if set to True in an Order object with is  passed to [IBApi.EClient.placeOrder](https://www.interactivebrokers.com/campus/ibkr-api-page/trader-workstation-api/#place-order), instead of sending the order to a destination the IB server it will  undergo a credit check for the expected post-trade margin requirement.  The estimated post-trade margin requirement is returned to  the IBApi.OrderState object in the [EWrapper.openOrder](https://www.interactivebrokers.com/campus/ibkr-api-page/trader-workstation-api/#open-orders) callback..
 
-This is equivalent to creating a order ticket in TWS, clicking “Preview”,  and viewing the information in the “Margin Impact” panel.
+This is equivalent to creating a order ticket in TWS, clicking Ã¢â‚¬Å“PreviewÃ¢â‚¬Â,  and viewing the information in the Ã¢â‚¬Å“Margin ImpactÃ¢â‚¬Â panel.
 
 
 
@@ -6763,7 +6763,7 @@ Python:
 
 def openOrder(self, orderId: OrderId, contract: Contract, order: Order, orderState: OrderState):
 
-​    print(orderId, contract, order, orderState.initMarginChange)
+Ã¢â‚¬â€¹    print(orderId, contract, order, orderState.initMarginChange)
 
 .
 
@@ -6801,13 +6801,13 @@ Apart from InitMarginChange, there are other supported variables. For details, p
 
 The Trigger Method defined in the [IBApi.Order](https://www.interactivebrokers.com/campus/ibkr-api-page/trader-workstation-api/#order-object) class specifies how simulated stop, stop-limit, and trailling stops, and conditional orders are triggered. Valid values are:
 
-- 0 – The default method for instrument
-- 1 – “Double bid/ask” function, where stop orders are triggered based on two consecutive bid or ask prices.
-- 2 – “Last” function, where stop orders are triggered based on the last price
-- 3 – “Double last” function
-- 4 – Bid/ask function
-- 7 – Last or bid/ask function
-- 8 – Mid-point function
+- 0 Ã¢â‚¬â€œ The default method for instrument
+- 1 Ã¢â‚¬â€œ Ã¢â‚¬Å“Double bid/askÃ¢â‚¬Â function, where stop orders are triggered based on two consecutive bid or ask prices.
+- 2 Ã¢â‚¬â€œ Ã¢â‚¬Å“LastÃ¢â‚¬Â function, where stop orders are triggered based on the last price
+- 3 Ã¢â‚¬â€œ Ã¢â‚¬Å“Double lastÃ¢â‚¬Â function
+- 4 Ã¢â‚¬â€œ Bid/ask function
+- 7 Ã¢â‚¬â€œ Last or bid/ask function
+- 8 Ã¢â‚¬â€œ Mid-point function
 
 Below is a table which indicates whether a given secType is compatible with  bid/ask-driven or last-driven trigger methods (method 7 only used in  iBot alerts)
 
@@ -6815,7 +6815,7 @@ Below is a table which indicates whether a given secType is compatible with  bid
 | ----------- | ------------------------ | ------------------ | ----------------------------------- | ----------------------------------------- |
 | STK         | yes                      | yes                | Last                                | The double bid/ask is used for OTC stocks |
 | CFD         | yes                      | yes                | Last                                |                                           |
-| CFD – Index | yes                      | n/a                | n/a                                 | Ex IBUS500                                |
+| CFD Ã¢â‚¬â€œ Index | yes                      | n/a                | n/a                                 | Ex IBUS500                                |
 | OPT         | yes                      | yes                | US OPT: Double bid/ask, Other: Last |                                           |
 | FOP         | yes                      | yes                | Last                                |                                           |
 | WAR         | yes                      | yes                | Last                                |                                           |
@@ -6841,9 +6841,9 @@ TWS Color Grouping Windows are identified by a colored chain in TWS and by  an i
 
 The IBApi.EClient.queryDisplayGroups method is used to request all  available Display Groups in TWS. The IBApi.EWrapper.displayGroupList is a one-time response to IBApi.EClient.queryDisplayGroups.
 
-It returns a list of integers representing visible Group ID separated by the “|”  character, and sorted by most used group first. This list will not  change during TWS session. In other words, user cannot add a new group,  but only the sorting of the group numbers can change.
+It returns a list of integers representing visible Group ID separated by the Ã¢â‚¬Å“|Ã¢â‚¬Â  character, and sorted by most used group first. This list will not  change during TWS session. In other words, user cannot add a new group,  but only the sorting of the group numbers can change.
 
-Example: “4|1|2|5|3|6|7”
+Example: Ã¢â‚¬Å“4|1|2|5|3|6|7Ã¢â‚¬Â
 
 ### Request Query Display GroupsCopy Location
 
@@ -6866,7 +6866,7 @@ self.queryDisplayGroups(requestId)
 
 **requestId:** Request identifier used to track data.
 
-**groups:** String. Returns a list of integers representing visible Group ID  separated by the “|” character, and sorted by most used group first.
+**groups:** String. Returns a list of integers representing visible Group ID  separated by the Ã¢â‚¬Å“|Ã¢â‚¬Â character, and sorted by most used group first.
  )
 
 A one-time response to querying the display groups.
@@ -7046,11 +7046,11 @@ def wshMetaData(self, reqId: int, dataJson: str):
 
 
 
-Once the json content has been received, the specific event types used to filter [EClient.reqWshEventData()](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#event-data) are listed under “meta_data” -> “event_types”.
+Once the json content has been received, the specific event types used to filter [EClient.reqWshEventData()](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#event-data) are listed under Ã¢â‚¬Å“meta_dataÃ¢â‚¬Â -> Ã¢â‚¬Å“event_typesÃ¢â‚¬Â.
 
-The “name” field will express what the filter will return, such as “Board of Directors Meeting”
+The Ã¢â‚¬Å“nameÃ¢â‚¬Â field will express what the filter will return, such as Ã¢â‚¬Å“Board of Directors MeetingÃ¢â‚¬Â
 
-The “tag” field will return the filter used in your JSON query. The related example would be “wshe_bod”.
+The Ã¢â‚¬Å“tagÃ¢â‚¬Â field will return the filter used in your JSON query. The related example would be Ã¢â‚¬Å“wshe_bodÃ¢â‚¬Â.
 
 ### Cancel Meta DataCopy Location
 
@@ -7073,7 +7073,7 @@ The function EClient.reqWshEventData is used to request various calendar  events
 
 **Note:** Prior to sending this message, the API client must make a request for metadata via [EClient.reqWshMetaData](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#meta-data).
 
-Also note that TWS will not support multiple concurrent requests. Previous  request should succeed, fail, or be cancelled by client before next one. TWS will reject such requests with text “Duplicate WSH meta-data  request” or “Duplicate WSH event request”.
+Also note that TWS will not support multiple concurrent requests. Previous  request should succeed, fail, or be cancelled by client before next one. TWS will reject such requests with text Ã¢â‚¬Å“Duplicate WSH meta-data  requestÃ¢â‚¬Â or Ã¢â‚¬Å“Duplicate WSH event requestÃ¢â‚¬Â.
 
 ### WshEventData ObjectCopy Location
 
@@ -7087,9 +7087,9 @@ Only one Event Type tag may be passed per request. Multiple submitted filters wi
 
 **conId:** String. Specify the contract identifier for the event request.
 
-**startDate:** String. Specify the start date of the event requests. Formatted as “YYYYMMDD”
+**startDate:** String. Specify the start date of the event requests. Formatted as Ã¢â‚¬Å“YYYYMMDDÃ¢â‚¬Â
 
-**endDate:** String. Specify the end date of the event requests. Formatted as “YYYYMMDD”
+**endDate:** String. Specify the end date of the event requests. Formatted as Ã¢â‚¬Å“YYYYMMDDÃ¢â‚¬Â
 
 **fillCompetitors:** bool. Automatically fill in competitor values of existing positions.
 
@@ -7102,8 +7102,8 @@ Only one Event Type tag may be passed per request. Multiple submitted filters wi
 **filter:** String. Json-formatted string containing all filter values. Some available values include:
 
 - watchlist: Array of string. Takes a single conid.
-- country: String. Specify a country code, or “All”.
-- [EClient.reqWshMetaData()](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#meta-data) responses will include an Event Type tag which can be used to filter  the Event Data’s response. The Json field is a boolean that can only  take true to filter the given value
+- country: String. Specify a country code, or Ã¢â‚¬Å“AllÃ¢â‚¬Â.
+- [EClient.reqWshMetaData()](https://www.interactivebrokers.com/campus/ibkr-api-page/twsapi-doc/#meta-data) responses will include an Event Type tag which can be used to filter  the Event DataÃ¢â‚¬â„¢s response. The Json field is a boolean that can only  take true to filter the given value
 
 ### Request Event DataCopy Location
 

@@ -12,10 +12,10 @@ This guide reflects the very latest version of the TWS API -**9.72 and higher**-
 
 # Requirements
 
-- • To obtain the TWS API source and sample code, download the [API Components](http://interactivebrokers.github.io/) (API version 9.73 or higher is required).
-   • To make use of TWS API 9.73+, will require [TWS build](https://www.interactivebrokers.com/en/index.php?f=14099#tws-software) 952.x or higher.
-   • A working knowledge of the programming language our **Testbed** sample projects are developed in.
-   • Python version 3.1 or higher is required to interpret Python API client.
+- Ã¢â‚¬Â¢ To obtain the TWS API source and sample code, download the [API Components](http://interactivebrokers.github.io/) (API version 9.73 or higher is required).
+   Ã¢â‚¬Â¢ To make use of TWS API 9.73+, will require [TWS build](https://www.interactivebrokers.com/en/index.php?f=14099#tws-software) 952.x or higher.
+   Ã¢â‚¬Â¢ A working knowledge of the programming language our **Testbed** sample projects are developed in.
+   Ã¢â‚¬Â¢ Python version 3.1 or higher is required to interpret Python API client.
 
 
 # Limitations
@@ -32,9 +32,9 @@ The TWS is designed to accept up to **fifty** messages per second coming from th
 
 If your regular trading account has been approved and funded, you can use your Account Management page to open a [Paper Trading Account](https://www.interactivebrokers.com/en/software/am/am/manageaccount/papertradingaccount.htm) which lets you use the full range of trading facilities in a simulated  environment using real market conditions. Using a Paper Trading Account  will allow you not only to get familiar with the TWS API but also to  test your trading strategies without risking your capital. Note the  paper trading environment has inherent [limitations](https://www.interactivebrokers.com/en/software/am/am/manageaccount/paper_trading_limitations.htm).
 
-## Intel® Decimal Floating-Point Math Library
+## IntelÃ‚Â® Decimal Floating-Point Math Library
 
-This product includes Intel® Decimal Floating-Point Math Library (in  binary form) developed by the Intel Corporation under its license which  can be found [here](https://github.com/InteractiveBrokers/tws-api/blob/master/source/cppclient/client/lib/eula.txt).
+This product includes IntelÃ‚Â® Decimal Floating-Point Math Library (in  binary form) developed by the Intel Corporation under its license which  can be found [here](https://github.com/InteractiveBrokers/tws-api/blob/master/source/cppclient/client/lib/eula.txt).
 
 
 
@@ -126,7 +126,7 @@ Once the TWS is up and running and actively listening for incoming  connections 
 
 The [IBApi.EWrapper](https://interactivebrokers.github.io/tws-api/interfaceIBApi_1_1EWrapper.html) interface is the mechanism through which the TWS delivers information  to the API client application. By implementing this interface the client application will be able to receive and handle the information coming  from the TWS. For further information on how to implement interfaces,  refer to your programming language's documentation.
 
-- ​    1 class TestWrapper(wrapper.EWrapper):
+- Ã¢â‚¬â€¹    1 class TestWrapper(wrapper.EWrapper):
 
 # The EClientSocket Class
 
@@ -134,21 +134,21 @@ The class used to send messages to TWS is [IBApi.EClientSocket](https://interact
 
 Another crucial element is the [IBApi.EReaderSignal](https://interactivebrokers.github.io/tws-api/interfaceIBApi_1_1EReaderSignal.html) object passed to theEClientSocket's constructor. With the exception of  Python, this object is used in APIs to signal a message is ready for  processing in the queue. (In Python the Queue class handles this task  directly). We will discuss this object in more detail in the [The EReader Thread](https://interactivebrokers.github.io/tws-api/connection.html#ereader) section.
 
-- ​    1 class TestClient(EClient):
+- Ã¢â‚¬â€¹    1 class TestClient(EClient):
 
-  ​    2    def __init__(self, wrapper):
+  Ã¢â‚¬â€¹    2    def __init__(self, wrapper):
 
-  ​    3        EClient.__init__(self, wrapper)
+  Ã¢â‚¬â€¹    3        EClient.__init__(self, wrapper)
 
    ...
 
-  ​    1 class TestApp(TestWrapper, TestClient):
+  Ã¢â‚¬â€¹    1 class TestApp(TestWrapper, TestClient):
 
-  ​    2    def __init__(self):
+  Ã¢â‚¬â€¹    2    def __init__(self):
 
-  ​    3        TestWrapper.__init__(self)
+  Ã¢â‚¬â€¹    3        TestWrapper.__init__(self)
 
-  ​    4        TestClient.__init__(self, wrapper=self)
+  Ã¢â‚¬â€¹    4        TestClient.__init__(self, wrapper=self)
 
   **Note:**  The EReaderSignal class is not used for Python  API. The Python Queue module is used for inter-thread communication and  data exchange.
 
@@ -166,7 +166,7 @@ A socket connection between the API client application and TWS is established wi
 
 Once our two main objects have been created, EWrapper and ESocketClient, the client application can connect via the [IBApi.EClientSocket](https://interactivebrokers.github.io/tws-api/classIBApi_1_1EClientSocket.html) object:
 
-- ​    1        app.connect("127.0.0.1", args.port, clientId=0)
+- Ã¢â‚¬â€¹    1        app.connect("127.0.0.1", args.port, clientId=0)
 
 eConnect starts by requesting from the operating system that a TCP  socket be opened to the specified IP address and socket port. If the  socket cannot be opened, the operating system (not TWS) returns an error which is received by the API client as error code 502 to [IBApi.EWrapper.error](https://interactivebrokers.github.io/tws-api/interfaceIBApi_1_1EWrapper.html#a7dfc221702ca65195609213c984729b8) (Note: since this error is not generated by TWS it is not captured in  TWS log files). Most commonly error 502 will indicate that TWS is not  running with the API enabled, or it is listening for connections on a  different socket port. If connecting across a network, the error can  also occur if there is a firewall or antivirus program blocking  connections, or if the router's IP address is not listed in the "Trusted IPs" in TWS.
 
@@ -192,11 +192,11 @@ The class which has functionality for reading and parsing raw messages from TWS 
 
    for user to start the reader.
 
-  ​    1        # You don't need to run this in your code!
+  Ã¢â‚¬â€¹    1        # You don't need to run this in your code!
 
-  ​    2        self.reader = reader.EReader(self.conn, self.msg_queue)
+  Ã¢â‚¬â€¹    2        self.reader = reader.EReader(self.conn, self.msg_queue)
 
-  ​    3        self.reader.start()   # start thread
+  Ã¢â‚¬â€¹    3        self.reader.start()   # start thread
 
    Once the client is connected, a reader thread will be automatically  created to handle incoming messages and put the messages into a message  queue for further process. User
 
@@ -204,7 +204,7 @@ The class which has functionality for reading and parsing raw messages from TWS 
 
    to trigger  Client::run() below, where the message queue is processed in an infinite loop and the EWrapper call-back functions are automatically triggered.
 
-  ​    1        app.run()
+  Ã¢â‚¬â€¹    1        app.run()
 
 Now it is time to revisit the role of [IBApi.EReaderSignal](https://interactivebrokers.github.io/tws-api/interfaceIBApi_1_1EReaderSignal.html) initially introduced in [The EClientSocket Class](https://interactivebrokers.github.io/tws-api/client_wrapper.html#client_socket). As mentioned in the previous paragraph, after the EReader thread places a message in the queue, a notification is issued to make known that a  message is ready for processing. In the (C++, C#/.NET, Java) APIs, this  is done via the [IBApi.EReaderSignal](https://interactivebrokers.github.io/tws-api/interfaceIBApi_1_1EReaderSignal.html) object we initiated within the [IBApi.EWrapper](https://interactivebrokers.github.io/tws-api/interfaceIBApi_1_1EWrapper.html)'s implementer. In the Python API, it is handled automatically by the [Queue class](https://docs.python.org/3/library/queue.html).
 
@@ -250,7 +250,7 @@ An [IBApi.Contract](https://interactivebrokers.github.io/tws-api/classIBApi_1_1C
 
 Every time a new request that requires a contract (i.e. market data,  order placing, etc.) is sent to TWS, the platform will try to match the  provided contract object with a single candidate. If there is more than  one contract matching the same description, TWS will return an error  notifying you there is an ambiguity. In these cases the TWS needs  further information to narrow down the list of contracts matching the  provided description to a single element.
 
-The best way of finding a contract’s description is within the TWS  itself. Within the TWS, you can easily check a contract’s description  either by double clicking it or through the **Contract Info -> Description** menu, which you access by right-clicking a contract in TWS:
+The best way of finding a contractÃ¢â‚¬â„¢s description is within the TWS  itself. Within the TWS, you can easily check a contractÃ¢â‚¬â„¢s description  either by double clicking it or through the **Contract Info -> Description** menu, which you access by right-clicking a contract in TWS:
 
 ![contract_info_tws.png](https://interactivebrokers.github.io/tws-api/contract_info_tws.png)
 
@@ -437,60 +437,60 @@ The option chain for a given security can be returned using the  function reqCon
 
 The example below shows an "incomplete" option [IBApi.Contract](https://interactivebrokers.github.io/tws-api/classIBApi_1_1Contract.html) with no last trading day, strike nor multiplier defined. In most cases  using such a contract would result into a contract ambiguity error since there are lots of instruments matching the same description. [IBApi.EClient.reqContractDetails](https://interactivebrokers.github.io/tws-api/classIBApi_1_1EClient.html#ade440c6db838b548594981d800ea5ca9) will instead use it to obtain the whole option chain from the TWS.
 
-- ​    1        contract = Contract()
+- Ã¢â‚¬â€¹    1        contract = Contract()
 
-  ​    2        contract.symbol = "FISV"
+  Ã¢â‚¬â€¹    2        contract.symbol = "FISV"
 
-  ​    3        contract.secType = "OPT"
+  Ã¢â‚¬â€¹    3        contract.secType = "OPT"
 
-  ​    4        contract.exchange = "SMART"
+  Ã¢â‚¬â€¹    4        contract.exchange = "SMART"
 
-  ​    5        contract.currency = "USD"
+  Ã¢â‚¬â€¹    5        contract.currency = "USD"
 
    ...
 
-  ​    1        self.reqContractDetails(210, ContractSamples.OptionForQuery())
+  Ã¢â‚¬â€¹    1        self.reqContractDetails(210, ContractSamples.OptionForQuery())
 
-  ​    2        self.reqContractDetails(211, ContractSamples.EurGbpFx())
+  Ã¢â‚¬â€¹    2        self.reqContractDetails(211, ContractSamples.EurGbpFx())
 
-  ​    3        self.reqContractDetails(212, ContractSamples.Bond())
+  Ã¢â‚¬â€¹    3        self.reqContractDetails(212, ContractSamples.Bond())
 
-  ​    4        self.reqContractDetails(213, ContractSamples.FuturesOnOptions())
+  Ã¢â‚¬â€¹    4        self.reqContractDetails(213, ContractSamples.FuturesOnOptions())
 
-  ​    5        self.reqContractDetails(214, ContractSamples.SimpleFuture())
+  Ã¢â‚¬â€¹    5        self.reqContractDetails(214, ContractSamples.SimpleFuture())
 
-  ​    6        self.reqContractDetails(215, ContractSamples.USStockAtSmart())
+  Ã¢â‚¬â€¹    6        self.reqContractDetails(215, ContractSamples.USStockAtSmart())
 
-  ​    7        self.reqContractDetails(216, ContractSamples.CryptoContract())
+  Ã¢â‚¬â€¹    7        self.reqContractDetails(216, ContractSamples.CryptoContract())
 
-  ​    8        self.reqContractDetails(217, ContractSamples.ByIssuerId())
+  Ã¢â‚¬â€¹    8        self.reqContractDetails(217, ContractSamples.ByIssuerId())
 
-  ​    9        self.reqContractDetails(219, ContractSamples.FundContract())
+  Ã¢â‚¬â€¹    9        self.reqContractDetails(219, ContractSamples.FundContract())
 
 One limitation of this technique is that the return of option chains  will be throttled and take a longer time the more ambiguous the contract definition. Starting in version 9.72 of the API, a new function [IBApi::EClient::reqSecDefOptParams](https://interactivebrokers.github.io/tws-api/classIBApi_1_1EClient.html#adb17b291044d2f8dcca5169b2c6fd690) is introduced that does not have the throttling limitation.
 
 - It is not recommended to use reqContractDetails to receive complete  option chains on an underlying, e.g. all combinations of  strikes/rights/expiries.
 - For very large option chains returned from reqContractDetails,  unchecking the setting in TWS Global Configuration at API -> Settings -> "Expose entire trading schedule to the API" will decrease the  amount of data returned per option and help to return the contract list  more quickly.
 
-- ​    1        self.reqSecDefOptParams(0, "IBM", "", "STK", 8314)
+- Ã¢â‚¬â€¹    1        self.reqSecDefOptParams(0, "IBM", "", "STK", 8314)
 
    ...
 
-  ​    1    def securityDefinitionOptionParameter(self, reqId: int, exchange: str,
+  Ã¢â‚¬â€¹    1    def securityDefinitionOptionParameter(self, reqId: int, exchange: str,
 
-  ​    2                                          underlyingConId: int, tradingClass: str, multiplier: str,
+  Ã¢â‚¬â€¹    2                                          underlyingConId: int, tradingClass: str, multiplier: str,
 
-  ​    3                                          expirations: SetOfString, strikes: SetOfFloat):
+  Ã¢â‚¬â€¹    3                                          expirations: SetOfString, strikes: SetOfFloat):
 
-  ​    4        super().securityDefinitionOptionParameter(reqId, exchange,
+  Ã¢â‚¬â€¹    4        super().securityDefinitionOptionParameter(reqId, exchange,
 
-  ​    5                                                  underlyingConId, tradingClass, multiplier, expirations, strikes)
+  Ã¢â‚¬â€¹    5                                                  underlyingConId, tradingClass, multiplier, expirations, strikes)
 
-  ​    6        print("SecurityDefinitionOptionParameter.",
+  Ã¢â‚¬â€¹    6        print("SecurityDefinitionOptionParameter.",
 
-  ​    7              "ReqId:", reqId, "Exchange:", exchange, "Underlying conId:", intMaxString(underlyingConId), "TradingClass:", tradingClass, "Multiplier:", multiplier,
+  Ã¢â‚¬â€¹    7              "ReqId:", reqId, "Exchange:", exchange, "Underlying conId:", intMaxString(underlyingConId), "TradingClass:", tradingClass, "Multiplier:", multiplier,
 
-  ​    8              "Expirations:", expirations, "Strikes:", str(strikes))
+  Ã¢â‚¬â€¹    8              "Expirations:", expirations, "Strikes:", str(strikes))
 
 [IBApi::EClient::reqSecDefOptParams](https://interactivebrokers.github.io/tws-api/classIBApi_1_1EClient.html#adb17b291044d2f8dcca5169b2c6fd690) returns a list of expiries and a list of strike prices. In some cases  it is possible there are combinations of strike and expiry that would  not give a valid option contract.
 
@@ -505,9 +505,9 @@ Options are exercised or lapsed from the API with the function [IBApi.EClient.ex
 - Option exercise will appear with order status side = "BUY" and limit price of 0, but only at the time the request is made
 - Option exercise can be distinguished by price = 0
 
-- ​    1        self.exerciseOptions(5003, ContractSamples.OptionWithTradingClass(), 1,
+- Ã¢â‚¬â€¹    1        self.exerciseOptions(5003, ContractSamples.OptionWithTradingClass(), 1,
 
-  ​    2                             1, self.account, 1, "20231018-12:00:00")
+  Ã¢â‚¬â€¹    2                             1, self.account, 1, "20231018-12:00:00")
 
 
 
@@ -522,39 +522,39 @@ Starting with *TWS v985+* and after *API v985+*, **Fundamental** data from the *
 
 The function [IBApi.EClient.reqWshMetaData](https://interactivebrokers.github.io/tws-api/classIBApi_1_1EClient.html#a66b482661e36604c43c4a7087bd7840f) is used to request metadata describing calendar events.
 
-- ​    1        self.reqWshMetaData(1100)
+- Ã¢â‚¬â€¹    1        self.reqWshMetaData(1100)
 
 The metadata is then received via the callback [IBApi.EWrapper.wshMetaData](https://interactivebrokers.github.io/tws-api/interfaceIBApi_1_1EWrapper.html#ac9de56b7a92ccc5833a44d09f1f5894c)
 
-- ​    1    def wshMetaData(self, reqId: int, dataJson: str):
+- Ã¢â‚¬â€¹    1    def wshMetaData(self, reqId: int, dataJson: str):
 
-  ​    2        super().wshMetaData(reqId, dataJson)
+  Ã¢â‚¬â€¹    2        super().wshMetaData(reqId, dataJson)
 
-  ​    3        print("WshMetaData.", "ReqId:", reqId, "Data JSON:", dataJson)
+  Ã¢â‚¬â€¹    3        print("WshMetaData.", "ReqId:", reqId, "Data JSON:", dataJson)
 
 Pending metadata requests can be canceled with the function [IBApi.EClient.cancelWshMetaData](https://interactivebrokers.github.io/tws-api/classIBApi_1_1EClient.html#aba0873c63be720f0c7349931df58376b)
 
 The function [IBApi.EClient.reqWshEventData](https://interactivebrokers.github.io/tws-api/classIBApi_1_1EClient.html#ac3dcd47d72844657c71e9de109eb15d0) is used to request the calendar events. *Note:* Prior to sending this message, it is expected that the API client request metadata via [IBApi.EClient.reqWshMetaData](https://interactivebrokers.github.io/tws-api/classIBApi_1_1EClient.html#a66b482661e36604c43c4a7087bd7840f), else an error may be reported.
 
-- ​    1        wshEventData1 = WshEventData()
+- Ã¢â‚¬â€¹    1        wshEventData1 = WshEventData()
 
-  ​    2        wshEventData1.conId = 8314
+  Ã¢â‚¬â€¹    2        wshEventData1.conId = 8314
 
-  ​    3        wshEventData1.startDate = "20220511"
+  Ã¢â‚¬â€¹    3        wshEventData1.startDate = "20220511"
 
-  ​    4        wshEventData1.totalLimit = 5
+  Ã¢â‚¬â€¹    4        wshEventData1.totalLimit = 5
 
-  ​    5        self.reqWshEventData(1101, wshEventData1)
+  Ã¢â‚¬â€¹    5        self.reqWshEventData(1101, wshEventData1)
 
 As seen above, currently the event data can only be filtered by  conId. At a later point, filter parameters may be added for account,  datePeriod, wholeMonthEvents, etc.
 
 The event data is then received via the callback [IBApi.EWrapper.wshEventData](https://interactivebrokers.github.io/tws-api/interfaceIBApi_1_1EWrapper.html#ab4c0efad8874acb622f96b8d07f18c8e)
 
-- ​    1    def wshEventData(self, reqId: int, dataJson: str):
+- Ã¢â‚¬â€¹    1    def wshEventData(self, reqId: int, dataJson: str):
 
-  ​    2        super().wshEventData(reqId, dataJson)
+  Ã¢â‚¬â€¹    2        super().wshEventData(reqId, dataJson)
 
-  ​    3        print("WshEventData.", "ReqId:", reqId, "Data JSON:", dataJson)
+  Ã¢â‚¬â€¹    3        print("WshEventData.", "ReqId:", reqId, "Data JSON:", dataJson)
 
 Pending event data requests can be canceled with the function [IBApi.EClient.cancelWshEventData](https://interactivebrokers.github.io/tws-api/classIBApi_1_1EClient.html#a5317aac7fb42545d519b46709b70c805)
 
