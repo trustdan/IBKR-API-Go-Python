@@ -1,0 +1,68 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Go binaries and build artifacts
+*.exe
+*.dll
+*.so
+*.dylib
+go/scanner
+go/bin/
+go/pkg/mod/
+
+# Visual Studio Code
+.vscode/
+*.code-workspace
+.history/
+
+# Environment and project-specific files
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Cache directories
+.cache/
+.mypy_cache/
+.npm
+.eslintcache
+.pytest_cache/
+
+# IDE files
+.idea/
+*.iml
+*.swp
+*.swo
