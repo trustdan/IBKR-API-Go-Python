@@ -288,11 +288,10 @@
                   {#each containers as container}
                     <tr>
                       <td>{container.Name}</td>
-                      <td class:{
-                        running: container.Status.includes('Up'),
-                        paused: container.Status.includes('Paused'),
-                        stopped: !container.Status.includes('Up')
-                      }>{container.Status}</td>
+                      <td class="{
+                        container.Status.includes('Up') ? 'running' :
+                        container.Status.includes('Paused') ? 'paused' : 'stopped'
+                      }">{container.Status}</td>
                       <td>{new Date(container.Created).toLocaleString()}</td>
                     </tr>
                   {/each}

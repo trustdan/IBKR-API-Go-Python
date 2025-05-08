@@ -12,7 +12,7 @@ import (
 	"time"
 
 	"github.com/BurntSushi/toml"
-	"github.com/docker/docker/api/types/container"
+	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/filters"
 	"github.com/docker/docker/client"
 )
@@ -243,7 +243,7 @@ func (a *App) GetContainers() ([]ContainerInfo, error) {
 	f := filters.NewArgs()
 	f.Add("label", "app=ibkr-trader")
 
-	containers, err := a.dockerCli.ContainerList(a.ctx, container.ListOptions{
+	containers, err := a.dockerCli.ContainerList(a.ctx, types.ContainerListOptions{
 		All:     true,
 		Filters: f,
 	})

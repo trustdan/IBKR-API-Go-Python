@@ -5,7 +5,7 @@ import (
 	"os"
 	"os/exec"
 	"regexp"
-	"runtime"
+	goruntime "runtime"
 	"strings"
 	"time"
 
@@ -149,7 +149,7 @@ func isNamespaceAvailable(namespace string) bool {
 }
 
 func isTWSRunning() bool {
-	if runtime.GOOS == "windows" {
+	if goruntime.GOOS == "windows" {
 		// For Windows, use tasklist
 		cmd := exec.Command("tasklist", "/FI", "IMAGENAME eq Trader*.exe", "/FO", "CSV")
 		output, err := cmd.Output()
@@ -163,7 +163,7 @@ func isTWSRunning() bool {
 		if err == nil && strings.Contains(string(output), "IB") {
 			return true
 		}
-	} else if runtime.GOOS == "darwin" || runtime.GOOS == "linux" {
+	} else if goruntime.GOOS == "darwin" || goruntime.GOOS == "linux" {
 		// For macOS/Linux, use ps
 		cmd := exec.Command("ps", "-e")
 		output, err := cmd.Output()

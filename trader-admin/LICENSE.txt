@@ -1,0 +1,2 @@
+TraderAdmin - IBKR Auto Trader
+MIT License

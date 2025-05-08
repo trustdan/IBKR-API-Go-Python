@@ -291,6 +291,26 @@ export namespace main {
 
 
 
+	export class ServiceStatus {
+	    name: string;
+	    status: string;
+	    isOk: boolean;
+	    message: string;
+	    extraMsg?: string;
+
+	    static createFrom(source: any = {}) {
+	        return new ServiceStatus(source);
+	    }
+
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.name = source["name"];
+	        this.status = source["status"];
+	        this.isOk = source["isOk"];
+	        this.message = source["message"];
+	        this.extraMsg = source["extraMsg"];
+	    }
+	}
 
 
 

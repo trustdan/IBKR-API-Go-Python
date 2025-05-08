@@ -42,7 +42,7 @@ Var TWSStatus
 Var InstallAllowed
 
 ; Modern UI configuration
-!define MUI_ICON "TraderAdmin\frontend\src\assets\images\appicon.png"
+!define MUI_ICON "${NSISDIR}\Contrib\Graphics\Icons\modern-install.ico"
 !define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\modern-uninstall.ico"
 !define MUI_WELCOMEFINISHPAGE_BITMAP "${NSISDIR}\Contrib\Graphics\Wizard\win.bmp"
 !define MUI_UNWELCOMEFINISHPAGE_BITMAP "${NSISDIR}\Contrib\Graphics\Wizard\win.bmp"
@@ -163,6 +163,10 @@ Section "Install"
 
     ; Add application files
     File /r "TraderAdmin\*.*"
+
+    ; Copy the executable to the root install directory for easier shortcut creation
+    SetOutPath "$INSTDIR"
+    File "TraderAdmin\build\bin\TraderAdmin.exe"
 
     ; Create uninstaller
     WriteUninstaller "$INSTDIR\Uninstall.exe"

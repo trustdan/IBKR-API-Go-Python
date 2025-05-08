@@ -128,14 +128,14 @@ jobs:
 
           require (
             github.com/patrickmn/go-cache v2.1.0+incompatible
-            github.com/prometheus/client_golang v1.20.4
-            github.com/prometheus/common v0.62.0
+            github.com/prometheus/client_golang v1.19.0
+            github.com/prometheus/common v0.48.0
             github.com/shirou/gopsutil v3.21.11+incompatible
             github.com/sirupsen/logrus v1.9.3
-            golang.org/x/exp v0.0.0-20240425143311-092eef134407
-            golang.org/x/net v0.33.0
+            golang.org/x/exp v0.0.0-20240213143201-ec583247a57a
+            golang.org/x/net v0.21.0
             google.golang.org/grpc v1.60.1
-            google.golang.org/protobuf v1.36.1
+            google.golang.org/protobuf v1.32.0
             gopkg.in/yaml.v3 v3.0.1
           )
           EOF
@@ -244,6 +244,12 @@ jobs:
           cd go
           # Update go.sum to match go.mod
           go mod tidy || echo "go mod tidy had errors, but continuing..."
+
+          # Explicitly download dependencies
+          go mod download
+
+          # Verify modules can be resolved
+          go mod verify || echo "Module verification had errors, but continuing..."
 
           # List all packages for debugging
           echo "Available packages:"

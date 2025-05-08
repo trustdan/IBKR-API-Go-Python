@@ -1,50 +1,77 @@
-# PowerShell script to fix whitespace and end-of-file issues
+#!/usr/bin/env pwsh
 
-# Function to fix trailing whitespace in a file
-function Fix-TrailingWhitespace {
-    param([string]$filePath)
+$textExtensions = @(
+    ".py", ".go", ".js", ".jsx", ".ts", ".tsx", ".html", ".css", ".scss",
+    ".md", ".txt", ".yml", ".yaml", ".json", ".toml", ".xml", ".sh",
+    ".bat", ".ps1", ".nsi", ".sql", ".cfg", ".conf", ".ini"
+)
 
-    Write-Host "Fixing trailing whitespace in $filePath"
+$excludeDirs = @(
+    ".git", "node_modules", "venv", "env", "__pycache__",
+    "dist", "build", "bin", "obj", "target", "Debug", "Release"
+)
 
-    # Read all lines from the file
-    $content = Get-Content -Path $filePath -Raw
+function Should-ProcessFile {
+    param (
+        [string]$filePath
+    )
 
-    # Replace trailing whitespace with nothing
-    $newContent = $content -replace '[ \t]+$', '' -replace '\r\n', "`n"
-
-    # Write the content back to the file with proper line endings
-    $utf8NoBom = New-Object System.Text.UTF8Encoding $false
-    [System.IO.File]::WriteAllText($filePath, $newContent, $utf8NoBom)
-}
-
-# Function to fix end-of-file issues (ensure there's exactly one newline at the end)
-function Fix-EndOfFile {
-    param([string]$filePath)
-
-    Write-Host "Fixing end-of-file in $filePath"
-
-    # Read all lines from the file
-    $content = Get-Content -Path $filePath -Raw
-
-    # Ensure there's exactly one newline at the end
-    $content = $content -replace '[^\S\r\n]*$', ''
-    if (-not $content.EndsWith("`n")) {
-        $content += "`n"
+    $extension = [System.IO.Path]::GetExtension($filePath).ToLower()
+    if ($textExtensions -notcontains $extension) {
+        return $false
     }
 
-    # Write the content back to the file with proper line endings
-    $utf8NoBom = New-Object System.Text.UTF8Encoding $false
-    [System.IO.File]::WriteAllText($filePath, $content, $utf8NoBom)
+    foreach ($dir in $excludeDirs) {
+        if ($filePath -match [regex]::Escape($dir)) {
+            return $false
+        }
+    }
+
+    return $true
 }
 
-# Find all text files in the repository
-$files = Get-ChildItem -Recurse -File | Where-Object {
-    $_.Extension -match '\.(md|yaml|yml|json|ps1|sh|py|go|js|jsx|ts|tsx|css|scss|html|htm|xml|txt|conf|cfg|ini|toml|sql)$'
+function Fix-FileEndings {
+    param (
+        [string]$filePath
+    )
+
+    try {
+        $content = Get-Content -Path $filePath -Raw
+        if ($null -eq $content) {
+            return $false
+        }
+
+        # Fix line endings to LF and remove trailing whitespace
+        $newContent = $content -replace "`r`n", "`n"
+        $newContent = $newContent -replace "[ `t]+`n", "`n"
+        $newContent = $newContent.TrimEnd() + "`n"
+
+        if ($content -ne $newContent) {
+            [System.IO.File]::WriteAllText($filePath, $newContent)
+            Write-Host "Fixed: $filePath"
+            return $true
+        }
+
+        return $false
+    }
+    catch {
+        Write-Error "Error processing $filePath`: $_"
+        return $false
+    }
 }
 
-foreach ($file in $files) {
-    Fix-TrailingWhitespace -filePath $file.FullName
-    Fix-EndOfFile -filePath $file.FullName
+$modifiedCount = 0
+$examinedCount = 0
+
+Get-ChildItem -Path . -Recurse -File | ForEach-Object {
+    $filePath = $_.FullName
+    if (Should-ProcessFile $filePath) {
+        $examinedCount++
+        if (Fix-FileEndings $filePath) {
+            $modifiedCount++
+        }
+    }
 }
 
-Write-Host "All files fixed!"
+Write-Host "`nExamined $examinedCount files"
+Write-Host "Modified $modifiedCount files"
