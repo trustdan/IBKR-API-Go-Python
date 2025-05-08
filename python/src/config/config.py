@@ -4,6 +4,8 @@ Loads settings from YAML files and environment variables.
 """
 
 import os
+import signal
+import threading
 from pathlib import Path
 from typing import Any, Dict, Optional
 
@@ -25,6 +27,7 @@ class Config:
             config_path: Path to configuration YAML file. If None, uses default.
         """
         self.config_data: Dict[str, Any] = {}
+        self.lock = threading.Lock()
 
         # Default config path
         if config_path is None:
@@ -32,6 +35,20 @@ class Config:
 
         self.config_path = Path(config_path)
         self._load_config()
+
+        # Register signal handler for SIGUSR1
+        try:
+            signal.signal(signal.SIGUSR1, self._handle_reload_signal)
+            print("Registered SIGUSR1 handler for config reloading")
+        except Exception as e:
+            print(f"Warning: Failed to register SIGUSR1 handler: {e}")
+
+    def _handle_reload_signal(self, *_) -> None:
+        """Handle SIGUSR1 signal to reload configuration."""
+        print("Received SIGUSR1 signal, reloading configuration...")
+        with self.lock:
+            self._load_config()
+        print("Configuration reloaded successfully")
 
     def _load_config(self) -> None:
         """Load configuration from YAML file."""
@@ -63,16 +80,17 @@ class Config:
             return env_value
 
         # If not in environment, check config file
-        keys = key.split(".")
-        value = self.config_data
+        with self.lock:
+            keys = key.split(".")
+            value = self.config_data
 
-        for k in keys:
-            if isinstance(value, dict) and k in value:
-                value = value[k]
-            else:
-                return default
+            for k in keys:
+                if isinstance(value, dict) and k in value:
+                    value = value[k]
+                else:
+                    return default
 
-        return value
+            return value
 
     def __getattr__(self, name: str) -> Any:
         """Allow accessing config values as attributes."""

@@ -498,3 +498,127 @@ Users of this software are solely responsible for ensuring compliance with all a
 The authors, contributors, and maintainers of this software expressly disclaim all liability for any direct, indirect, consequential, incidental, or special damages arising out of or in any way connected with the use of or inability to use this software.
 
 BY USING THIS SOFTWARE, YOU ACKNOWLEDGE THAT YOU HAVE READ THIS DISCLAIMER, UNDERSTAND IT, AND AGREE TO BE BOUND BY ITS TERMS.
+
+## New Feature: TraderAdmin GUI
+
+We've implemented a new Wails desktop GUI for managing the trading system configuration. The TraderAdmin tool provides a "pause → edit → unpause" workflow that lets you modify settings without disrupting TWS connections or restarting containers.
+
+### System Architecture
+
+```
+┌─────────────────────────────────────────────────────────┐
+│ Host OS (Windows / macOS)                              │
+│                                                         │
+│  • Trader Workstation (TWS) GUI  ← you still log in     │
+│  • Wails "TraderAdmin" GUI  ← pause/edit/unpause cfg    │
+│                                                         │
+│  Docker Desktop (includes containerd + k8s)             │
+│    ├─ Kubernetes control-plane                          │
+│    │   └─ our namespace: trader-stack/                  │
+│    │        • python-orchestrator   (Pod)               │
+│    │        • go-scanner            (Pod)               │
+│    │        • redis / postgres …    (Pods)              │
+│    │        • config-volume (PVC)   ────┐               │
+│    │                                    │ mounted RO    │
+│    └─ docker engine (same socket)       │               │
+│         ↳ visible to Wails via          │               │
+│           //./pipe/docker_engine        │               │
+└─────────────────────────────────────────┘
+```
+
+### Configuration and Reload Process
+
+```
+┌────────────────────────────┐
+│  Wails GUI (Go+Svelte)     │
+│  • Form → Config model     │
+│  • Status panel (Docker)   │
+└────────────┬───────────────┘
+             │ 1. POST /save-config
+             ▼
+┌────────────────────────────┐
+│  Wails backend (Go)        │
+│  • Validate + persist TOML │
+│  • docker-pause targets    │
+│  • SIGUSR1 to reload cfg   │
+│  • docker-unpause targets  │
+└────────────┬───────────────┘
+             │ 2. SIGHUP/USR1
+             ▼
+┌────────────────────────────┐
+│  Python Orchestrator       │
+│  • watchdog for SIGUSR1    │
+│  • re-read config & resume │
+└────────────────────────────┘
+┌────────────────────────────┐
+│  Go Scanner (gRPC)         │
+│  • fsnotify on cfg mount   │
+│  • atomic swap of params   │
+└────────────────────────────┘
+```
+
+### Quick Start
+
+1. **Start Docker Desktop** with Kubernetes enabled
+2. **Deploy the trader stack**: `kubectl apply -k kubernetes/base/`
+3. **Start Trader Workstation or IB Gateway** and log in
+4. **Launch TraderAdmin** from the installer (or build from source)
+5. Edit parameters as needed and click "Save & Restart"
+
+Total interruption time is typically less than 500ms, so TWS never notices any disconnect.
+
+### Windows Installer
+
+We now provide an NSIS-based installer for Windows users that:
+
+1. **Verifies system requirements** including:
+   - Docker Desktop
+   - Kubernetes
+   - TWS/IB Gateway availability
+2. **Installs the application** with proper Windows integration:
+   - Desktop and Start Menu shortcuts
+   - Registry entries
+   - Configuration management
+3. **Provides uninstallation** with option to preserve configuration files
+
+To install:
+1. Download the latest `TraderAdmin-Setup-1.0.0.exe` release
+2. Run the installer and follow the prompts
+3. Launch from Start Menu or Desktop shortcut
+
+### Daily Operator Workflow
+
+| Step | Action                                                       |
+| ---- | ------------------------------------------------------------ |
+| 1    | **Start Docker Desktop** (brings up k8s)                    |
+| 2    | `kubectl apply -k deploy/` – spins up the trading pods      |
+| 3    | **Launch TWS / IB Gateway** and log in                      |
+| 4    | **Run TraderAdmin** • *Save* performs `Pause → write config → Unpause + SIGUSR1` |
+
+### Key Features
+
+- **Live Container Status**: Monitor running containers in real-time
+- **Edit Configuration**: Modify trading parameters through an intuitive GUI
+- **Pause/Unpause Stack**: Temporarily halt trading while making changes
+- **Hot Reload**: Apply configuration changes without restarting containers
+- **System Status Checks**: Verify Docker, Kubernetes, and TWS availability
+
+### Configuration Management
+
+The system now uses TOML format for configuration, providing better interoperability between Python and Go services. Both services include signal handlers (SIGUSR1) and file watchers to detect and reload configuration changes automatically.
+
+### Kubernetes Integration
+
+The trader components are now fully Kubernetes-ready with:
+- Persistent volume for shared configuration
+- Proper container labeling for discovery
+- Read-only config mounts for services
+
+### Implementation Details
+
+See the full implementation details in:
+- `trader-admin/README.md` - Overview of the implementation
+- `trader-admin/IMPLEMENTATION.md` - Technical implementation details
+- `trader-admin/INSTALLER_GUIDE.md` - Guide for the Windows installer
+- `trader-admin/NSIS-README.md` - Technical details of the installer implementation
+- `trader-admin/TraderAdmin/README.md` - User guide for the TraderAdmin tool

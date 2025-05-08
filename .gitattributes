@@ -1,34 +1,41 @@
-# Auto detect text files and perform LF normalization
+# Set default behavior to automatically normalize line endings
 * text=auto
 
-# Python files
-*.py text diff=python
-*.pyw text diff=python
-
-# Shell scripts
-*.sh text eol=lf
-*.bash text eol=lf
-
-# PowerShell scripts
-*.ps1 text eol=crlf
-
-# Docker files
-Dockerfile text eol=lf
-*.dockerfile text eol=lf
-docker-compose*.yml text eol=lf
-docker-compose*.yaml text eol=lf
-
-# Config files
+# Explicitly declare text files that should always use LF line endings
+*.go text eol=lf
+*.py text eol=lf
+*.js text eol=lf
+*.ts text eol=lf
+*.jsx text eol=lf
+*.tsx text eol=lf
 *.json text eol=lf
-*.yaml text eol=lf
 *.yml text eol=lf
+*.yaml text eol=lf
 *.toml text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
+*.html text eol=lf
+*.css text eol=lf
+*.scss text eol=lf
+*.sh text eol=lf
+Dockerfile text eol=lf
+*.nsi text eol=lf
+*.bat text eol=crlf
 
-# Documentation
-*.md text diff=markdown
-LICENSE text
-*.txt text
-
-# Git files
-.gitattributes text eol=lf
-.gitignore text eol=lf
+# Denote binary files which should not be modified
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
+*.pdf binary
+*.exe binary
+*.dll binary
+*.zip binary
+*.tar binary
+*.gz binary
+*.7z binary

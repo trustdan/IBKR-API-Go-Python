@@ -1,0 +1,17 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- orchestrator-deployment.yaml
+- scanner-deployment.yaml
+- config-pvc.yaml
+
+namespace: trader-stack
+
+commonLabels:
+  app: ibkr-trader
+
+configMapGenerator:
+- name: trader-config
+  files:
+  - config.toml=../../python/config/config.yaml

@@ -2,8 +2,11 @@ package config
 
 import (
 	"io/ioutil"
+	"log"
+	"sync/atomic"
 	"time"
 
+	"github.com/fsnotify/fsnotify"
 	"gopkg.in/yaml.v3"
 )
 
@@ -41,6 +44,9 @@ type Config struct {
 	ProfilerEndpoint string `yaml:"profiler_endpoint"`
 }
 
+// Global atomic pointer to the current configuration
+var globalConfig atomic.Pointer[Config]
+
 // LoadConfig loads the configuration from a YAML file
 func LoadConfig(configFile string) (*Config, error) {
 	// Set default values
@@ -76,6 +82,9 @@ func LoadConfig(configFile string) (*Config, error) {
 		return config, err
 	}
 
+	// Store the config in the atomic pointer
+	globalConfig.Store(config)
+
 	return config, nil
 }
 
@@ -100,4 +109,59 @@ func DefaultConfig() *Config {
 		ProfilerEnabled:      false,
 		ProfilerEndpoint:     "/debug/pprof",
 	}
+}
+
+// GetConfig returns the current global configuration
+func GetConfig() *Config {
+	cfg := globalConfig.Load()
+	if cfg == nil {
+		// If no config is loaded yet, load default
+		defaultCfg := DefaultConfig()
+		globalConfig.Store(defaultCfg)
+		return defaultCfg
+	}
+	return cfg
+}
+
+// WatchConfig watches for changes to the config file and automatically reloads
+func WatchConfig(configFile string) error {
+	watcher, err := fsnotify.NewWatcher()
+	if err != nil {
+		return err
+	}
+
+	go func() {
+		defer watcher.Close()
+		for {
+			select {
+			case event, ok := <-watcher.Events:
+				if !ok {
+					return
+				}
+				if event.Op&fsnotify.Write == fsnotify.Write {
+					log.Printf("Config file changed: %s", event.Name)
+					if cfg, err := LoadConfig(configFile); err == nil {
+						log.Println("Configuration reloaded successfully")
+						globalConfig.Store(cfg)
+					} else {
+						log.Printf("Error reloading config: %v", err)
+					}
+				}
+			case err, ok := <-watcher.Errors:
+				if !ok {
+					return
+				}
+				log.Printf("Config watcher error: %v", err)
+			}
+		}
+	}()
+
+	// Add the config file to the watcher
+	err = watcher.Add(configFile)
+	if err != nil {
+		return err
+	}
+
+	log.Printf("Watching config file: %s", configFile)
+	return nil
 }
