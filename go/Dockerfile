@@ -29,6 +29,9 @@ FROM alpine:3.17
 
 WORKDIR /root/
 
+# Install curl for healthchecks
+RUN apk add --no-cache curl
+
 # Copy the binary from the builder stage
 COPY --from=builder /scanner /usr/local/bin/
 
