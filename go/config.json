@@ -1,5 +1,11 @@
 {
   "log_level": "info",
-  "grpc_port": 50051,
-  "metrics_port": 2112
+  "server_host": "0.0.0.0",
+  "server_port": "50051",
+  "metrics_host": "0.0.0.0",
+  "metrics_port": "2112",
+  "max_concurrency": 50,
+  "max_concurrent_streams": 100,
+  "max_message_size": 10485760,
+  "debug": false
 }

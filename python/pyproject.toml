@@ -12,6 +12,12 @@ pyyaml = "^6.0"
 requests = "^2.28.1"
 grpcio = "^1.58.0"
 grpcio-tools = "^1.58.0"
+python-dotenv = "^1.0.0"
+pandas = "^2.0.0"
+numpy = "^1.24.0"
+pytz = "^2023.3"
+psutil = "^5.9.0"
+ib-insync = "^0.9.70"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.3.0"

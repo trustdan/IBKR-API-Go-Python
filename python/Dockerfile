@@ -2,7 +2,7 @@ FROM python:3.10-slim
 
 WORKDIR /app
 
-# Install system dependencies for grpcio
+# Install system dependencies for scientific packages
 RUN apt-get update && apt-get install -y \
     gcc \
     python3-dev \
@@ -20,8 +20,8 @@ RUN poetry config virtualenvs.create false
 # Install dependencies (without dev dependencies for production)
 RUN poetry install --no-interaction --without dev --no-root
 
-# Explicitly ensure grpcio is installed (fallback)
-RUN pip install grpcio grpcio-tools
+# Explicitly ensure required packages are installed
+RUN pip install grpcio grpcio-tools python-dotenv pandas numpy pytz psutil ib-insync
 
 # Copy the rest of the codebase
 COPY . /app/
