@@ -14,6 +14,10 @@ export function DeployStack():Promise<void>;
 
 export function GetContainers():Promise<Array<main.ContainerInfo>>;
 
+export function GetVersion():Promise<string>;
+
+export function GetVersionDetails():Promise<Record<string, string>>;
+
 export function ListBackups():Promise<Array<string>>;
 
 export function LoadConfig():Promise<main.Config>;

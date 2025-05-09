@@ -7,11 +7,15 @@
 !include "FileFunc.nsh"
 !include "WinVer.nsh"
 
+; Get version from version.go via PowerShell script
+!define /file VERSION_FROM_FILE "$%TEMP%\version.txt"
+!system 'powershell -ExecutionPolicy Bypass -File "$EXEDIR\version-extract.ps1" > "$%TEMP%\version.txt"'
+
 ; Define application name and other constants
 !define APPNAME "TraderAdmin"
 !define COMPANYNAME "IBKR Auto Trader"
 !define DESCRIPTION "Configuration management GUI for IBKR Auto Trader"
-!define VERSION "1.0.1"
+!define VERSION "${VERSION_FROM_FILE}"
 !define INSTALLDIR "$PROGRAMFILES64\${COMPANYNAME}\${APPNAME}"
 !define REGKEY "Software\${COMPANYNAME}\${APPNAME}"
 

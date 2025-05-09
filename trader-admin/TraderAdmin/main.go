@@ -21,7 +21,7 @@ func main() {
 
 	// Create application with options
 	err := wails.Run(&options.App{
-		Title:  "TraderAdmin",
+		Title:  fmt.Sprintf("TraderAdmin v%s", GetVersionInfo()),
 		Width:  1024,
 		Height: 768,
 		AssetServer: &assetserver.Options{

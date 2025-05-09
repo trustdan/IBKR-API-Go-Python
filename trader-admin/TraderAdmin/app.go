@@ -198,7 +198,8 @@ func NewApp() *App {
 	// Create a logger that writes to both stdout and a log file
 	logFile, err := os.OpenFile("traderadmin.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil {
-		log.Printf("Failed to open log file: %v", err)
+		fmt.Printf("Failed to open log file: %v\n", err)
+		return &App{}
 	}
 
 	// Create a multi-writer for stdout and the log file
@@ -208,7 +209,7 @@ func NewApp() *App {
 	}
 
 	logger := log.New(multiWriter, "[TraderAdmin] ", log.LstdFlags|log.Lshortfile)
-	logger.Println("TraderAdmin starting up")
+	logger.Printf("TraderAdmin %s starting up", GetVersionInfo())
 
 	// Get config directory
 	configDir := getConfigDir()
@@ -1140,4 +1141,14 @@ func (a *App) ListBackups() ([]string, error) {
 
 	a.logger.Printf("Found %d backup files", len(backups))
 	return backups, nil
+}
+
+// GetVersion returns the current version of the application
+func (a *App) GetVersion() string {
+	return GetVersionInfo()
+}
+
+// GetVersionDetails returns detailed version information
+func (a *App) GetVersionDetails() map[string]string {
+	return GetFullVersionInfo()
 }

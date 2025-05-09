@@ -1,0 +1,34 @@
+# Set default behavior to automatically normalize line endings
+* text=auto
+
+# Explicitly declare text files to normalize line endings
+*.go text
+*.md text
+*.json text
+*.yml text
+*.yaml text
+*.toml text
+*.txt text
+*.html text
+*.ts text
+*.js text
+*.css text
+*.scss text
+*.svelte text
+
+# Shell scripts should have Unix line endings (LF)
+*.sh text eol=lf
+update-version.sh text eol=lf
+
+# Windows scripts should have Windows line endings (CRLF)
+*.bat text eol=crlf
+*.ps1 text eol=crlf
+update-version.ps1 text eol=crlf
+build-installer.bat text eol=crlf
+
+# Binary files should not be modified
+*.exe binary
+*.dll binary
+*.png binary
+*.jpg binary
+*.gif binary 

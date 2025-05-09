@@ -26,6 +26,14 @@ export function GetContainers() {
   return window['go']['main']['App']['GetContainers']();
 }
 
+export function GetVersion() {
+  return window['go']['main']['App']['GetVersion']();
+}
+
+export function GetVersionDetails() {
+  return window['go']['main']['App']['GetVersionDetails']();
+}
+
 export function ListBackups() {
   return window['go']['main']['App']['ListBackups']();
 }

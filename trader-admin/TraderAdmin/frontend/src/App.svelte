@@ -15,6 +15,7 @@
   import AlertsTab from './components/AlertsTab.svelte';
   import BackupTab from './components/BackupTab.svelte';
   import DataTab from './components/DataTab.svelte';
+  import Footer from './components/Footer.svelte';
 
   // Theme management
   let isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -33,6 +34,7 @@
   let config = null;
   let loading = false;
   let saving = false;
+  let showLog = false;
 
   // Setup periodic refresh
   let refreshTimer;
@@ -777,6 +779,31 @@
         {saving ? 'Saving...' : 'Save & Restart'}
       </button>
     </div>
+
+    <!-- Action Log Panel -->
+    <div class="log-panel {showLog ? 'open' : 'closed'}">
+      <div class="log-header">
+        <h3>Activity Log</h3>
+        <button on:click={() => showLog = !showLog} class="log-toggle">
+          {showLog ? 'Hide' : 'Show'}
+        </button>
+      </div>
+      {#if showLog}
+        <div class="log-content">
+          {#each actionLog as entry}
+            <div class="log-entry {entry.success ? 'success' : 'error'}">
+              <span class="log-time">{entry.timestamp}</span>
+              <span class="log-action">{entry.action}</span>
+              {#if entry.error}
+                <span class="log-error">{entry.error}</span>
+              {/if}
+            </div>
+          {/each}
+        </div>
+      {/if}
+    </div>
+
+    <Footer />
   </div>
 </main>
 
@@ -1451,5 +1478,66 @@
   /* Add bottom margin to content to avoid overlap with fixed footer */
   .content {
     margin-bottom: 6rem;
+  }
+
+  /* Action Log Panel */
+  .log-panel {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    padding: 1rem;
+    z-index: 100;
+    background-color: #1a1a1a;
+    border-top: 1px solid #444;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .log-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .log-toggle {
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #fff;
+    color: #333;
+    font-weight: 500;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    transition: all 0.2s ease;
+  }
+
+  .log-toggle:hover {
+    background-color: #e8e8e8;
+    box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+  }
+
+  .log-content {
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 1rem;
+  }
+
+  .log-entry {
+    margin-bottom: 0.5rem;
+  }
+
+  .log-time {
+    font-weight: bold;
+  }
+
+  .log-action {
+    margin-left: 1rem;
+  }
+
+  .log-error {
+    color: #f44336;
+    font-weight: bold;
   }
 </style>
