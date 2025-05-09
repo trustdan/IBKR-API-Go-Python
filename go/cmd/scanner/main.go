@@ -16,6 +16,9 @@ import (
 	"google.golang.org/grpc"
 )
 
+// Define signals in an os-independent way
+var shutdownSignals = []os.Signal{syscall.SIGINT, syscall.SIGTERM}
+
 func main() {
 	// Parse command line flags
 	configPath := flag.String("config", "config.json", "Path to configuration file")
@@ -155,18 +158,13 @@ func setupLogging(level string) {
 func handleShutdown(server *grpc.Server) {
 	// Create channel to receive signals
 	sigChan := make(chan os.Signal, 1)
-	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM, syscall.SIGUSR1)
+
+	// Register for the standard termination signals
+	signal.Notify(sigChan, shutdownSignals...)
 
 	// Wait for termination signal
 	sig := <-sigChan
 	logrus.Infof("Received signal %v", sig)
-
-	if sig == syscall.SIGUSR1 {
-		logrus.Info("Received SIGUSR1, interpreting as config reload signal")
-		// Continue serving, don't exit
-		go handleShutdown(server)
-		return
-	}
 
 	logrus.Info("Gracefully shutting down")
 	// Gracefully stop the server

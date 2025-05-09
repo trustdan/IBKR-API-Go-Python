@@ -19,12 +19,19 @@ func (s *UnimplementedScannerServiceServer) GetScanResults(context.Context, *Res
 	return nil, nil
 }
 
+// GetMetrics is a no-op implementation
+func (s *UnimplementedScannerServiceServer) GetMetrics(context.Context, *MetricsRequest) (*MetricsResponse, error) {
+	return nil, nil
+}
+
 // ScannerServiceServer is the server API for ScannerService service
 type ScannerServiceServer interface {
 	// ScanMarket performs a full scan based on configured criteria
 	ScanMarket(context.Context, *ScanRequest) (*ScanResponse, error)
 	// GetScanResults retrieves the latest scan results
 	GetScanResults(context.Context, *ResultsRequest) (*ScanResponse, error)
+	// GetMetrics retrieves the current service metrics
+	GetMetrics(context.Context, *MetricsRequest) (*MetricsResponse, error)
 }
 
 // ScanRequest represents a request to scan the market
@@ -38,6 +45,20 @@ type ScanRequest struct {
 type ResultsRequest struct {
 	Limit     int32 // Maximum number of results to return
 	OlderThan int64 // Unix timestamp filter
+}
+
+// MetricsRequest is used to request service metrics
+type MetricsRequest struct {
+	IncludeFullStats bool // Whether to include detailed statistics
+}
+
+// MetricsResponse contains service metrics
+type MetricsResponse struct {
+	MaxConcurrency int32             // Maximum concurrent requests
+	CacheTtl       int32             // Cache TTL in minutes
+	LastScanTime   int64             // Unix timestamp of the last scan
+	Status         string            // Service status
+	Stats          map[string]string // Additional statistics
 }
 
 // ScanResponse contains market scan results

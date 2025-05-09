@@ -26,8 +26,8 @@ import (
 	_ "github.com/prometheus/client_golang/prometheus"
 	_ "github.com/prometheus/client_golang/prometheus/promhttp"
 	_ "github.com/prometheus/common/expfmt"
-	_ "github.com/shirou/gopsutil/cpu"
-	_ "github.com/shirou/gopsutil/mem"
+	_ "github.com/shirou/gopsutil/v3/cpu"
+	_ "github.com/shirou/gopsutil/v3/mem"
 	_ "github.com/sirupsen/logrus"
 	_ "golang.org/x/net/http2"
 	_ "golang.org/x/net/trace"
@@ -35,9 +35,9 @@ import (
 	_ "google.golang.org/protobuf/proto"
 	_ "gopkg.in/yaml.v3"
 
-	// Internal imports - update these paths to match your actual project structure
-	_ "github.com/trustdan/ibkr-trader/go/src/config"
-	_ "github.com/trustdan/ibkr-trader/go/src/metrics"
+	// Internal imports - updated to match actual project structure
+	_ "github.com/trustdan/ibkr-trader/go/pkg/proto"
+	_ "github.com/trustdan/ibkr-trader/go/pkg/scanner"
 )
 
 // This function is never called, it's just here to prevent compiler warnings
