@@ -21,8 +21,8 @@ export interface Size {
 export interface Screen {
     isCurrent: boolean;
     isPrimary: boolean;
-    width : number
-    height : number
+    width: number;
+    height: number;
 }
 
 // Environment information such as platform, buildtype, ...

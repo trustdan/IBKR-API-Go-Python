@@ -6,6 +6,10 @@ export function CheckRequiredServices() {
   return window['go']['main']['App']['CheckRequiredServices']();
 }
 
+export function DeployStack() {
+  return window['go']['main']['App']['DeployStack']();
+}
+
 export function GetContainers() {
   return window['go']['main']['App']['GetContainers']();
 }

@@ -1,37 +1,16 @@
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte';
-  // Remove the import for CheckRequiredServices as it's not available yet
+  import { CheckRequiredServices } from '../../wailsjs/go/main/App.js';
 
-  // Service status data with mock data for building
-  let services = [
-    {
-      name: "Docker Desktop",
-      status: "Running",
-      isOk: true,
-      message: "Docker Desktop is running properly."
-    },
-    {
-      name: "Kubernetes",
-      status: "Running",
-      isOk: true,
-      message: "Kubernetes is running properly."
-    },
-    {
-      name: "TWS/IB Gateway",
-      status: "Not Running",
-      isOk: false,
-      message: "Interactive Brokers Trader Workstation or Gateway is not running. You will need to start it before trading operations can begin."
-    }
-  ];
-  let loading = false;
+  // Service status data
+  let services = [];
+  let loading = true;
   let refreshInterval;
+  let error = '';
 
-  onMount(() => {
-    // In a real implementation, we would call CheckRequiredServices here
-    // For now, just use the mock data
-    refreshInterval = setInterval(() => {
-      // This would refresh services in a real implementation
-    }, 10000);
+  onMount(async () => {
+    await refreshServices();
+    refreshInterval = setInterval(refreshServices, 30000);
   });
 
   onDestroy(() => {
@@ -40,12 +19,18 @@
     }
   });
 
-  function refreshServices() {
-    // Mock refresh for now
+  async function refreshServices() {
     loading = true;
-    setTimeout(() => {
+    error = '';
+
+    try {
+      services = await CheckRequiredServices();
+    } catch (err) {
+      console.error('Failed to check services:', err);
+      error = err.message || 'Failed to check required services';
+    } finally {
       loading = false;
-    }, 500);
+    }
   }
 </script>
 
@@ -54,6 +39,11 @@
 
   {#if loading && services.length === 0}
     <div class="loading">Checking service status...</div>
+  {:else if error}
+    <div class="error">{error}</div>
+    <div class="actions">
+      <button class="btn secondary" on:click={refreshServices}>Retry</button>
+    </div>
   {:else}
     <div class="services-grid">
       {#each services as service}
@@ -72,9 +62,7 @@
     </div>
 
     <div class="actions">
-      <button class="btn secondary" on:click={refreshServices}>
-        Refresh Status
-      </button>
+      <button class="btn secondary" on:click={refreshServices}>Refresh Status</button>
     </div>
   {/if}
 </div>
@@ -88,6 +76,14 @@
     text-align: center;
     padding: 1rem;
     color: #666;
+  }
+
+  .error {
+    color: #f44336;
+    padding: 1rem;
+    background-color: rgba(244, 67, 54, 0.1);
+    border-radius: 4px;
+    margin-bottom: 1rem;
   }
 
   .services-grid {
@@ -116,6 +112,7 @@
     font-weight: bold;
     font-size: 1.1rem;
     margin-bottom: 0.5rem;
+    color: #333;
   }
 
   .service-status {
@@ -163,5 +160,57 @@
 
   .btn.secondary {
     background-color: #f5f5f5;
+    color: #333;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .btn.secondary:hover {
+    background-color: #e0e0e0;
+  }
+
+  /* Dark mode styles */
+  :global(body.dark-mode) .loading {
+    color: #aaa;
+  }
+
+  :global(body.dark-mode) .error {
+    background-color: rgba(244, 67, 54, 0.2);
+  }
+
+  :global(body.dark-mode) .service-card {
+    background-color: #2a2a2a;
+    border-left-color: #444;
+  }
+
+  :global(body.dark-mode) .service-card.ok {
+    border-left-color: #4caf50;
+  }
+
+  :global(body.dark-mode) .service-card.error {
+    border-left-color: #f44336;
+  }
+
+  :global(body.dark-mode) .service-name {
+    color: #fff;
+  }
+
+  :global(body.dark-mode) .service-message {
+    color: #bbb;
+  }
+
+  :global(body.dark-mode) .service-extra-msg {
+    background-color: rgba(255, 152, 0, 0.2);
+  }
+
+  :global(body.dark-mode) .btn.secondary {
+    background-color: #333;
+    color: #fff;
+  }
+
+  :global(body.dark-mode) .btn.secondary:hover {
+    background-color: #444;
   }
 </style>

@@ -267,10 +267,10 @@ export namespace main {
 		}
 	}
 	export class ContainerInfo {
-	    id: string;
-	    name: string;
-	    status: string;
-	    created: string;
+	    ID: string;
+	    Name: string;
+	    Status: string;
+	    Created: string;
 
 	    static createFrom(source: any = {}) {
 	        return new ContainerInfo(source);
@@ -278,18 +278,12 @@ export namespace main {
 
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
-	        this.id = source["id"];
-	        this.name = source["name"];
-	        this.status = source["status"];
-	        this.created = source["created"];
+	        this.ID = source["ID"];
+	        this.Name = source["Name"];
+	        this.Status = source["Status"];
+	        this.Created = source["Created"];
 	    }
 	}
-
-
-
-
-
-
 
 	export class ServiceStatus {
 	    name: string;
@@ -311,7 +305,4 @@ export namespace main {
 	        this.extraMsg = source["extraMsg"];
 	    }
 	}
-
-
-
 }

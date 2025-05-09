@@ -11,7 +11,7 @@
 !define APPNAME "TraderAdmin"
 !define COMPANYNAME "IBKR Auto Trader"
 !define DESCRIPTION "Configuration management GUI for IBKR Auto Trader"
-!define VERSION "1.0.0"
+!define VERSION "1.0.1"
 !define INSTALLDIR "$PROGRAMFILES64\${COMPANYNAME}\${APPNAME}"
 !define REGKEY "Software\${COMPANYNAME}\${APPNAME}"
 

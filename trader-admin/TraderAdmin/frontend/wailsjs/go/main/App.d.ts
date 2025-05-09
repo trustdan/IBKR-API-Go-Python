@@ -4,6 +4,8 @@ import {main} from '../models';
 
 export function CheckRequiredServices():Promise<Array<main.ServiceStatus>>;
 
+export function DeployStack():Promise<void>;
+
 export function GetContainers():Promise<Array<main.ContainerInfo>>;
 
 export function LoadConfig():Promise<main.Config>;

@@ -150,18 +150,36 @@ func isNamespaceAvailable(namespace string) bool {
 
 func isTWSRunning() bool {
 	if goruntime.GOOS == "windows" {
-		// For Windows, use tasklist
-		cmd := exec.Command("tasklist", "/FI", "IMAGENAME eq Trader*.exe", "/FO", "CSV")
-		output, err := cmd.Output()
-		if err == nil && strings.Contains(string(output), "Trader") {
-			return true
+		// For Windows, check for various IB/TWS process names
+		possibleProcessNames := []string{
+			"Trader*.exe",
+			"IB*.exe",
+			"tws.exe",
+			"ibgateway.exe",
+			"jts.exe",
 		}
 
-		// Also check for IB Gateway
-		cmd = exec.Command("tasklist", "/FI", "IMAGENAME eq IB*.exe", "/FO", "CSV")
-		output, err = cmd.Output()
-		if err == nil && strings.Contains(string(output), "IB") {
-			return true
+		for _, procName := range possibleProcessNames {
+			cmd := exec.Command("tasklist", "/FI", fmt.Sprintf("IMAGENAME eq %s", procName), "/FO", "CSV")
+			output, err := cmd.Output()
+			if err == nil && len(output) > 0 && !strings.Contains(string(output), "INFO:") {
+				// If we get output and it's not just an info message, we found a process
+				if !strings.Contains(string(output), "No tasks are running") {
+					return true
+				}
+			}
+		}
+
+		// Additional check for Java processes that might be TWS
+		cmd := exec.Command("tasklist", "/FI", "IMAGENAME eq java.exe", "/FO", "CSV")
+		output, err := cmd.Output()
+		if err == nil && strings.Contains(string(output), "java.exe") {
+			// If Java is running, check if it's running TWS by looking at command line
+			cmd = exec.Command("wmic", "process", "where", "name='java.exe'", "get", "CommandLine", "/format:list")
+			javaDetails, err := cmd.Output()
+			if err == nil && strings.Contains(string(javaDetails), "jts.jar") {
+				return true
+			}
 		}
 	} else if goruntime.GOOS == "darwin" || goruntime.GOOS == "linux" {
 		// For macOS/Linux, use ps

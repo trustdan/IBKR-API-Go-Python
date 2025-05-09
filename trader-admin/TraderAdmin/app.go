@@ -4,17 +4,19 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"log"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"strings"
 	"time"
 
 	"github.com/BurntSushi/toml"
 	"github.com/docker/docker/api/types"
-	"github.com/docker/docker/api/types/filters"
 	"github.com/docker/docker/client"
+	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
 // Config represents the trading configuration structure
@@ -121,10 +123,10 @@ type LoggingConfig struct {
 
 // ContainerInfo represents container information
 type ContainerInfo struct {
-	ID      string `json:"id"`
-	Name    string `json:"name"`
-	Status  string `json:"status"`
-	Created string `json:"created"`
+	ID      string `json:"ID"`
+	Name    string `json:"Name"`
+	Status  string `json:"Status"`
+	Created string `json:"Created"`
 }
 
 // App struct
@@ -132,12 +134,32 @@ type App struct {
 	ctx       context.Context
 	dockerCli *client.Client
 	configDir string
+	logger    *log.Logger
 }
 
 // NewApp creates a new App application struct
 func NewApp() *App {
+	// Create a logger that writes to both stdout and a log file
+	logFile, err := os.OpenFile("traderadmin.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+	if err != nil {
+		log.Printf("Failed to open log file: %v", err)
+	}
+
+	// Create a multi-writer for stdout and the log file
+	var multiWriter io.Writer = os.Stdout
+	if logFile != nil {
+		multiWriter = io.MultiWriter(os.Stdout, logFile)
+	}
+
+	logger := log.New(multiWriter, "[TraderAdmin] ", log.LstdFlags|log.Lshortfile)
+	logger.Println("TraderAdmin starting up")
+
+	// Get config directory
+	configDir := getConfigDir()
+
 	return &App{
-		configDir: getConfigDir(),
+		configDir: configDir,
+		logger:    logger,
 	}
 }
 
@@ -146,6 +168,7 @@ func getConfigDir() string {
 	// Default to current working directory
 	dir, err := os.Getwd()
 	if err != nil {
+		log.Printf("Error getting working directory: %v, using '.' instead", err)
 		return "."
 	}
 	return filepath.Join(dir, "config")
@@ -153,74 +176,92 @@ func getConfigDir() string {
 
 // startup is called when the app starts. The context is saved
 // so we can call the runtime methods
-func (a *App) startup(ctx context.Context) {
+func (a *App) startup(ctx context.Context) error {
 	a.ctx = ctx
+	a.logger.Println("Application starting up")
 
 	// Initialize Docker client
 	cli, err := client.NewClientWithOpts(client.FromEnv, client.WithAPIVersionNegotiation())
 	if err != nil {
-		log.Printf("Warning: Failed to initialize Docker client: %v", err)
-		return
+		errMsg := fmt.Sprintf("Failed to initialize Docker client: %v", err)
+		a.logger.Printf("Error: %s", errMsg)
+		runtime.LogErrorf(ctx, "Error: %s", errMsg)
+		return fmt.Errorf(errMsg)
 	}
 	a.dockerCli = cli
+	a.logger.Println("Docker client initialized successfully")
 
 	// Ensure config directory exists
 	if err := os.MkdirAll(a.configDir, 0755); err != nil {
-		log.Printf("Warning: Failed to create config directory: %v", err)
+		a.logger.Printf("Warning: Failed to create config directory: %v", err)
+		runtime.LogWarningf(ctx, "Failed to create config directory: %v", err)
 	}
 
 	go a.StartupSequenceCheck()
+	return nil
 }
 
 // shutdown is called when the app is closing
 func (a *App) shutdown(ctx context.Context) {
+	a.logger.Println("Application shutting down")
 	if a.dockerCli != nil {
 		a.dockerCli.Close()
+		a.logger.Println("Docker client closed")
 	}
 }
 
 // LoadConfig loads the configuration from the TOML file
 func (a *App) LoadConfig() (*Config, error) {
 	configPath := filepath.Join(a.configDir, "config.toml")
+	a.logger.Printf("Loading configuration from: %s", configPath)
 
 	// Check if config file exists
 	if _, err := os.Stat(configPath); os.IsNotExist(err) {
+		a.logger.Printf("Configuration file not found: %s", configPath)
 		return nil, fmt.Errorf("configuration file not found: %s", configPath)
 	}
 
 	var config Config
 	_, err := toml.DecodeFile(configPath, &config)
 	if err != nil {
+		a.logger.Printf("Failed to decode config file: %v", err)
 		return nil, fmt.Errorf("failed to decode config file: %w", err)
 	}
 
+	a.logger.Println("Configuration loaded successfully")
 	return &config, nil
 }
 
 // SaveConfig saves the configuration to the TOML file
 func (a *App) SaveConfig(config *Config) error {
 	configPath := filepath.Join(a.configDir, "config.toml")
+	a.logger.Printf("Saving configuration to: %s", configPath)
 
 	// Create backup of existing config
 	if _, err := os.Stat(configPath); err == nil {
 		backupPath := configPath + ".bak"
 		if err := copyFile(configPath, backupPath); err != nil {
-			log.Printf("Warning: Failed to create backup: %v", err)
+			a.logger.Printf("Warning: Failed to create backup: %v", err)
+		} else {
+			a.logger.Printf("Created backup at: %s", backupPath)
 		}
 	}
 
 	// Create or truncate the file
 	file, err := os.Create(configPath)
 	if err != nil {
+		a.logger.Printf("Failed to create config file: %v", err)
 		return fmt.Errorf("failed to create config file: %w", err)
 	}
 	defer file.Close()
 
 	// Encode the config as TOML
 	if err := toml.NewEncoder(file).Encode(config); err != nil {
+		a.logger.Printf("Failed to encode config: %v", err)
 		return fmt.Errorf("failed to encode config: %w", err)
 	}
 
+	a.logger.Println("Configuration saved successfully")
 	return nil
 }
 
@@ -235,30 +276,102 @@ func copyFile(src, dst string) error {
 
 // GetContainers returns a list of trader-related containers
 func (a *App) GetContainers() ([]ContainerInfo, error) {
+	a.logger.Println("Getting container list")
+
 	if a.dockerCli == nil {
+		a.logger.Println("Error: Docker client not initialized")
 		return nil, errors.New("Docker client not initialized")
 	}
 
-	// Filter for our trader application containers
-	f := filters.NewArgs()
-	f.Add("label", "app=ibkr-trader")
+	// Print debug information about the docker client
+	a.logger.Printf("DEBUG: Docker client initialized: %v", a.dockerCli != nil)
 
+	// Get all containers rather than filtering with labels
+	a.logger.Println("Listing all containers")
 	containers, err := a.dockerCli.ContainerList(a.ctx, types.ContainerListOptions{
-		All:     true,
-		Filters: f,
+		All: true,
 	})
 	if err != nil {
+		a.logger.Printf("Failed to list containers: %v", err)
 		return nil, fmt.Errorf("failed to list containers: %w", err)
+	}
+
+	a.logger.Printf("Found %d total containers", len(containers))
+
+	// Debug: Print all container info
+	for i, c := range containers {
+		a.logger.Printf("DEBUG: Container %d - Name: %v, ID: %s, Status: %s, Created: %d",
+			i, c.Names, c.ID[:12], c.Status, c.Created)
 	}
 
 	var result []ContainerInfo
 	for _, c := range containers {
-		result = append(result, ContainerInfo{
-			ID:      c.ID[:12], // Short ID
-			Name:    strings.TrimPrefix(c.Names[0], "/"),
-			Status:  c.Status,
-			Created: time.Unix(c.Created, 0).Format(time.RFC3339),
-		})
+		isTraderContainer := false
+		containerName := strings.TrimPrefix(c.Names[0], "/")
+		containerStatus := c.Status
+
+		// Check for our app label
+		if val, ok := c.Labels["app"]; ok && val == "ibkr-trader" {
+			isTraderContainer = true
+			a.logger.Printf("Container %s (ID: %s) matched by label", containerName, c.ID[:12])
+		}
+
+		// Check for Kubernetes containers related to our app
+		if strings.Contains(containerName, "orchestrator") ||
+			strings.Contains(containerName, "scanner") ||
+			strings.Contains(containerName, "ibkr-trader") ||
+			strings.Contains(containerName, "vertical-spread") {
+			isTraderContainer = true
+			a.logger.Printf("Container %s (ID: %s) matched by name", containerName, c.ID[:12])
+
+			// For Kubernetes pods, clean up the name and status
+			if strings.Contains(containerName, "k8s_") {
+				// Extract the actual container name from the k8s_ prefix
+				parts := strings.Split(containerName, "_")
+				if len(parts) > 2 {
+					containerName = parts[1] // Get the actual container name
+					a.logger.Printf("DEBUG: K8s container renamed from %s to %s", strings.TrimPrefix(c.Names[0], "/"), containerName)
+				}
+
+				// Clean up the status for Kubernetes pods
+				if strings.Contains(c.Status, "Up") {
+					containerStatus = "Running"
+					a.logger.Printf("DEBUG: Status changed from %s to %s", c.Status, containerStatus)
+				} else if strings.Contains(c.Status, "Exited") {
+					containerStatus = "Stopped"
+					a.logger.Printf("DEBUG: Status changed from %s to %s", c.Status, containerStatus)
+				}
+			}
+		}
+
+		// Check image names
+		if strings.Contains(c.Image, "ibkr-trader") ||
+			strings.Contains(c.Image, "vertical-spread") ||
+			strings.Contains(c.Image, "trustdan/auto") {
+			isTraderContainer = true
+			a.logger.Printf("Container %s (ID: %s) matched by image: %s", containerName, c.ID[:12], c.Image)
+		}
+
+		if isTraderContainer {
+			createdTime := time.Unix(c.Created, 0).Format(time.RFC3339)
+			a.logger.Printf("Adding container to result list: %s (ID: %s, Status: %s, Created: %s)",
+				containerName, c.ID[:12], containerStatus, createdTime)
+
+			result = append(result, ContainerInfo{
+				ID:      c.ID[:12], // Short ID
+				Name:    containerName,
+				Status:  containerStatus,
+				Created: createdTime,
+			})
+		}
+	}
+
+	a.logger.Printf("Returning %d trader-related containers", len(result))
+
+	// Debug: Print the final results
+	for i, c := range result {
+		a.logger.Printf("DEBUG: Result %d - Name: %s, ID: %s, Status: %s, Created: %s",
+			i, c.Name, c.ID, c.Status, c.Created)
 	}
 
 	return result, nil
@@ -266,54 +379,203 @@ func (a *App) GetContainers() ([]ContainerInfo, error) {
 
 // PauseContainer pauses a container by ID
 func (a *App) PauseContainer(id string) error {
+	a.logger.Printf("Attempting to pause container: %s", id)
+
 	if a.dockerCli == nil {
+		a.logger.Println("Error: Docker client not initialized")
 		return errors.New("Docker client not initialized")
 	}
 
+	// Check if this is a kubernetes container
+	a.logger.Println("Getting container list to verify container")
+	containers, err := a.GetContainers()
+	if err != nil {
+		a.logger.Printf("Error getting containers: %v", err)
+		return err
+	}
+
+	// Find the container by ID
+	a.logger.Printf("Looking for container with ID: %s", id)
+	var targetContainer ContainerInfo
+	found := false
+	for _, c := range containers {
+		if c.ID == id {
+			targetContainer = c
+			found = true
+			a.logger.Printf("Found container: %s (ID: %s)", c.Name, c.ID)
+			break
+		}
+	}
+
+	if !found {
+		errMsg := fmt.Sprintf("Container with ID %s not found", id)
+		a.logger.Println(errMsg)
+		return fmt.Errorf(errMsg)
+	}
+
+	// Special handling for Kubernetes containers
+	if strings.Contains(targetContainer.Name, "k8s_") {
+		// For Kubernetes containers, we can't pause them directly
+		a.logger.Printf("Kubernetes container %s (%s) cannot be paused directly", targetContainer.Name, id)
+		runtime.LogInfof(a.ctx, "Kubernetes container %s cannot be paused directly", targetContainer.Name)
+		return nil
+	}
+
+	// For regular Docker containers, pause as usual
+	a.logger.Printf("Pausing container: %s (ID: %s)", targetContainer.Name, id)
 	if err := a.dockerCli.ContainerPause(a.ctx, id); err != nil {
+		a.logger.Printf("Failed to pause container: %v", err)
 		return fmt.Errorf("failed to pause container: %w", err)
 	}
 
+	a.logger.Printf("Container paused successfully: %s (ID: %s)", targetContainer.Name, id)
+	runtime.LogInfof(a.ctx, "Container %s paused successfully", targetContainer.Name)
 	return nil
 }
 
 // UnpauseContainer unpauses a container by ID
 func (a *App) UnpauseContainer(id string) error {
+	a.logger.Printf("Attempting to unpause container: %s", id)
+
 	if a.dockerCli == nil {
+		a.logger.Println("Error: Docker client not initialized")
 		return errors.New("Docker client not initialized")
 	}
 
+	// Check if this is a kubernetes container
+	a.logger.Println("Getting container list to verify container")
+	containers, err := a.GetContainers()
+	if err != nil {
+		a.logger.Printf("Error getting containers: %v", err)
+		return err
+	}
+
+	// Find the container by ID
+	a.logger.Printf("Looking for container with ID: %s", id)
+	var targetContainer ContainerInfo
+	found := false
+	for _, c := range containers {
+		if c.ID == id {
+			targetContainer = c
+			found = true
+			a.logger.Printf("Found container: %s (ID: %s)", c.Name, c.ID)
+			break
+		}
+	}
+
+	if !found {
+		errMsg := fmt.Sprintf("Container with ID %s not found", id)
+		a.logger.Println(errMsg)
+		return fmt.Errorf(errMsg)
+	}
+
+	// Special handling for Kubernetes containers
+	if strings.Contains(targetContainer.Name, "k8s_") {
+		// For Kubernetes containers, we can't unpause them directly
+		a.logger.Printf("Kubernetes container %s (%s) cannot be unpaused directly", targetContainer.Name, id)
+		runtime.LogInfof(a.ctx, "Kubernetes container %s cannot be unpaused directly", targetContainer.Name)
+		return nil
+	}
+
+	// For regular Docker containers, unpause as usual
+	a.logger.Printf("Unpausing container: %s (ID: %s)", targetContainer.Name, id)
 	if err := a.dockerCli.ContainerUnpause(a.ctx, id); err != nil {
+		a.logger.Printf("Failed to unpause container: %v", err)
 		return fmt.Errorf("failed to unpause container: %w", err)
 	}
 
+	a.logger.Printf("Container unpaused successfully: %s (ID: %s)", targetContainer.Name, id)
+	runtime.LogInfof(a.ctx, "Container %s unpaused successfully", targetContainer.Name)
 	return nil
 }
 
 // SendSignal sends a signal to a container
 func (a *App) SendSignal(id, signal string) error {
+	a.logger.Printf("Sending signal %s to container: %s", signal, id)
+
 	if a.dockerCli == nil {
+		a.logger.Println("Error: Docker client not initialized")
 		return errors.New("Docker client not initialized")
 	}
 
+	// First check if container exists and get its name
+	containers, err := a.GetContainers()
+	if err != nil {
+		a.logger.Printf("Error getting containers: %v", err)
+		return err
+	}
+
+	var containerName string
+	for _, c := range containers {
+		if c.ID == id {
+			containerName = c.Name
+			break
+		}
+	}
+
+	if containerName == "" {
+		a.logger.Printf("Warning: Container ID %s not found in trader containers", id)
+	} else {
+		a.logger.Printf("Sending signal %s to container: %s (ID: %s)", signal, containerName, id)
+	}
+
 	if err := a.dockerCli.ContainerKill(a.ctx, id, signal); err != nil {
+		a.logger.Printf("Failed to send signal to container: %v", err)
 		return fmt.Errorf("failed to send signal to container: %w", err)
 	}
 
+	a.logger.Printf("Signal %s sent successfully to container: %s", signal, id)
 	return nil
 }
 
 // PauseStack pauses all trader containers
 func (a *App) PauseStack() error {
+	a.logger.Println("Attempting to pause all trader containers")
+
 	containers, err := a.GetContainers()
 	if err != nil {
+		a.logger.Printf("Error getting containers: %v", err)
 		return err
 	}
 
+	// Count of containers that were paused
+	pausedCount := 0
+	a.logger.Printf("Found %d trader containers to evaluate for pausing", len(containers))
+
 	for _, c := range containers {
+		// Skip Kubernetes containers
+		if strings.Contains(c.Name, "k8s_") {
+			a.logger.Printf("Skipping Kubernetes container %s for pause operation", c.Name)
+			continue
+		}
+
+		// Skip already paused containers
+		if strings.Contains(c.Status, "Paused") {
+			a.logger.Printf("Container %s is already paused", c.Name)
+			continue
+		}
+
+		// Skip stopped containers
+		if !strings.Contains(c.Status, "Up") {
+			a.logger.Printf("Container %s is not running, skipping pause", c.Name)
+			continue
+		}
+
+		a.logger.Printf("Pausing container: %s (ID: %s)", c.Name, c.ID)
 		if err := a.PauseContainer(c.ID); err != nil {
+			a.logger.Printf("Error pausing container %s: %v", c.Name, err)
 			return err
 		}
+		pausedCount++
+		a.logger.Printf("Container paused successfully: %s", c.Name)
+	}
+
+	if pausedCount == 0 {
+		a.logger.Println("No eligible containers found to pause")
+		runtime.LogInfof(a.ctx, "No eligible containers found to pause")
+	} else {
+		a.logger.Printf("Paused %d containers", pausedCount)
+		runtime.LogInfof(a.ctx, "Paused %d containers", pausedCount)
 	}
 
 	return nil
@@ -321,15 +583,46 @@ func (a *App) PauseStack() error {
 
 // UnpauseStack unpauses all trader containers
 func (a *App) UnpauseStack() error {
+	a.logger.Println("Attempting to unpause all trader containers")
+
 	containers, err := a.GetContainers()
 	if err != nil {
+		a.logger.Printf("Error getting containers: %v", err)
 		return err
 	}
 
+	// Count of containers that were unpaused
+	unpausedCount := 0
+	a.logger.Printf("Found %d trader containers to evaluate for unpausing", len(containers))
+
 	for _, c := range containers {
+		// Skip Kubernetes containers
+		if strings.Contains(c.Name, "k8s_") {
+			a.logger.Printf("Skipping Kubernetes container %s for unpause operation", c.Name)
+			continue
+		}
+
+		// Skip containers that aren't paused
+		if !strings.Contains(c.Status, "Paused") {
+			a.logger.Printf("Container %s is not paused, skipping unpause", c.Name)
+			continue
+		}
+
+		a.logger.Printf("Unpausing container: %s (ID: %s)", c.Name, c.ID)
 		if err := a.UnpauseContainer(c.ID); err != nil {
+			a.logger.Printf("Error unpausing container %s: %v", c.Name, err)
 			return err
 		}
+		unpausedCount++
+		a.logger.Printf("Container unpaused successfully: %s", c.Name)
+	}
+
+	if unpausedCount == 0 {
+		a.logger.Println("No paused containers found to unpause")
+		runtime.LogInfof(a.ctx, "No paused containers found to unpause")
+	} else {
+		a.logger.Printf("Unpaused %d containers", unpausedCount)
+		runtime.LogInfof(a.ctx, "Unpaused %d containers", unpausedCount)
 	}
 
 	return nil
@@ -337,15 +630,45 @@ func (a *App) UnpauseStack() error {
 
 // ReloadConfig signals all containers to reload their configuration
 func (a *App) ReloadConfig() error {
+	a.logger.Println("Attempting to reload configuration on all containers")
+
 	containers, err := a.GetContainers()
 	if err != nil {
+		a.logger.Printf("Error getting containers: %v", err)
 		return err
 	}
 
+	signalCount := 0
+	a.logger.Printf("Found %d trader containers to signal for config reload", len(containers))
+
 	for _, c := range containers {
+		// Skip Kubernetes containers for signaling
+		if strings.Contains(c.Name, "k8s_") {
+			a.logger.Printf("Skipping Kubernetes container %s for config reload signal", c.Name)
+			continue
+		}
+
+		// Only signal running containers
+		if !strings.Contains(c.Status, "Up") {
+			a.logger.Printf("Container %s is not running, skipping config reload signal", c.Name)
+			continue
+		}
+
+		a.logger.Printf("Sending SIGUSR1 to container: %s (ID: %s)", c.Name, c.ID)
 		if err := a.SendSignal(c.ID, "SIGUSR1"); err != nil {
+			a.logger.Printf("Error signaling container %s: %v", c.Name, err)
 			return err
 		}
+		signalCount++
+		a.logger.Printf("Signal sent successfully to container: %s", c.Name)
+	}
+
+	if signalCount == 0 {
+		a.logger.Println("No eligible containers found to signal for config reload")
+		runtime.LogInfof(a.ctx, "No eligible containers found to signal for config reload")
+	} else {
+		a.logger.Printf("Sent reload signal to %d containers", signalCount)
+		runtime.LogInfof(a.ctx, "Sent reload signal to %d containers", signalCount)
 	}
 
 	return nil
@@ -353,58 +676,191 @@ func (a *App) ReloadConfig() error {
 
 // SaveAndRestart saves the config, pauses containers, updates config, and unpauses
 func (a *App) SaveAndRestart(config *Config) error {
-	// 1. Pause all containers
-	if err := a.PauseStack(); err != nil {
-		return fmt.Errorf("failed to pause containers: %w", err)
-	}
+	a.logger.Println("SaveAndRestart operation started")
 
-	// 2. Save the configuration
+	// 1. Save the configuration first before touching containers
+	a.logger.Println("Step 1: Saving configuration")
 	if err := a.SaveConfig(config); err != nil {
-		// Try to unpause containers before returning the error
-		_ = a.UnpauseStack()
+		a.logger.Printf("Failed to save config: %v", err)
 		return fmt.Errorf("failed to save config: %w", err)
 	}
 
-	// 3. Unpause all containers
-	if err := a.UnpauseStack(); err != nil {
-		return fmt.Errorf("failed to unpause containers: %w", err)
+	a.logger.Println("Configuration saved successfully")
+	runtime.LogInfof(a.ctx, "Configuration saved successfully")
+
+	// Get a list of containers
+	a.logger.Println("Getting container list")
+	containers, err := a.GetContainers()
+	if err != nil {
+		a.logger.Printf("Failed to get containers: %v", err)
+		return fmt.Errorf("failed to get containers: %w", err)
+	}
+
+	// Check if we have any containers to manage
+	hasKubeContainers := false
+	hasDockerContainers := false
+
+	for _, c := range containers {
+		if strings.Contains(c.Name, "k8s_") {
+			hasKubeContainers = true
+		} else if strings.Contains(c.Status, "Up") {
+			hasDockerContainers = true
+		}
+	}
+
+	a.logger.Printf("Container analysis: Kubernetes=%v, Docker=%v", hasKubeContainers, hasDockerContainers)
+
+	// 2. Pause regular Docker containers if we have any
+	if hasDockerContainers {
+		a.logger.Println("Step 2: Pausing Docker containers")
+		if err := a.PauseStack(); err != nil {
+			a.logger.Printf("Failed to pause containers: %v", err)
+			return fmt.Errorf("failed to pause containers: %w", err)
+		}
+		a.logger.Println("Docker containers paused successfully")
+		runtime.LogInfof(a.ctx, "Docker containers paused successfully")
+	} else {
+		a.logger.Println("No running Docker containers to pause")
+	}
+
+	// 3. Unpause regular Docker containers if we have any
+	if hasDockerContainers {
+		a.logger.Println("Step 3: Unpausing Docker containers")
+		if err := a.UnpauseStack(); err != nil {
+			a.logger.Printf("Failed to unpause containers: %v", err)
+			return fmt.Errorf("failed to unpause containers: %w", err)
+		}
+		a.logger.Println("Docker containers unpaused successfully")
+		runtime.LogInfof(a.ctx, "Docker containers unpaused successfully")
+	} else {
+		a.logger.Println("No Docker containers to unpause")
 	}
 
 	// 4. Signal containers to reload configuration
-	if err := a.ReloadConfig(); err != nil {
-		return fmt.Errorf("failed to signal containers: %w", err)
+	a.logger.Println("Step 4: Signaling containers to reload configuration")
+	signalSent := false
+	for _, c := range containers {
+		// Skip Kubernetes containers for direct signals
+		if strings.Contains(c.Name, "k8s_") {
+			a.logger.Printf("Skipping Kubernetes container %s for signal", c.Name)
+			continue
+		}
+
+		// Only send signals to running containers
+		if !strings.Contains(c.Status, "Up") {
+			a.logger.Printf("Container %s is not running, skipping signal", c.Name)
+			continue
+		}
+
+		a.logger.Printf("Sending SIGUSR1 to container: %s (ID: %s)", c.Name, c.ID)
+		if err := a.SendSignal(c.ID, "SIGUSR1"); err != nil {
+			a.logger.Printf("Warning: failed to signal container %s: %v", c.Name, err)
+			runtime.LogWarningf(a.ctx, "Failed to signal container %s: %v", c.Name, err)
+		} else {
+			signalSent = true
+			a.logger.Printf("Signal sent successfully to container: %s", c.Name)
+		}
 	}
 
+	if !signalSent && hasDockerContainers {
+		a.logger.Println("Warning: No containers were signaled to reload configuration")
+		runtime.LogWarningf(a.ctx, "No containers were signaled to reload configuration")
+	}
+
+	// If we have Kubernetes containers, log a message about restarting them
+	if hasKubeContainers {
+		a.logger.Println("Note: For Kubernetes containers, you may need to restart them manually to apply configuration changes.")
+		runtime.LogInfof(a.ctx, "For Kubernetes containers, you may need to restart them manually to apply configuration changes.")
+	}
+
+	a.logger.Println("SaveAndRestart operation completed successfully")
 	return nil
 }
 
 // Status returns the current status of the trader stack
 func (a *App) Status() (string, error) {
+	a.logger.Println("Checking trader stack status")
+
 	if a.dockerCli == nil {
+		a.logger.Println("Docker client not initialized")
 		return "Docker Not Connected", errors.New("Docker client not initialized")
 	}
 
 	containers, err := a.GetContainers()
 	if err != nil {
+		a.logger.Printf("Error getting containers: %v", err)
 		return "Error", err
 	}
 
 	if len(containers) == 0 {
+		a.logger.Println("No containers found")
 		return "No Containers", nil
 	}
 
 	// Check if all containers are running
 	allRunning := true
+	runningCount := 0
+
 	for _, c := range containers {
-		if !strings.Contains(c.Status, "Up") {
+		if strings.Contains(c.Status, "Up") {
+			runningCount++
+		} else {
 			allRunning = false
-			break
 		}
 	}
 
+	a.logger.Printf("Status check: %d total containers, %d running, allRunning=%v", len(containers), runningCount, allRunning)
+
 	if allRunning {
+		a.logger.Println("All containers are running")
 		return "Running", nil
 	}
 
+	a.logger.Println("Some containers are not running")
 	return "Partial", nil
+}
+
+// DeployStack creates the trader-stack namespace if it doesn't exist and deploys the stack
+func (a *App) DeployStack() error {
+	a.logger.Println("Checking if trader-stack namespace exists")
+
+	// Run kubectl get namespace trader-stack to check if it exists
+	cmd := exec.Command("kubectl", "get", "namespace", "trader-stack")
+	if err := cmd.Run(); err != nil {
+		// Namespace doesn't exist, create it
+		a.logger.Println("Creating trader-stack namespace")
+		createCmd := exec.Command("kubectl", "create", "namespace", "trader-stack")
+		if err := createCmd.Run(); err != nil {
+			errMsg := fmt.Sprintf("Failed to create namespace: %v", err)
+			a.logger.Printf("Error: %s", errMsg)
+			return fmt.Errorf(errMsg)
+		}
+		a.logger.Println("Namespace created successfully")
+	}
+
+	// Get the current working directory
+	currentDir, err := os.Getwd()
+	if err != nil {
+		return fmt.Errorf("failed to get working directory: %w", err)
+	}
+
+	// Change to the root directory where kubernetes/base is located
+	rootDir := filepath.Dir(currentDir)
+	if err := os.Chdir(rootDir); err != nil {
+		return fmt.Errorf("failed to change directory: %w", err)
+	}
+	defer os.Chdir(currentDir) // Change back when done
+
+	// Deploy the stack using kubectl apply -k
+	a.logger.Println("Deploying trading stack")
+	deployCmd := exec.Command("kubectl", "apply", "-k", "kubernetes/base/")
+	output, err := deployCmd.CombinedOutput()
+	if err != nil {
+		errMsg := fmt.Sprintf("Failed to deploy stack: %v\nOutput: %s", err, string(output))
+		a.logger.Printf("Error: %s", errMsg)
+		return fmt.Errorf(errMsg)
+	}
+
+	a.logger.Printf("Stack deployed successfully: %s", string(output))
+	return nil
 }

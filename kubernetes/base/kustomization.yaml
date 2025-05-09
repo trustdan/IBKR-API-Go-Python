@@ -14,4 +14,4 @@ commonLabels:
 configMapGenerator:
 - name: trader-config
   files:
-  - config.toml=../../python/config/config.yaml
+  - config.toml
