@@ -66,6 +66,19 @@ jobs:
           echo "MIT License" >> LICENSE.txt
         }
 
+    - name: Extract Version Information
+      working-directory: trader-admin
+      run: |
+        echo "Extracting version information..."
+        ./version-extract.ps1 > "$env:TEMP\version.txt"
+        if (Test-Path "$env:TEMP\version.txt") {
+          echo "Version file created successfully:"
+          Get-Content "$env:TEMP\version.txt"
+        } else {
+          echo "Error: Failed to create version file"
+          exit 1
+        }
+
     - name: Build NSIS Installer
       working-directory: trader-admin
       run: |
