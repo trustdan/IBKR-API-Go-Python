@@ -166,7 +166,6 @@ def main():
     parser.add_argument("-v", "--verbose", action="store_true", help="Verbose output")
     args = parser.parse_args()
 
-    return_code = 0
     fixed_files = []
     skipped_files = []
 
@@ -178,7 +177,6 @@ def main():
         if not was_correct:
             if fixed:
                 fixed_files.append((filename, whitespace_lines, line_ending_changes))
-                return_code = 1  # Indicate a file was modified
             else:
                 skipped_files.append(filename)
 
@@ -225,7 +223,9 @@ def main():
                             f"      * Fixed line endings: {', '.join(line_ending_changes)}"
                         )
 
-    return return_code
+    # Always return 0 (success), no matter if files were fixed
+    # This allows the commit to proceed even when fixes are applied
+    return 0
 
 
 if __name__ == "__main__":

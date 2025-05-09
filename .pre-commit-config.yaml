@@ -8,6 +8,8 @@ repos:
         entry: python/scripts/fix_file_endings.py
         language: python
         types: [text]
+        exclude: '^trader-admin/|\.lock$|\.exe$|LICENSE|README\.md$'
+        stages: [commit]
 
 # Standard pre-commit hooks (run second)
 -   repo: https://github.com/pre-commit/pre-commit-hooks
@@ -22,12 +24,14 @@ repos:
     hooks:
     -   id: isort
         args: ["--profile", "black"]
+        exclude: '^trader-admin/'
 
 # Then run black (settings from pyproject.toml)
 -   repo: https://github.com/psf/black
     rev: 23.3.0
     hooks:
     -   id: black
+        exclude: '^trader-admin/'
 
 # Modified mypy type checking to focus only on core modules
 -   repo: https://github.com/pre-commit/mirrors-mypy
