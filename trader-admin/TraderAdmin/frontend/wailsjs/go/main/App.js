@@ -6,12 +6,28 @@ export function CheckRequiredServices() {
   return window['go']['main']['App']['CheckRequiredServices']();
 }
 
+export function ClearCache(arg1) {
+  return window['go']['main']['App']['ClearCache'](arg1);
+}
+
+export function ConfigureSchedule(arg1) {
+  return window['go']['main']['App']['ConfigureSchedule'](arg1);
+}
+
+export function CreateBackup() {
+  return window['go']['main']['App']['CreateBackup']();
+}
+
 export function DeployStack() {
   return window['go']['main']['App']['DeployStack']();
 }
 
 export function GetContainers() {
   return window['go']['main']['App']['GetContainers']();
+}
+
+export function ListBackups() {
+  return window['go']['main']['App']['ListBackups']();
 }
 
 export function LoadConfig() {
@@ -28,6 +44,10 @@ export function PauseStack() {
 
 export function ReloadConfig() {
   return window['go']['main']['App']['ReloadConfig']();
+}
+
+export function RestoreBackup(arg1) {
+  return window['go']['main']['App']['RestoreBackup'](arg1);
 }
 
 export function SaveAndRestart(arg1) {
@@ -52,6 +72,10 @@ export function StartupSequenceCheck() {
 
 export function Status() {
   return window['go']['main']['App']['Status']();
+}
+
+export function TestIBKRConnection(arg1) {
+  return window['go']['main']['App']['TestIBKRConnection'](arg1);
 }
 
 export function UnpauseContainer(arg1) {

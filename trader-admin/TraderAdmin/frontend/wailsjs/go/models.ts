@@ -1,12 +1,60 @@
 export namespace main {
-
+	
+	export class AlertsConfig {
+	    EmailEnabled: boolean;
+	    EmailAddress: string;
+	    SMSEnabled: boolean;
+	    SMSNumber: string;
+	    WebhookEnabled: boolean;
+	    WebhookURL: string;
+	    AlertOnTrade: boolean;
+	    AlertOnError: boolean;
+	    AlertOnStartup: boolean;
+	    AlertOnShutdown: boolean;
+	
+	    static createFrom(source: any = {}) {
+	        return new AlertsConfig(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.EmailEnabled = source["EmailEnabled"];
+	        this.EmailAddress = source["EmailAddress"];
+	        this.SMSEnabled = source["SMSEnabled"];
+	        this.SMSNumber = source["SMSNumber"];
+	        this.WebhookEnabled = source["WebhookEnabled"];
+	        this.WebhookURL = source["WebhookURL"];
+	        this.AlertOnTrade = source["AlertOnTrade"];
+	        this.AlertOnError = source["AlertOnError"];
+	        this.AlertOnStartup = source["AlertOnStartup"];
+	        this.AlertOnShutdown = source["AlertOnShutdown"];
+	    }
+	}
+	export class BackupConfig {
+	    AutoBackupEnabled: boolean;
+	    BackupIntervalHours: number;
+	    MaxBackups: number;
+	    BackupDir: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new BackupConfig(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.AutoBackupEnabled = source["AutoBackupEnabled"];
+	        this.BackupIntervalHours = source["BackupIntervalHours"];
+	        this.MaxBackups = source["MaxBackups"];
+	        this.BackupDir = source["BackupDir"];
+	    }
+	}
 	export class BearRallyConfig {
 	    RSIThreshold: number;
-
+	
 	    static createFrom(source: any = {}) {
 	        return new BearRallyConfig(source);
 	    }
-
+	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.RSIThreshold = source["RSIThreshold"];
@@ -14,14 +62,34 @@ export namespace main {
 	}
 	export class BullPullbackConfig {
 	    RSIThreshold: number;
-
+	
 	    static createFrom(source: any = {}) {
 	        return new BullPullbackConfig(source);
 	    }
-
+	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.RSIThreshold = source["RSIThreshold"];
+	    }
+	}
+	export class ScheduleConfig {
+	    AutoStartEnabled: boolean;
+	    AutoStopEnabled: boolean;
+	    StartTime: string;
+	    StopTime: string;
+	    Timezone: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new ScheduleConfig(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.AutoStartEnabled = source["AutoStartEnabled"];
+	        this.AutoStopEnabled = source["AutoStopEnabled"];
+	        this.StartTime = source["StartTime"];
+	        this.StopTime = source["StopTime"];
+	        this.Timezone = source["Timezone"];
 	    }
 	}
 	export class LoggingConfig {
@@ -30,11 +98,11 @@ export namespace main {
 	    MaxSizeMB: number;
 	    BackupCount: number;
 	    Format: string;
-
+	
 	    static createFrom(source: any = {}) {
 	        return new LoggingConfig(source);
 	    }
-
+	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.Level = source["Level"];
@@ -48,11 +116,11 @@ export namespace main {
 	    Host: string;
 	    Port: number;
 	    MaxConcurrency: number;
-
+	
 	    static createFrom(source: any = {}) {
 	        return new ScannerConfig(source);
 	    }
-
+	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.Host = source["Host"];
@@ -64,11 +132,11 @@ export namespace main {
 	    MinMarketCap: number;
 	    MinPrice: number;
 	    MinVolume: number;
-
+	
 	    static createFrom(source: any = {}) {
 	        return new UniverseConfig(source);
 	    }
-
+	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.MinMarketCap = source["MinMarketCap"];
@@ -83,11 +151,27 @@ export namespace main {
 	    MaxDelta: number;
 	    MaxSpreadCost: number;
 	    MinRewardRisk: number;
-
+	    MinOpenInterest: number;
+	    MaxBidAskSpreadPct: number;
+	    MinIVRank: number;
+	    MaxIVRank: number;
+	    MinCallPutSkewPct: number;
+	    MaxThetaPerDay: number;
+	    MaxVegaExposure: number;
+	    MaxGammaExposure: number;
+	    MinProbOfProfit: number;
+	    MaxWidthVsMovePct: number;
+	    DaysBeforeEarnings: number;
+	    DaysBeforeExDiv: number;
+	    DTEFromATR: boolean;
+	    ATRCoefficient: number;
+	    StrikeOffset: number;
+	    SpreadWidth: number;
+	
 	    static createFrom(source: any = {}) {
 	        return new OptionsConfig(source);
 	    }
-
+	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.MinDTE = source["MinDTE"];
@@ -96,16 +180,32 @@ export namespace main {
 	        this.MaxDelta = source["MaxDelta"];
 	        this.MaxSpreadCost = source["MaxSpreadCost"];
 	        this.MinRewardRisk = source["MinRewardRisk"];
+	        this.MinOpenInterest = source["MinOpenInterest"];
+	        this.MaxBidAskSpreadPct = source["MaxBidAskSpreadPct"];
+	        this.MinIVRank = source["MinIVRank"];
+	        this.MaxIVRank = source["MaxIVRank"];
+	        this.MinCallPutSkewPct = source["MinCallPutSkewPct"];
+	        this.MaxThetaPerDay = source["MaxThetaPerDay"];
+	        this.MaxVegaExposure = source["MaxVegaExposure"];
+	        this.MaxGammaExposure = source["MaxGammaExposure"];
+	        this.MinProbOfProfit = source["MinProbOfProfit"];
+	        this.MaxWidthVsMovePct = source["MaxWidthVsMovePct"];
+	        this.DaysBeforeEarnings = source["DaysBeforeEarnings"];
+	        this.DaysBeforeExDiv = source["DaysBeforeExDiv"];
+	        this.DTEFromATR = source["DTEFromATR"];
+	        this.ATRCoefficient = source["ATRCoefficient"];
+	        this.StrikeOffset = source["StrikeOffset"];
+	        this.SpreadWidth = source["SpreadWidth"];
 	    }
 	}
 	export class LowBaseConfig {
 	    MinATRRatio: number;
 	    MaxRSI: number;
-
+	
 	    static createFrom(source: any = {}) {
 	        return new LowBaseConfig(source);
 	    }
-
+	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.MinATRRatio = source["MinATRRatio"];
@@ -115,11 +215,11 @@ export namespace main {
 	export class HighBaseConfig {
 	    MaxATRRatio: number;
 	    MinRSI: number;
-
+	
 	    static createFrom(source: any = {}) {
 	        return new HighBaseConfig(source);
 	    }
-
+	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.MaxATRRatio = source["MaxATRRatio"];
@@ -131,11 +231,11 @@ export namespace main {
 	    LowBase: LowBaseConfig;
 	    BullPullback: BullPullbackConfig;
 	    BearRally: BearRallyConfig;
-
+	
 	    static createFrom(source: any = {}) {
 	        return new StrategyConfig(source);
 	    }
-
+	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.HighBase = this.convertValues(source["HighBase"], HighBaseConfig);
@@ -143,7 +243,7 @@ export namespace main {
 	        this.BullPullback = this.convertValues(source["BullPullback"], BullPullbackConfig);
 	        this.BearRally = this.convertValues(source["BearRally"], BearRallyConfig);
 	    }
-
+	
 		convertValues(a: any, classs: any, asMap: boolean = false): any {
 		    if (!a) {
 		        return a;
@@ -169,11 +269,11 @@ export namespace main {
 	    RiskPerTrade: number;
 	    PriceImprovementFactor: number;
 	    AllowLateDayEntry: boolean;
-
+	
 	    static createFrom(source: any = {}) {
 	        return new TradingConfig(source);
 	    }
-
+	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.Mode = source["Mode"];
@@ -189,11 +289,11 @@ export namespace main {
 	    UniverseCacheExpiry: number;
 	    MinuteDataCacheExpiry: number;
 	    OptionsCacheExpiry: number;
-
+	
 	    static createFrom(source: any = {}) {
 	        return new DataConfig(source);
 	    }
-
+	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.CacheDir = source["CacheDir"];
@@ -208,11 +308,11 @@ export namespace main {
 	    ClientID: number;
 	    ReadOnly: boolean;
 	    Account: string;
-
+	
 	    static createFrom(source: any = {}) {
 	        return new IBKRConfig(source);
 	    }
-
+	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.Host = source["Host"];
@@ -231,11 +331,14 @@ export namespace main {
 	    Universe: UniverseConfig;
 	    Scanner: ScannerConfig;
 	    Logging: LoggingConfig;
-
+	    Schedule: ScheduleConfig;
+	    Alerts: AlertsConfig;
+	    Backup: BackupConfig;
+	
 	    static createFrom(source: any = {}) {
 	        return new Config(source);
 	    }
-
+	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.IBKR = this.convertValues(source["IBKR"], IBKRConfig);
@@ -246,8 +349,11 @@ export namespace main {
 	        this.Universe = this.convertValues(source["Universe"], UniverseConfig);
 	        this.Scanner = this.convertValues(source["Scanner"], ScannerConfig);
 	        this.Logging = this.convertValues(source["Logging"], LoggingConfig);
+	        this.Schedule = this.convertValues(source["Schedule"], ScheduleConfig);
+	        this.Alerts = this.convertValues(source["Alerts"], AlertsConfig);
+	        this.Backup = this.convertValues(source["Backup"], BackupConfig);
 	    }
-
+	
 		convertValues(a: any, classs: any, asMap: boolean = false): any {
 		    if (!a) {
 		        return a;
@@ -271,11 +377,11 @@ export namespace main {
 	    Name: string;
 	    Status: string;
 	    Created: string;
-
+	
 	    static createFrom(source: any = {}) {
 	        return new ContainerInfo(source);
 	    }
-
+	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.ID = source["ID"];
@@ -284,18 +390,25 @@ export namespace main {
 	        this.Created = source["Created"];
 	    }
 	}
-
+	
+	
+	
+	
+	
+	
+	
+	
 	export class ServiceStatus {
 	    name: string;
 	    status: string;
 	    isOk: boolean;
 	    message: string;
 	    extraMsg?: string;
-
+	
 	    static createFrom(source: any = {}) {
 	        return new ServiceStatus(source);
 	    }
-
+	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.name = source["name"];
@@ -305,4 +418,8 @@ export namespace main {
 	        this.extraMsg = source["extraMsg"];
 	    }
 	}
+	
+	
+
 }
+

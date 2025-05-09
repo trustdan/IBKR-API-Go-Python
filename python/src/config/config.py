@@ -4,10 +4,11 @@ Loads settings from YAML files and environment variables.
 """
 
 import os
+import platform
 import signal
 import threading
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Callable, Dict, Optional, Union
 
 import yaml
 from dotenv import load_dotenv
@@ -36,14 +37,16 @@ class Config:
         self.config_path = Path(config_path)
         self._load_config()
 
-        # Register signal handler for SIGUSR1
+        # Register signal handler for SIGUSR1 (only on Unix platforms)
         try:
-            signal.signal(signal.SIGUSR1, self._handle_reload_signal)
-            print("Registered SIGUSR1 handler for config reloading")
+            # Only attempt to use SIGUSR1 on Unix-like platforms
+            if platform.system() != "Windows" and hasattr(signal, "SIGUSR1"):
+                signal.signal(signal.SIGUSR1, self._handle_reload_signal)
+                print("Registered SIGUSR1 handler for config reloading")
         except Exception as e:
             print(f"Warning: Failed to register SIGUSR1 handler: {e}")
 
-    def _handle_reload_signal(self, *_) -> None:
+    def _handle_reload_signal(self, signum: int, frame: Any) -> None:
         """Handle SIGUSR1 signal to reload configuration."""
         print("Received SIGUSR1 signal, reloading configuration...")
         with self.lock:

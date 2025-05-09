@@ -4,9 +4,17 @@ import {main} from '../models';
 
 export function CheckRequiredServices():Promise<Array<main.ServiceStatus>>;
 
+export function ClearCache(arg1:string):Promise<void>;
+
+export function ConfigureSchedule(arg1:main.ScheduleConfig):Promise<void>;
+
+export function CreateBackup():Promise<string>;
+
 export function DeployStack():Promise<void>;
 
 export function GetContainers():Promise<Array<main.ContainerInfo>>;
+
+export function ListBackups():Promise<Array<string>>;
 
 export function LoadConfig():Promise<main.Config>;
 
@@ -15,6 +23,8 @@ export function PauseContainer(arg1:string):Promise<void>;
 export function PauseStack():Promise<void>;
 
 export function ReloadConfig():Promise<void>;
+
+export function RestoreBackup(arg1:string):Promise<void>;
 
 export function SaveAndRestart(arg1:main.Config):Promise<void>;
 
@@ -27,6 +37,8 @@ export function ShowStatusDialog():Promise<void>;
 export function StartupSequenceCheck():Promise<void>;
 
 export function Status():Promise<string>;
+
+export function TestIBKRConnection(arg1:main.IBKRConfig):Promise<main.ServiceStatus>;
 
 export function UnpauseContainer(arg1:string):Promise<void>;
 

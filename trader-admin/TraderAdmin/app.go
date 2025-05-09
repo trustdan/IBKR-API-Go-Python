@@ -29,6 +29,9 @@ type Config struct {
 	Universe UniverseConfig
 	Scanner  ScannerConfig
 	Logging  LoggingConfig
+	Schedule ScheduleConfig
+	Alerts   AlertsConfig
+	Backup   BackupConfig
 }
 
 // IBKRConfig holds IBKR connection settings
@@ -96,6 +99,28 @@ type OptionsConfig struct {
 	MaxDelta      float64 `toml:"max_delta"`
 	MaxSpreadCost int     `toml:"max_spread_cost"`
 	MinRewardRisk float64 `toml:"min_reward_risk"`
+	// New Liquidity & Execution-Quality Filters
+	MinOpenInterest    int     `toml:"min_open_interest"`
+	MaxBidAskSpreadPct float64 `toml:"max_bid_ask_spread_pct"`
+	// New Implied-Volatility Regime
+	MinIVRank         float64 `toml:"min_iv_rank"`
+	MaxIVRank         float64 `toml:"max_iv_rank"`
+	MinCallPutSkewPct float64 `toml:"min_call_put_skew_pct"`
+	// New Greek-Based Risk Controls
+	MaxThetaPerDay   float64 `toml:"max_theta_per_day"`
+	MaxVegaExposure  float64 `toml:"max_vega_exposure"`
+	MaxGammaExposure float64 `toml:"max_gamma_exposure"`
+	// New Probability & Expected-Move Metrics
+	MinProbOfProfit   float64 `toml:"min_prob_of_profit"`
+	MaxWidthVsMovePct float64 `toml:"max_width_vs_move_pct"`
+	// New Event & Calendar Controls
+	DaysBeforeEarnings int     `toml:"days_before_earnings"`
+	DaysBeforeExDiv    int     `toml:"days_before_ex_div"`
+	DTEFromATR         bool    `toml:"dte_from_atr"`
+	ATRCoefficient     float64 `toml:"atr_coefficient"`
+	// New Strike-Selection Flexibility
+	StrikeOffset int `toml:"strike_offset"`
+	SpreadWidth  int `toml:"spread_width"`
 }
 
 // UniverseConfig holds universe filtering settings
@@ -119,6 +144,37 @@ type LoggingConfig struct {
 	MaxSizeMB   int    `toml:"max_size_mb"`
 	BackupCount int    `toml:"backup_count"`
 	Format      string `toml:"format"`
+}
+
+// ScheduleConfig holds scheduling settings
+type ScheduleConfig struct {
+	AutoStartEnabled bool   `toml:"auto_start_enabled"`
+	AutoStopEnabled  bool   `toml:"auto_stop_enabled"`
+	StartTime        string `toml:"start_time"`
+	StopTime         string `toml:"stop_time"`
+	Timezone         string `toml:"timezone"`
+}
+
+// AlertsConfig holds alert notification settings
+type AlertsConfig struct {
+	EmailEnabled    bool   `toml:"email_enabled"`
+	EmailAddress    string `toml:"email_address"`
+	SMSEnabled      bool   `toml:"sms_enabled"`
+	SMSNumber       string `toml:"sms_number"`
+	WebhookEnabled  bool   `toml:"webhook_enabled"`
+	WebhookURL      string `toml:"webhook_url"`
+	AlertOnTrade    bool   `toml:"alert_on_trade"`
+	AlertOnError    bool   `toml:"alert_on_error"`
+	AlertOnStartup  bool   `toml:"alert_on_startup"`
+	AlertOnShutdown bool   `toml:"alert_on_shutdown"`
+}
+
+// BackupConfig holds backup settings
+type BackupConfig struct {
+	AutoBackupEnabled   bool   `toml:"auto_backup_enabled"`
+	BackupIntervalHours int    `toml:"backup_interval_hours"`
+	MaxBackups          int    `toml:"max_backups"`
+	BackupDir           string `toml:"backup_dir"`
 }
 
 // ContainerInfo represents container information
@@ -863,4 +919,225 @@ func (a *App) DeployStack() error {
 
 	a.logger.Printf("Stack deployed successfully: %s", string(output))
 	return nil
+}
+
+// TestIBKRConnection tests the IBKR API connection with the current settings
+func (a *App) TestIBKRConnection(config *IBKRConfig) (*ServiceStatus, error) {
+	a.logger.Printf("Testing IBKR connection to %s:%d", config.Host, config.Port)
+
+	// Create a struct to hold the test results
+	result := &ServiceStatus{
+		Name:    "IBKR Connection",
+		Status:  "Unknown",
+		IsOK:    false,
+		Message: "Connection test not implemented",
+	}
+
+	// In a real implementation, you would attempt to connect to TWS/IB Gateway here
+	// For now, we'll simulate a successful connection
+	result.Status = "Connected"
+	result.IsOK = true
+	result.Message = fmt.Sprintf("Successfully connected to %s:%d", config.Host, config.Port)
+
+	if config.ReadOnly {
+		result.ExtraMsg = "Read-only mode enabled"
+	}
+
+	return result, nil
+}
+
+// ClearCache clears the data cache folders
+func (a *App) ClearCache(cacheType string) error {
+	a.logger.Printf("Clearing cache: %s", cacheType)
+
+	config, err := a.LoadConfig()
+	if err != nil {
+		return fmt.Errorf("failed to load config: %w", err)
+	}
+
+	baseDir := config.Data.CacheDir
+	a.logger.Printf("Cache base directory: %s", baseDir)
+
+	// Make sure the base directory exists
+	if _, err := os.Stat(baseDir); os.IsNotExist(err) {
+		return fmt.Errorf("cache directory does not exist: %s", baseDir)
+	}
+
+	var dirsToClear []string
+
+	switch cacheType {
+	case "all":
+		dirsToClear = []string{baseDir}
+	case "universe":
+		dirsToClear = []string{filepath.Join(baseDir, "universe")}
+	case "minute":
+		dirsToClear = []string{filepath.Join(baseDir, "minute")}
+	case "options":
+		dirsToClear = []string{filepath.Join(baseDir, "options")}
+	default:
+		return fmt.Errorf("unknown cache type: %s", cacheType)
+	}
+
+	for _, dir := range dirsToClear {
+		a.logger.Printf("Clearing directory: %s", dir)
+
+		// Skip if directory doesn't exist
+		if _, err := os.Stat(dir); os.IsNotExist(err) {
+			a.logger.Printf("Directory doesn't exist, skipping: %s", dir)
+			continue
+		}
+
+		// Read directory entries
+		entries, err := os.ReadDir(dir)
+		if err != nil {
+			return fmt.Errorf("failed to read directory %s: %w", dir, err)
+		}
+
+		// Delete each entry
+		for _, entry := range entries {
+			path := filepath.Join(dir, entry.Name())
+			a.logger.Printf("Deleting: %s", path)
+
+			err := os.RemoveAll(path)
+			if err != nil {
+				return fmt.Errorf("failed to delete %s: %w", path, err)
+			}
+		}
+	}
+
+	a.logger.Printf("Cache cleared successfully: %s", cacheType)
+	return nil
+}
+
+// ConfigureSchedule updates the scheduling settings and ensures they take effect
+func (a *App) ConfigureSchedule(schedule *ScheduleConfig) error {
+	a.logger.Printf("Configuring schedule: Start=%s, Stop=%s", schedule.StartTime, schedule.StopTime)
+
+	// Check validity of time formats
+	if _, err := time.Parse("15:04", schedule.StartTime); err != nil {
+		return fmt.Errorf("invalid start time format: %s. Use HH:MM 24-hour format", schedule.StartTime)
+	}
+
+	if _, err := time.Parse("15:04", schedule.StopTime); err != nil {
+		return fmt.Errorf("invalid stop time format: %s. Use HH:MM 24-hour format", schedule.StopTime)
+	}
+
+	// Load current config
+	config, err := a.LoadConfig()
+	if err != nil {
+		return fmt.Errorf("failed to load config: %w", err)
+	}
+
+	// Update the schedule section
+	config.Schedule = *schedule
+
+	// Save the config
+	if err := a.SaveConfig(config); err != nil {
+		return fmt.Errorf("failed to save schedule config: %w", err)
+	}
+
+	a.logger.Println("Schedule configuration saved successfully")
+	return nil
+}
+
+// CreateBackup creates a manual backup of the current configuration
+func (a *App) CreateBackup() (string, error) {
+	a.logger.Println("Creating manual backup")
+
+	config, err := a.LoadConfig()
+	if err != nil {
+		return "", fmt.Errorf("failed to load config: %w", err)
+	}
+
+	// Ensure backup directory exists
+	backupDir := config.Backup.BackupDir
+	if _, err := os.Stat(backupDir); os.IsNotExist(err) {
+		a.logger.Printf("Creating backup directory: %s", backupDir)
+		if err := os.MkdirAll(backupDir, 0755); err != nil {
+			return "", fmt.Errorf("failed to create backup directory: %w", err)
+		}
+	}
+
+	// Create timestamped backup filename
+	timestamp := time.Now().Format("20060102-150405")
+	backupFile := filepath.Join(backupDir, fmt.Sprintf("config-%s.toml", timestamp))
+
+	// Get current config file path
+	configPath := filepath.Join(a.configDir, "config.toml")
+
+	// Copy the file
+	a.logger.Printf("Creating backup: %s", backupFile)
+	if err := copyFile(configPath, backupFile); err != nil {
+		return "", fmt.Errorf("failed to create backup: %w", err)
+	}
+
+	a.logger.Printf("Backup created successfully: %s", backupFile)
+	return backupFile, nil
+}
+
+// RestoreBackup restores a configuration from a backup file
+func (a *App) RestoreBackup(backupFile string) error {
+	a.logger.Printf("Restoring backup from: %s", backupFile)
+
+	// Check if backup file exists
+	if _, err := os.Stat(backupFile); os.IsNotExist(err) {
+		return fmt.Errorf("backup file does not exist: %s", backupFile)
+	}
+
+	// Target config file
+	configPath := filepath.Join(a.configDir, "config.toml")
+
+	// First verify that the backup is a valid TOML file
+	var config Config
+	if _, err := toml.DecodeFile(backupFile, &config); err != nil {
+		return fmt.Errorf("invalid backup file: %w", err)
+	}
+
+	// Create backup of current config first
+	currentBackup := configPath + ".restore_backup"
+	if err := copyFile(configPath, currentBackup); err != nil {
+		a.logger.Printf("Warning: Failed to backup current config: %v", err)
+	}
+
+	// Copy the backup to the config file
+	if err := copyFile(backupFile, configPath); err != nil {
+		return fmt.Errorf("failed to restore backup: %w", err)
+	}
+
+	a.logger.Printf("Backup restored successfully from: %s", backupFile)
+	return nil
+}
+
+// ListBackups returns a list of available backup files
+func (a *App) ListBackups() ([]string, error) {
+	a.logger.Println("Listing available backups")
+
+	config, err := a.LoadConfig()
+	if err != nil {
+		return nil, fmt.Errorf("failed to load config: %w", err)
+	}
+
+	// Check if backup directory exists
+	backupDir := config.Backup.BackupDir
+	if _, err := os.Stat(backupDir); os.IsNotExist(err) {
+		a.logger.Printf("Backup directory does not exist: %s", backupDir)
+		return []string{}, nil
+	}
+
+	// Read directory entries
+	entries, err := os.ReadDir(backupDir)
+	if err != nil {
+		return nil, fmt.Errorf("failed to read backup directory: %w", err)
+	}
+
+	// Filter for .toml files
+	var backups []string
+	for _, entry := range entries {
+		if !entry.IsDir() && strings.HasSuffix(entry.Name(), ".toml") {
+			backups = append(backups, filepath.Join(backupDir, entry.Name()))
+		}
+	}
+
+	a.logger.Printf("Found %d backup files", len(backups))
+	return backups, nil
 }

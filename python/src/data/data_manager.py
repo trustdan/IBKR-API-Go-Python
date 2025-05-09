@@ -514,3 +514,71 @@ class DataManager:
             close_time += timedelta(days=1)
 
         return close_time.timestamp()
+
+    def clear_cache(self, cache_type: str = "all") -> int:
+        """
+        Clear specific or all cache data.
+
+        Args:
+            cache_type: Type of cache to clear - 'all', 'universe', 'minute', or 'options'
+
+        Returns:
+            Number of items removed
+        """
+        log_info(f"Clearing cache: {cache_type}")
+
+        if cache_type == "all":
+            # Clear memory cache
+            count = len(self.cache)
+            self.cache.clear()
+            self.cache_expiry.clear()
+
+            # Clear disk cache
+            try:
+                for file in self.cache_dir.glob("*.pkl"):
+                    file.unlink()
+                log_info(f"Cleared all cache files from {self.cache_dir}")
+            except Exception as e:
+                log_error(f"Error clearing cache files: {e}")
+
+            return count
+
+        # For specific cache types, we need to filter by key patterns
+        count = 0
+        keys_to_remove = []
+
+        # Define patterns for each cache type
+        if cache_type == "universe":
+            pattern = "universe_filter:"
+        elif cache_type == "minute":
+            pattern = ":1 min:"
+        elif cache_type == "options":
+            pattern = "options:"
+        else:
+            log_warning(f"Unknown cache type: {cache_type}")
+            return 0
+
+        # Find matching keys in memory cache
+        for key in list(self.cache.keys()):
+            if pattern in key:
+                keys_to_remove.append(key)
+                count += 1
+
+        # Remove from memory cache
+        for key in keys_to_remove:
+            if key in self.cache:
+                del self.cache[key]
+            if key in self.cache_expiry:
+                del self.cache_expiry[key]
+
+        # Remove matching files from disk cache
+        try:
+            file_pattern = f"*{pattern.replace(':', '_')}*.pkl"
+            for file in self.cache_dir.glob(file_pattern):
+                file.unlink()
+                log_debug(f"Deleted cache file: {file}")
+        except Exception as e:
+            log_error(f"Error clearing cache files for {cache_type}: {e}")
+
+        log_info(f"Cleared {count} {cache_type} cache items")
+        return count

@@ -11,6 +11,9 @@ service ScannerService {
 
   // GetScanResults retrieves the latest scan results
   rpc GetScanResults (ResultsRequest) returns (ScanResponse);
+
+  // GetMetrics retrieves the current service metrics
+  rpc GetMetrics (MetricsRequest) returns (MetricsResponse);
 }
 
 // ScanRequest represents a request to scan the market
@@ -24,6 +27,20 @@ message ScanRequest {
 message ResultsRequest {
   int32 limit = 1;           // Maximum number of results to return
   int64 older_than = 2;      // Unix timestamp filter
+}
+
+// MetricsRequest is used to request service metrics
+message MetricsRequest {
+  bool include_full_stats = 1;  // Whether to include detailed statistics
+}
+
+// MetricsResponse contains service metrics
+message MetricsResponse {
+  int32 max_concurrency = 1;    // Maximum concurrent requests
+  int32 cache_ttl = 2;          // Cache TTL in minutes
+  int64 last_scan_time = 3;     // Unix timestamp of the last scan
+  string status = 4;            // Service status
+  map<string, string> stats = 5; // Additional statistics
 }
 
 // ScanResponse contains market scan results

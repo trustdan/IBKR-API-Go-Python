@@ -32,12 +32,41 @@
     rsi_threshold = 55
 
 [Options]
+  # Basic Options Settings
   min_dte = 30
   max_dte = 45
   min_delta = 0.3
   max_delta = 0.5
   max_spread_cost = 500
   min_reward_risk = 1.5
+
+  # Liquidity & Execution-Quality Filters
+  min_open_interest = 1000
+  max_bid_ask_spread_pct = 0.5
+
+  # Implied-Volatility Regime
+  min_iv_rank = 0.0
+  max_iv_rank = 100.0
+  min_call_put_skew_pct = 0.0
+
+  # Greek-Based Risk Controls
+  max_theta_per_day = 10.0
+  max_vega_exposure = 0.4
+  max_gamma_exposure = 0.4
+
+  # Probability & Expected-Move Metrics
+  min_prob_of_profit = 65.0
+  max_width_vs_move_pct = 150.0
+
+  # Event & Calendar Controls
+  days_before_earnings = 5
+  days_before_ex_div = 3
+  dte_from_atr = false
+  atr_coefficient = 2.0
+
+  # Strike-Selection Flexibility
+  strike_offset = 1
+  spread_width = 1
 
 [Universe]
   min_market_cap = 10000000000
@@ -55,3 +84,28 @@
   max_size_mb = 10
   backup_count = 5
   format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+
+[Schedule]
+  auto_start_enabled = false
+  auto_stop_enabled = false
+  start_time = "09:30"
+  stop_time = "16:00"
+  timezone = "America/New_York"
+
+[Alerts]
+  email_enabled = false
+  email_address = ""
+  sms_enabled = false
+  sms_number = ""
+  webhook_enabled = false
+  webhook_url = ""
+  alert_on_trade = true
+  alert_on_error = true
+  alert_on_startup = false
+  alert_on_shutdown = false
+
+[Backup]
+  auto_backup_enabled = false
+  backup_interval_hours = 24
+  max_backups = 7
+  backup_dir = "backups"

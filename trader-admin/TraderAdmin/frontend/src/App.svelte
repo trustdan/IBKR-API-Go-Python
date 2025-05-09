@@ -11,6 +11,10 @@
     DeployStack
   } from '../wailsjs/go/main/App.js';
   import SystemStatus from './components/SystemStatus.svelte';
+  import ScheduleTab from './components/ScheduleTab.svelte';
+  import AlertsTab from './components/AlertsTab.svelte';
+  import BackupTab from './components/BackupTab.svelte';
+  import DataTab from './components/DataTab.svelte';
 
   // Theme management
   let isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -131,7 +135,18 @@
     logAction('Save and Restart Initiated');
 
     try {
-      await SaveAndRestart(config);
+      // Step 1: Pause containers
+      logAction('Pausing Containers');
+      await PauseStack();
+
+      // Step 2: Save the config
+      logAction('Saving Configuration');
+      await SaveConfig(config);
+
+      // Step 3: Unpause containers
+      logAction('Unpausing Containers');
+      await UnpauseStack();
+
       // Show success message
       logAction('Save and Restart Completed', { success: true });
       alert('Configuration saved and services restarted successfully');
@@ -289,6 +304,36 @@
         Options
       </button>
       <button
+        class:active={activeTab === 'universe'}
+        on:click={() => activeTab = 'universe'}>
+        Universe
+      </button>
+      <button
+        class:active={activeTab === 'connection'}
+        on:click={() => activeTab = 'connection'}>
+        Connection
+      </button>
+      <button
+        class:active={activeTab === 'data'}
+        on:click={() => activeTab = 'data'}>
+        Data
+      </button>
+      <button
+        class:active={activeTab === 'schedule'}
+        on:click={() => activeTab = 'schedule'}>
+        Schedule
+      </button>
+      <button
+        class:active={activeTab === 'alerts'}
+        on:click={() => activeTab = 'alerts'}>
+        Alerts
+      </button>
+      <button
+        class:active={activeTab === 'backup'}
+        on:click={() => activeTab = 'backup'}>
+        Backup
+      </button>
+      <button
         class:active={activeTab === 'system'}
         on:click={() => activeTab = 'system'}>
         System
@@ -392,31 +437,240 @@
         <div class="tab-content" class:active={activeTab === 'options'}>
           <h2>Options Settings</h2>
           {#if config.Options}
-            <div class="form-group">
-              <label for="min-dte">Min Days to Expiry</label>
-              <input type="number" id="min-dte" bind:value={config.Options.MinDTE} min="1" max="90">
+            <!-- Basic Options Settings -->
+            <div class="options-section">
+              <h3>Basic Settings</h3>
+              <div class="form-group">
+                <label for="min-dte">Min Days to Expiry</label>
+                <input type="number" id="min-dte" bind:value={config.Options.MinDTE} min="1" max="90">
+              </div>
+              <div class="form-group">
+                <label for="max-dte">Max Days to Expiry</label>
+                <input type="number" id="max-dte" bind:value={config.Options.MaxDTE} min="1" max="120">
+              </div>
+              <div class="form-group">
+                <label for="min-delta">Min Delta</label>
+                <input type="number" id="min-delta" bind:value={config.Options.MinDelta} min="0.1" max="0.5" step="0.05">
+              </div>
+              <div class="form-group">
+                <label for="max-delta">Max Delta</label>
+                <input type="number" id="max-delta" bind:value={config.Options.MaxDelta} min="0.3" max="0.9" step="0.05">
+              </div>
+              <div class="form-group">
+                <label for="max-spread-cost">Max Spread Cost ($)</label>
+                <input type="number" id="max-spread-cost" bind:value={config.Options.MaxSpreadCost} min="100" max="2000" step="50">
+              </div>
+              <div class="form-group">
+                <label for="min-reward-risk">Min Reward/Risk Ratio</label>
+                <input type="number" id="min-reward-risk" bind:value={config.Options.MinRewardRisk} min="1" max="5" step="0.1">
+              </div>
             </div>
-            <div class="form-group">
-              <label for="max-dte">Max Days to Expiry</label>
-              <input type="number" id="max-dte" bind:value={config.Options.MaxDTE} min="1" max="120">
+
+            <!-- Liquidity & Execution-Quality Filters -->
+            <div class="options-section">
+              <h3>Liquidity & Execution Filters</h3>
+              <div class="form-group">
+                <label for="min-open-interest">Min Open Interest</label>
+                <input type="number" id="min-open-interest" bind:value={config.Options.MinOpenInterest} min="0" max="10000" step="100">
+                <span class="hint">Minimum open interest to ensure sufficient liquidity</span>
+              </div>
+              <div class="form-group">
+                <label for="max-bid-ask-spread-pct">Max Bid/Ask Spread (%)</label>
+                <input type="number" id="max-bid-ask-spread-pct" bind:value={config.Options.MaxBidAskSpreadPct} min="0.1" max="10" step="0.1">
+                <span class="hint">Maximum acceptable bid-ask spread as a percentage</span>
+              </div>
             </div>
-            <div class="form-group">
-              <label for="min-delta">Min Delta</label>
-              <input type="number" id="min-delta" bind:value={config.Options.MinDelta} min="0.1" max="0.5" step="0.05">
+
+            <!-- Implied-Volatility Regime -->
+            <div class="options-section">
+              <h3>IV & Volatility Settings</h3>
+              <div class="form-group">
+                <label for="min-iv-rank">Min IV Rank (%)</label>
+                <input type="number" id="min-iv-rank" bind:value={config.Options.MinIVRank} min="0" max="100" step="5">
+                <span class="hint">Minimum implied volatility percentile rank</span>
+              </div>
+              <div class="form-group">
+                <label for="max-iv-rank">Max IV Rank (%)</label>
+                <input type="number" id="max-iv-rank" bind:value={config.Options.MaxIVRank} min="0" max="100" step="5">
+                <span class="hint">Maximum implied volatility percentile rank</span>
+              </div>
+              <div class="form-group">
+                <label for="min-call-put-skew-pct">Min Call/Put IV Skew (%)</label>
+                <input type="number" id="min-call-put-skew-pct" bind:value={config.Options.MinCallPutSkewPct} min="-50" max="50" step="1">
+                <span class="hint">Minimum skew between calls and puts (+ for call skew, - for put skew)</span>
+              </div>
             </div>
-            <div class="form-group">
-              <label for="max-delta">Max Delta</label>
-              <input type="number" id="max-delta" bind:value={config.Options.MaxDelta} min="0.3" max="0.9" step="0.05">
+
+            <!-- Greek-Based Risk Controls -->
+            <div class="options-section">
+              <h3>Greek Risk Controls</h3>
+              <div class="form-group">
+                <label for="max-theta-per-day">Max Theta Per Day ($)</label>
+                <input type="number" id="max-theta-per-day" bind:value={config.Options.MaxThetaPerDay} min="0" max="50" step="1">
+                <span class="hint">Maximum daily theta decay per spread</span>
+              </div>
+              <div class="form-group">
+                <label for="max-vega-exposure">Max Vega Exposure</label>
+                <input type="number" id="max-vega-exposure" bind:value={config.Options.MaxVegaExposure} min="0" max="1" step="0.05">
+                <span class="hint">Maximum vega exposure per position</span>
+              </div>
+              <div class="form-group">
+                <label for="max-gamma-exposure">Max Gamma Exposure</label>
+                <input type="number" id="max-gamma-exposure" bind:value={config.Options.MaxGammaExposure} min="0" max="1" step="0.05">
+                <span class="hint">Maximum gamma exposure per position</span>
+              </div>
             </div>
-            <div class="form-group">
-              <label for="max-spread-cost">Max Spread Cost ($)</label>
-              <input type="number" id="max-spread-cost" bind:value={config.Options.MaxSpreadCost} min="100" max="2000" step="50">
+
+            <!-- Probability & Expected-Move Metrics -->
+            <div class="options-section">
+              <h3>Probability & Expected Move</h3>
+              <div class="form-group">
+                <label for="min-prob-of-profit">Min Probability of Profit (%)</label>
+                <input type="number" id="min-prob-of-profit" bind:value={config.Options.MinProbOfProfit} min="0" max="100" step="5">
+                <span class="hint">Minimum probability of profit for the spread</span>
+              </div>
+              <div class="form-group">
+                <label for="max-width-vs-move-pct">Max Width vs Expected Move (%)</label>
+                <input type="number" id="max-width-vs-move-pct" bind:value={config.Options.MaxWidthVsMovePct} min="50" max="300" step="10">
+                <span class="hint">Maximum spread width as a percentage of the expected move</span>
+              </div>
             </div>
-            <div class="form-group">
-              <label for="min-reward-risk">Min Reward/Risk Ratio</label>
-              <input type="number" id="min-reward-risk" bind:value={config.Options.MinRewardRisk} min="1" max="5" step="0.1">
+
+            <!-- Event & Calendar Controls -->
+            <div class="options-section">
+              <h3>Event & Calendar Controls</h3>
+              <div class="form-group">
+                <label for="days-before-earnings">Days Before Earnings to Skip</label>
+                <input type="number" id="days-before-earnings" bind:value={config.Options.DaysBeforeEarnings} min="0" max="30" step="1">
+                <span class="hint">Skip trades this many days before earnings</span>
+              </div>
+              <div class="form-group">
+                <label for="days-before-ex-div">Days Before Ex-Div to Skip</label>
+                <input type="number" id="days-before-ex-div" bind:value={config.Options.DaysBeforeExDiv} min="0" max="30" step="1">
+                <span class="hint">Skip trades this many days before ex-dividend date</span>
+              </div>
+              <div class="form-group">
+                <label>
+                  <input type="checkbox" bind:checked={config.Options.DTEFromATR}>
+                  Use Dynamic DTE based on ATR
+                </label>
+              </div>
+              <div class="form-group" class:disabled={!config.Options.DTEFromATR}>
+                <label for="atr-coefficient">ATR Coefficient</label>
+                <input type="number" id="atr-coefficient" bind:value={config.Options.ATRCoefficient} min="0.5" max="5" step="0.5" disabled={!config.Options.DTEFromATR}>
+                <span class="hint">Multiplier for ATR to determine DTE (higher = longer DTE)</span>
+              </div>
+            </div>
+
+            <!-- Strike-Selection Flexibility -->
+            <div class="options-section">
+              <h3>Strike Selection</h3>
+              <div class="form-group">
+                <label for="strike-offset">Strike Offset (# of strikes)</label>
+                <input type="number" id="strike-offset" bind:value={config.Options.StrikeOffset} min="0" max="10" step="1">
+                <span class="hint">Number of strikes away from ATM for initial strike</span>
+              </div>
+              <div class="form-group">
+                <label for="spread-width">Spread Width (# of strikes)</label>
+                <input type="number" id="spread-width" bind:value={config.Options.SpreadWidth} min="1" max="10" step="1">
+                <span class="hint">Number of strikes wide for the spread</span>
+              </div>
             </div>
           {/if}
+        </div>
+
+        <!-- Universe Settings Tab -->
+        <div class="tab-content" class:active={activeTab === 'universe'}>
+          <h2>Universe Settings</h2>
+          {#if config.Universe}
+            <div class="form-group">
+              <label for="min-market-cap">Minimum Market Cap ($B)</label>
+              <input
+                type="number"
+                id="min-market-cap"
+                bind:value={config.Universe.MinMarketCap}
+                min="1000000000"
+                max="100000000000"
+                step="1000000000"
+              >
+              <span class="hint">Minimum market capitalization in billions (e.g., 10000000000 = $10B)</span>
+            </div>
+            <div class="form-group">
+              <label for="min-price">Minimum Price ($)</label>
+              <input
+                type="number"
+                id="min-price"
+                bind:value={config.Universe.MinPrice}
+                min="1"
+                max="100"
+              >
+            </div>
+            <div class="form-group">
+              <label for="min-volume">Minimum Daily Volume</label>
+              <input
+                type="number"
+                id="min-volume"
+                bind:value={config.Universe.MinVolume}
+                min="100000"
+                max="10000000"
+                step="100000"
+              >
+            </div>
+          {/if}
+        </div>
+
+        <!-- Connection Settings Tab -->
+        <div class="tab-content" class:active={activeTab === 'connection'}>
+          <h2>IBKR Connection Settings</h2>
+          {#if config.IBKR}
+            <div class="form-group">
+              <label for="ibkr-host">Host</label>
+              <input type="text" id="ibkr-host" bind:value={config.IBKR.Host}>
+            </div>
+            <div class="form-group">
+              <label for="ibkr-port">Port</label>
+              <input type="number" id="ibkr-port" bind:value={config.IBKR.Port} min="1" max="65535">
+            </div>
+            <div class="form-group">
+              <label for="ibkr-client-id">Client ID</label>
+              <input type="number" id="ibkr-client-id" bind:value={config.IBKR.ClientID} min="0" max="999">
+            </div>
+            <div class="form-group">
+              <label>
+                <input type="checkbox" bind:checked={config.IBKR.ReadOnly}>
+                Read-Only Mode
+              </label>
+              <span class="hint">When enabled, no real orders will be placed</span>
+            </div>
+            <div class="form-group">
+              <label for="ibkr-account">Account (optional)</label>
+              <input type="text" id="ibkr-account" bind:value={config.IBKR.Account} placeholder="Leave blank for default">
+              <span class="hint">Specify account ID if you have multiple accounts</span>
+            </div>
+            <div class="button-group">
+              <button class="btn secondary">Test Connection</button>
+            </div>
+          {/if}
+        </div>
+
+        <!-- Data Management Tab -->
+        <div class="tab-content" class:active={activeTab === 'data'}>
+          <DataTab {config} {logAction} />
+        </div>
+
+        <!-- Schedule Tab -->
+        <div class="tab-content" class:active={activeTab === 'schedule'}>
+          <ScheduleTab {config} {logAction} />
+        </div>
+
+        <!-- Alerts Tab -->
+        <div class="tab-content" class:active={activeTab === 'alerts'}>
+          <AlertsTab {config} {logAction} />
+        </div>
+
+        <!-- Backup Tab -->
+        <div class="tab-content" class:active={activeTab === 'backup'}>
+          <BackupTab {config} {logAction} />
         </div>
 
         <!-- System Tab -->
@@ -729,6 +983,55 @@
     text-align: center;
     padding-bottom: 0.5rem;
     border-bottom: 1px solid #e0e0e0;
+  }
+
+  /* Options sections */
+  .options-section {
+    margin-bottom: 1.5rem;
+    padding: 1.5rem;
+    background-color: #fff;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  }
+
+  .options-section h3 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    color: #2c3e50;
+    text-align: center;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #e0e0e0;
+    background-color: #f8f9fa;
+    padding: 8px;
+    border-radius: 4px;
+  }
+
+  :global(body.dark-mode) .options-section {
+    background-color: #2a2a2a;
+    border-color: #444;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  }
+
+  :global(body.dark-mode) .options-section h3 {
+    color: #e0e0e0;
+    border-bottom-color: #444;
+    background-color: #333;
+  }
+
+  /* Disabled form groups */
+  .form-group.disabled {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  .form-group.disabled input:not([type="checkbox"]) {
+    background-color: #f1f1f1;
+  }
+
+  :global(body.dark-mode) .form-group.disabled input:not([type="checkbox"]) {
+    background-color: #333;
   }
 
   /* Container table */
