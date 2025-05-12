@@ -7156,4 +7156,3 @@ Cancels pending WSH event data request.
 -
 
 self.cancelWshEventData(1101, eventDataObj)
-

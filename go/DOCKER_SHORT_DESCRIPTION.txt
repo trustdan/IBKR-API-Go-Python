@@ -1,2 +1,1 @@
 High-performance Go scanner for the Auto Vertical Spread Trader system. Works with trustdan/auto-vertical-spread-python. See GitHub for full docs.
-

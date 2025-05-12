@@ -331,4 +331,3 @@ class TradeExecutor:
             ),
             "queued_trades": len(self.queued_trades),
         }
-

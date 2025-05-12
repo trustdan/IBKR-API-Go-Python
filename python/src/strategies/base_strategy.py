@@ -95,4 +95,3 @@ class BaseStrategy(ABC):
             List of (signal_type, symbol) tuples where signal_type is "LONG" or "SHORT"
         """
         pass
-

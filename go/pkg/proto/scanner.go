@@ -78,4 +78,3 @@ type OptionData struct {
 func RegisterScannerServiceServer(s interface{}, srv ScannerServiceServer) {
 	// This is a stub function - in real code, this would register with gRPC
 }
-

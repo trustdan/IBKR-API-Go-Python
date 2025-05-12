@@ -38,4 +38,3 @@ Technical analysis engine with indicator calculations
 Signal generation for all strategies
 Basic backtesting capabilities
 Integrated data provider access
-

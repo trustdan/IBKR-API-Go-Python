@@ -144,4 +144,3 @@ func (m *MetricTracker) getMemoryUsage() float64 {
 
 	return memUsageMB
 }
-

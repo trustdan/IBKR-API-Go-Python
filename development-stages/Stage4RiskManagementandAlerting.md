@@ -39,4 +39,3 @@ Configurable exit strategies implementation
 Robust error handling with recovery mechanisms
 Multi-channel alerting system
 Performance monitoring framework
-

@@ -120,4 +120,3 @@ Feature: Automated Trading Schedule
 ------
 
 > **Next:** Ready for **Plan 5: Real-Time Monitoring & Alerts**, where weÃ¢â‚¬â„¢ll wire up dashboards, charts, and notification channels? Let me know!
-

@@ -101,4 +101,3 @@ func DefaultConfig() *Config {
 		ProfilerEndpoint:     "/debug/pprof",
 	}
 }
-

@@ -45,4 +45,3 @@ import (
 func ensureDependencies() {
 	// This function is intentionally empty
 }
-

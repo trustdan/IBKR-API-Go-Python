@@ -38,4 +38,3 @@ while IFS= read -r -d '' file; do
 done
 
 echo "All files fixed!"
-

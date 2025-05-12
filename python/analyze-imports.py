@@ -172,4 +172,3 @@ def find_circular_imports():
 
 if __name__ == "__main__":
     analyze_imports()
-

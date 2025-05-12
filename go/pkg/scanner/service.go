@@ -130,4 +130,3 @@ func (s *ScannerService) performScan(req *proto.ScanRequest) []*proto.ScanResult
 
 	return results
 }
-

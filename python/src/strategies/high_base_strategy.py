@@ -89,4 +89,3 @@ class HighBaseStrategy(BaseStrategy):
             signals.append(("LONG", symbol))
 
         return signals
-

@@ -139,4 +139,3 @@ Feature: RealÃ¢â‚¬ÂTime Monitoring & Alerts
 ------
 
 With Plan 5 complete, youÃ¢â‚¬â„¢ll have a fully instrumented, self-alerting trading terminalÃ¢â‚¬â€closing the loop on visibility and proactive risk management. Let me know if youÃ¢â‚¬â„¢d like to dive deeper into any piece!
-

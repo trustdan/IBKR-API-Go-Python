@@ -29,4 +29,3 @@ ibkr_trader.egg-info/SOURCES.txt
 ibkr_trader.egg-info/dependency_links.txt
 ibkr_trader.egg-info/requires.txt
 ibkr_trader.egg-info/top_level.txt
-

@@ -42,4 +42,3 @@ Complete backtesting framework with optimization
 Fully automated CI/CD pipeline
 Production-ready monitoring setup
 Deployment scripts and documentation for production
-

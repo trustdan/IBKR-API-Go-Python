@@ -498,4 +498,3 @@ Users of this software are solely responsible for ensuring compliance with all a
 The authors, contributors, and maintainers of this software expressly disclaim all liability for any direct, indirect, consequential, incidental, or special damages arising out of or in any way connected with the use of or inability to use this software.
 
 BY USING THIS SOFTWARE, YOU ACKNOWLEDGE THAT YOU HAVE READ THIS DISCLAIMER, UNDERSTAND IT, AND AGREE TO BE BOUND BY ITS TERMS.
-

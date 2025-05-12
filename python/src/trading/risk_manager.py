@@ -545,4 +545,3 @@ class RiskManager:
             "sector_exposure": dict(self.sector_exposure),
             "industry_exposure": dict(self.industry_exposure),
         }
-

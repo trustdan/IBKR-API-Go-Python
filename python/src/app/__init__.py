@@ -3,4 +3,3 @@
 """
 Application core components.
 """
-

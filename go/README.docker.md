@@ -31,4 +31,3 @@ For complete documentation, configuration options, and setup instructions, pleas
 ## License
 
 MIT License
-

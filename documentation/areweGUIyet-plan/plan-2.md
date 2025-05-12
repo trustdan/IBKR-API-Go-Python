@@ -190,4 +190,3 @@ Scenario: Reject invalid field entry
 ------
 
 > **Next up:** Plan 3 will dive into **Advanced Trading Features & Enhancements**, layering in IV filters, Greeks, dynamic DTE logic, and real-time option-chain visualizations. Ready when you are!
-

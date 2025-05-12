@@ -13,4 +13,3 @@ Write-Host "Add the following to your mypy.ini:" -ForegroundColor Yellow
 Write-Host "namespace_packages = False"
 Write-Host "follow_imports = skip"
 Write-Host "ignore_missing_imports = True"
-

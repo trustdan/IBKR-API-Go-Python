@@ -73,4 +73,3 @@ func generateMockPriceData(days int) []float64 {
 func init() {
 	rand.Seed(time.Now().UnixNano())
 }
-

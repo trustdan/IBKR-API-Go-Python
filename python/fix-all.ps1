@@ -34,4 +34,3 @@ Write-Host "mypy src" -ForegroundColor Yellow
 
 Write-Host "`nOr for Python files outside the src directory:"
 Write-Host "mypy path/to/your/file.py" -ForegroundColor Yellow
-

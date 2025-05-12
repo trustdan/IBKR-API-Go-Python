@@ -21,4 +21,3 @@ ibapi==9.81.1
 python-dateutil==2.8.2
 requests==2.29.0
 tqdm==4.65.0
-

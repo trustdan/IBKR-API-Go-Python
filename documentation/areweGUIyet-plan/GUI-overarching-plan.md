@@ -201,4 +201,3 @@ Scenario: Full system integration test
 - Cluster-Agnostic deployments
 
 This roadmap provides a structured, actionable path for building a sophisticated, reliable, and user-friendly trading application, seamlessly integrating GUI enhancements, backend robustness, and comprehensive testing for confident deployment.
-

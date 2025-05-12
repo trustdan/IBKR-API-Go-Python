@@ -269,4 +269,3 @@ class Trader:
             ),
             "status": status,
         }
-

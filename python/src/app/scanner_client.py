@@ -227,4 +227,3 @@ class DummyScannerStub:
             "memory_usage_mb": 50.0,
             "cpu_usage_percent": 5.0,
         }
-

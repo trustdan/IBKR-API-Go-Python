@@ -16,4 +16,3 @@ mypy --no-namespace-packages --no-implicit-reexport --ignore-missing-imports src
 
 # Exit with the mypy exit code
 exit $LASTEXITCODE
-

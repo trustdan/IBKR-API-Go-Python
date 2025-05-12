@@ -45,4 +45,3 @@ KO
 PEP
 MCD
 SBUX
-

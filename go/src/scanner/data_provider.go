@@ -214,4 +214,3 @@ func (i *IBKRDataProvider) GetHistoricalData(ctx context.Context, symbol, startD
 	mockProvider := NewMockDataProvider(i.config)
 	return mockProvider.GetHistoricalData(ctx, symbol, startDate, endDate)
 }
-

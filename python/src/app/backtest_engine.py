@@ -543,4 +543,3 @@ class BacktestEngine:
                 log_error(f"Error writing backtest report: {str(e)}")
 
         return report_text
-

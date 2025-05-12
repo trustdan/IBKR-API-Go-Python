@@ -187,4 +187,3 @@ Prior to migration, we experienced several issues with TA-Lib installation that 
    - Complete user guide with installation instructions
    - Create administrator guide for system monitoring
    - Develop deployment scripts for cloud hosting
-

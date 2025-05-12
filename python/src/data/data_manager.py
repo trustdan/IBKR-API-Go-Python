@@ -514,4 +514,3 @@ class DataManager:
             close_time += timedelta(days=1)
 
         return close_time.timestamp()
-

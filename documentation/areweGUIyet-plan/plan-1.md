@@ -187,4 +187,3 @@ Feature: Foundation Smoke Tests
 ------
 
 > **Next:** Once youÃ¢â‚¬â„¢re happy with this foundation, weÃ¢â‚¬â„¢ll dive into **Plan 2: Core GUI Components**Ã¢â‚¬â€building out the tabs, dynamic forms, and container-control APIs. Let me know your feedback!
-

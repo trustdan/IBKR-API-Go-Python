@@ -43,4 +43,3 @@ spec:
       - name: config-volume
         configMap:
           name: vertical-spread-config
-

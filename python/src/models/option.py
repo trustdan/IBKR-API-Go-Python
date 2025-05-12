@@ -89,4 +89,3 @@ class OptionSpread:
             f"[{self.long_leg.strike:.2f}-{self.short_leg.strike:.2f}] "
             f"Cost: ${self.cost:.2f} R/R: {self.reward_risk_ratio:.2f}"
         )
-

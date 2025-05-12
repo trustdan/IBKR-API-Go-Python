@@ -157,4 +157,3 @@ Feature: Event Avoidance
 ------
 
 > **Next:** Once this advanced feature set is in place, weÃ¢â‚¬â„¢ll move on to **Plan 4: Save/Restart & Scheduling Workflow**Ã¢â‚¬â€œÃ¢â‚¬â€œwiring up Pause/Edit/Unpause and time-of-day automation. Let me know when youÃ¢â‚¬â„¢re ready!
-

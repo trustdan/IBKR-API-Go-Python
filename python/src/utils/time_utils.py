@@ -230,4 +230,3 @@ def format_time_remaining(td: timedelta) -> str:
     minutes, seconds = divmod(remainder, 60)
 
     return f"{hours}h {minutes}m {seconds}s"
-

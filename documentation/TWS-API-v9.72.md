@@ -561,4 +561,3 @@ Pending event data requests can be canceled with the function [IBApi.EClient.can
 Also note that TWS will not support multiple concurrent requests.  Previous request should succeed, fail, or be cancelled by client before  next one. TWS will reject such requests with text "Duplicate WSH  meta-data request" or "Duplicate WSH event request".
 
 In **TWS API 10.15+** Wall Street Horizon Event Calendar queries and filters have been added. For guidelines and more information please visit [Wall Street Horizon Corporate Event filters](https://interactivebrokers.github.io/tws-api/wshe_filters.html) page.
-

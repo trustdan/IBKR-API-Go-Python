@@ -92,4 +92,3 @@ echo "docker-compose -f $COMPOSE_FILE logs -f"
 echo ""
 echo -e "${CYAN}To stop all services, run:${NC}"
 echo "docker-compose -f $COMPOSE_FILE down"
-

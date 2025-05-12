@@ -205,4 +205,3 @@ class Scanner:
 
         # Default behavior if no strategies found
         return True
-

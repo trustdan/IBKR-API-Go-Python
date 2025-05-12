@@ -87,4 +87,3 @@ func handleShutdown(server *grpc.Server) {
 	server.GracefulStop()
 	logrus.Info("Server stopped")
 }
-

@@ -100,4 +100,3 @@ class BullPullbackStrategy(BaseStrategy):
                 signals.append(("LONG", symbol))
 
         return signals
-

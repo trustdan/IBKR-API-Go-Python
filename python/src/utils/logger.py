@@ -194,4 +194,3 @@ class CaptureHandler(logging.Handler):
                 "message": record.getMessage(),
             }
         )
-

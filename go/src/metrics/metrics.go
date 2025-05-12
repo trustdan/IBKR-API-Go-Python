@@ -249,4 +249,3 @@ func (m *MetricTracker) updateCPUUsage() {
 	}
 	m.lastCPUCheckTime = time.Now()
 }
-

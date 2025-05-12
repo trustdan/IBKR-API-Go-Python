@@ -132,4 +132,3 @@ go mod download
 ## Conclusion
 
 By following these steps, you can seamlessly integrate the Auto Vertical Spread Trader with IBKR's TWS or IB Gateway for efficient and automated vertical spread trading.
-
