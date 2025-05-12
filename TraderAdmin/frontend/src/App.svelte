@@ -4,6 +4,7 @@
   import NavTabs from './components/NavTabs.svelte';
   import ConnectionTab from './components/ConnectionTab.svelte';
   import OptionsTab from './components/OptionsTab.svelte';
+  import SchedulingTab from './components/SchedulingTab.svelte';
 
   // Import the store functions
   import { loadSchema, loadConfig, configStore, hasChanges, saveConfig } from './store/config';
@@ -72,6 +73,9 @@
 
         {:else if activeTab === 'options'}
           <OptionsTab />
+
+        {:else if activeTab === 'schedule'}
+          <SchedulingTab />
 
         <!-- Add more tabs here as they are implemented -->
         {:else}

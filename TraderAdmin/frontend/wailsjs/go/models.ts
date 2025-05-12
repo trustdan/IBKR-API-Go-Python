@@ -166,11 +166,72 @@ export namespace main {
 	        this.Sectors = source["Sectors"];
 	    }
 	}
+	export class DTEConfig {
+	    Dynamic: boolean;
+	    DTECoefficient: number;
+
+	    static createFrom(source: any = {}) {
+	        return new DTEConfig(source);
+	    }
+
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.Dynamic = source["Dynamic"];
+	        this.DTECoefficient = source["DTECoefficient"];
+	    }
+	}
+	export class EventsConfig {
+	    SkipEarningsDays: number;
+	    SkipExDivDays: number;
+
+	    static createFrom(source: any = {}) {
+	        return new EventsConfig(source);
+	    }
+
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.SkipEarningsDays = source["SkipEarningsDays"];
+	        this.SkipExDivDays = source["SkipExDivDays"];
+	    }
+	}
+	export class ProbabilityConfig {
+	    MinPOP: number;
+	    MaxWidthVsMovePct: number;
+
+	    static createFrom(source: any = {}) {
+	        return new ProbabilityConfig(source);
+	    }
+
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.MinPOP = source["MinPOP"];
+	        this.MaxWidthVsMovePct = source["MaxWidthVsMovePct"];
+	    }
+	}
+	export class GreeksConfig {
+	    MaxThetaPerDay: number;
+	    MaxVegaExposure: number;
+	    MaxGammaExposure: number;
+
+	    static createFrom(source: any = {}) {
+	        return new GreeksConfig(source);
+	    }
+
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.MaxThetaPerDay = source["MaxThetaPerDay"];
+	        this.MaxVegaExposure = source["MaxVegaExposure"];
+	        this.MaxGammaExposure = source["MaxGammaExposure"];
+	    }
+	}
 	export class OptionsConfig {
 	    MinOpenInterest: number;
 	    MaxBidAskSpreadPct: number;
 	    PreferredExpirationDays: number[];
 	    StrikePriceIncrement: number;
+	    MinIVRank: number;
+	    MaxIVRank: number;
+	    MinCallPutSkewPct: number;
 
 	    static createFrom(source: any = {}) {
 	        return new OptionsConfig(source);
@@ -182,6 +243,9 @@ export namespace main {
 	        this.MaxBidAskSpreadPct = source["MaxBidAskSpreadPct"];
 	        this.PreferredExpirationDays = source["PreferredExpirationDays"];
 	        this.StrikePriceIncrement = source["StrikePriceIncrement"];
+	        this.MinIVRank = source["MinIVRank"];
+	        this.MaxIVRank = source["MaxIVRank"];
+	        this.MinCallPutSkewPct = source["MinCallPutSkewPct"];
 	    }
 	}
 	export class StrategyConfig {
@@ -253,6 +317,10 @@ export namespace main {
 	    Trading: TradingConfig;
 	    Strategies: Record<string, StrategyConfig>;
 	    Options: OptionsConfig;
+	    Greeks: GreeksConfig;
+	    Probability: ProbabilityConfig;
+	    Events: EventsConfig;
+	    DTE: DTEConfig;
 	    Universe: UniverseConfig;
 	    Scanner: ScannerConfig;
 	    DataManagement: DataManagementConfig;
@@ -273,6 +341,10 @@ export namespace main {
 	        this.Trading = this.convertValues(source["Trading"], TradingConfig);
 	        this.Strategies = this.convertValues(source["Strategies"], StrategyConfig, true);
 	        this.Options = this.convertValues(source["Options"], OptionsConfig);
+	        this.Greeks = this.convertValues(source["Greeks"], GreeksConfig);
+	        this.Probability = this.convertValues(source["Probability"], ProbabilityConfig);
+	        this.Events = this.convertValues(source["Events"], EventsConfig);
+	        this.DTE = this.convertValues(source["DTE"], DTEConfig);
 	        this.Universe = this.convertValues(source["Universe"], UniverseConfig);
 	        this.Scanner = this.convertValues(source["Scanner"], ScannerConfig);
 	        this.DataManagement = this.convertValues(source["DataManagement"], DataManagementConfig);
@@ -320,6 +392,50 @@ export namespace main {
 
 
 
+
+
+
+
+	export class OptionContract {
+	    expiry: string;
+	    strike: number;
+	    type: string;
+	    bid: number;
+	    ask: number;
+	    iv: number;
+	    ivRank: number;
+	    delta: number;
+	    gamma: number;
+	    theta: number;
+	    vega: number;
+	    openInterest: number;
+	    volume: number;
+	    bidAskSpreadPct: number;
+	    probabilityOTM: number;
+
+	    static createFrom(source: any = {}) {
+	        return new OptionContract(source);
+	    }
+
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.expiry = source["expiry"];
+	        this.strike = source["strike"];
+	        this.type = source["type"];
+	        this.bid = source["bid"];
+	        this.ask = source["ask"];
+	        this.iv = source["iv"];
+	        this.ivRank = source["ivRank"];
+	        this.delta = source["delta"];
+	        this.gamma = source["gamma"];
+	        this.theta = source["theta"];
+	        this.vega = source["vega"];
+	        this.openInterest = source["openInterest"];
+	        this.volume = source["volume"];
+	        this.bidAskSpreadPct = source["bidAskSpreadPct"];
+	        this.probabilityOTM = source["probabilityOTM"];
+	    }
+	}
 
 
 

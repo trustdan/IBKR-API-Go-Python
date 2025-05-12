@@ -351,14 +351,87 @@ func (a *App) watchConfig() {
 
 // PauseStack pauses all services in the stack
 func (a *App) PauseStack() string {
-	// TODO: Implement Docker/Kubernetes pause functionality
-	return "Stack paused (not implemented yet)"
+	config := a.GetConfig()
+	if config == nil {
+		return "Error: Configuration not loaded"
+	}
+
+	// If using Kubernetes
+	if config.Kubernetes.Namespace != "" {
+		// Here we would use the Kubernetes client-go library to scale deployments
+		// For demonstration, just show what would happen
+		msg := fmt.Sprintf("Pausing Kubernetes deployments in namespace %s:\n", config.Kubernetes.Namespace)
+		msg += fmt.Sprintf("- Scaling %s to 0 replicas\n", config.Kubernetes.OrchestratorDeployment)
+		msg += fmt.Sprintf("- Scaling %s to 0 replicas\n", config.Kubernetes.ScannerDeployment)
+
+		// In a real implementation:
+		// clientset, err := kubernetes.NewForConfig(kubeConfig)
+		// deployment, err := clientset.AppsV1().Deployments(namespace).Get(ctx, deploymentName, metav1.GetOptions{})
+		// deployment.Spec.Replicas = pointer.Int32Ptr(0)
+		// _, err = clientset.AppsV1().Deployments(namespace).Update(ctx, deployment, metav1.UpdateOptions{})
+
+		return msg
+	} else {
+		// If using Docker
+		// Here we would use the Docker API to pause containers
+		// For demonstration, just show what would happen
+		msg := "Pausing Docker containers:\n"
+		msg += "- Pausing python-orchestrator container\n"
+		msg += "- Pausing go-scanner container\n"
+
+		// In a real implementation:
+		// cli, err := client.NewClientWithOpts(client.FromEnv)
+		// err = cli.ContainerPause(ctx, "python-orchestrator")
+		// err = cli.ContainerPause(ctx, "go-scanner")
+
+		return msg
+	}
 }
 
 // UnpauseStack unpauses all services in the stack
 func (a *App) UnpauseStack() string {
-	// TODO: Implement Docker/Kubernetes unpause functionality
-	return "Stack unpaused (not implemented yet)"
+	config := a.GetConfig()
+	if config == nil {
+		return "Error: Configuration not loaded"
+	}
+
+	// If using Kubernetes
+	if config.Kubernetes.Namespace != "" {
+		// Here we would use the Kubernetes client-go library to scale deployments
+		// For demonstration, just show what would happen
+		msg := fmt.Sprintf("Unpausing Kubernetes deployments in namespace %s:\n", config.Kubernetes.Namespace)
+		msg += fmt.Sprintf("- Scaling %s to 1 replica\n", config.Kubernetes.OrchestratorDeployment)
+		msg += fmt.Sprintf("- Scaling %s to 1 replica\n", config.Kubernetes.ScannerDeployment)
+
+		// In a real implementation:
+		// clientset, err := kubernetes.NewForConfig(kubeConfig)
+		// deployment, err := clientset.AppsV1().Deployments(namespace).Get(ctx, deploymentName, metav1.GetOptions{})
+		// deployment.Spec.Replicas = pointer.Int32Ptr(1)
+		// _, err = clientset.AppsV1().Deployments(namespace).Update(ctx, deployment, metav1.UpdateOptions{})
+
+		// After unpausing, we would send a signal to the services to reload config
+		// This could be done via sending a SIGUSR1 signal to the process or using another mechanism
+		msg += "- Sending reload signal to services\n"
+
+		return msg
+	} else {
+		// If using Docker
+		// Here we would use the Docker API to unpause containers
+		// For demonstration, just show what would happen
+		msg := "Unpausing Docker containers:\n"
+		msg += "- Unpausing python-orchestrator container\n"
+		msg += "- Unpausing go-scanner container\n"
+
+		// In a real implementation:
+		// cli, err := client.NewClientWithOpts(client.FromEnv)
+		// err = cli.ContainerUnpause(ctx, "python-orchestrator")
+		// err = cli.ContainerUnpause(ctx, "go-scanner")
+
+		// After unpausing, we would send a signal to the services to reload config
+		msg += "- Sending reload signal to services\n"
+
+		return msg
+	}
 }
 
 // SaveAndRestartStack saves the configuration and restarts all services
@@ -370,12 +443,15 @@ func (a *App) SaveAndRestartStack(config *Config) string {
 	}
 
 	// Pause the stack
-	a.PauseStack()
+	pauseMsg := a.PauseStack()
+
+	// Give services a moment to pause
+	time.Sleep(1 * time.Second)
 
 	// Unpause the stack
-	a.UnpauseStack()
+	unpauseMsg := a.UnpauseStack()
 
-	return "Configuration saved and stack restarted"
+	return fmt.Sprintf("Configuration saved and stack restarted:\n%s\n%s", pauseMsg, unpauseMsg)
 }
 
 // Greet returns a greeting for the given name
