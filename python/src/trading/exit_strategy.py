@@ -452,3 +452,4 @@ class ExitStrategyManager:
             )
 
         return position
+

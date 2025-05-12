@@ -40,3 +40,4 @@ services:
 networks:
   default:
     name: vertical-spread-network
+

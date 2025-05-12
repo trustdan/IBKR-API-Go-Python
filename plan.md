@@ -11,8 +11,8 @@ Here's a robust, structured implementation plan for your **Auto Vertical Spread 
 * API Contract defined clearly via gRPC/Protobuf.
 
 ```plaintext
-[ Market Data/API ] Ã¢â€ â€ [ Python Orchestrator ] Ã¢â€ ÂgRPCÃ¢â€ â€™ [ Go Scanner Service ]
-                                Ã¢â€ â€œ
+[ Market Data/API ] ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â [ Python Orchestrator ] ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â Ãƒâ€šÃ‚ÂgRPCÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ [ Go Scanner Service ]
+                                ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ
                          [ IBKR API / Order Management ]
 ```
 
@@ -130,7 +130,7 @@ func (s *ScannerService) Scan(req *scannerpb.ScanRequest) (*scannerpb.ScanRespon
 
 ---
 
-### **5. Integration: Python Ã¢â€ â€ Go (Phase 4)**
+### **5. Integration: Python ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â Go (Phase 4)**
 
 #### Python gRPC Client Stub Pseudocode:
 
@@ -156,7 +156,7 @@ Feature: Universe Filtering
   Scenario: Select tradable stocks
     Given the S&P 500 universe data
     When I filter by MIN_MARKET_CAP, MIN_PRICE, MIN_VOLUME
-    Then all returned stocks have cap Ã¢â€°Â¥ $10B, price > $20, volume Ã¢â€°Â¥ 1M
+    Then all returned stocks have cap ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â°Ãƒâ€šÃ‚Â¥ $10B, price > $20, volume ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â°Ãƒâ€šÃ‚Â¥ 1M
 ```
 
 #### Pseudocode (Universe Filter):
@@ -183,7 +183,7 @@ def filter_universe(stocks, config):
 Feature: ATR-based Risk Management
   Scenario: Stop-loss triggered
     Given an open vertical spread on AAPL
-    And an ATR-based stop-loss at 2 Ãƒâ€” ATR
+    And an ATR-based stop-loss at 2 ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â ATR
     When price reaches the stop-loss level
     Then the system exits the trade automatically
     And sends a notification alerting me
@@ -257,3 +257,4 @@ def monitor_stop_loss(position, market_data, config):
 ---
 
 This structured approach sets clear expectations, enabling your development team to build maintainable, robust software aligned with your original intentions and recent decisions. Let me know if you'd like further detail on any phase!
+

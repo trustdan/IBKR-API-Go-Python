@@ -1,3 +1,0 @@
-This is a test file to check if our pre-commit hook changes worked.
-It has some trailing whitespace   
-And multiple empty lines at the end. 

@@ -14,11 +14,9 @@ import (
 type ScannerService struct {
 	proto.UnimplementedScannerServiceServer
 	config       *Config
-	configPath   string
 	resultsCache *cache.Cache
 	lastScan     time.Time
 	scanMutex    sync.Mutex
-	mu           sync.RWMutex // For config access
 }
 
 // NewScannerService creates a new scanner service instance
@@ -28,54 +26,11 @@ func NewScannerService(config *Config) *ScannerService {
 
 	service := &ScannerService{
 		config:       config,
-		configPath:   "", // Will be set when needed
 		resultsCache: resultsCache,
 		lastScan:     time.Time{},
 	}
 
 	return service
-}
-
-// ReloadConfig reloads the scanner service configuration
-func (s *ScannerService) ReloadConfig() error {
-	// If we don't have a config path, try to reload from environment
-	if s.configPath == "" {
-		newConfig := NewDefaultConfig()
-
-		s.mu.Lock()
-		defer s.mu.Unlock()
-
-		s.config = newConfig
-		logrus.Infof("Reloaded configuration from environment: MaxConcurrency=%d, CacheTTL=%d",
-			s.config.MaxConcurrency, s.config.CacheTTL)
-
-		// Update cache TTL
-		s.resultsCache = cache.New(time.Duration(s.config.CacheTTL)*time.Minute,
-			time.Duration(s.config.CacheTTL*2)*time.Minute)
-
-		return nil
-	}
-
-	// Attempt to reload configuration from the same path
-	newConfig, err := LoadConfig(s.configPath)
-	if err != nil {
-		return err
-	}
-
-	// Update service configuration
-	s.mu.Lock()
-	defer s.mu.Unlock()
-
-	// Apply changes
-	s.config = newConfig
-	logrus.Infof("Reloaded configuration: MaxConcurrency=%d, CacheTTL=%d",
-		s.config.MaxConcurrency, s.config.CacheTTL)
-
-	// Update cache TTL
-	s.resultsCache = cache.New(time.Duration(s.config.CacheTTL)*time.Minute,
-		time.Duration(s.config.CacheTTL*2)*time.Minute)
-
-	return nil
 }
 
 // ScanMarket performs a market scan based on the provided criteria
@@ -128,23 +83,6 @@ func (s *ScannerService) GetScanResults(ctx context.Context, req *proto.ResultsR
 	}, nil
 }
 
-// GetMetrics returns service metrics
-func (s *ScannerService) GetMetrics(ctx context.Context, req *proto.MetricsRequest) (*proto.MetricsResponse, error) {
-	logrus.Info("Received metrics request")
-
-	s.mu.RLock()
-	maxConcurrency := s.config.MaxConcurrency
-	cacheTTL := s.config.CacheTTL
-	s.mu.RUnlock()
-
-	return &proto.MetricsResponse{
-		MaxConcurrency: int32(maxConcurrency),
-		CacheTtl:       int32(cacheTTL),
-		LastScanTime:   s.lastScan.Unix(),
-		Status:         "ok",
-	}, nil
-}
-
 // performScan executes the actual market scanning logic
 func (s *ScannerService) performScan(req *proto.ScanRequest) []*proto.ScanResult {
 	// This would be replaced with actual IBKR API calls in a real implementation
@@ -193,10 +131,3 @@ func (s *ScannerService) performScan(req *proto.ScanRequest) []*proto.ScanResult
 	return results
 }
 
-// SetConfigPath sets the path to the configuration file
-func (s *ScannerService) SetConfigPath(path string) {
-	s.mu.Lock()
-	defer s.mu.Unlock()
-	s.configPath = path
-	logrus.Infof("Set config path to: %s", path)
-}

@@ -5,3 +5,4 @@ Write-Output "Installing Python type stubs for pre-commit hooks..."
 pip install types-PyYAML
 
 Write-Output "Dependencies installed successfully!"
+

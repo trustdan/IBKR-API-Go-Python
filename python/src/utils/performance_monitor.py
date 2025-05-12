@@ -567,3 +567,4 @@ class PerformanceMonitor:
             "metrics": self.get_metrics_summary(minutes=60),
             "thresholds": self.thresholds,
         }
+

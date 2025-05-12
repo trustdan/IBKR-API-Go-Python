@@ -91,3 +91,4 @@ Write-Host "docker-compose -f $ComposeFile logs -f"
 Write-Host ""
 Write-Host "To stop all services, run:" -ForegroundColor Cyan
 Write-Host "docker-compose -f $ComposeFile down"
+

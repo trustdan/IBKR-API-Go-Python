@@ -144,3 +144,4 @@ Write-Color $Blue "To stop all services, run:"
 Write-Output "docker stop vertical-spread-go vertical-spread-python"
 Write-Color $Blue "To view logs, run:"
 Write-Output "docker logs vertical-spread-go -f"
+

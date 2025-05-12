@@ -172,3 +172,4 @@ data:
         annotations:
           summary: "High CPU usage"
           description: "Container {{ $labels.pod }} in {{ $labels.namespace }} is using {{ $value | humanizePercentage }} of its CPU limit"
+

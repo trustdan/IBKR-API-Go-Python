@@ -268,3 +268,4 @@ class Config(BaseConfig):
 
 # Create a global app config instance
 config = Config()
+

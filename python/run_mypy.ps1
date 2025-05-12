@@ -43,3 +43,4 @@ foreach ($module in $modules) {
 
 # Clean up
 Remove-Item -Force "python/temp-mypy.ini"
+

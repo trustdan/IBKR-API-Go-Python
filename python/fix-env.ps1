@@ -10,3 +10,4 @@ Write-Host "PYTHONPATH set to: $env:PYTHONPATH"
 # Now you can run mypy with this command:
 Write-Host "`nRun mypy with:"
 Write-Host "mypy src" -ForegroundColor Green
+

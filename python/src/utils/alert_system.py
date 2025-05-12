@@ -404,3 +404,4 @@ class SlackNotifier:
         except Exception as e:
             log_error(f"Failed to send Slack notification: {str(e)}")
             return False
+

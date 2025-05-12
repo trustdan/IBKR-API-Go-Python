@@ -578,3 +578,4 @@ class ErrorHandler:
             "errors_by_component": dict(component_errors),
             "circuit_breaker_status": circuit_status,
         }
+

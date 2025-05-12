@@ -29,3 +29,4 @@ include = '\.pyi?$'
 profile = "black"
 line_length = 88
 multi_line_output = 3
+

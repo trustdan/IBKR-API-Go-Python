@@ -23,7 +23,6 @@ The system is designed to identify technical patterns in equities, select optima
 
 - **Automated Technical Analysis**: Scans for specific patterns using custom-built strategies
 - **Option Chain Analysis**: Analyzes option chains to find optimal vertical spread opportunities
-- **Enhanced Option Filtering**: Greater-fidelity controls for precise spread selection based on 22+ parameters
 - **Risk Management**: Implements position sizing and risk controls
 - **Trade Execution**: Interfaces with Interactive Brokers for automated or semi-automated trading
 - **Performance Tracking**: Tracks and reports on system performance
@@ -32,7 +31,6 @@ The system is designed to identify technical patterns in equities, select optima
 - **Caching Strategy**: Efficient data management with intelligent caching
 - **Robust Error Handling**: Comprehensive error recovery mechanisms
 - **Alerting System**: Multi-channel notifications for trade and system events
-- **Intuitive Admin UI**: TraderAdmin GUI for easy configuration and monitoring
 
 ## Trading Strategies
 
@@ -51,20 +49,20 @@ The system follows a modular architecture designed for flexibility and extensibi
 
 ```
 python/
-├── src/
-│   ├── app/              # Application-level code
-│   ├── brokers/          # Broker integration code
-│   ├── models/           # Data models and classes
-│   ├── strategies/       # Trading strategy implementations
-│   ├── trading/          # Core trading components
-│   └── utils/            # Utility functions
-└── config.yaml           # Configuration file
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ src/
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ app/              # Application-level code
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ brokers/          # Broker integration code
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ models/           # Data models and classes
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ strategies/       # Trading strategy implementations
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ trading/          # Core trading components
+Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ utils/            # Utility functions
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ config.yaml           # Configuration file
 
 go/
-├── cmd/
-│   └── scanner/          # Go scanner application
-├── pkg/                  # Shared Go packages
-└── config.json           # Go scanner configuration
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ cmd/
+Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ scanner/          # Go scanner application
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ pkg/                  # Shared Go packages
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ config.json           # Go scanner configuration
 ```
 
 ## Interactive Brokers Integration
@@ -239,200 +237,265 @@ The easiest way to run the system is using Docker:
    docker logs vertical-spread-python -f
    ```
 
-### Windows Installer
+## Standard Installation
 
-We now provide an NSIS-based installer for Windows users that:
+If you prefer not to use Docker, you can set up the system directly:
 
-1. **Verifies system requirements** including:
-   - Docker Desktop
-   - Kubernetes
-   - TWS/IB Gateway availability
-2. **Installs the application** with proper Windows integration:
-   - Desktop and Start Menu shortcuts
-   - Registry entries
-   - Configuration management
-3. **Provides uninstallation** with option to preserve configuration files
+### Prerequisites
 
-To install:
-1. Download the latest `TraderAdmin-Setup-1.0.0.exe` release
-2. Run the installer and follow the prompts
-3. Launch from Start Menu or Desktop shortcut
+- Python 3.8+
+- Go 1.20+
+- Interactive Brokers account and TWS/Gateway installed
+- Either IBKR Paper Trading or Live Trading account
 
-### Daily Operator Workflow
+### Setup
 
-| Step | Action                                                       |
-| ---- | ------------------------------------------------------------ |
-| 1    | **Start Docker Desktop** (brings up k8s)                    |
-| 2    | `kubectl apply -k deploy/` – spins up the trading pods      |
-| 3    | **Launch TWS / IB Gateway** and log in                      |
-| 4    | **Run TraderAdmin** • *Save* performs `Pause → write config → Unpause + SIGUSR1` |
+1. Clone the repository:
+   ```
+   git clone https://github.com/yourusername/auto-vertical-spread-trader.git
+   cd auto-vertical-spread-trader
+   ```
 
-### Key Features
+2. For Python components:
+   ```bash
+   cd python
+   # Using Poetry (recommended)
+   poetry install
 
-- **Live Container Status**: Monitor running containers in real-time
-- **Edit Configuration**: Modify trading parameters through an intuitive GUI
-- **Pause/Unpause Stack**: Temporarily halt trading while making changes
-- **Hot Reload**: Apply configuration changes without restarting containers
-- **System Status Checks**: Verify Docker, Kubernetes, and TWS availability
+   # Or using pip
+   pip install -r requirements.txt
+   ```
 
-### Configuration Management
+3. For Go components:
+   ```bash
+   cd go
+   go mod download
+   ```
 
-The system now uses TOML format for configuration, providing better interoperability between Python and Go services. Both services include signal handlers (SIGUSR1) and file watchers to detect and reload configuration changes automatically.
+4. Install and set up pre-commit hooks:
+   ```bash
+   # Install pre-commit
+   pip install pre-commit
 
-### Kubernetes Integration
+   # Install the pre-commit hooks
+   pre-commit install
+   ```
 
-The trader components are now fully Kubernetes-ready with:
-- Persistent volume for shared configuration
-- Proper container labeling for discovery
-- Read-only config mounts for services
+### Pre-commit Hooks
 
-### Implementation Details
+This project uses pre-commit hooks to maintain code quality and consistency. The hooks include:
 
-See the full implementation details in:
-- `trader-admin/README.md` - Overview of the implementation
-- `trader-admin/IMPLEMENTATION.md` - Technical implementation details
-- `trader-admin/INSTALLER_GUIDE.md` - Guide for the Windows installer
-- `trader-admin/NSIS-README.md` - Technical details of the installer implementation
-- `trader-admin/TraderAdmin/README.md` - User guide for the TraderAdmin tool
+- **File Ending Management**: Ensures all text files end with exactly one newline
+- **Code Formatting**: Uses Black and isort for Python code formatting
+- **Type Checking**: Runs mypy on core modules
+- **YAML Validation**: Checks YAML file syntax
+- **Large File Check**: Prevents committing large files accidentally
 
-## Advanced Options Strategy Controls
+The pre-commit configuration is defined in `.pre-commit-config.yaml`. Key features:
 
-The system now includes enhanced options strategy controls for greater precision in vertical spread trading. These controls allow for more sophisticated spread selection based on multiple dimensions of filtering.
+1. **File Endings**:
+   - Custom hook ensures all text files end with exactly one newline and removes trailing whitespace
+   - Implemented using a Python script (`python/scripts/fix_file_endings.py`)
+   - Automatically fixes file endings and trailing whitespace issues in a single pass
+   - Works across all platforms (Windows, macOS, Linux)
 
-### Options Parameter Categories
+2. **Code Quality**:
+   - Formats Python code using Black
+   - Sorts imports using isort
+   - Runs mypy type checking on core modules
 
-The options settings are organized into six key categories, providing comprehensive control over spread selection:
-
-1. **Liquidity & Execution-Quality Filters**
-   - `Min Open Interest`: Ensures sufficient contract liquidity (default: 1000)
-   - `Max Bid/Ask Spread %`: Caps the relative spread to avoid overpaying (default: 0.5%)
-
-2. **Implied-Volatility Regime**
-   - `Min/Max IV Rank`: Control when to trade based on volatility regime
-   - `Min Call/Put IV Skew`: Identify and filter based on directional skew
-
-3. **Greek-Based Risk Controls**
-   - `Max Theta Per Day`: Limit daily time decay exposure
-   - `Max Vega Exposure`: Control volatility risk
-   - `Max Gamma Exposure`: Prevent overly "pin-risky" positions
-
-4. **Probability & Expected-Move Metrics**
-   - `Min Probability of Profit`: Trade only spreads with sufficient POP
-   - `Max Width vs Expected Move`: Ensure spread width is proportional to expected move
-
-5. **Event & Calendar Controls**
-   - `Days Before Earnings/Ex-Div`: Avoid trading before key events
-   - `DTE from ATR`: Dynamically adjust expiration based on volatility
-
-6. **Strike-Selection Flexibility**
-   - `Strike Offset`: Choose number of strikes away from ATM
-   - `Spread Width`: Set spread width in number of strikes
-
-### Using the Enhanced Controls
-
-These controls can be configured through:
-
-1. **TraderAdmin GUI**:
-   - Navigate to the "Options" tab
-   - Adjust parameters in each of the six sections
-   - Click "Save & Restart" to apply changes
-
-2. **Configuration File**:
-   - Edit `config.toml` under the `[Options]` section
-   - Parameters are grouped by category with comments
-   - Signal handlers will automatically reload configuration
-
-### Configuration Example
-
-```toml
-[Options]
-  # Basic Options Settings
-  min_dte = 30
-  max_dte = 45
-  min_delta = 0.3
-  max_delta = 0.5
-  max_spread_cost = 500
-  min_reward_risk = 1.5
-
-  # Liquidity & Execution-Quality Filters
-  min_open_interest = 1000
-  max_bid_ask_spread_pct = 0.5
-
-  # Implied-Volatility Regime
-  min_iv_rank = 0.0
-  max_iv_rank = 100.0
-  min_call_put_skew_pct = 0.0
-
-  # Greek-Based Risk Controls
-  max_theta_per_day = 10.0
-  max_vega_exposure = 0.4
-  max_gamma_exposure = 0.4
-
-  # Probability & Expected-Move Metrics
-  min_prob_of_profit = 65.0
-  max_width_vs_move_pct = 150.0
-
-  # Event & Calendar Controls
-  days_before_earnings = 5
-  days_before_ex_div = 3
-  dte_from_atr = false
-  atr_coefficient = 2.0
-
-  # Strike-Selection Flexibility
-  strike_offset = 1
-  spread_width = 1
+To manually run all pre-commit hooks on all files:
+```bash
+pre-commit run --all-files
 ```
 
-### Recommended Trading Configurations
-
-Here are some example configurations for different trading styles:
-
-#### Conservative Income Strategy
-```toml
-min_prob_of_profit = 75.0
-min_open_interest = 2000
-max_bid_ask_spread_pct = 0.3
-min_iv_rank = 50.0
-max_theta_per_day = 5.0
-days_before_earnings = 14
+To run a specific hook:
+```bash
+pre-commit run fix-file-endings-and-whitespace --all-files
 ```
 
-#### Volatility Expansion Strategy
-```toml
-min_iv_rank = 25.0
-max_iv_rank = 75.0
-max_vega_exposure = 0.6
-min_reward_risk = 2.0
-strike_offset = 2
-spread_width = 2
+5. Configure your system:
+   - Copy `config.yaml.example` to `config.yaml`
+   - Edit settings to match your requirements and risk tolerance
+   - Set your IBKR credentials via environment variables or in the config
+
+## Usage
+
+### Basic Operations
+
+1. **Run a Market Scan**:
+   ```
+   python python/src/run_trader.py scan --symbols symbols.txt --strategies HIGH_BASE BULL_PULLBACK
+   ```
+
+2. **Run in Trading Mode**:
+   ```
+   python python/src/run_trader.py trade --symbols symbols.txt --config config.yaml
+   ```
+
+3. **Check Trader Status**:
+   ```
+   python python/src/run_trader.py status
+   ```
+
+4. **Run Backtesting**:
+   ```
+   python python/src/run_trader.py backtest --start-date 2023-01-01 --end-date 2023-12-31 --strategies HIGH_BASE
+   ```
+
+### Configuration
+
+The system is highly configurable through the `config.yaml` file. Key configuration areas include:
+
+- **Trading Mode**: Switch between paper and live trading
+- **Strategy Parameters**: Customize technical indicators and thresholds
+- **Risk Parameters**: Set max positions, trade size, and other risk controls
+- **Option Selection Criteria**: Configure option spread selection criteria
+- **IBKR Connection**: Set connection parameters for TWS/Gateway
+
+Example configuration:
+
+```yaml
+# Trading Strategies Configuration
+
+# Strategy Parameters
+HIGH_BASE_MAX_ATR_RATIO: 2.0
+HIGH_BASE_MIN_RSI: 60
+
+# Risk Management
+RISK_PER_TRADE: 0.02  # 2% account risk per trade
+MAX_POSITIONS: 5
+MAX_DAILY_TRADES: 3
+
+# Option Selection
+MIN_DTE: 30
+MAX_DTE: 45
+MIN_DELTA: 0.30
+MAX_DELTA: 0.50
+MAX_SPREAD_COST: 500
+MIN_REWARD_RISK: 1.5
 ```
 
-#### Event-Based Strategy
-```toml
-days_before_earnings = 0  # Enable trading around earnings
-max_vega_exposure = 0.2   # Reduce vega to control earnings volatility risk
-min_prob_of_profit = 60.0 # Slightly lower probability due to event premium
-dte_from_atr = true       # Dynamic DTE based on stock volatility
-atr_coefficient = 3.0     # Higher coefficient for more volatile stocks
+## Advanced Usage
+
+### Building Your Own Docker Images
+
+You can build your own Docker images:
+
+```bash
+# Build Go scanner
+cd go
+docker build -t local/auto-vertical-spread-go:latest -f Dockerfile .
+
+# Build Python orchestrator
+cd python
+docker build -t local/auto-vertical-spread-python:latest -f Dockerfile .
 ```
 
-### Implementation Details
+### Using Docker Compose for Development
 
-The enhanced options filtering is implemented across several components:
+A Docker Compose configuration is provided for local development:
 
-1. **Frontend**: Parameters are exposed in the Options tab of the TraderAdmin GUI
-2. **Configuration**: Values stored in `config.toml` with sensible defaults
-3. **Python Filtering**: `OptionSpreadFilter` provides comprehensive spread filtering
-4. **Decision Logic**: `SpreadManager` applies filters and ranks spread opportunities
+```bash
+# Start the development environment
+docker-compose up -d
 
-For more advanced usage, see the full implementation in the `python/src/options/` directory.
+# View logs
+docker-compose logs -f
+```
 
-### How It Works
+### Kubernetes Deployment
 
-1. The system receives option chain data from IBKR
-2. The `SpreadManager` selects potential vertical spreads
-3. Each spread is filtered through all enabled criteria
-4. Remaining spreads are ranked by reward/risk ratio
-5. The best qualified spread is selected for trading
+For production deployments, Kubernetes manifests are available in the `kubernetes/` directory.
 
-This comprehensive filtering ensures that only the highest-quality option spreads meeting your exact specifications are selected for trading.
+## Development and Testing
+
+### Python Tests
+```bash
+cd python
+pytest
+```
+
+### Go Tests
+```bash
+cd go
+go test ./...
+```
+
+### Code Quality
+```bash
+# Python linting and type checking
+cd python
+black .
+mypy .
+
+# Go linting
+cd go
+golangci-lint run
+```
+
+## Safety Features
+
+The system includes multiple safety mechanisms:
+
+- **Paper Trading Mode**: Test strategies without real money
+- **Risk Limits**: Configurable position and trade limits
+- **Time-Based Rules**: Control when trades can be executed
+- **Error Handling**: Robust error handling and reporting
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+### Development Workflow
+
+1. Fork the repository
+2. Create a feature branch
+3. Add your changes
+4. Run tests and linting
+5. Submit a pull request
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Disclaimer
+
+Trading involves risk. This software is for educational and informational purposes only. It is not intended as financial advice or a recommendation to trade. Use at your own risk.
+
+## Disclaimer and Risk Warning
+
+### Financial Disclaimer
+This software is provided strictly for educational and informational purposes only and is not financial advice.
+
+**IMPORTANT NOTICE:**
+- Trading options, futures, stocks, and other financial instruments involves substantial risk of loss and is not suitable for all investors.
+- Past performance is not indicative of future results. No representation is being made that any account will or is likely to achieve profits or losses similar to those discussed within this software or its documentation.
+- You should never trade with money you cannot afford to lose.
+- The author(s) and contributor(s) to this project are not registered investment advisors, brokers/dealers, financial analysts, financial advisors, or securities professionals.
+- The information provided in this software is not a substitute for professional financial advice.
+- Before engaging in any trading activity of any kind, you should consult with a licensed broker, financial advisor, or financial professional to determine the suitability of any investment.
+
+### Technical Requirements Disclaimer
+This software combines multiple complex technologies and requires substantial technical expertise:
+
+- **Programming Languages**: Requires proficiency in Python 3.8+, Go 1.20+, and understanding of asynchronous programming.
+- **Infrastructure**: Requires knowledge of Docker, containerization, and potentially Kubernetes for production deployments.
+- **Financial APIs**: Requires understanding of Interactive Brokers TWS API, market data formats, and order execution mechanics.
+- **Financial Concepts**: Requires solid understanding of options trading, vertical spreads, and risk management principles.
+
+It is strongly recommended that you consult with a developer who has expertise in these areas before attempting to deploy this system in any capacity beyond paper trading. Technical errors in implementation or deployment could result in unexpected behavior and financial loss.
+
+### Regulatory Compliance
+Users of this software are solely responsible for ensuring compliance with all applicable laws and regulations in their jurisdiction, including but not limited to:
+
+- Securities regulations
+- Tax laws
+- Trading rules and restrictions
+- Reporting requirements
+
+### No Liability
+The authors, contributors, and maintainers of this software expressly disclaim all liability for any direct, indirect, consequential, incidental, or special damages arising out of or in any way connected with the use of or inability to use this software.
+
+BY USING THIS SOFTWARE, YOU ACKNOWLEDGE THAT YOU HAVE READ THIS DISCLAIMER, UNDERSTAND IT, AND AGREE TO BE BOUND BY ITS TERMS.
+

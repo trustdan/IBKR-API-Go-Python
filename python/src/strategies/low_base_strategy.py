@@ -89,3 +89,4 @@ class LowBaseStrategy(BaseStrategy):
             signals.append(("SHORT", symbol))
 
         return signals
+

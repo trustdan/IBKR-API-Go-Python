@@ -1,41 +1,60 @@
-# Set default behavior to automatically normalize line endings
-* text=auto
+# Auto detect text files and perform LF normalization
+* text=auto eol=lf
 
-# Explicitly declare text files that should always use LF line endings
-*.go text eol=lf
+# Python files
+*.py text diff=python
+*.pyw text diff=python
+
+# Shell scripts
+*.sh text eol=lf
+*.bash text eol=lf
+
+# PowerShell scripts
+*.ps1 text eol=lf
+
+# Docker files
+Dockerfile text eol=lf
+*.dockerfile text eol=lf
+docker-compose*.yml text eol=lf
+docker-compose*.yaml text eol=lf
+
+# Config files
+*.json text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.toml text eol=lf
+
+# Documentation
+*.md text diff=markdown
+LICENSE text
+*.txt text
+
+# Git files
+.gitattributes text eol=lf
+.gitignore text eol=lf
+
+# Specific file types
+*.md text eol=lf
 *.py text eol=lf
 *.js text eol=lf
 *.ts text eol=lf
-*.jsx text eol=lf
-*.tsx text eol=lf
+*.go text eol=lf
 *.json text eol=lf
-*.yml text eol=lf
 *.yaml text eol=lf
+*.yml text eol=lf
 *.toml text eol=lf
-*.md text eol=lf
-*.txt text eol=lf
-*.html text eol=lf
-*.css text eol=lf
-*.scss text eol=lf
 *.sh text eol=lf
-Dockerfile text eol=lf
-*.nsi text eol=lf
-*.bat text eol=crlf
+*.ps1 text eol=lf
 
-# Denote binary files which should not be modified
+# Binary files
 *.png binary
 *.jpg binary
 *.jpeg binary
 *.gif binary
 *.ico binary
-*.woff binary
-*.woff2 binary
-*.ttf binary
-*.eot binary
-*.pdf binary
 *.exe binary
-*.dll binary
-*.zip binary
-*.tar binary
-*.gz binary
-*.7z binary
+
+# Don't check for whitespace in generated files
+*.min.js -text
+*.min.css -text
+**/wailsjs/go/* -text

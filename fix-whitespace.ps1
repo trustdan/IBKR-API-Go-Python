@@ -1,77 +1,71 @@
-#!/usr/bin/env pwsh
+# PowerShell script to fix whitespace and end-of-file issues
 
-$textExtensions = @(
-    ".py", ".go", ".js", ".jsx", ".ts", ".tsx", ".html", ".css", ".scss",
-    ".md", ".txt", ".yml", ".yaml", ".json", ".toml", ".xml", ".sh",
-    ".bat", ".ps1", ".nsi", ".sql", ".cfg", ".conf", ".ini"
-)
+# Function to fix trailing whitespace in a file
+function Fix-TrailingWhitespace {
+    param([string]$filePath)
 
-$excludeDirs = @(
-    ".git", "node_modules", "venv", "env", "__pycache__",
-    "dist", "build", "bin", "obj", "target", "Debug", "Release"
-)
+    Write-Host "Fixing trailing whitespace in $filePath"
 
-function Should-ProcessFile {
-    param (
-        [string]$filePath
-    )
+    # Read all lines from the file
+    $content = Get-Content -Path $filePath -Raw
 
-    $extension = [System.IO.Path]::GetExtension($filePath).ToLower()
-    if ($textExtensions -notcontains $extension) {
-        return $false
-    }
+    # Replace trailing whitespace with nothing and normalize line endings to LF
+    $newContent = $content -replace '[ \t]+$', '' -replace '\r\n', "`n"
 
-    foreach ($dir in $excludeDirs) {
-        if ($filePath -match [regex]::Escape($dir)) {
-            return $false
-        }
-    }
-
-    return $true
+    # Write the content back to the file with LF line endings
+    $utf8NoBom = New-Object System.Text.UTF8Encoding $false
+    [System.IO.File]::WriteAllText($filePath, $newContent, $utf8NoBom)
 }
 
-function Fix-FileEndings {
-    param (
-        [string]$filePath
-    )
+# Function to fix end-of-file issues (ensure there's exactly one newline at the end)
+function Fix-EndOfFile {
+    param([string]$filePath)
+
+    Write-Host "Fixing end-of-file in $filePath"
+
+    # Read all lines from the file
+    $content = Get-Content -Path $filePath -Raw
+
+    # Normalize line endings to LF
+    $content = $content -replace '\r\n', "`n"
+
+    # Ensure there's exactly one newline at the end
+    $content = $content -replace '[\s\r\n]*$', "`n"
+
+    # Write the content back to the file with LF line endings
+    $utf8NoBom = New-Object System.Text.UTF8Encoding $false
+    [System.IO.File]::WriteAllText($filePath, $content, $utf8NoBom)
+}
+
+# Find all text files in the repository, excluding binary files and certain directories
+$files = Get-ChildItem -Recurse -File | Where-Object {
+    # Check file extensions
+    $_.Extension -match '\.(md|yaml|yml|json|ps1|sh|py|go|js|jsx|ts|tsx|css|scss|html|htm|xml|txt|conf|cfg|ini|toml|sql)$' -and
+    # Exclude certain directories
+    $_.FullName -notmatch '(\\node_modules\\|\\\.git\\|\\build\\|\\dist\\|\\venv\\)'
+}
+
+$fixedCount = 0
+
+foreach ($file in $files) {
+    # Skip binary files
+    if ((Get-Item $file.FullName).Length -gt 1MB) {
+        Write-Host "Skipping large file: $($file.FullName)"
+        continue
+    }
 
     try {
-        $content = Get-Content -Path $filePath -Raw
-        if ($null -eq $content) {
-            return $false
-        }
+        # Check if file is binary by trying to read it as text
+        $null = Get-Content -Path $file.FullName -Raw -ErrorAction Stop
 
-        # Fix line endings to LF and remove trailing whitespace
-        $newContent = $content -replace "`r`n", "`n"
-        $newContent = $newContent -replace "[ `t]+`n", "`n"
-        $newContent = $newContent.TrimEnd() + "`n"
-
-        if ($content -ne $newContent) {
-            [System.IO.File]::WriteAllText($filePath, $newContent)
-            Write-Host "Fixed: $filePath"
-            return $true
-        }
-
-        return $false
+        # Fix whitespace issues
+        Fix-TrailingWhitespace -filePath $file.FullName
+        Fix-EndOfFile -filePath $file.FullName
+        $fixedCount++
     }
     catch {
-        Write-Error "Error processing $filePath`: $_"
-        return $false
+        Write-Host "Skipping binary file: $($file.FullName)"
     }
 }
 
-$modifiedCount = 0
-$examinedCount = 0
-
-Get-ChildItem -Path . -Recurse -File | ForEach-Object {
-    $filePath = $_.FullName
-    if (Should-ProcessFile $filePath) {
-        $examinedCount++
-        if (Fix-FileEndings $filePath) {
-            $modifiedCount++
-        }
-    }
-}
-
-Write-Host "`nExamined $examinedCount files"
-Write-Host "Modified $modifiedCount files"
+Write-Host "Fixed $fixedCount files!"

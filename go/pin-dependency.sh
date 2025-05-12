@@ -10,3 +10,4 @@ go mod edit -replace github.com/tklauser/go-sysconf=github.com/tklauser/go-sysco
 go mod tidy -go=1.21
 
 echo "Successfully pinned github.com/tklauser/go-sysconf to v0.3.11"
+

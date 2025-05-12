@@ -23,3 +23,4 @@ def pytest_configure(config):
         os.environ[
             "PYTHONPATH"
         ] = f"{str(src_path.resolve())}{os.pathsep}{os.environ['PYTHONPATH']}"
+

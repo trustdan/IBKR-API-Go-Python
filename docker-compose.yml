@@ -30,3 +30,4 @@ services:
       - MAX_CONCURRENCY=50
       - LOG_LEVEL=info
     restart: unless-stopped
+

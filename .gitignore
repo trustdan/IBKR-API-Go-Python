@@ -2,7 +2,34 @@
 __pycache__/
 *.py[cod]
 *$py.class
-*.so
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.hypothesis/
+.pytest_cache/
+.coverage.*
+coverage.xml
+*.cover
+*.py,cover
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Distribution / packaging
 .Python
 build/
 develop-eggs/
@@ -16,53 +43,80 @@ parts/
 sdist/
 var/
 wheels/
+share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+*.whl
+.pdm.toml
 
-# Go binaries and build artifacts
-*.exe
-*.dll
+# Poetry
+.poetry-cache/
+
+# IDEs and editors
+/.idea
+/.vscode
+*.swp
+*.swo
+*~
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+*.sublime-project
+
+# Go
+*.o
+*.a
 *.so
-*.dylib
-go/scanner
-go/bin/
-go/pkg/mod/
+bin/
+__debug_bin
+golang-project-*
+.go-cache/
 
-# Visual Studio Code
-.vscode/
-*.code-workspace
-.history/
-
-# Environment and project-specific files
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-# Logs
-logs/
-*.log
+# Node.js
+node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.pnpm-debug.log*
+.webpack/
+.next/
+out/
+package-lock.json
+yarn.lock
 
-# Cache directories
-.cache/
-.mypy_cache/
-.npm
-.eslintcache
-.pytest_cache/
+# Misc
+.DS_Store
+Thumbs.db
+*.log
+logs/
+tmp/
+temp/
 
-# IDE files
-.idea/
-*.iml
-*.swp
-*.swo
+# Large files
+*.pdf
+*.mp4
+*.mov
+*.mp3
+*.wav
+*.avi
+*.mkv
+*.pptx
+*.xlsx
+*.docx
+*.iso
+*.zip
+*.rar
+*.7z
+*.tar.gz
+*.tgz
+*.tar
+*.gz
+
+# Specific large files we need to exclude
+documentation/ib-insync.md
+documentation/TWS-API-v9.72.md
+documentation/IBKR-TWS-API-documentation.md 

@@ -33,3 +33,4 @@ except ImportError as e:
 except Exception as e:
     print(f"\nUnexpected error: {e}")
     print("Please check your installation and try again.")
+

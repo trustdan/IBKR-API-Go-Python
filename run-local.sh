@@ -112,3 +112,4 @@ echo -e "${BLUE}Python service running at: http://localhost:8000${NC}"
 echo ""
 echo -e "${BLUE}To stop all services, run:${NC} docker stop vertical-spread-go vertical-spread-python"
 echo -e "${BLUE}To view logs, run:${NC} docker logs vertical-spread-go -f"
+

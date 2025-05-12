@@ -82,3 +82,4 @@ class StrategyFactory:
             List of strategy identifiers
         """
         return list(self.strategies.keys())
+
