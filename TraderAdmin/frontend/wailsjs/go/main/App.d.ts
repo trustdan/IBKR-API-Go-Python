@@ -8,6 +8,8 @@ export function GetConfig():Promise<main.Config>;
 
 export function GetConfigSchema():Promise<string>;
 
+export function GetMetrics():Promise<main.MetricsPayload>;
+
 export function GetStatus():Promise<main.StatusInfo>;
 
 export function Greet(arg1:string):Promise<string>;
@@ -19,6 +21,8 @@ export function PauseStack():Promise<string>;
 export function SaveAndRestartStack(arg1:main.Config):Promise<string>;
 
 export function SaveConfig(arg1:main.Config):Promise<void>;
+
+export function TestAlert(arg1:string):Promise<string>;
 
 export function TestConnection():Promise<boolean>;
 

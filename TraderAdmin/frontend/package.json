@@ -20,6 +20,7 @@
     "vite": "^3.0.7"
   },
   "dependencies": {
-    "@zerodevx/svelte-toast": "^0.9.6"
+    "@zerodevx/svelte-toast": "^0.9.6",
+    "recharts": "^2.15.3"
   }
 }

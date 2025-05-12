@@ -14,6 +14,10 @@ export function GetConfigSchema() {
   return window['go']['main']['App']['GetConfigSchema']();
 }
 
+export function GetMetrics() {
+  return window['go']['main']['App']['GetMetrics']();
+}
+
 export function GetStatus() {
   return window['go']['main']['App']['GetStatus']();
 }
@@ -36,6 +40,10 @@ export function SaveAndRestartStack(arg1) {
 
 export function SaveConfig(arg1) {
   return window['go']['main']['App']['SaveConfig'](arg1);
+}
+
+export function TestAlert(arg1) {
+  return window['go']['main']['App']['TestAlert'](arg1);
 }
 
 export function TestConnection() {

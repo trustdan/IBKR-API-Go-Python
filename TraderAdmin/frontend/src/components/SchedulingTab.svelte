@@ -13,8 +13,7 @@
       config = await LoadConfig();
     } catch (error) {
       console.error('Failed to load config:', error);
-      toast.push({
-        message: `Error loading configuration: ${error.message}`,
+      toast.push('Error loading configuration: ' + error.message, {
         theme: { '--toastBackground': '#F56565', '--toastBarBackground': '#C53030' }
       });
     } finally {
@@ -28,15 +27,13 @@
     try {
       saving = true;
       const result = await SaveAndRestartStack(config);
-      toast.push({
-        message: 'Configuration saved and services restarted',
+      toast.push('Configuration saved and services restarted', {
         theme: { '--toastBackground': '#48BB78', '--toastBarBackground': '#2F855A' }
       });
       console.log('Save result:', result);
     } catch (error) {
       console.error('Failed to save config:', error);
-      toast.push({
-        message: `Error saving configuration: ${error.message}`,
+      toast.push('Error saving configuration: ' + error.message, {
         theme: { '--toastBackground': '#F56565', '--toastBarBackground': '#C53030' }
       });
     } finally {
@@ -47,6 +44,12 @@
   function validateTimeFormat(time: string): boolean {
     const regex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/;
     return regex.test(time);
+  }
+
+  function handleInputChange(field: string, event: Event) {
+    const target = event.target as HTMLInputElement;
+    if (!config.scheduling) config.scheduling = {};
+    config.scheduling[field] = target.value;
   }
 
   function handleCheckboxChange(day: string, event: Event) {
@@ -82,10 +85,7 @@
             id="trading_start_time"
             step="1"
             value={config.scheduling?.trading_start_time || ''}
-            on:input={(e) => {
-              if (!config.scheduling) config.scheduling = {};
-              config.scheduling.trading_start_time = (e.target as HTMLInputElement).value;
-            }}
+            on:input={(e) => handleInputChange('trading_start_time', e)}
             class:invalid={!validateTimeFormat(config.scheduling?.trading_start_time || '')}
           />
           <span class="help-text">Format: HH:MM:SS (24-hour format)</span>
@@ -98,10 +98,7 @@
             id="trading_end_time"
             step="1"
             value={config.scheduling?.trading_end_time || ''}
-            on:input={(e) => {
-              if (!config.scheduling) config.scheduling = {};
-              config.scheduling.trading_end_time = (e.target as HTMLInputElement).value;
-            }}
+            on:input={(e) => handleInputChange('trading_end_time', e)}
             class:invalid={!validateTimeFormat(config.scheduling?.trading_end_time || '')}
           />
           <span class="help-text">Format: HH:MM:SS (24-hour format)</span>
@@ -113,10 +110,7 @@
             type="text"
             id="timezone"
             value={config.scheduling?.timezone || ''}
-            on:input={(e) => {
-              if (!config.scheduling) config.scheduling = {};
-              config.scheduling.timezone = (e.target as HTMLInputElement).value;
-            }}
+            on:input={(e) => handleInputChange('timezone', e)}
           />
           <span class="help-text">Example: America/New_York</span>
         </div>
@@ -148,10 +142,7 @@
             type="text"
             id="maintenance_window"
             value={config.scheduling?.maintenance_window || ''}
-            on:input={(e) => {
-              if (!config.scheduling) config.scheduling = {};
-              config.scheduling.maintenance_window = (e.target as HTMLInputElement).value;
-            }}
+            on:input={(e) => handleInputChange('maintenance_window', e)}
           />
           <span class="help-text">Format: HH:MM:SS-HH:MM:SS (start-end times)</span>
         </div>

@@ -6,8 +6,10 @@ import (
 	"fmt"
 	"io"
 	"math"
+	"math/rand"
 	"os"
 	"path/filepath"
+	"strings"
 	"sync/atomic"
 	"time"
 
@@ -629,4 +631,176 @@ func (a *App) FetchOptionChain(symbol string) ([]OptionContract, error) {
 	}
 
 	return contracts, nil
+}
+
+// Metrics types
+type TradeMetrics struct {
+	Timestamp      int64    `json:"timestamp"`
+	Equity         float64  `json:"equity"`
+	DailyPnL       float64  `json:"dailyPnL"`
+	TradesExecuted int      `json:"tradesExecuted"`
+	WinCount       int      `json:"winCount"`
+	LossCount      int      `json:"lossCount"`
+	MaxLatencyMs   int      `json:"maxLatencyMs"`
+	AvgLatencyMs   int      `json:"avgLatencyMs"`
+	ErrorCount     int      `json:"errorCount"`
+	ErrorsByType   []string `json:"errorsByType"`
+}
+
+type PositionInfo struct {
+	Symbol       string  `json:"symbol"`
+	Quantity     int     `json:"quantity"`
+	EntryPrice   float64 `json:"entryPrice"`
+	CurrentPrice float64 `json:"currentPrice"`
+	PnL          float64 `json:"pnl"`
+	Strategy     string  `json:"strategy"`
+}
+
+type MetricsPayload struct {
+	Metrics      TradeMetrics   `json:"metrics"`
+	Positions    []PositionInfo `json:"positions"`
+	TimePoints   []int64        `json:"timePoints"`
+	EquityPoints []float64      `json:"equityPoints"`
+}
+
+// mockMetricsGen is a simple metrics generator for testing UI components
+// In a real implementation, this would pull data from actual trades and IBKR
+func mockMetricsGen() MetricsPayload {
+	// Current time in milliseconds since epoch
+	now := time.Now().UnixMilli()
+
+	// Simple deterministic mock data generation
+	hourOfDay := time.Now().Hour()
+	minuteOfHour := time.Now().Minute()
+
+	// Mock data based on time
+	baseEquity := 100000.0
+	dailyPnLFactor := float64(hourOfDay) * 100.0
+	dailyPnL := dailyPnLFactor * (1.0 + (float64(minuteOfHour)/60.0)*0.5)
+
+	// Add some randomness to make it look realistic
+	rand.Seed(time.Now().UnixNano())
+	dailyPnLRand := dailyPnL * (0.9 + 0.2*rand.Float64())
+
+	equity := baseEquity + dailyPnLRand
+
+	tradeCount := hourOfDay + rand.Intn(5)
+	winCount := int(float64(tradeCount) * 0.6) // 60% win rate
+	lossCount := tradeCount - winCount
+
+	avgLatency := 100 + rand.Intn(150)
+	maxLatency := avgLatency + rand.Intn(200)
+
+	errorCount := rand.Intn(3)
+	errorTypes := []string{
+		"Connection reset",
+		"Order validation failed",
+		"Rate limit exceeded",
+	}
+
+	errors := []string{}
+	for i := 0; i < errorCount; i++ {
+		if i < len(errorTypes) {
+			errors = append(errors, errorTypes[i])
+		}
+	}
+
+	// Mock positions
+	positions := []PositionInfo{
+		{
+			Symbol:       "AAPL",
+			Quantity:     100,
+			EntryPrice:   175.50,
+			CurrentPrice: 175.50 * (1.0 + rand.Float64()*0.02 - 0.01),
+			Strategy:     "Bull Put Spread",
+		},
+		{
+			Symbol:       "MSFT",
+			Quantity:     50,
+			EntryPrice:   340.25,
+			CurrentPrice: 340.25 * (1.0 + rand.Float64()*0.015 - 0.005),
+			Strategy:     "Iron Condor",
+		},
+	}
+
+	// Calculate PnL for each position
+	for i := range positions {
+		positions[i].PnL = float64(positions[i].Quantity) * (positions[i].CurrentPrice - positions[i].EntryPrice)
+	}
+
+	// Generate time series data for equity chart (last 24 points)
+	timePoints := make([]int64, 24)
+	equityPoints := make([]float64, 24)
+
+	for i := 0; i < 24; i++ {
+		timePoints[i] = now - int64((23-i)*5*60*1000) // 5-minute intervals
+
+		// Generate an equity curve that generally goes up but has some dips
+		equityFactor := baseEquity * (1.0 + float64(i)/240.0)
+		noise := rand.Float64()*500.0 - 250.0
+		equityPoints[i] = equityFactor + noise
+	}
+
+	return MetricsPayload{
+		Metrics: TradeMetrics{
+			Timestamp:      now,
+			Equity:         equity,
+			DailyPnL:       dailyPnLRand,
+			TradesExecuted: tradeCount,
+			WinCount:       winCount,
+			LossCount:      lossCount,
+			MaxLatencyMs:   maxLatency,
+			AvgLatencyMs:   avgLatency,
+			ErrorCount:     errorCount,
+			ErrorsByType:   errors,
+		},
+		Positions:    positions,
+		TimePoints:   timePoints,
+		EquityPoints: equityPoints,
+	}
+}
+
+// GetMetrics returns the current metrics for the trading system
+func (a *App) GetMetrics() (MetricsPayload, error) {
+	// For demonstration purposes, we'll generate mock data
+	// In a real implementation, this would pull data from actual trades and IBKR
+	return mockMetricsGen(), nil
+}
+
+// TestAlert sends a test alert notification
+func (a *App) TestAlert(alertType string) (string, error) {
+	// In a real implementation, this would send an actual alert notification
+	// through the configured channels (email, Slack, etc.)
+
+	config := a.GetConfig()
+	if config == nil {
+		return "", fmt.Errorf("configuration not loaded")
+	}
+
+	// Prepare notification message
+	message := fmt.Sprintf("Test alert notification (%s)", alertType)
+
+	// Log alert for demonstration
+	fmt.Printf("Sending test alert: %s\n", message)
+
+	channels := []string{}
+
+	// Check which channels are configured and enabled
+	if config.Alerts.EnableEmail && config.Alerts.EmailTo != "" {
+		// In a real implementation, this would send an email
+		channels = append(channels, "email")
+		fmt.Printf("Would send email to: %s\n", config.Alerts.EmailTo)
+	}
+
+	if config.Alerts.EnableSlack && config.Alerts.SlackWebhookURL != "" {
+		// In a real implementation, this would send a Slack message
+		channels = append(channels, "slack")
+		fmt.Printf("Would send Slack notification to webhook\n")
+	}
+
+	if len(channels) == 0 {
+		return "No alert channels configured", nil
+	}
+
+	return fmt.Sprintf("Test alert sent via: %s", strings.Join(channels, ", ")), nil
 }

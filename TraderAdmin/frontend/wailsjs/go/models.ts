@@ -395,6 +395,94 @@ export namespace main {
 
 
 
+	export class PositionInfo {
+	    symbol: string;
+	    quantity: number;
+	    entryPrice: number;
+	    currentPrice: number;
+	    pnl: number;
+	    strategy: string;
+
+	    static createFrom(source: any = {}) {
+	        return new PositionInfo(source);
+	    }
+
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.symbol = source["symbol"];
+	        this.quantity = source["quantity"];
+	        this.entryPrice = source["entryPrice"];
+	        this.currentPrice = source["currentPrice"];
+	        this.pnl = source["pnl"];
+	        this.strategy = source["strategy"];
+	    }
+	}
+	export class TradeMetrics {
+	    timestamp: number;
+	    equity: number;
+	    dailyPnL: number;
+	    tradesExecuted: number;
+	    winCount: number;
+	    lossCount: number;
+	    maxLatencyMs: number;
+	    avgLatencyMs: number;
+	    errorCount: number;
+	    errorsByType: string[];
+
+	    static createFrom(source: any = {}) {
+	        return new TradeMetrics(source);
+	    }
+
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.timestamp = source["timestamp"];
+	        this.equity = source["equity"];
+	        this.dailyPnL = source["dailyPnL"];
+	        this.tradesExecuted = source["tradesExecuted"];
+	        this.winCount = source["winCount"];
+	        this.lossCount = source["lossCount"];
+	        this.maxLatencyMs = source["maxLatencyMs"];
+	        this.avgLatencyMs = source["avgLatencyMs"];
+	        this.errorCount = source["errorCount"];
+	        this.errorsByType = source["errorsByType"];
+	    }
+	}
+	export class MetricsPayload {
+	    metrics: TradeMetrics;
+	    positions: PositionInfo[];
+	    timePoints: number[];
+	    equityPoints: number[];
+
+	    static createFrom(source: any = {}) {
+	        return new MetricsPayload(source);
+	    }
+
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.metrics = this.convertValues(source["metrics"], TradeMetrics);
+	        this.positions = this.convertValues(source["positions"], PositionInfo);
+	        this.timePoints = source["timePoints"];
+	        this.equityPoints = source["equityPoints"];
+	    }
+
+		convertValues(a: any, classs: any, asMap: boolean = false): any {
+		    if (!a) {
+		        return a;
+		    }
+		    if (a.slice && a.map) {
+		        return (a as any[]).map(elem => this.convertValues(elem, classs));
+		    } else if ("object" === typeof a) {
+		        if (asMap) {
+		            for (const key of Object.keys(a)) {
+		                a[key] = new classs(a[key]);
+		            }
+		            return a;
+		        }
+		        return new classs(a);
+		    }
+		    return a;
+		}
+	}
 
 	export class OptionContract {
 	    expiry: string;
@@ -440,6 +528,7 @@ export namespace main {
 
 
 
+
 	export class StatusInfo {
 	    ibkrConnected: boolean;
 	    ibkrError?: string;
@@ -474,6 +563,7 @@ export namespace main {
 		    return a;
 		}
 	}
+
 
 
 
