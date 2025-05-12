@@ -119,4 +119,15 @@ temp/
 # Specific large files we need to exclude
 documentation/ib-insync.md
 documentation/TWS-API-v9.72.md
-documentation/IBKR-TWS-API-documentation.md 
+documentation/IBKR-TWS-API-documentation.md
+
+# TraderAdmin specific
+TraderAdmin/build/bin
+TraderAdmin/frontend/dist
+
+# TraderAdmin Configuration files
+TraderAdmin/config/*.toml
+TraderAdmin/config/*.toml.bak
+
+# TraderAdmin Build artifacts
+TraderAdmin/build/

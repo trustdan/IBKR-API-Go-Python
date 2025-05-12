@@ -1,30 +1,38 @@
 repos:
-# Custom hooks - local (run first)
--   repo: local
+# Standard pre-commit hooks for whitespace and formatting
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
     hooks:
-    -   id: fix-file-endings-and-whitespace
-        name: Fix file endings and trailing whitespace
-        description: Ensures files end with exactly one newline and have no trailing whitespace
-        entry: python/scripts/fix_file_endings.py
-        language: python
-        types: [text]
+    -   id: trailing-whitespace
         exclude: >
             (?x)^(
                 .*\.min\.js|
                 .*\.min\.css|
-                .*\.json|
-                .*\.md|
-                documentation/.*|
-                \.mypy_cache/.*|
+                .*\.svg|
+                .*\.png|
+                .*\.jpg|
+                .*\.jpeg|
+                .*\.gif|
+                .*\.ico|
                 wailsjs/.*
             )$
-
-# Standard pre-commit hooks (run second)
--   repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
-    hooks:
+    -   id: end-of-file-fixer
+        exclude: >
+            (?x)^(
+                .*\.min\.js|
+                .*\.min\.css|
+                .*\.svg|
+                .*\.png|
+                .*\.jpg|
+                .*\.jpeg|
+                .*\.gif|
+                .*\.ico|
+                wailsjs/.*
+            )$
     -   id: check-yaml
         exclude: "^kubernetes/base/grafana/dashboards/.*\\.json$"
+    -   id: check-added-large-files
+    -   id: check-merge-conflict
 
 # Run isort first (uses black profile from pyproject.toml)
 -   repo: https://github.com/pycqa/isort

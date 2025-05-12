@@ -9,16 +9,12 @@ indent_style = space
 indent_size = 4
 
 # Web files
-[*.{js,ts,json,html,css,svelte}]
-indent_size = 2
-
-# Config files
-[*.{yaml,yml,toml}]
+[*.{js,jsx,ts,tsx,json,css,scss,html,htm,yaml,yml,toml}]
 indent_size = 2
 
 # Markdown files
-[*.md]
-trim_trailing_whitespace = true
+[*.{md,markdown}]
+trim_trailing_whitespace = false
 max_line_length = off
 
 # Go files
@@ -28,3 +24,7 @@ indent_style = tab
 # Windows scripts
 [*.{cmd,bat}]
 end_of_line = crlf
+
+# Makefile
+[Makefile]
+indent_style = tab
