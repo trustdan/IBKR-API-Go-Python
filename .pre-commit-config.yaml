@@ -1,47 +1,65 @@
 repos:
-# Temporarily disable all hooks except basic YAML check for this commit
 # Custom hooks - local (run first)
-# -   repo: local
-#     hooks:
-#     -   id: fix-file-endings-and-whitespace
-#         name: Fix file endings and trailing whitespace
-#         description: Ensures files end with exactly one newline and have no trailing whitespace
-#         entry: python/scripts/fix_file_endings.py
-#         language: python
-#         types: [text]
+-   repo: local
+    hooks:
+    -   id: fix-file-endings-and-whitespace
+        name: Fix file endings and trailing whitespace
+        description: Ensures files end with exactly one newline and have no trailing whitespace
+        entry: python/scripts/fix_file_endings.py
+        language: python
+        types: [text]
+        exclude: >
+            (?x)^(
+                .*\.min\.js|
+                .*\.min\.css|
+                .*\.json|
+                .*\.md|
+                documentation/.*|
+                \.mypy_cache/.*|
+                wailsjs/.*
+            )$
 
 # Standard pre-commit hooks (run second)
 -   repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.5.0
     hooks:
     -   id: check-yaml
-    # Skip check-added-large-files hook as we handle large files in .gitignore
-    # -   id: check-added-large-files
+        exclude: "^kubernetes/base/grafana/dashboards/.*\\.json$"
 
-# Temporarily disable all formatting hooks for this commit
-# # Run isort first (uses black profile from pyproject.toml)
-# -   repo: https://github.com/pycqa/isort
-#     rev: 5.12.0
-#     hooks:
-#     -   id: isort
-#         args: ["--profile", "black"]
+# Run isort first (uses black profile from pyproject.toml)
+-   repo: https://github.com/pycqa/isort
+    rev: 5.12.0
+    hooks:
+    -   id: isort
+        args: ["--profile", "black"]
+        exclude: >
+            (?x)^(
+                \.mypy_cache/.*|
+                python/ibkr_trader\.egg-info/.*
+            )$
 
-# # Then run black (settings from pyproject.toml)
-# -   repo: https://github.com/psf/black
-#     rev: 23.3.0
-#     hooks:
-#     -   id: black
+# Then run black (settings from pyproject.toml)
+-   repo: https://github.com/psf/black
+    rev: 23.3.0
+    hooks:
+    -   id: black
+        exclude: >
+            (?x)^(
+                \.mypy_cache/.*|
+                python/ibkr_trader\.egg-info/.*
+            )$
 
-# Temporarily disable mypy for this commit
-# -   repo: https://github.com/pre-commit/mirrors-mypy
-#     rev: v1.3.0  # Match your project's mypy version
-#     hooks:
-#     -   id: mypy
-#         name: mypy (core modules only)
-#         args: [
-#             "--ignore-missing-imports",
-#             "--no-strict-optional",
-#             "--no-warn-return-any"
-#         ]
-#         files: "^python/src/app/(trader|scanner|scanner_client).py$|^python/src/data/data_manager.py$"
-#         additional_dependencies: [types-requests, types-PyYAML]
+# Type checking with mypy
+-   repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.3.0
+    hooks:
+    -   id: mypy
+        name: mypy (core modules only)
+        args: [
+            "--ignore-missing-imports",
+            "--no-strict-optional",
+            "--no-warn-return-any"
+        ]
+        # Narrow the focus to just a few core files to avoid overwhelming errors
+        files: "^python/src/app/scanner_client\\.py$|^python/src/data/data_manager\\.py$"
+        additional_dependencies: [types-requests, types-PyYAML, types-pytz]
