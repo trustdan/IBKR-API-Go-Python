@@ -1,134 +1,151 @@
-# Enhanced README for Auto Vertical Spread Trader
+# Enhanced Setup Guide for TraderAdmin with Interactive Brokers
 
-This document provides clear guidance for setting up and operating the Auto Vertical Spread Trader, focusing on practical integration with Interactive Brokers (IBKR) Trader Workstation (TWS) or IB Gateway.
+This document provides comprehensive guidance for setting up and operating the TraderAdmin application with Interactive Brokers (IBKR) Trader Workstation (TWS) or IB Gateway.
 
 ## Prerequisites
 
 * **Interactive Brokers Account**:
-
   * IBKR Pro account (live or paper trading)
   * Latest stable release of TWS or IB Gateway
   * Ensure Java is installed as both TWS and IB Gateway are Java applications
 * **Software Requirements**:
-
   * Docker Desktop (preferred) or manual setup using Python 3.8+ and Go 1.20+
 
 ## Step-by-Step Setup and Operation
 
-### Step 1: Install and Configure TWS or IB Gateway
+### Step 1: Install and Configure TWS or IB Gateway (CRITICAL)
 
 1. **Download Software**:
-
    * [Trader Workstation (TWS)](https://www.interactivebrokers.com/en/trading/tws.php)
    * [IB Gateway](https://www.interactivebrokers.com/en/trading/ibgateway-stable.php)
 
 2. **Run Application**:
-
    * Launch TWS or IB Gateway. You'll need to log in manually.
 
-3. **Configure API Access**:
-
+3. **Configure API Access (Essential Settings)**:
    * Navigate to **Edit > Global Configuration > API > Settings**:
-
      * Check **"Enable ActiveX and Socket Clients"**.
-     * Uncheck **"Read-Only API"**.
-     * Note the **Socket Port** (default: 7497 for paper, 7496 for live).
+     * Uncheck **"Read-Only API"** unless you only want read-only functionality.
+     * Set the **Socket Port** (default: 7497 for paper, 7496 for live).
+     * **Critical:** Enter "1" in the **Master API client ID** field (or match this with client_id_trading in config).
+     * Check **"Allow connections from localhost only"** if running locally.
+     * Click **Apply** then **OK**
 
-4. **Security and Stability**:
+4. **Configure API Precautions**:
+   * Navigate to **API > Precautions**:
+     * Check **"Bypass Order Precautions for API Orders"** to avoid confirmation dialogs.
+     * Click **Apply** then **OK**
 
-   * Navigate to **Lock and Exit** settings:
+5. **Restart TWS After Configuration**:
+   * Close TWS completely
+   * Restart TWS and log in again to ensure all settings take effect
 
-     * Set **"Never Lock Trader Workstation"** and **"Auto restart"** to ensure uninterrupted connection.
-   * Navigate to **API > Precautions** and enable bypass options relevant to your use case.
+### Step 2: Set Up the TraderAdmin Application
 
-### Step 2: Clone and Configure the Trading Application
-
-1. **Clone the Repository**:
-
+1. **Create Configuration File**:
+   * Copy the template configuration file:
    ```bash
-   git clone https://github.com/trustdan/auto-vertical-spread-trader.git
-   cd auto-vertical-spread-trader
+   cp config/config.template.toml config/config.toml
    ```
 
-2. **Configure Application**:
+2. **Edit Configuration**:
+   * Open config/config.toml and update the following:
+   ```toml
+   [ibkr_connection]
+     host = "127.0.0.1"
+     port = 7497  # Must match the port in TWS settings
+     client_id_trading = 1  # Must match Master API client ID in TWS
+     client_id_data = 2
+     account_code = "YOUR_ACCOUNT_CODE"  # Replace with your actual IBKR account code
+   ```
 
-   * Copy `config.yaml.example` to `config.yaml`.
-   * Set your IBKR socket port and other strategy parameters in `config.yaml`.
+3. **Finding Your Account Code**:
+   * Look at the top of your TWS window for your account code
+   * Paper trading accounts typically start with "DU" (e.g., "DUE722383")
+   * Live accounts typically start with "U"
+   * Use this exact account code in your configuration
 
-Example configuration snippet:
+### Step 3: Start the Docker Services
 
-```yaml
-IBKR:
-  host: 127.0.0.1
-  port: 7497  # Paper trading port
-  clientId: 1
-```
+1. **Ensure Docker is Running**:
+   ```powershell
+   docker info
+   ```
 
-### Step 3: Run the Trading Application
+2. **Create Docker Network (First Time Only)**:
+   ```powershell
+   docker network create vertical-spread-network
+   ```
 
-#### Using Docker (Recommended)
+3. **Clean Up Any Existing Containers**:
+   ```powershell
+   docker rm -f vertical-spread-go vertical-spread-python 2>$null
+   ```
 
-* **Run Docker containers**:
+4. **Start Services**:
+   ```powershell
+   .\run-local.ps1
+   ```
 
-  ```bash
-  ./run-local.sh
-  ```
+5. **Verify Services**:
+   ```powershell
+   docker ps
+   ```
+   You should see two containers running:
+   - vertical-spread-go
+   - vertical-spread-python
 
-* Services are accessible at:
+### Step 4: Launch the TraderAdmin Application
 
-  * Go scanner: [http://localhost:50051](http://localhost:50051)
-  * Python orchestrator: [http://localhost:8000](http://localhost:8000)
+1. **Launch the Application**:
+   ```powershell
+   Start-Process "C:\Users\<username>\IBKR-trader\build\bin\TraderAdmin-dev.exe"
+   ```
 
-#### Manual Installation
+2. **Connect to TWS**:
+   * In the TraderAdmin application, go to the Connection tab
+   * Verify all settings match your config file:
+     - Host: 127.0.0.1
+     - Port: 7497
+     - Account Code: Your account code (e.g., DUE722383)
+     - Client IDs: 1 and 2 (or whatever values you set)
+   * Click "Connect to Interactive Brokers TWS/Gateway"
 
-* **Install Python and Go dependencies**:
+### Troubleshooting Connection Issues
 
-```bash
-# Python dependencies
-cd python
-poetry install  # or pip install -r requirements.txt
+If you experience connection problems:
 
-# Go dependencies
-cd ../go
-go mod download
-```
+1. **TWS API Settings**:
+   * Make sure the Master API client ID is not blank (set to 1 or another number)
+   * Ensure "Enable ActiveX and Socket Clients" is checked
+   * Verify the port number matches your configuration (typically 7497)
 
-* **Run Python orchestrator**:
+2. **Account Code**:
+   * Double-check that your account code in config.toml exactly matches your IBKR account
 
-  ```bash
-  cd python
-  python src/run_trader.py trade --symbols symbols.txt --config config.yaml
-  ```
+3. **Complete Restart Sequence**:
+   * Close TraderAdmin
+   * Close TWS/Gateway
+   * Start TWS/Gateway and log in completely
+   * Start TraderAdmin again
+   * Try connecting
 
-* **Run Go scanner**:
+4. **Client ID Conflicts**:
+   * If standard client IDs (1 and 2) don't work, try different values (e.g., 123 and 124)
+   * Update both TWS settings and your config.toml file
+   * Restart both applications
 
-  ```bash
-  cd ../go
-  go run cmd/scanner/main.go
-  ```
-
-### Step 4: Operating Instructions
-
-* **Ensure TWS/IB Gateway is running before launching your trader.**
-* Verify connectivity using the logs or interface provided by the orchestrator.
-* Adjust strategies and risk parameters dynamically via the configuration file (`config.yaml`). Restart your trader to apply changes.
-
-### Step 5: Monitoring and Logging
-
-* View Docker logs:
-
-  ```bash
-  docker logs vertical-spread-go -f
-  docker logs vertical-spread-python -f
-  ```
-
-* Monitor trades and system status via orchestrator UI (`http://localhost:8000`) or logs if running manually.
+5. **Check TWS Message Center**:
+   * Look for API connection messages or errors
+   * Check if your connection is being rejected for any reason
 
 ### Additional Notes
 
 * Restart TWS or IB Gateway weekly or enable auto-restart settings to prevent downtime.
-* Use pre-commit hooks (`pre-commit run --all-files`) to maintain code quality.
+* Always ensure TWS is fully started before launching TraderAdmin.
+* The Docker containers provide essential market data services for the application.
+* For paper trading, ensure your IBKR account has market data subscriptions.
 
 ## Conclusion
 
-By following these steps, you can seamlessly integrate the Auto Vertical Spread Trader with IBKR's TWS or IB Gateway for efficient and automated vertical spread trading.
+By following these steps, you can seamlessly integrate the TraderAdmin application with IBKR's TWS or IB Gateway for automated trading operations.

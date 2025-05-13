@@ -49,20 +49,20 @@ The system follows a modular architecture designed for flexibility and extensibi
 
 ```
 python/
-Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ src/
-Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ app/              # Application-level code
-Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ brokers/          # Broker integration code
-Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ models/           # Data models and classes
-Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ strategies/       # Trading strategy implementations
-Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ trading/          # Core trading components
-Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ utils/            # Utility functions
-Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ config.yaml           # Configuration file
+Ã¢â€Å"Ã¢â€â‚¬Ã¢â€â‚¬ src/
+Ã¢â€â€š   Ã¢â€Å"Ã¢â€â‚¬Ã¢â€â‚¬ app/              # Application-level code
+Ã¢â€â€š   Ã¢â€Å"Ã¢â€â‚¬Ã¢â€â‚¬ brokers/          # Broker integration code
+Ã¢â€â€š   Ã¢â€Å"Ã¢â€â‚¬Ã¢â€â‚¬ models/           # Data models and classes
+Ã¢â€â€š   Ã¢â€Å"Ã¢â€â‚¬Ã¢â€â‚¬ strategies/       # Trading strategy implementations
+Ã¢â€â€š   Ã¢â€Å"Ã¢â€â‚¬Ã¢â€â‚¬ trading/          # Core trading components
+Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ utils/            # Utility functions
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ config.yaml           # Configuration file
 
 go/
-Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ cmd/
-Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ scanner/          # Go scanner application
-Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ pkg/                  # Shared Go packages
-Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ config.json           # Go scanner configuration
+Ã¢â€Å"Ã¢â€â‚¬Ã¢â€â‚¬ cmd/
+Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ scanner/          # Go scanner application
+Ã¢â€Å"Ã¢â€â‚¬Ã¢â€â‚¬ pkg/                  # Shared Go packages
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ config.json           # Go scanner configuration
 ```
 
 ## Interactive Brokers Integration
@@ -87,52 +87,111 @@ This trading system is designed to work seamlessly with Interactive Brokers (IBK
    * [IB Gateway](https://www.interactivebrokers.com/en/trading/ibgateway-stable.php)
    * Recommended: Use offline versions to avoid automatic updates
 
-2. **Configure API Access**:
+2. **Configure API Access (CRITICAL)**:
    * Launch TWS or IB Gateway and log in to your account
    * Navigate to **Edit > Global Configuration > API > Settings**:
      * Check **"Enable ActiveX and Socket Clients"**
-     * Uncheck **"Read-Only API"**
-     * Note the **Socket Port** (default: 7497 for paper, 7496 for live)
+     * Uncheck **"Read-Only API"** unless you only want read-only access
+     * Set the **Socket Port** (default: 7497 for paper, 7496 for live)
+     * Set **Master API client ID** to match your config file (typically "1")
+     * Check **"Allow connections from localhost only"** if running locally
+   * Navigate to **Edit > Global Configuration > API > Precautions**:
+     * Check **"Bypass Order Precautions for API Orders"** to avoid confirmation dialogs
 
-   ![TWS API Configuration](https://www.interactivebrokers.com/campus/wp-content/uploads/sites/2/2023/06/API-settings-700x489.png)
+3. **Restart TWS After Configuration**:
+   * After making changes to API settings, always close and restart TWS completely
+   * This ensures all changes take effect properly
 
-3. **Optimize for Reliability**:
+4. **Optimize for Reliability**:
    * In **Global Configuration > Lock and Exit**:
      * Set **"Never Lock Trader Workstation"** to prevent auto-logout
      * Enable **"Auto restart"** for uninterrupted operation
-   * In **Global Configuration > API > Precautions**:
-     * Enable bypass options for API orders to eliminate confirmation dialogs
    * In **Global Configuration > General**:
      * Adjust **Memory Allocation** to 4000MB for optimal performance
 
-4. **Allow API Connections**:
-   * Uncheck **"Allow connections from localhost only"** if connecting remotely
-   * Add your application's IP address to **"Trusted IPs"** section
+### Critical Configuration Steps
+
+#### 1. Configuration File Setup
+
+Create a proper configuration file by copying the template:
+
+```bash
+# First time setup - copy template
+cp config/config.template.toml config/config.toml
+```
+
+Then edit the file to include your actual IBKR account information:
+
+```toml
+[general]
+  log_level = "INFO"
+
+[ibkr_connection]
+  host = "127.0.0.1"
+  port = 7497  # Use 7497 for paper trading, 7496 for live trading
+  client_id_trading = 1  # Must match Master API client ID in TWS
+  client_id_data = 2
+  account_code = "YOUR_IBKR_ACCOUNT_CODE"  # Replace with your actual account code from TWS
+  read_only_api = false
+
+# Other settings...
+```
+
+#### 2. Find Your IBKR Account Code
+
+Your IBKR account code appears in the top right of TWS interface. It's typically in the format:
+
+- Paper trading accounts: "DU1234567" or similar
+- Live accounts: "U1234567" or similar
+
+Use this exact account code in your config.toml file.
+
+#### 3. Proper Docker Setup
+
+Ensure Docker is installed and running correctly:
+
+```powershell
+# Check Docker status
+docker info
+
+# Create Docker network (only needed first time)
+docker network create vertical-spread-network
+
+# Clean up any existing containers
+docker rm -f vertical-spread-go vertical-spread-python 2>$null
+
+# Start the services
+.\run-local.ps1
+```
+
+#### 4. Starting the TraderAdmin Application
+
+```powershell
+# Start the TraderAdmin application
+Start-Process "C:\Users\<username>\IBKR-trader\build\bin\TraderAdmin-dev.exe"
+```
+
+#### 5. Connection Troubleshooting
+
+If you experience connection issues:
+
+1. **In TWS settings**:
+   - Confirm "Master API client ID" is set to "1" (not blank)
+   - If you get connection errors, try changing client IDs to different values (e.g., 123 and 124)
+   - Add "127.0.0.1" to the trusted IPs list if using "Allow connections from localhost only"
+
+2. **Complete restart sequence**:
+   - Close TraderAdmin application
+   - Close TWS/Gateway
+   - Start TWS/Gateway
+   - Wait for full login
+   - Start TraderAdmin application
+
+3. **Check error logs**:
+   - Watch for specific error messages in TWS message center
+   - Look for permission or connection errors
 
 ### Connecting the Trading Application
-
-1. **Configure the Application**:
-   * Copy `config.yaml.example` to `config.yaml`
-   * Set your IBKR connection parameters:
-
-   ```yaml
-   IBKR:
-     host: 127.0.0.1  # Use actual IP if connecting to a remote TWS
-     port: 7497       # Paper trading port (7496 for live)
-     clientId: 1      # Unique client ID
-   ```
-
-2. **Market Data Requirements**:
-   * Ensure you have appropriate market data subscriptions for the instruments you plan to trade
-   * For paper accounts, enable market data sharing from your live account in Account Management
-   * Option trading requires specific option data subscriptions
-
-3. **Paper Trading Setup**:
-   * Create a paper trading account through Account Management
-   * Enable market data sharing from your live account to your paper account
-   * Allow up to 24 hours for market data sharing to take effect
-
-### Running the Application
 
 The system connects to Interactive Brokers using the ib_insync library, which provides a more Pythonic interface to the TWS API. Key features include:
 
@@ -162,6 +221,9 @@ The system connects to Interactive Brokers using the ib_insync library, which pr
    * Verify TWS/IB Gateway is running and configured for API access
    * Confirm the socket port in your config matches the TWS settings
    * Check that your IP address is in the TWS "Trusted IPs" list
+   * Make sure "Master API client ID" is not blank in TWS settings
+   * Try standard client IDs (1, 2) instead of custom values
+   * Restart TWS completely after changing settings
 
 2. **Data Issues**:
    * Verify market data subscriptions for the instruments you're trading
@@ -314,207 +376,4 @@ pre-commit run fix-file-endings-and-whitespace --all-files
 ```
 
 5. Configure your system:
-   - Copy `config.yaml.example` to `config.yaml`
-   - Edit settings to match your requirements and risk tolerance
-   - Set your IBKR credentials via environment variables or in the config
-
-## Usage
-
-### Basic Operations
-
-1. **Run a Market Scan**:
-   ```
-   python python/src/run_trader.py scan --symbols symbols.txt --strategies HIGH_BASE BULL_PULLBACK
-   ```
-
-2. **Run in Trading Mode**:
-   ```
-   python python/src/run_trader.py trade --symbols symbols.txt --config config.yaml
-   ```
-
-3. **Check Trader Status**:
-   ```
-   python python/src/run_trader.py status
-   ```
-
-4. **Run Backtesting**:
-   ```
-   python python/src/run_trader.py backtest --start-date 2023-01-01 --end-date 2023-12-31 --strategies HIGH_BASE
-   ```
-
-### Configuration
-
-The system is highly configurable through the `config.yaml` file. Key configuration areas include:
-
-- **Trading Mode**: Switch between paper and live trading
-- **Strategy Parameters**: Customize technical indicators and thresholds
-- **Risk Parameters**: Set max positions, trade size, and other risk controls
-- **Option Selection Criteria**: Configure option spread selection criteria
-- **IBKR Connection**: Set connection parameters for TWS/Gateway
-
-Example configuration:
-
-```yaml
-# Trading Strategies Configuration
-
-# Strategy Parameters
-HIGH_BASE_MAX_ATR_RATIO: 2.0
-HIGH_BASE_MIN_RSI: 60
-
-# Risk Management
-RISK_PER_TRADE: 0.02  # 2% account risk per trade
-MAX_POSITIONS: 5
-MAX_DAILY_TRADES: 3
-
-# Option Selection
-MIN_DTE: 30
-MAX_DTE: 45
-MIN_DELTA: 0.30
-MAX_DELTA: 0.50
-MAX_SPREAD_COST: 500
-MIN_REWARD_RISK: 1.5
-```
-
-## Advanced Usage
-
-### Building Your Own Docker Images
-
-You can build your own Docker images:
-
-```bash
-# Build Go scanner
-cd go
-docker build -t local/auto-vertical-spread-go:latest -f Dockerfile .
-
-# Build Python orchestrator
-cd python
-docker build -t local/auto-vertical-spread-python:latest -f Dockerfile .
-```
-
-### Using Docker Compose for Development
-
-A Docker Compose configuration is provided for local development:
-
-```bash
-# Start the development environment
-docker-compose up -d
-
-# View logs
-docker-compose logs -f
-```
-
-### Kubernetes Deployment
-
-For production deployments, Kubernetes manifests are available in the `kubernetes/` directory.
-
-## Development and Testing
-
-### Python Tests
-```bash
-cd python
-pytest
-```
-
-### Go Tests
-```bash
-cd go
-go test ./...
-```
-
-### Code Quality
-```bash
-# Python linting and type checking
-cd python
-black .
-mypy .
-
-# Go linting
-cd go
-golangci-lint run
-```
-
-## Safety Features
-
-The system includes multiple safety mechanisms:
-
-- **Paper Trading Mode**: Test strategies without real money
-- **Risk Limits**: Configurable position and trade limits
-- **Time-Based Rules**: Control when trades can be executed
-- **Error Handling**: Robust error handling and reporting
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-### Development Workflow
-
-1. Fork the repository
-2. Create a feature branch
-3. Add your changes
-4. Run tests and linting
-5. Submit a pull request
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Disclaimer
-
-Trading involves risk. This software is for educational and informational purposes only. It is not intended as financial advice or a recommendation to trade. Use at your own risk.
-
-## Disclaimer and Risk Warning
-
-### Financial Disclaimer
-This software is provided strictly for educational and informational purposes only and is not financial advice.
-
-**IMPORTANT NOTICE:**
-- Trading options, futures, stocks, and other financial instruments involves substantial risk of loss and is not suitable for all investors.
-- Past performance is not indicative of future results. No representation is being made that any account will or is likely to achieve profits or losses similar to those discussed within this software or its documentation.
-- You should never trade with money you cannot afford to lose.
-- The author(s) and contributor(s) to this project are not registered investment advisors, brokers/dealers, financial analysts, financial advisors, or securities professionals.
-- The information provided in this software is not a substitute for professional financial advice.
-- Before engaging in any trading activity of any kind, you should consult with a licensed broker, financial advisor, or financial professional to determine the suitability of any investment.
-
-### Technical Requirements Disclaimer
-This software combines multiple complex technologies and requires substantial technical expertise:
-
-- **Programming Languages**: Requires proficiency in Python 3.8+, Go 1.20+, and understanding of asynchronous programming.
-- **Infrastructure**: Requires knowledge of Docker, containerization, and potentially Kubernetes for production deployments.
-- **Financial APIs**: Requires understanding of Interactive Brokers TWS API, market data formats, and order execution mechanics.
-- **Financial Concepts**: Requires solid understanding of options trading, vertical spreads, and risk management principles.
-
-It is strongly recommended that you consult with a developer who has expertise in these areas before attempting to deploy this system in any capacity beyond paper trading. Technical errors in implementation or deployment could result in unexpected behavior and financial loss.
-
-### Regulatory Compliance
-Users of this software are solely responsible for ensuring compliance with all applicable laws and regulations in their jurisdiction, including but not limited to:
-
-- Securities regulations
-- Tax laws
-- Trading rules and restrictions
-- Reporting requirements
-
-### No Liability
-The authors, contributors, and maintainers of this software expressly disclaim all liability for any direct, indirect, consequential, incidental, or special damages arising out of or in any way connected with the use of or inability to use this software.
-
-BY USING THIS SOFTWARE, YOU ACKNOWLEDGE THAT YOU HAVE READ THIS DISCLAIMER, UNDERSTAND IT, AND AGREE TO BE BOUND BY ITS TERMS.
-
-## Windows Installer
-
-For Windows users, we provide a convenient installer that handles the installation process automatically.
-
-### Using the Windows Installer
-
-1. Download the latest `TraderAdmin_Setup.exe` from the [releases page](https://github.com/yourusername/IBKR-trader/releases).
-2. Double-click the installer and follow the on-screen instructions.
-3. The installer will create shortcuts in the Start Menu and on the Desktop.
-4. Configuration files will be stored in the installation directory under the `config` folder.
-
-### Building the Installer
-
-If you want to build the installer yourself:
-
-1. Ensure you have NSIS (Nullsoft Scriptable Install System) installed.
-2. Build the Wails application: `wails build -trimpath -ldflags="-s -w"`
-3. Run the build script: `build_scripts\build_windows.bat`
-
-The installer will be created as `TraderAdmin_Setup.exe` in the project root directory.
+   - Copy `
