@@ -778,10 +778,20 @@ class IBKRIBInsyncApi:
                 "account_id": self.account_id
             }
             
+            # Log all available tags for debugging
+            log_debug(f"Account values received: {len(account_values)}")
+            all_tags = set()
+            for val in account_values:
+                all_tags.add(val.tag)
+                if val.currency == "USD":
+                    log_debug(f"Found tag: {val.tag} = {val.value} {val.currency}")
+            
+            log_debug(f"Available account value tags: {sorted(list(all_tags))}")
+            
             # Map of tag names to our key names
             account_fields = {
-                "CashBalance": "cash_balance",
                 "NetLiquidation": "net_liquidation",
+                "CashBalance": "cash_balance",
                 "EquityWithLoanValue": "equity_with_loan",
                 "InitMarginReq": "initial_margin_req",
                 "MaintMarginReq": "maintenance_margin_req",
@@ -791,6 +801,22 @@ class IBKRIBInsyncApi:
                 "DayTradesRemaining": "day_trades_remaining",
                 "GrossPositionValue": "gross_position_value",
                 "TotalCashValue": "total_cash_value",
+                # Add additional mappings that might be present in TWS
+                "TotalCashBalance": "total_cash_balance",
+                "AccruedCash": "accrued_cash",
+                "FullAvailableFunds": "full_available_funds",
+                "FullExcessLiquidity": "full_excess_liquidity",
+                "FullInitMarginReq": "full_init_margin_req",
+                "FullMaintMarginReq": "full_maint_margin_req",
+                "FuturesPNL": "futures_pnl",
+                "LookAheadAvailableFunds": "look_ahead_available_funds",
+                "LookAheadExcessLiquidity": "look_ahead_excess_liquidity",
+                "LookAheadInitMarginReq": "look_ahead_init_margin_req",
+                "LookAheadMaintMarginReq": "look_ahead_maint_margin_req",
+                "OptionMarketValue": "option_market_value",
+                "StockMarketValue": "stock_market_value",
+                "UnrealizedPnL": "unrealized_pnl",
+                "RealizedPnL": "realized_pnl"
             }
             
             # Initialize with None values
@@ -812,6 +838,17 @@ class IBKRIBInsyncApi:
                         summary[field_name] = float(value.value)
                     except ValueError:
                         summary[field_name] = value.value
+            
+            # Request portfolio directly to get positions value
+            portfolio = self.ib.portfolio()
+            if portfolio:
+                total_value = sum(item.marketValue for item in portfolio if not util.isNan(item.marketValue))
+                summary["portfolio_value"] = total_value
+                log_debug(f"Portfolio market value: ${total_value:.2f}")
+            
+            log_info(f"Account summary: Net Liquidation=${summary.get('net_liquidation', 0):.2f}, " +
+                     f"Equity=${summary.get('equity_with_loan', 0):.2f}, " +
+                     f"Buying Power=${summary.get('buying_power', 0):.2f}")
             
             return summary
         except Exception as e:

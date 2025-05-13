@@ -295,18 +295,37 @@ class RiskManager:
                     
                     # Update daily P&L
                     realized_pnl = 0.0
-                    for position in self.positions.values():
-                        if "realized_pnl" in position:
-                            realized_pnl += position.get("realized_pnl", 0.0)
+                    unrealized_pnl = 0.0
+                    
+                    # First try to get P&L from account summary
+                    if hasattr(self.broker_api, 'get_account_summary'):
+                        account_summary = self.broker_api.get_account_summary()
+                        if account_summary:
+                            if 'realized_pnl' in account_summary and account_summary['realized_pnl'] is not None:
+                                realized_pnl = account_summary['realized_pnl']
+                            if 'unrealized_pnl' in account_summary and account_summary['unrealized_pnl'] is not None:
+                                unrealized_pnl = account_summary['unrealized_pnl']
+                    
+                    # If P&L not found in account summary, try to calculate from positions
+                    if realized_pnl == 0:
+                        for position in self.positions.values():
+                            if "realized_pnl" in position:
+                                realized_pnl += position.get("realized_pnl", 0.0)
+                            if "unrealized_pnl" in position:
+                                unrealized_pnl += position.get("unrealized_pnl", 0.0)
                     
                     self.daily_pnl = realized_pnl
                     
-                    # Log updated positions
-                    position_summary = ", ".join([
-                        f"{symbol}: {pos['quantity']} @ ${pos['avg_price']:.2f}"
-                        for symbol, pos in self.positions.items()
-                    ])
-                    log_debug(f"Updated positions: {position_summary}")
+                    # Log updated positions with P&L information
+                    if self.positions:
+                        position_summary = ", ".join([
+                            f"{symbol}: {pos['quantity']} @ ${pos.get('avg_price', 0):.2f}"
+                            for symbol, pos in self.positions.items()
+                        ])
+                        log_info(f"Updated positions: {position_summary}")
+                        log_info(f"P&L: Realized=${realized_pnl:.2f}, Unrealized=${unrealized_pnl:.2f}")
+                    else:
+                        log_info("No positions found")
             except Exception as e:
                 log_error(f"Error updating positions from broker: {str(e)}")
     
@@ -378,14 +397,25 @@ class RiskManager:
         Returns:
             Account value or default value if broker not available
         """
-        if self.broker_api:
+        if self.broker_api and hasattr(self.broker_api, 'get_account_summary'):
             try:
                 account_summary = self.broker_api.get_account_summary()
-                return account_summary.get("net_liquidation", 100000.0)
+                
+                # Try different fields in order of preference
+                for field in ['net_liquidation', 'equity_with_loan', 'total_cash_value', 'portfolio_value']:
+                    if field in account_summary and account_summary[field] is not None:
+                        account_value = float(account_summary[field])
+                        if account_value > 0:
+                            log_debug(f"Using {field}=${account_value:.2f} as account value")
+                            return account_value
+                
+                # Log warning if no valid value found
+                log_warning("Could not find valid account value in account summary")
             except Exception as e:
                 log_error(f"Error getting account value: {str(e)}")
 
-        # Default value if broker not available
+        # Default value if broker not available or no valid account value found
+        log_warning("Using default account value of $100,000")
         return 100000.0
 
     def calculate_stop_price(self, option_spread: OptionSpread) -> float:

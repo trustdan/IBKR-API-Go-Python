@@ -197,6 +197,59 @@ class Trader:
         else:
             return {}
             
+    def debug_account_info(self) -> Dict[str, Any]:
+        """Get comprehensive account debugging information.
+        
+        Returns:
+            Dictionary with account and debugging info
+        """
+        debug_info = {
+            "timestamp": datetime.now().isoformat(),
+            "connected": False,
+            "connection_details": {},
+            "account_summary": {},
+            "positions": {}
+        }
+        
+        if not self.broker_api:
+            debug_info["error"] = "Broker API not initialized"
+            return debug_info
+        
+        # Get connection status
+        if hasattr(self.broker_api, 'connected'):
+            debug_info["connected"] = self.broker_api.connected
+        
+        # Get connection details
+        for attr in ['host', 'port', 'client_id', 'account_id']:
+            if hasattr(self.broker_api, attr):
+                debug_info["connection_details"][attr] = getattr(self.broker_api, attr)
+        
+        # Get account summary
+        if hasattr(self.broker_api, 'get_account_summary'):
+            debug_info["account_summary"] = self.broker_api.get_account_summary()
+        
+        # Get positions
+        if hasattr(self.broker_api, 'get_positions'):
+            debug_info["positions"] = self.broker_api.get_positions()
+        
+        # Check if the account data was properly loaded
+        if not debug_info["account_summary"] or not any(v for k, v in debug_info["account_summary"].items() 
+                                                     if k not in ['timestamp', 'account_id', 'error']):
+            debug_info["warning"] = "Account data appears to be empty or missing important values"
+        
+        # Log the debug info
+        log_info(f"Connection status: {'Connected' if debug_info['connected'] else 'Disconnected'}")
+        
+        if debug_info["account_summary"]:
+            nlv = debug_info["account_summary"].get("net_liquidation")
+            equity = debug_info["account_summary"].get("equity_with_loan")
+            log_info(f"Account values - NLV: ${nlv if nlv else 0:.2f}, Equity: ${equity if equity else 0:.2f}")
+        
+        pos_count = len(debug_info["positions"])
+        log_info(f"Positions: {pos_count}")
+        
+        return debug_info
+            
     def shutdown(self) -> None:
         """Shutdown the trader and release resources."""
         self.stop_processing()
