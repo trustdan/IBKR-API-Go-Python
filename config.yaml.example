@@ -1,0 +1,49 @@
+# TraderAdmin Configuration Example
+# Copy this file to config.yaml and modify as needed
+
+# General Application Settings
+app:
+  name: "TraderAdmin"
+  log_level: "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+  data_dir: "./data"
+  temp_dir: "./temp"
+
+# Interactive Brokers Connection Settings
+ibkr:
+  host: "127.0.0.1"  # TWS/Gateway host (localhost)
+  port: 7497         # Paper trading port (use 7496 for live)
+  client_id: 1       # Client ID to use
+  read_only: false   # Set to true for read-only mode
+
+# Trading Settings
+trading:
+  enabled: true                # Master switch for trading
+  paper_trading: true          # Use paper trading
+  trading_hours:
+    start: "09:30"             # Eastern Time
+    end: "16:00"               # Eastern Time
+  max_positions: 10            # Maximum concurrent positions
+  risk_per_trade: 1.0          # % of account to risk per trade
+  emergency_stop_loss: 5.0     # Emergency stop % for portfolio
+
+# Notification Settings
+notifications:
+  enabled: true
+  email:
+    enabled: false
+    smtp_host: "smtp.example.com"
+    smtp_port: 587
+    smtp_user: "user@example.com"
+    smtp_pass: "your_password_or_app_key"
+    recipients:
+      - "alerts@example.com"
+
+  slack:
+    enabled: false
+    webhook_url: "https://hooks.slack.com/services/YOUR/WEBHOOK/URL"
+
+# Health Check Settings
+health_check:
+  enabled: true
+  port: 8080
+  path: "/healthz"

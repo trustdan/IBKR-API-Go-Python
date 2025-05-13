@@ -239,14 +239,13 @@ The easiest way to run the system is using Docker:
 
 ## Standard Installation
 
-If you prefer not to use Docker, you can set up the system directly:
+> 📝 **Note:** For Windows users, a convenient installer is now available. See the [Windows Installer](#windows-installer) section below.
 
 ### Prerequisites
 
-- Python 3.8+
-- Go 1.20+
 - Interactive Brokers account and TWS/Gateway installed
-- Either IBKR Paper Trading or Live Trading account
+- Python 3.10 or higher
+- Go 1.21 or higher (if building from source)
 
 ### Setup
 
@@ -498,3 +497,24 @@ Users of this software are solely responsible for ensuring compliance with all a
 The authors, contributors, and maintainers of this software expressly disclaim all liability for any direct, indirect, consequential, incidental, or special damages arising out of or in any way connected with the use of or inability to use this software.
 
 BY USING THIS SOFTWARE, YOU ACKNOWLEDGE THAT YOU HAVE READ THIS DISCLAIMER, UNDERSTAND IT, AND AGREE TO BE BOUND BY ITS TERMS.
+
+## Windows Installer
+
+For Windows users, we provide a convenient installer that handles the installation process automatically.
+
+### Using the Windows Installer
+
+1. Download the latest `TraderAdmin_Setup.exe` from the [releases page](https://github.com/yourusername/IBKR-trader/releases).
+2. Double-click the installer and follow the on-screen instructions.
+3. The installer will create shortcuts in the Start Menu and on the Desktop.
+4. Configuration files will be stored in the installation directory under the `config` folder.
+
+### Building the Installer
+
+If you want to build the installer yourself:
+
+1. Ensure you have NSIS (Nullsoft Scriptable Install System) installed.
+2. Build the Wails application: `wails build -trimpath -ldflags="-s -w"`
+3. Run the build script: `build_scripts\build_windows.bat`
+
+The installer will be created as `TraderAdmin_Setup.exe` in the project root directory.

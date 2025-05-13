@@ -137,3 +137,16 @@ TraderAdmin/config/*.toml.bak
 
 # TraderAdmin Build artifacts
 TraderAdmin/build/
+
+# Build outputs and installers
+build/bin/
+TraderAdmin_Setup.exe
+*.dmg
+*.AppImage
+*.deb
+*.rpm
+*-linux.tar.gz
+*-macos.zip
+*.msi
+*.pkg
+wails.json
