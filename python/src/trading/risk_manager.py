@@ -1,7 +1,7 @@
 import math
 from collections import defaultdict
-from datetime import date, datetime
-from typing import Any, DefaultDict, Dict, List, Optional, Tuple
+from datetime import date, datetime, timedelta
+from typing import Any, DefaultDict, Dict, List, Optional, Tuple, Set
 
 from src.app.config import Config
 from src.models.option import OptionSpread
@@ -36,6 +36,18 @@ class RiskManager:
         self.industry_exposure: DefaultDict[str, float] = defaultdict(
             float
         )  # Track exposure by industry
+
+        # Initialize risk tracking
+        self.positions: Dict[str, Dict[str, Any]] = {}
+        self.banned_symbols: Set[str] = set()
+        self.daily_pnl = 0.0
+        self.trade_count = 0
+        self.max_positions = getattr(config, "MAX_POSITIONS", 5)
+        self.max_position_size = getattr(config, "MAX_POSITION_SIZE", 10000.0)
+        self.max_daily_loss = getattr(config, "MAX_DAILY_LOSS", -2000.0)
+        
+        # Last time positions were updated
+        self.last_position_update = datetime.now() - timedelta(hours=1)
 
     def calculate_position_size(self, account_value: float, spread_cost: float) -> int:
         """Calculate position size based on risk parameters.
@@ -267,38 +279,98 @@ class RiskManager:
             )
 
     def update_positions_from_broker(self) -> None:
-        """Update active positions from broker data.
-
-        This should be called periodically to ensure position data is accurate.
-        """
-        if not self.broker_api:
+        """Update positions from broker API."""
+        # Only update positions every 30 seconds
+        now = datetime.now()
+        if (now - self.last_position_update).total_seconds() < 30:
             return
-
-        try:
-            # Get current positions from broker
-            broker_positions = self.broker_api.get_positions()
-
-            # Update our active positions based on broker data
-            for symbol, position in broker_positions.items():
-                if position["quantity"] == 0:
-                    # Position is closed
-                    if symbol in self.active_positions:
-                        self.close_position(symbol)
-                else:
-                    # Position exists but we don't have it tracked
-                    if symbol not in self.active_positions:
-                        log_warning(f"Found untracked position in {symbol}")
-
-            # Check for positions we think are active but broker doesn't have
-            for symbol in list(self.active_positions.keys()):
-                if symbol not in broker_positions:
-                    log_warning(
-                        f"Position in {symbol} not found in broker data, removing from active positions"
-                    )
-                    self.close_position(symbol)
-
-        except Exception as e:
-            log_error(f"Error updating positions from broker: {str(e)}")
+            
+        # Get positions from broker if API supports it
+        if hasattr(self.broker_api, 'get_positions'):
+            try:
+                positions = self.broker_api.get_positions()
+                if positions:
+                    self.positions = positions
+                    self.last_position_update = now
+                    
+                    # Update daily P&L
+                    realized_pnl = 0.0
+                    for position in self.positions.values():
+                        if "realized_pnl" in position:
+                            realized_pnl += position.get("realized_pnl", 0.0)
+                    
+                    self.daily_pnl = realized_pnl
+                    
+                    # Log updated positions
+                    position_summary = ", ".join([
+                        f"{symbol}: {pos['quantity']} @ ${pos['avg_price']:.2f}"
+                        for symbol, pos in self.positions.items()
+                    ])
+                    log_debug(f"Updated positions: {position_summary}")
+            except Exception as e:
+                log_error(f"Error updating positions from broker: {str(e)}")
+    
+    def can_trade_symbol(self, symbol: str) -> bool:
+        """Check if we can trade a symbol based on risk rules.
+        
+        Args:
+            symbol: Symbol to check
+            
+        Returns:
+            True if symbol can be traded
+        """
+        # Check if symbol is banned
+        if symbol in self.banned_symbols:
+            log_warning(f"Symbol {symbol} is banned from trading")
+            return False
+            
+        # Check if we have too many positions
+        if len(self.positions) >= self.max_positions and symbol not in self.positions:
+            log_warning(f"Maximum positions reached ({self.max_positions}), can't open new position for {symbol}")
+            return False
+            
+        # Check if daily loss limit has been reached
+        if self.daily_pnl < self.max_daily_loss:
+            log_warning(f"Daily loss limit reached (${self.daily_pnl:.2f}), stopping trading")
+            return False
+            
+        # All checks passed
+        return True
+        
+    def calculate_position_size(self, symbol: str, price: float) -> int:
+        """Calculate the appropriate position size for a trade.
+        
+        Args:
+            symbol: Symbol to trade
+            price: Current price
+            
+        Returns:
+            Number of shares/contracts to trade
+        """
+        # Get account value or use default
+        account_value = 100000.0  # Default
+        
+        # If broker API supports getting account summary, use that
+        if hasattr(self.broker_api, 'get_account_summary'):
+            try:
+                account_summary = self.broker_api.get_account_summary()
+                if account_summary and "net_liquidation" in account_summary:
+                    account_value = account_summary["net_liquidation"]
+            except Exception as e:
+                log_warning(f"Could not get account value: {str(e)}")
+        
+        # Calculate max position size as percentage of account
+        risk_per_trade = getattr(self.config, "RISK_PER_TRADE", 0.02)  # Default 2%
+        max_risk = account_value * risk_per_trade
+        
+        # Calculate position size based on price
+        position_size = int(max_risk / price)
+        
+        # Limit to max position size
+        if position_size * price > self.max_position_size:
+            position_size = int(self.max_position_size / price)
+            
+        return max(1, position_size)  # Ensure minimum of 1
 
     def get_account_value(self) -> float:
         """Get the current account value.

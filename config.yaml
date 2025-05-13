@@ -22,6 +22,18 @@ MAX_DAILY_TRADES: 3
 STOP_LOSS_ATR_MULT: 2.0
 MAX_HOLDING_PERIOD: 10
 
+# IBKR API Connection
+ibkr:
+  host: "127.0.0.1"
+  port: 7497  # TWS: 7497, IB Gateway: 4001
+  client_id: 1
+  read_only: false
+  account: ""  # Set your account ID or leave blank to use active account
+  use_ib_insync: true  # Use new implementation instead of placeholder
+  timeout: 20  # Connection timeout in seconds
+  auto_reconnect: true  # Automatically try to reconnect on disconnection
+  max_rate: 45  # Maximum API requests per second (IB's limit is 50)
+
 # Backtest Parameters
 INITIAL_EQUITY: 100000
 BACKTEST_SYMBOLS:

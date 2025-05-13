@@ -50,7 +50,7 @@ This step implements:
 
 These functions allow the application to get current market prices and available options.
 
-## Step 4: Order Management
+## Step 4: Order Management [COMPLETED]
 
 [View full documentation](ib-insync-step4-order-management.md)
 
@@ -62,7 +62,7 @@ This step implements:
 
 These components enable the application to execute trading strategies.
 
-## Step 5: Account and Position Management
+## Step 5: Account and Position Management [COMPLETED]
 
 [View full documentation](ib-insync-step5-account-management.md)
 
