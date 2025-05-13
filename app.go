@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net"
 	"os"
 	"path/filepath"
 	"time"
@@ -595,9 +596,22 @@ func (a *App) updateServicesStatus() {
 
 // TestIBKRConnection tests the connection to IBKR
 func (a *App) TestIBKRConnection() bool {
-	// TODO: Implement real connection test to IBKR API
-	// For now return a placeholder response
-	// In production this would attempt to connect to TWS/Gateway API
+	// Try to connect to the IBKR TWS/Gateway API
+	host := a.config.IBKRConnection.Host
+	port := a.config.IBKRConnection.Port
+
+	// Simple TCP connection test to see if TWS/Gateway is running
+	address := fmt.Sprintf("%s:%d", host, port)
+	conn, err := net.DialTimeout("tcp", address, 2*time.Second)
+
+	if err != nil {
+		log.Warn().Err(err).Str("address", address).Msg("Failed to connect to IBKR TWS/Gateway")
+		return false
+	}
+
+	// Successfully connected
+	conn.Close()
+	log.Info().Str("address", address).Msg("Successfully connected to IBKR TWS/Gateway")
 	return true
 }
 
