@@ -1,259 +1,158 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
-  import { formatDistanceToNow } from 'date-fns';
+  import { onMount, onDestroy } from 'svelte';
+  import { statusStore, startStatusPolling, updateStatus } from '../stores/statusStore';
 
-  // Status types
-  type ContainerState = 'running' | 'paused' | 'stopped' | 'error';
+  let stopPolling: (() => void) | null = null;
 
-  // Container interface
-  interface Container {
-    name: string;
-    state: ContainerState;
-    error?: string;
+  onMount(async () => {
+    // Fetch initial status
+    await updateStatus();
+
+    // Start polling for status updates every 5 seconds
+    stopPolling = startStatusPolling(5000);
+  });
+
+  onDestroy(() => {
+    // Clean up the polling interval when component is destroyed
+    if (stopPolling) {
+      stopPolling();
+    }
+  });
+
+  // Format the last updated time
+  function formatTime(date: Date): string {
+    return date.toLocaleTimeString();
   }
 
-  export let ibkrConnected: boolean = false;
-  export let ibkrError: string | null = null;
-  export let containers: Container[] = [];
-  export let lastUpdated: Date | null = null;
-  export let updating: boolean = false;
-
-  $: systemHealth = getSystemHealth();
-
-  const dispatch = createEventDispatcher();
-
-  function getSystemHealth(): 'healthy' | 'degraded' | 'error' {
-    if (!ibkrConnected) {
-      return 'error';
-    }
-
-    if (containers.some(c => c.state === 'error')) {
-      return 'error';
-    }
-
-    if (containers.some(c => c.state === 'stopped' || c.state === 'paused')) {
-      return 'degraded';
-    }
-
-    return 'healthy';
-  }
-
-  function refreshStatus() {
-    dispatch('refresh');
-  }
-
-  $: lastUpdatedText = lastUpdated
-    ? `Last updated ${formatDistanceToNow(lastUpdated, { addSuffix: true })}`
-    : 'Updating...';
-
-  // Helper for container CSS classes
-  function getContainerClass(state: ContainerState): string {
-    switch (state) {
-      case 'running': return 'status-healthy';
-      case 'paused': return 'status-degraded';
-      case 'stopped':
-      case 'error':
-      default: return 'status-error';
-    }
+  // Determine status indicator class based on connection status
+  function getStatusClass(connected: boolean): string {
+    return connected ? 'status-indicator-connected' : 'status-indicator-disconnected';
   }
 </script>
 
 <div class="status-bar">
-  <div class={`system-health status-${systemHealth}`}>
-    <span class="status-dot"></span>
-    <span class="status-label">System: {systemHealth}</span>
-
-    <button
-      class="refresh-button"
-      on:click={refreshStatus}
-      disabled={updating}
-      aria-label="Refresh status"
-    >
-      <span class={`refresh-icon ${updating ? 'spinning' : ''}`}>🔄</span>
-    </button>
+  <div class="status-item">
+    <span class="status-label">IBKR:</span>
+    <span class={`status-indicator ${getStatusClass($statusStore.ibkr.connected)}`}></span>
+    <span class="status-text">{$statusStore.ibkr.connected ? 'Connected' : 'Disconnected'}</span>
+    {#if $statusStore.ibkr.error}
+      <span class="status-error">{$statusStore.ibkr.error}</span>
+    {/if}
   </div>
 
-  <div class="connection-status">
-    <div class={`status-item ${ibkrConnected ? 'status-healthy' : 'status-error'}`}>
-      <span class="status-dot"></span>
-      <span class="status-label">IBKR</span>
-      {#if !ibkrConnected && ibkrError}
-        <div class="status-tooltip">{ibkrError}</div>
-      {/if}
-    </div>
+  <div class="status-divider"></div>
 
-    {#each containers as container}
-      <div class={`status-item ${getContainerClass(container.state)}`}>
-        <span class="status-dot"></span>
-        <span class="status-label">{container.name}</span>
-        {#if container.error}
-          <div class="status-tooltip">{container.error}</div>
-        {/if}
-      </div>
+  <div class="status-item">
+    <span class="status-label">Services:</span>
+    {#each $statusStore.services as service}
+      <span class="service-status">
+        <span class={`status-indicator ${getStatusClass(service.running)}`}></span>
+        <span class="service-name">{service.name}</span>
+      </span>
     {/each}
   </div>
 
-  <div class="status-timestamp">
-    {lastUpdatedText}
+  <div class="status-divider"></div>
+
+  <div class="status-item">
+    <span class="status-label">Positions:</span>
+    <span class="status-value">{$statusStore.activePositions}</span>
+  </div>
+
+  <div class="status-divider"></div>
+
+  <div class="status-item">
+    <span class="status-label">Trading:</span>
+    <span class={`status-indicator ${getStatusClass($statusStore.tradingActive)}`}></span>
+    <span class="status-text">{$statusStore.tradingActive ? 'Active' : 'Inactive'}</span>
+  </div>
+
+  <div class="status-divider"></div>
+
+  <div class="status-item">
+    <span class="status-label">Trading Hours:</span>
+    <span class={`status-indicator ${getStatusClass($statusStore.isTradingHours)}`}></span>
+  </div>
+
+  <div class="status-item status-item-right">
+    <span class="status-label">Last Updated:</span>
+    <span class="status-text">{formatTime($statusStore.lastUpdated)}</span>
   </div>
 </div>
 
 <style>
   .status-bar {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    background-color: #f9f9f9;
-    border-bottom: 1px solid #e0e0e0;
-    padding: 0.5rem 1rem;
-    font-size: 0.75rem;
+    background-color: #f1f5f9;
+    border-top: 1px solid #e2e8f0;
+    padding: 0 1rem;
     height: 36px;
-    width: 100%;
-  }
-
-  .system-health {
-    display: flex;
-    align-items: center;
-    font-weight: 600;
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
-    margin-right: 1rem;
-  }
-
-  .status-healthy {
-    color: #2e7d32;
-  }
-
-  .status-degraded {
-    color: #ff8f00;
-  }
-
-  .status-error {
-    color: #c62828;
-  }
-
-  .status-dot {
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    margin-right: 6px;
-  }
-
-  .status-healthy .status-dot {
-    background-color: #2e7d32;
-  }
-
-  .status-degraded .status-dot {
-    background-color: #ff8f00;
-  }
-
-  .status-error .status-dot {
-    background-color: #c62828;
-  }
-
-  .connection-status {
-    display: flex;
-    flex-grow: 1;
-    gap: 1rem;
+    font-size: 0.8rem;
   }
 
   .status-item {
     display: flex;
     align-items: center;
-    position: relative;
+    margin-right: 1rem;
   }
 
-  .status-item:hover .status-tooltip {
-    display: block;
+  .status-item-right {
+    margin-left: auto;
+    margin-right: 0;
   }
 
-  .status-tooltip {
-    display: none;
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #333;
-    color: white;
-    padding: 0.25rem 0.5rem;
-    border-radius: 3px;
-    font-size: 0.7rem;
-    white-space: nowrap;
-    margin-bottom: 5px;
-    z-index: 1;
+  .status-label {
+    font-weight: 600;
+    color: #64748b;
+    margin-right: 0.5rem;
   }
 
-  .status-tooltip::after {
-    content: '';
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    border-width: 4px;
-    border-style: solid;
-    border-color: #333 transparent transparent;
+  .status-text {
+    color: #334155;
   }
 
-  .status-timestamp {
-    color: #666;
-    white-space: nowrap;
+  .status-value {
+    color: #334155;
+    font-weight: 500;
   }
 
-  .refresh-button {
-    background: none;
-    border: none;
-    cursor: pointer;
+  .status-error {
+    color: #dc2626;
+    margin-left: 0.5rem;
+  }
+
+  .status-indicator {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+  }
+
+  .status-indicator-connected {
+    background-color: #22c55e;
+  }
+
+  .status-indicator-disconnected {
+    background-color: #ef4444;
+  }
+
+  .status-divider {
+    width: 1px;
+    height: 16px;
+    background-color: #cbd5e1;
+    margin: 0 0.5rem;
+  }
+
+  .service-status {
     display: flex;
     align-items: center;
-    justify-content: center;
-    padding: 0.25rem;
-    margin-left: 0.5rem;
-    border-radius: 50%;
-    transition: background-color 0.2s;
+    margin-right: 1rem;
   }
 
-  .refresh-button:hover {
-    background-color: rgba(0, 0, 0, 0.05);
-  }
-
-  .refresh-button:disabled {
-    cursor: not-allowed;
-    opacity: 0.5;
-  }
-
-  .refresh-icon {
-    font-size: 0.875rem;
-    display: inline-block;
-  }
-
-  .spinning {
-    animation: spin 1s linear infinite;
-  }
-
-  @keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-  }
-
-  /* Media query for small screens */
-  @media (max-width: 600px) {
-    .status-bar {
-      flex-direction: column;
-      height: auto;
-      padding: 0.5rem;
-      gap: 0.5rem;
-    }
-
-    .system-health,
-    .connection-status,
-    .status-timestamp {
-      width: 100%;
-    }
-
-    .connection-status {
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
+  .service-name {
+    font-size: 0.75rem;
+    color: #334155;
   }
 </style>

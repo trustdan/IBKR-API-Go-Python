@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: traderadmin-orchestrator
+  namespace: traderadmin
+  labels:
+    app: traderadmin-orchestrator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: traderadmin-orchestrator
+  template:
+    metadata:
+      labels:
+        app: traderadmin-orchestrator
+    spec:
+      volumes:
+        - name: config-volume
+          persistentVolumeClaim:
+            claimName: traderadmin-config-pvc
+      containers:
+        - name: orchestrator
+          image: traderadmin/orchestrator:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+              name: http
+          volumeMounts:
+            - name: config-volume
+              mountPath: /app/config
+              readOnly: true
+          env:
+            - name: LOG_LEVEL
+              value: "INFO"
+            - name: CONFIG_PATH
+              value: "/app/config/config.toml"
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 10

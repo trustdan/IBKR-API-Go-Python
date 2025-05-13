@@ -1,0 +1,32 @@
+[general]
+log_level = "INFO"  # Values: DEBUG, INFO, WARNING, ERROR, CRITICAL
+
+[ibkr_connection]
+host = "localhost"
+port = 7497  # TWS = 7497, IB Gateway = 4002, Paper Trading = 7497
+client_id_trading = 1
+client_id_data = 2  # If using a separate data connection
+account_code = "DU8XXXXX"  # Replace with your actual account ID
+read_only_api = false
+
+[trading_parameters]
+global_max_concurrent_positions = 10
+default_risk_per_trade_percentage = 1.0
+emergency_stop_loss_percentage = 5.0  # Global portfolio level
+
+[strategy_defaults.rsi_strategy]
+enabled = true
+min_rsi_value = 30
+max_rsi_value = 70
+atr_period_for_stop = 14
+atr_multiplier_for_stop = 2.5
+
+[kubernetes]
+namespace = "traderadmin"
+config_map_name = "traderadmin-config"
+orchestrator_deployment_name = "traderadmin-orchestrator"
+
+[schedule]
+trading_start_time = "09:30"  # Eastern Time
+trading_end_time = "16:00"  # Eastern Time
+weekend_trading = false

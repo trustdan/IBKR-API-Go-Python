@@ -125,9 +125,15 @@ documentation/IBKR-TWS-API-documentation.md
 TraderAdmin/build/bin
 TraderAdmin/frontend/dist
 
+# Config files
+config/*.toml
+config/*.toml.bak
+!config/config.template.toml
+
 # TraderAdmin Configuration files
 TraderAdmin/config/*.toml
 TraderAdmin/config/*.toml.bak
+!TraderAdmin/config/config.template.toml
 
 # TraderAdmin Build artifacts
 TraderAdmin/build/

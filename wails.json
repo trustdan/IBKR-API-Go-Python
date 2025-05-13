@@ -1,0 +1,10 @@
+{
+  "name": "TraderAdmin",
+  "frontend:build": "npm run build",
+  "frontend:install": "npm install",
+  "frontend:dev:watcher": "npm run dev",
+  "frontend:dev:serverURL": "auto",
+  "wailsjsdir": "./frontend/src/wailsjs",
+  "frontend:dir": "./frontend",
+  "version": "2"
+}

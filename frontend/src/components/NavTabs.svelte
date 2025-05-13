@@ -1,206 +1,105 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
+  import { activeTab, setActiveTab, type TabId } from '../stores/activeTab';
 
-  export let activeTab: string = 'overview';
-  export let layout: 'side' | 'top' = 'side';
-
-  interface Tab {
-    id: string;
-    label: string;
-    icon?: string;
-  }
-
-  // Available tabs in the application
-  const tabs: Tab[] = [
+  // Define the tabs for navigation
+  const tabs: Array<{ id: TabId; label: string; icon: string }> = [
     { id: 'overview', label: 'Overview', icon: '📊' },
-    { id: 'connection', label: 'IBKR Connection', icon: '🔌' },
-    { id: 'trading', label: 'Trading & Risk', icon: '📈' },
-    { id: 'strategies', label: 'Strategies', icon: '🧩' },
-    { id: 'options', label: 'Options', icon: '⚙️' },
-    { id: 'universe', label: 'Universe', icon: '🌐' },
-    { id: 'scanner', label: 'Scanner', icon: '🔍' },
-    { id: 'data', label: 'Data Management', icon: '💾' },
-    { id: 'logging', label: 'Logging', icon: '📝' },
-    { id: 'schedule', label: 'Scheduling', icon: '🕒' },
+    { id: 'connection', label: 'Connection', icon: '🔌' },
+    { id: 'trading-risk', label: 'Trading & Risk', icon: '⚖️' },
+    { id: 'strategies', label: 'Strategies', icon: '📈' },
+    { id: 'options', label: 'Options', icon: '🔄' },
+    { id: 'scheduling', label: 'Scheduling', icon: '🕒' },
+    { id: 'monitoring', label: 'Monitoring', icon: '📡' },
     { id: 'alerts', label: 'Alerts', icon: '🔔' },
-    { id: 'backup', label: 'Backup & Restore', icon: '🔄' },
-    { id: 'devtools', label: 'Developer Tools', icon: '🔧' },
-    { id: 'help', label: 'Help', icon: '❓' }
+    { id: 'settings', label: 'Settings', icon: '⚙️' }
   ];
-
-  const dispatch = createEventDispatcher();
-
-  function handleTabClick(tabId: string) {
-    if (tabId !== activeTab) {
-      // You can add a check for unsaved changes here before changing tabs
-      dispatch('tabChange', tabId);
-    }
-  }
 </script>
 
-<nav class={`nav-tabs nav-tabs-${layout}`}>
-  <ul>
-    {#each tabs as tab}
-      <li class={activeTab === tab.id ? 'active' : ''}>
-        <button
-          on:click={() => handleTabClick(tab.id)}
-          aria-selected={activeTab === tab.id}
-          role="tab"
-          aria-controls={`tab-${tab.id}`}
-          id={`tab-button-${tab.id}`}
-        >
-          {#if tab.icon}
-            <span class="tab-icon">{tab.icon}</span>
-          {/if}
-          <span class="tab-label">{tab.label}</span>
-        </button>
-      </li>
-    {/each}
-  </ul>
-</nav>
+<div class="nav-tabs">
+  <div class="logo">
+    <span class="logo-text">TraderAdmin</span>
+  </div>
+
+  <nav>
+    <ul>
+      {#each tabs as tab}
+        <li class:active={$activeTab === tab.id}>
+          <button on:click={() => setActiveTab(tab.id)}>
+            <span class="icon">{tab.icon}</span>
+            <span class="label">{tab.label}</span>
+          </button>
+        </li>
+      {/each}
+    </ul>
+  </nav>
+</div>
 
 <style>
   .nav-tabs {
-    --tab-active-color: #0066cc;
-    --tab-hover-bg: #f0f7ff;
-    --tab-active-bg: #e5f1ff;
-  }
-
-  .nav-tabs ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-  }
-
-  /* Side layout */
-  .nav-tabs-side {
-    width: 220px;
-    border-right: 1px solid #e0e0e0;
+    background-color: #1e293b;
+    color: #cbd5e1;
+    width: 240px;
     height: 100%;
-    overflow-y: auto;
-    background-color: #f9f9f9;
-  }
-
-  .nav-tabs-side ul {
+    display: flex;
     flex-direction: column;
   }
 
-  .nav-tabs-side li {
+  .logo {
+    padding: 1.5rem 1rem;
+    border-bottom: 1px solid #334155;
+  }
+
+  .logo-text {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #f8fafc;
+  }
+
+  nav {
+    flex: 1;
+    padding: 1rem 0;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
     margin: 0;
   }
 
-  .nav-tabs-side button {
+  li {
+    margin-bottom: 0.25rem;
+  }
+
+  button {
     display: flex;
     align-items: center;
     width: 100%;
+    padding: 0.75rem 1rem;
+    border: none;
+    background-color: transparent;
+    color: inherit;
     text-align: left;
-    padding: 0.75rem 1rem;
-    border: none;
-    background: none;
-    font-size: 0.875rem;
     cursor: pointer;
-    transition: background-color 0.2s;
+    border-radius: 0.25rem;
+    transition: background-color 0.2s, color 0.2s;
   }
 
-  .nav-tabs-side li.active button {
-    background-color: var(--tab-active-bg);
-    color: var(--tab-active-color);
-    font-weight: 600;
-    position: relative;
+  button:hover {
+    background-color: #334155;
+    color: #f8fafc;
   }
 
-  .nav-tabs-side li.active button::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 4px;
-    background-color: var(--tab-active-color);
+  li.active button {
+    background-color: #3b82f6;
+    color: #ffffff;
   }
 
-  .nav-tabs-side button:hover:not(:disabled) {
-    background-color: var(--tab-hover-bg);
+  .icon {
+    margin-right: 0.75rem;
+    font-size: 1.1rem;
   }
 
-  /* Top layout */
-  .nav-tabs-top {
-    width: 100%;
-    border-bottom: 1px solid #e0e0e0;
-    overflow-x: auto;
-    background-color: #f9f9f9;
-  }
-
-  .nav-tabs-top ul {
-    flex-direction: row;
-  }
-
-  .nav-tabs-top li {
-    margin: 0;
-  }
-
-  .nav-tabs-top button {
-    display: flex;
-    align-items: center;
-    padding: 0.75rem 1rem;
-    border: none;
-    background: none;
-    font-size: 0.875rem;
-    cursor: pointer;
-    transition: background-color 0.2s;
-    white-space: nowrap;
-  }
-
-  .nav-tabs-top li.active button {
-    color: var(--tab-active-color);
-    font-weight: 600;
-    position: relative;
-  }
-
-  .nav-tabs-top li.active button::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: -1px;
-    height: 2px;
-    background-color: var(--tab-active-color);
-  }
-
-  .nav-tabs-top button:hover:not(:disabled) {
-    background-color: var(--tab-hover-bg);
-  }
-
-  /* Tab icon and label */
-  .tab-icon {
-    margin-right: 0.5rem;
-    font-size: 1rem;
-  }
-
-  /* Responsive adjustments */
-  @media (max-width: 768px) {
-    .nav-tabs-side {
-      width: 100%;
-      height: auto;
-      border-right: none;
-      border-bottom: 1px solid #e0e0e0;
-    }
-
-    .nav-tabs-side ul {
-      flex-direction: row;
-      flex-wrap: wrap;
-    }
-
-    .nav-tabs-side li.active button::before {
-      width: 100%;
-      height: 3px;
-      top: auto;
-      bottom: -1px;
-    }
-
-    .tab-label {
-      margin-left: 0.25rem;
-    }
+  .label {
+    font-size: 0.95rem;
   }
 </style>
