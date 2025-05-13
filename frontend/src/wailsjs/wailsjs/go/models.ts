@@ -1,5 +1,5 @@
 export namespace main {
-
+	
 	export class Configuration {
 	    // Go type: struct { LogLevel string "toml:\"log_level\" json:\"log_level\" jsonschema:\"description=Logging level for the application,enum=DEBUG,enum=INFO,enum=WARNING,enum=ERROR,enum=CRITICAL,default=INFO\"" }
 	    General: any;
@@ -18,11 +18,11 @@ export namespace main {
 	    TradingSchedule: any;
 	    // Go type: struct { Enabled bool "toml:\"enabled\" json:\"Enabled\" jsonschema:\"description=Enable the alerting system,default=true\""; Thresholds struct { MaxOrderLatencyMs float64 "toml:\"max_order_latency_ms\" json:\"MaxOrderLatencyMs\" jsonschema:\"description=Maximum acceptable order latency in milliseconds,minimum=0,default=1000\""; MinDailyRealizedPnl float64 "toml:\"min_daily_realized_pnl\" json:\"MinDailyRealizedPnl\" jsonschema:\"description=Minimum acceptable daily realized P&L,default=-500
 	    AlertsConfig: any;
-
+	
 	    static createFrom(source: any = {}) {
 	        return new Configuration(source);
 	    }
-
+	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.General = this.convertValues(source["General"], Object);
@@ -37,7 +37,7 @@ export namespace main {
 	        this.TradingSchedule = this.convertValues(source["TradingSchedule"], Object);
 	        this.AlertsConfig = this.convertValues(source["AlertsConfig"], Object);
 	    }
-
+	
 		convertValues(a: any, classs: any, asMap: boolean = false): any {
 		    if (!a) {
 		        return a;
@@ -64,11 +64,11 @@ export namespace main {
 	    isTradingHours: boolean;
 	    // Go type: time
 	    lastUpdated: any;
-
+	
 	    static createFrom(source: any = {}) {
 	        return new StatusInfo(source);
 	    }
-
+	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.ibkr = this.convertValues(source["ibkr"], Object);
@@ -78,7 +78,7 @@ export namespace main {
 	        this.isTradingHours = source["isTradingHours"];
 	        this.lastUpdated = this.convertValues(source["lastUpdated"], null);
 	    }
-
+	
 		convertValues(a: any, classs: any, asMap: boolean = false): any {
 		    if (!a) {
 		        return a;
@@ -101,7 +101,7 @@ export namespace main {
 }
 
 export namespace models {
-
+	
 	export class Position {
 	    symbol: string;
 	    quantity: number;
@@ -110,11 +110,11 @@ export namespace models {
 	    unrealizedPl: number;
 	    strategy: string;
 	    openTime: string;
-
+	
 	    static createFrom(source: any = {}) {
 	        return new Position(source);
 	    }
-
+	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.symbol = source["symbol"];
@@ -131,18 +131,18 @@ export namespace models {
 	    apiErrorCount: number;
 	    // Go type: time
 	    lastDataSync: any;
-
+	
 	    static createFrom(source: any = {}) {
 	        return new SystemHealthMetrics(source);
 	    }
-
+	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.avgOrderLatencyMs = source["avgOrderLatencyMs"];
 	        this.apiErrorCount = source["apiErrorCount"];
 	        this.lastDataSync = this.convertValues(source["lastDataSync"], null);
 	    }
-
+	
 		convertValues(a: any, classs: any, asMap: boolean = false): any {
 		    if (!a) {
 		        return a;
@@ -168,11 +168,11 @@ export namespace models {
 	    winRate: number;
 	    avgWinAmount: number;
 	    avgLossAmount: number;
-
+	
 	    static createFrom(source: any = {}) {
 	        return new TradeStatsToday(source);
 	    }
-
+	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.executedCount = source["executedCount"];
@@ -191,11 +191,11 @@ export namespace models {
 	    unrealizedPnl: number;
 	    openPositionsCount: number;
 	    buyingPower: number;
-
+	
 	    static createFrom(source: any = {}) {
 	        return new PortfolioMetrics(source);
 	    }
-
+	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.timestamp = this.convertValues(source["timestamp"], null);
@@ -205,7 +205,7 @@ export namespace models {
 	        this.openPositionsCount = source["openPositionsCount"];
 	        this.buyingPower = source["buyingPower"];
 	    }
-
+	
 		convertValues(a: any, classs: any, asMap: boolean = false): any {
 		    if (!a) {
 		        return a;
@@ -229,11 +229,11 @@ export namespace models {
 	    trades: TradeStatsToday;
 	    system: SystemHealthMetrics;
 	    openPositions: Position[];
-
+	
 	    static createFrom(source: any = {}) {
 	        return new AllMetrics(source);
 	    }
-
+	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.portfolio = this.convertValues(source["portfolio"], PortfolioMetrics);
@@ -241,7 +241,7 @@ export namespace models {
 	        this.system = this.convertValues(source["system"], SystemHealthMetrics);
 	        this.openPositions = this.convertValues(source["openPositions"], Position);
 	    }
-
+	
 		convertValues(a: any, classs: any, asMap: boolean = false): any {
 		    if (!a) {
 		        return a;
@@ -260,31 +260,31 @@ export namespace models {
 		    return a;
 		}
 	}
-
-
-
+	
+	
+	
 
 }
 
 export namespace struct { Connected bool "json:\"connected\""; LastConnected time {
-
+	
 	export class  {
 	    connected: boolean;
 	    // Go type: time
 	    lastConnected?: any;
 	    error?: string;
-
+	
 	    static createFrom(source: any = {}) {
 	        return new (source);
 	    }
-
+	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.connected = source["connected"];
 	        this.lastConnected = this.convertValues(source["lastConnected"], null);
 	        this.error = source["error"];
 	    }
-
+	
 		convertValues(a: any, classs: any, asMap: boolean = false): any {
 		    if (!a) {
 		        return a;
@@ -307,24 +307,24 @@ export namespace struct { Connected bool "json:\"connected\""; LastConnected tim
 }
 
 export namespace struct { Enabled bool "toml:\"enabled\" json:\"Enabled\" jsonschema:\"description=Enable the alerting system,default=true\""; Thresholds struct { MaxOrderLatencyMs float64 "toml:\"max_order_latency_ms\" json:\"MaxOrderLatencyMs\" jsonschema:\"description=Maximum acceptable order latency in milliseconds,minimum=0,default=1000\""; MinDailyRealizedPnl float64 "toml:\"min_daily_realized_pnl\" json:\"MinDailyRealizedPnl\" jsonschema:\"description=Minimum acceptable daily realized P&L,default=-500 {
-
+	
 	export class  {
 	    Enabled: boolean;
 	    Thresholds: struct { MaxOrderLatencyMs float64 "toml:\"max_order_latency_ms\" json:\"MaxOrderLatencyMs\" jsonschema:\"description=Maximum acceptable order latency in milliseconds,minimum=0,default=1000\""; MinDailyRealizedPnl float64 "toml:\"min_daily_realized_pnl\" json:\"MinDailyRealizedPnl\" jsonschema:\"description=Minimum acceptable daily realized P&L,default=-500.;
 	    // Go type: struct { Email struct { Enabled bool "toml:\"enabled\" json:\"Enabled\" jsonschema:\"description=Enable email notifications,default=false\""; Recipients []string "toml:\"recipients\" json:\"Recipients\" jsonschema:\"description=List of email recipients\""; SmtpHost string "toml:\"smtp_host\" json:\"SmtpHost\" jsonschema:\"description=SMTP server hostname\""; SmtpPort int "toml:\"smtp_port\" json:\"SmtpPort\" jsonschema:\"description=SMTP server port,minimum=1,maximum=65535,default=587\""; SmtpUser string "toml:\"smtp_user\" json:\"SmtpUser\" jsonschema:\"description=SMTP server username\""; SmtpPass string "toml:\"smtp_pass\" json:\"SmtpPass\" jsonschema:\"description=SMTP server password (or environment variable name)\"" } "toml:\"email\" json:\"Email\""; Slack struct { Enabled bool "toml:\"enabled\" json:\"Enabled\" jsonschema:\"description=Enable Slack notifications,default=false\""; WebhookUrl string "toml:\"webhook_url\" json:\"WebhookUrl\" jsonschema:\"description=Slack webhook URL (or environment variable name)\"" } "toml:\"slack\" json:\"Slack\"" }
 	    Notifications: any;
-
+	
 	    static createFrom(source: any = {}) {
 	        return new (source);
 	    }
-
+	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.Enabled = source["Enabled"];
 	        this.Thresholds = this.convertValues(source["Thresholds"], Object);
 	        this.Notifications = this.convertValues(source["Notifications"], Object);
 	    }
-
+	
 		convertValues(a: any, classs: any, asMap: boolean = false): any {
 		    if (!a) {
 		        return a;
@@ -347,16 +347,16 @@ export namespace struct { Enabled bool "toml:\"enabled\" json:\"Enabled\" jsonsc
 }
 
 export namespace struct { GlobalMaxConcurrentPositions int "toml:\"global_max_concurrent_positions\" json:\"GlobalMaxConcurrentPositions\" jsonschema:\"description=Maximum number of concurrent positions,minimum=1,default=10\""; DefaultRiskPerTradePercentage float64 "toml:\"default_risk_per_trade_percentage\" json:\"DefaultRiskPerTradePercentage\" jsonschema:\"description=Percentage of account to risk per trade,minimum=0 {
-
+	
 	export class  {
 	    GlobalMaxConcurrentPositions: number;
 	    DefaultRiskPerTradePercentage: number;
 	    EmergencyStopLossPercentage: number;
-
+	
 	    static createFrom(source: any = {}) {
 	        return new (source);
 	    }
-
+	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.GlobalMaxConcurrentPositions = source["GlobalMaxConcurrentPositions"];
@@ -368,17 +368,17 @@ export namespace struct { GlobalMaxConcurrentPositions int "toml:\"global_max_co
 }
 
 export namespace struct { MaxOrderLatencyMs float64 "toml:\"max_order_latency_ms\" json:\"MaxOrderLatencyMs\" jsonschema:\"description=Maximum acceptable order latency in milliseconds,minimum=0,default=1000\""; MinDailyRealizedPnl float64 "toml:\"min_daily_realized_pnl\" json:\"MinDailyRealizedPnl\" jsonschema:\"description=Minimum acceptable daily realized P&L,default=-500 {
-
+	
 	export class  {
 	    MaxOrderLatencyMs: number;
 	    MinDailyRealizedPnl: number;
 	    MaxPortfolioDrawdownPercentageToday: number;
 	    MaxApiErrorsPerHour: number;
-
+	
 	    static createFrom(source: any = {}) {
 	        return new (source);
 	    }
-
+	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.MaxOrderLatencyMs = source["MaxOrderLatencyMs"];
@@ -391,7 +391,7 @@ export namespace struct { MaxOrderLatencyMs float64 "toml:\"max_order_latency_ms
 }
 
 export namespace struct { MinOpenInterest int "toml:\"min_open_interest\" json:\"MinOpenInterest\" jsonschema:\"description=Minimum open interest for an option contract,minimum=0,default=500\""; MaxBidAskSpreadPercentage float64 "toml:\"max_bid_ask_spread_percentage\" json:\"MaxBidAskSpreadPercentage\" jsonschema:\"description=Maximum bid-ask spread as a percentage of mark price,minimum=0 {
-
+	
 	export class  {
 	    MinOpenInterest: number;
 	    MaxBidAskSpreadPercentage: number;
@@ -405,11 +405,11 @@ export namespace struct { MinOpenInterest int "toml:\"min_open_interest\" json:\
 	    MinProbabilityOfProfitPercentage: number;
 	    UseWidthVsExpectedMoveFilter: boolean;
 	    MaxSpreadWidthVsExpectedMovePercentage: number;
-
+	
 	    static createFrom(source: any = {}) {
 	        return new (source);
 	    }
-
+	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.MinOpenInterest = source["MinOpenInterest"];
@@ -430,7 +430,7 @@ export namespace struct { MinOpenInterest int "toml:\"min_open_interest\" json:\
 }
 
 export namespace struct { Name string "json:\"name\""; Running bool "json:\"running\""; Health string "json:\"health\""; LastChecked time {
-
+	
 	export class  {
 	    name: string;
 	    running: boolean;
@@ -438,11 +438,11 @@ export namespace struct { Name string "json:\"name\""; Running bool "json:\"runn
 	    // Go type: time
 	    lastChecked: any;
 	    message?: string;
-
+	
 	    static createFrom(source: any = {}) {
 	        return new (source);
 	    }
-
+	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.name = source["name"];
@@ -451,7 +451,7 @@ export namespace struct { Name string "json:\"name\""; Running bool "json:\"runn
 	        this.lastChecked = this.convertValues(source["lastChecked"], null);
 	        this.message = source["message"];
 	    }
-
+	
 		convertValues(a: any, classs: any, asMap: boolean = false): any {
 		    if (!a) {
 		        return a;
@@ -474,7 +474,7 @@ export namespace struct { Name string "json:\"name\""; Running bool "json:\"runn
 }
 
 export namespace struct { UseDynamicDTE bool "toml:\"use_dynamic_dte\" json:\"UseDynamicDTE\" jsonschema:\"description=Whether to use dynamic DTE calculation,default=true\""; TargetDTEMode string "toml:\"target_dte_mode\" json:\"TargetDTEMode\" jsonschema:\"description=Mode for calculating target DTE,enum=FIXED,enum=ATR_MULTIPLE,enum=VOLATILITY_INDEX,default=ATR_MULTIPLE\""; DTEAtrPeriod int "toml:\"dte_atr_period\" json:\"DTEAtrPeriod\" jsonschema:\"description=ATR period for DTE calculation,minimum=1,maximum=100,default=14\""; DTEAtrCoefficient float64 "toml:\"dte_atr_coefficient\" json:\"DTEAtrCoefficient\" jsonschema:\"description=Coefficient to multiply ATR by for DTE calculation,minimum=0 {
-
+	
 	export class  {
 	    UseDynamicDTE: boolean;
 	    TargetDTEMode: string;
@@ -486,11 +486,11 @@ export namespace struct { UseDynamicDTE bool "toml:\"use_dynamic_dte\" json:\"Us
 	    AvoidEarningsDaysBefore: number;
 	    AvoidEarningsDaysAfter: number;
 	    AvoidExDividendDaysBefore: number;
-
+	
 	    static createFrom(source: any = {}) {
 	        return new (source);
 	    }
-
+	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.UseDynamicDTE = source["UseDynamicDTE"];
@@ -509,18 +509,18 @@ export namespace struct { UseDynamicDTE bool "toml:\"use_dynamic_dte\" json:\"Us
 }
 
 export namespace struct { UseGreekLimits bool "toml:\"use_greek_limits\" json:\"UseGreekLimits\" jsonschema:\"description=Whether to apply Greek limits to positions,default=true\""; MaxAbsPositionDelta float64 "toml:\"max_abs_position_delta\" json:\"MaxAbsPositionDelta\" jsonschema:\"description=Maximum absolute delta exposure per position,minimum=0 {
-
+	
 	export class  {
 	    UseGreekLimits: boolean;
 	    MaxAbsPositionDelta: number;
 	    MaxAbsPositionGamma: number;
 	    MaxAbsPositionVega: number;
 	    MinPositionTheta: number;
-
+	
 	    static createFrom(source: any = {}) {
 	        return new (source);
 	    }
-
+	
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.UseGreekLimits = source["UseGreekLimits"];
@@ -532,3 +532,4 @@ export namespace struct { UseGreekLimits bool "toml:\"use_greek_limits\" json:\"
 	}
 
 }
+
