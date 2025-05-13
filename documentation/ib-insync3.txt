@@ -1,0 +1,2841 @@
+Contract
+
+Financial instrument types used by Interactive Brokers.
+
+class ib_insync.contract.Contract(secType='', conId=0, symbol='', lastTradeDateOrContractMonth='', strike=0.0, right='', multiplier='', exchange='', primaryExchange='', currency='', localSymbol='', tradingClass='', includeExpired=False, secIdType='', secId='', description='', issuerId='', comboLegsDescrip='', comboLegs=<factory>, deltaNeutralContract=None)[source]
+
+    Contract(**kwargs) can create any contract using keyword arguments. To simplify working with contracts, there are also more specialized contracts that take optional positional arguments. Some examples:
+
+    Contract(conId=270639)
+    Stock('AMD', 'SMART', 'USD')
+    Stock('INTC', 'SMART', 'USD', primaryExchange='NASDAQ')
+    Forex('EURUSD')
+    CFD('IBUS30')
+    Future('ES', '20180921', 'GLOBEX')
+    Option('SPY', '20170721', 240, 'C', 'SMART')
+    Bond(secIdType='ISIN', secId='US03076KAA60')
+    Crypto('BTC', 'PAXOS', 'USD')
+
+    Parameters:
+
+            conId (int) – The unique IB contract identifier.
+
+            symbol (str) – The contract (or its underlying) symbol.
+
+            secType (str) –
+
+            The security type:
+
+                ’STK’ = Stock (or ETF)
+
+                ’OPT’ = Option
+
+                ’FUT’ = Future
+
+                ’IND’ = Index
+
+                ’FOP’ = Futures option
+
+                ’CASH’ = Forex pair
+
+                ’CFD’ = CFD
+
+                ’BAG’ = Combo
+
+                ’WAR’ = Warrant
+
+                ’BOND’ = Bond
+
+                ’CMDTY’ = Commodity
+
+                ’NEWS’ = News
+
+                ’FUND’ = Mutual fund
+
+                ’CRYPTO’ = Crypto currency
+
+                ’EVENT’ = Bet on an event
+
+            lastTradeDateOrContractMonth (str) – The contract’s last trading day or contract month (for Options and Futures). Strings with format YYYYMM will be interpreted as the Contract Month whereas YYYYMMDD will be interpreted as Last Trading Day.
+
+            strike (float) – The option’s strike price.
+
+            right (str) – Put or Call. Valid values are ‘P’, ‘PUT’, ‘C’, ‘CALL’, or ‘’ for non-options.
+
+            multiplier (str) – The instrument’s multiplier (i.e. options, futures).
+
+            exchange (str) – The destination exchange.
+
+            currency (str) – The underlying’s currency.
+
+            localSymbol (str) – The contract’s symbol within its primary exchange. For options, this will be the OCC symbol.
+
+            primaryExchange (str) – The contract’s primary exchange. For smart routed contracts, used to define contract in case of ambiguity. Should be defined as native exchange of contract, e.g. ISLAND for MSFT. For exchanges which contain a period in name, will only be part of exchange name prior to period, i.e. ENEXT for ENEXT.BE.
+
+            tradingClass (str) – The trading class name for this contract. Available in TWS contract description window as well. For example, GBL Dec ‘13 future’s trading class is “FGBL”.
+
+            includeExpired (bool) – If set to true, contract details requests and historical data queries can be performed pertaining to expired futures contracts. Expired options or other instrument types are not available.
+
+            secIdType (str) –
+
+            Security identifier type. Examples for Apple:
+
+                secIdType=’ISIN’, secId=’US0378331005’
+
+                secIdType=’CUSIP’, secId=’037833100’
+
+            secId (str) – Security identifier.
+
+            comboLegsDescription (str) – Description of the combo legs.
+
+            comboLegs (List[ComboLeg]) – The legs of a combined contract definition.
+
+            deltaNeutralContract (DeltaNeutralContract) – Delta and underlying price for Delta-Neutral combo orders.
+
+    secType: str = ''
+
+    conId: int = 0
+
+    symbol: str = ''
+
+    lastTradeDateOrContractMonth: str = ''
+
+    strike: float = 0.0
+
+    right: str = ''
+
+    multiplier: str = ''
+
+    exchange: str = ''
+
+    primaryExchange: str = ''
+
+    currency: str = ''
+
+    localSymbol: str = ''
+
+    tradingClass: str = ''
+
+    includeExpired: bool = False
+
+    secIdType: str = ''
+
+    secId: str = ''
+
+    description: str = ''
+
+    issuerId: str = ''
+
+    comboLegsDescrip: str = ''
+
+    comboLegs: List[ComboLeg]
+
+    deltaNeutralContract: Optional[DeltaNeutralContract] = None
+
+    static create(**kwargs)[source]
+
+        Create and a return a specialized contract based on the given secType, or a general Contract if secType is not given.
+
+        Return type:
+
+            Contract
+
+    isHashable()[source]
+
+        See if this contract can be hashed by conId.
+
+        Note: Bag contracts always get conId=28812380, so they’re not hashable.
+
+        Return type:
+
+            bool
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.contract.Stock(symbol='', exchange='', currency='', **kwargs)[source]
+
+    Stock contract.
+
+    Parameters:
+
+            symbol (str) – Symbol name.
+
+            exchange (str) – Destination exchange.
+
+            currency (str) – Underlying currency.
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.contract.Option(symbol='', lastTradeDateOrContractMonth='', strike=0.0, right='', exchange='', multiplier='', currency='', **kwargs)[source]
+
+    Option contract.
+
+    Parameters:
+
+            symbol (str) – Symbol name.
+
+            lastTradeDateOrContractMonth (str) –
+
+            The option’s last trading day or contract month.
+
+                YYYYMM format: To specify last month
+
+                YYYYMMDD format: To specify last trading day
+
+            strike (float) – The option’s strike price.
+
+            right (str) – Put or call option. Valid values are ‘P’, ‘PUT’, ‘C’ or ‘CALL’.
+
+            exchange (str) – Destination exchange.
+
+            multiplier (str) – The contract multiplier.
+
+            currency (str) – Underlying currency.
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.contract.Future(symbol='', lastTradeDateOrContractMonth='', exchange='', localSymbol='', multiplier='', currency='', **kwargs)[source]
+
+    Future contract.
+
+    Parameters:
+
+            symbol (str) – Symbol name.
+
+            lastTradeDateOrContractMonth (str) –
+
+            The option’s last trading day or contract month.
+
+                YYYYMM format: To specify last month
+
+                YYYYMMDD format: To specify last trading day
+
+            exchange (str) – Destination exchange.
+
+            localSymbol (str) – The contract’s symbol within its primary exchange.
+
+            multiplier (str) – The contract multiplier.
+
+            currency (str) – Underlying currency.
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.contract.ContFuture(symbol='', exchange='', localSymbol='', multiplier='', currency='', **kwargs)[source]
+
+    Continuous future contract.
+
+    Parameters:
+
+            symbol (str) – Symbol name.
+
+            exchange (str) – Destination exchange.
+
+            localSymbol (str) – The contract’s symbol within its primary exchange.
+
+            multiplier (str) – The contract multiplier.
+
+            currency (str) – Underlying currency.
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.contract.Forex(pair='', exchange='IDEALPRO', symbol='', currency='', **kwargs)[source]
+
+    Foreign exchange currency pair.
+
+    Parameters:
+
+            pair (str) – Shortcut for specifying symbol and currency, like ‘EURUSD’.
+
+            exchange (str) – Destination exchange.
+
+            symbol (str) – Base currency.
+
+            currency (str) – Quote currency.
+
+    pair()[source]
+
+        Short name of pair.
+
+        Return type:
+
+            str
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.contract.Index(symbol='', exchange='', currency='', **kwargs)[source]
+
+    Index.
+
+    Parameters:
+
+            symbol (str) – Symbol name.
+
+            exchange (str) – Destination exchange.
+
+            currency (str) – Underlying currency.
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.contract.CFD(symbol='', exchange='', currency='', **kwargs)[source]
+
+    Contract For Difference.
+
+    Parameters:
+
+            symbol (str) – Symbol name.
+
+            exchange (str) – Destination exchange.
+
+            currency (str) – Underlying currency.
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.contract.Commodity(symbol='', exchange='', currency='', **kwargs)[source]
+
+    Commodity.
+
+    Parameters:
+
+            symbol (str) – Symbol name.
+
+            exchange (str) – Destination exchange.
+
+            currency (str) – Underlying currency.
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.contract.Bond(**kwargs)[source]
+
+    Bond.
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.contract.FuturesOption(symbol='', lastTradeDateOrContractMonth='', strike=0.0, right='', exchange='', multiplier='', currency='', **kwargs)[source]
+
+    Option on a futures contract.
+
+    Parameters:
+
+            symbol (str) – Symbol name.
+
+            lastTradeDateOrContractMonth (str) –
+
+            The option’s last trading day or contract month.
+
+                YYYYMM format: To specify last month
+
+                YYYYMMDD format: To specify last trading day
+
+            strike (float) – The option’s strike price.
+
+            right (str) – Put or call option. Valid values are ‘P’, ‘PUT’, ‘C’ or ‘CALL’.
+
+            exchange (str) – Destination exchange.
+
+            multiplier (str) – The contract multiplier.
+
+            currency (str) – Underlying currency.
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.contract.MutualFund(**kwargs)[source]
+
+    Mutual fund.
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.contract.Warrant(**kwargs)[source]
+
+    Warrant option.
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.contract.Bag(**kwargs)[source]
+
+    Bag contract.
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.contract.Crypto(symbol='', exchange='', currency='', **kwargs)[source]
+
+    Crypto currency contract.
+
+    Parameters:
+
+            symbol (str) – Symbol name.
+
+            exchange (str) – Destination exchange.
+
+            currency (str) – Underlying currency.
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.contract.TagValue(tag, value)[source]
+
+    Create new instance of TagValue(tag, value)
+
+    tag: str
+
+    value: str
+
+class ib_insync.contract.ComboLeg(conId=0, ratio=0, action='', exchange='', openClose=0, shortSaleSlot=0, designatedLocation='', exemptCode=-1)[source]
+
+    conId: int = 0
+
+    ratio: int = 0
+
+    action: str = ''
+
+    exchange: str = ''
+
+    openClose: int = 0
+
+    shortSaleSlot: int = 0
+
+    designatedLocation: str = ''
+
+    exemptCode: int = -1
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.contract.DeltaNeutralContract(conId=0, delta=0.0, price=0.0)[source]
+
+    conId: int = 0
+
+    delta: float = 0.0
+
+    price: float = 0.0
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.contract.TradingSession(start, end)[source]
+
+    Create new instance of TradingSession(start, end)
+
+    start: datetime
+
+    end: datetime
+
+class ib_insync.contract.ContractDetails(contract=None, marketName='', minTick=0.0, orderTypes='', validExchanges='', priceMagnifier=0, underConId=0, longName='', contractMonth='', industry='', category='', subcategory='', timeZoneId='', tradingHours='', liquidHours='', evRule='', evMultiplier=0, mdSizeMultiplier=1, aggGroup=0, underSymbol='', underSecType='', marketRuleIds='', secIdList=<factory>, realExpirationDate='', lastTradeTime='', stockType='', minSize=0.0, sizeIncrement=0.0, suggestedSizeIncrement=0.0, cusip='', ratings='', descAppend='', bondType='', couponType='', callable=False, putable=False, coupon=0, convertible=False, maturity='', issueDate='', nextOptionDate='', nextOptionType='', nextOptionPartial=False, notes='')[source]
+
+    contract: Optional[Contract] = None
+
+    marketName: str = ''
+
+    minTick: float = 0.0
+
+    orderTypes: str = ''
+
+    validExchanges: str = ''
+
+    priceMagnifier: int = 0
+
+    underConId: int = 0
+
+    longName: str = ''
+
+    contractMonth: str = ''
+
+    industry: str = ''
+
+    category: str = ''
+
+    subcategory: str = ''
+
+    timeZoneId: str = ''
+
+    tradingHours: str = ''
+
+    liquidHours: str = ''
+
+    evRule: str = ''
+
+    evMultiplier: int = 0
+
+    mdSizeMultiplier: int = 1
+
+    aggGroup: int = 0
+
+    underSymbol: str = ''
+
+    underSecType: str = ''
+
+    marketRuleIds: str = ''
+
+    secIdList: List[TagValue]
+
+    realExpirationDate: str = ''
+
+    lastTradeTime: str = ''
+
+    stockType: str = ''
+
+    minSize: float = 0.0
+
+    sizeIncrement: float = 0.0
+
+    suggestedSizeIncrement: float = 0.0
+
+    cusip: str = ''
+
+    ratings: str = ''
+
+    descAppend: str = ''
+
+    bondType: str = ''
+
+    couponType: str = ''
+
+    callable: bool = False
+
+    putable: bool = False
+
+    coupon: float = 0
+
+    convertible: bool = False
+
+    maturity: str = ''
+
+    issueDate: str = ''
+
+    nextOptionDate: str = ''
+
+    nextOptionType: str = ''
+
+    nextOptionPartial: bool = False
+
+    notes: str = ''
+
+    tradingSessions()[source]
+
+        Return type:
+
+            List[TradingSession]
+
+    liquidSessions()[source]
+
+        Return type:
+
+            List[TradingSession]
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.contract.ContractDescription(contract=None, derivativeSecTypes=<factory>)[source]
+
+    contract: Optional[Contract] = None
+
+    derivativeSecTypes: List[str]
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.contract.ScanData(rank, contractDetails, distance, benchmark, projection, legsStr)[source]
+
+    rank: int
+
+    contractDetails: ContractDetails
+
+    distance: str
+
+    benchmark: str
+
+    projection: str
+
+    legsStr: str
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+Ticker
+
+Access to realtime market information.
+
+class ib_insync.ticker.Ticker(contract=None, time=None, marketDataType=1, minTick=nan, bid=nan, bidSize=nan, bidExchange='', ask=nan, askSize=nan, askExchange='', last=nan, lastSize=nan, lastExchange='', prevBid=nan, prevBidSize=nan, prevAsk=nan, prevAskSize=nan, prevLast=nan, prevLastSize=nan, volume=nan, open=nan, high=nan, low=nan, close=nan, vwap=nan, low13week=nan, high13week=nan, low26week=nan, high26week=nan, low52week=nan, high52week=nan, bidYield=nan, askYield=nan, lastYield=nan, markPrice=nan, halted=nan, rtHistVolatility=nan, rtVolume=nan, rtTradeVolume=nan, rtTime=None, avVolume=nan, tradeCount=nan, tradeRate=nan, volumeRate=nan, shortableShares=nan, indexFuturePremium=nan, futuresOpenInterest=nan, putOpenInterest=nan, callOpenInterest=nan, putVolume=nan, callVolume=nan, avOptionVolume=nan, histVolatility=nan, impliedVolatility=nan, dividends=None, fundamentalRatios=None, ticks=<factory>, tickByTicks=<factory>, domBids=<factory>, domAsks=<factory>, domTicks=<factory>, bidGreeks=None, askGreeks=None, lastGreeks=None, modelGreeks=None, auctionVolume=nan, auctionPrice=nan, auctionImbalance=nan, regulatoryImbalance=nan, bboExchange='', snapshotPermissions=0)[source]
+
+    Current market data such as bid, ask, last price, etc. for a contract.
+
+    Streaming level-1 ticks of type TickData are stored in the ticks list.
+
+    Streaming level-2 ticks of type MktDepthData are stored in the domTicks list. The order book (DOM) is available as lists of DOMLevel in domBids and domAsks.
+
+    Streaming tick-by-tick ticks are stored in tickByTicks.
+
+    For options the OptionComputation values for the bid, ask, resp. last price are stored in the bidGreeks, askGreeks resp. lastGreeks attributes. There is also modelGreeks that conveys the greeks as calculated by Interactive Brokers’ option model.
+
+    Events:
+
+            updateEvent (ticker: Ticker)
+
+    events: ClassVar = ('updateEvent',)
+
+    contract: Optional[Contract] = None
+
+    time: Optional[datetime] = None
+
+    marketDataType: int = 1
+
+    minTick: float = nan
+
+    bid: float = nan
+
+    bidSize: float = nan
+
+    bidExchange: str = ''
+
+    ask: float = nan
+
+    askSize: float = nan
+
+    askExchange: str = ''
+
+    last: float = nan
+
+    lastSize: float = nan
+
+    lastExchange: str = ''
+
+    prevBid: float = nan
+
+    prevBidSize: float = nan
+
+    prevAsk: float = nan
+
+    prevAskSize: float = nan
+
+    prevLast: float = nan
+
+    prevLastSize: float = nan
+
+    volume: float = nan
+
+    open: float = nan
+
+    high: float = nan
+
+    low: float = nan
+
+    close: float = nan
+
+    vwap: float = nan
+
+    low13week: float = nan
+
+    high13week: float = nan
+
+    low26week: float = nan
+
+    high26week: float = nan
+
+    low52week: float = nan
+
+    high52week: float = nan
+
+    bidYield: float = nan
+
+    askYield: float = nan
+
+    lastYield: float = nan
+
+    markPrice: float = nan
+
+    halted: float = nan
+
+    rtHistVolatility: float = nan
+
+    rtVolume: float = nan
+
+    rtTradeVolume: float = nan
+
+    rtTime: Optional[datetime] = None
+
+    avVolume: float = nan
+
+    tradeCount: float = nan
+
+    tradeRate: float = nan
+
+    volumeRate: float = nan
+
+    shortableShares: float = nan
+
+    indexFuturePremium: float = nan
+
+    futuresOpenInterest: float = nan
+
+    putOpenInterest: float = nan
+
+    callOpenInterest: float = nan
+
+    putVolume: float = nan
+
+    callVolume: float = nan
+
+    avOptionVolume: float = nan
+
+    histVolatility: float = nan
+
+    impliedVolatility: float = nan
+
+    dividends: Optional[Dividends] = None
+
+    fundamentalRatios: Optional[FundamentalRatios] = None
+
+    ticks: List[TickData]
+
+    tickByTicks: List[Union[TickByTickAllLast, TickByTickBidAsk, TickByTickMidPoint]]
+
+    domBids: List[DOMLevel]
+
+    domAsks: List[DOMLevel]
+
+    domTicks: List[MktDepthData]
+
+    bidGreeks: Optional[OptionComputation] = None
+
+    askGreeks: Optional[OptionComputation] = None
+
+    lastGreeks: Optional[OptionComputation] = None
+
+    modelGreeks: Optional[OptionComputation] = None
+
+    auctionVolume: float = nan
+
+    auctionPrice: float = nan
+
+    auctionImbalance: float = nan
+
+    regulatoryImbalance: float = nan
+
+    bboExchange: str = ''
+
+    snapshotPermissions: int = 0
+
+    hasBidAsk()[source]
+
+        See if this ticker has a valid bid and ask.
+
+        Return type:
+
+            bool
+
+    midpoint()[source]
+
+        Return average of bid and ask, or NaN if no valid bid and ask are available.
+
+        Return type:
+
+            float
+
+    marketPrice()[source]
+
+        Return the first available one of :rtype: float
+
+            last price if within current bid/ask or no bid/ask available;
+
+            average of bid and ask (midpoint).
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.ticker.TickerUpdateEvent(name='', _with_error_done_events=True)[source]
+
+    trades()[source]
+
+        Emit trade ticks.
+
+        Return type:
+
+            Tickfilter
+
+    bids()[source]
+
+        Emit bid ticks.
+
+        Return type:
+
+            Tickfilter
+
+    asks()[source]
+
+        Emit ask ticks.
+
+        Return type:
+
+            Tickfilter
+
+    bidasks()[source]
+
+        Emit bid and ask ticks.
+
+        Return type:
+
+            Tickfilter
+
+    midpoints()[source]
+
+        Emit midpoint ticks.
+
+        Return type:
+
+            Tickfilter
+
+class ib_insync.ticker.Tickfilter(tickTypes, source=None)[source]
+
+    Tick filtering event operators that emit(time, price, size).
+
+    on_source(ticker)[source]
+
+        Emit a new value to all connected listeners.
+
+        Parameters:
+
+            args – Argument values to emit to listeners.
+
+    timebars(timer)[source]
+
+        Aggregate ticks into time bars, where the timing of new bars is derived from a timer event. Emits a completed Bar.
+
+        This event stores a BarList of all created bars in the bars property.
+
+        Parameters:
+
+            timer (Event) – Event for timing when a new bar starts.
+        Return type:
+
+            TimeBars
+
+    tickbars(count)[source]
+
+        Aggregate ticks into bars that have the same number of ticks. Emits a completed Bar.
+
+        This event stores a BarList of all created bars in the bars property.
+
+        Parameters:
+
+            count (int) – Number of ticks to use to form one bar.
+        Return type:
+
+            TickBars
+
+    volumebars(volume)[source]
+
+        Aggregate ticks into bars that have the same volume. Emits a completed Bar.
+
+        This event stores a BarList of all created bars in the bars property.
+
+        Parameters:
+
+            count – Number of ticks to use to form one bar.
+        Return type:
+
+            VolumeBars
+
+class ib_insync.ticker.Midpoints(tickTypes, source=None)[source]
+
+    on_source(ticker)[source]
+
+        Emit a new value to all connected listeners.
+
+        Parameters:
+
+            args – Argument values to emit to listeners.
+
+class ib_insync.ticker.Bar(time, open=nan, high=nan, low=nan, close=nan, volume=0, count=0)[source]
+
+    time: Optional[datetime]
+
+    open: float = nan
+
+    high: float = nan
+
+    low: float = nan
+
+    close: float = nan
+
+    volume: int = 0
+
+    count: int = 0
+
+class ib_insync.ticker.BarList(*args)[source]
+
+class ib_insync.ticker.TimeBars(timer, source=None)[source]
+
+    Aggregate ticks into time bars, where the timing of new bars is derived from a timer event. Emits a completed Bar.
+
+    This event stores a BarList of all created bars in the bars property.
+
+    Parameters:
+
+        timer – Event for timing when a new bar starts.
+
+    bars: BarList
+
+    on_source(time, price, size)[source]
+
+        Emit a new value to all connected listeners.
+
+        Parameters:
+
+            args – Argument values to emit to listeners.
+
+class ib_insync.ticker.TickBars(count, source=None)[source]
+
+    Aggregate ticks into bars that have the same number of ticks. Emits a completed Bar.
+
+    This event stores a BarList of all created bars in the bars property.
+
+    Parameters:
+
+        count – Number of ticks to use to form one bar.
+
+    bars: BarList
+
+    on_source(time, price, size)[source]
+
+        Emit a new value to all connected listeners.
+
+        Parameters:
+
+            args – Argument values to emit to listeners.
+
+class ib_insync.ticker.VolumeBars(volume, source=None)[source]
+
+    Aggregate ticks into bars that have the same volume. Emits a completed Bar.
+
+    This event stores a BarList of all created bars in the bars property.
+
+    Parameters:
+
+        count – Number of ticks to use to form one bar.
+
+    bars: BarList
+
+    on_source(time, price, size)[source]
+
+        Emit a new value to all connected listeners.
+
+        Parameters:
+
+            args – Argument values to emit to listeners.
+
+Objects
+
+Object hierarchy.
+
+class ib_insync.objects.ScannerSubscription(numberOfRows=-1, instrument='', locationCode='', scanCode='', abovePrice=1.7976931348623157e+308, belowPrice=1.7976931348623157e+308, aboveVolume=2147483647, marketCapAbove=1.7976931348623157e+308, marketCapBelow=1.7976931348623157e+308, moodyRatingAbove='', moodyRatingBelow='', spRatingAbove='', spRatingBelow='', maturityDateAbove='', maturityDateBelow='', couponRateAbove=1.7976931348623157e+308, couponRateBelow=1.7976931348623157e+308, excludeConvertible=False, averageOptionVolumeAbove=2147483647, scannerSettingPairs='', stockTypeFilter='')[source]
+
+    numberOfRows: int = -1
+
+    instrument: str = ''
+
+    locationCode: str = ''
+
+    scanCode: str = ''
+
+    abovePrice: float = 1.7976931348623157e+308
+
+    belowPrice: float = 1.7976931348623157e+308
+
+    aboveVolume: int = 2147483647
+
+    marketCapAbove: float = 1.7976931348623157e+308
+
+    marketCapBelow: float = 1.7976931348623157e+308
+
+    moodyRatingAbove: str = ''
+
+    moodyRatingBelow: str = ''
+
+    spRatingAbove: str = ''
+
+    spRatingBelow: str = ''
+
+    maturityDateAbove: str = ''
+
+    maturityDateBelow: str = ''
+
+    couponRateAbove: float = 1.7976931348623157e+308
+
+    couponRateBelow: float = 1.7976931348623157e+308
+
+    excludeConvertible: bool = False
+
+    averageOptionVolumeAbove: int = 2147483647
+
+    scannerSettingPairs: str = ''
+
+    stockTypeFilter: str = ''
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.objects.SoftDollarTier(name='', val='', displayName='')[source]
+
+    name: str = ''
+
+    val: str = ''
+
+    displayName: str = ''
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.objects.Execution(execId='', time=datetime.datetime(1970, 1, 1, 0, 0, tzinfo=datetime.timezone.utc), acctNumber='', exchange='', side='', shares=0.0, price=0.0, permId=0, clientId=0, orderId=0, liquidation=0, cumQty=0.0, avgPrice=0.0, orderRef='', evRule='', evMultiplier=0.0, modelCode='', lastLiquidity=0, pendingPriceRevision=False)[source]
+
+    execId: str = ''
+
+    time: datetime = datetime.datetime(1970, 1, 1, 0, 0, tzinfo=datetime.timezone.utc)
+
+    acctNumber: str = ''
+
+    exchange: str = ''
+
+    side: str = ''
+
+    shares: float = 0.0
+
+    price: float = 0.0
+
+    permId: int = 0
+
+    clientId: int = 0
+
+    orderId: int = 0
+
+    liquidation: int = 0
+
+    cumQty: float = 0.0
+
+    avgPrice: float = 0.0
+
+    orderRef: str = ''
+
+    evRule: str = ''
+
+    evMultiplier: float = 0.0
+
+    modelCode: str = ''
+
+    lastLiquidity: int = 0
+
+    pendingPriceRevision: bool = False
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.objects.CommissionReport(execId='', commission=0.0, currency='', realizedPNL=0.0, yield_=0.0, yieldRedemptionDate=0)[source]
+
+    execId: str = ''
+
+    commission: float = 0.0
+
+    currency: str = ''
+
+    realizedPNL: float = 0.0
+
+    yield_: float = 0.0
+
+    yieldRedemptionDate: int = 0
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.objects.ExecutionFilter(clientId=0, acctCode='', time='', symbol='', secType='', exchange='', side='')[source]
+
+    clientId: int = 0
+
+    acctCode: str = ''
+
+    time: str = ''
+
+    symbol: str = ''
+
+    secType: str = ''
+
+    exchange: str = ''
+
+    side: str = ''
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.objects.BarData(date=datetime.datetime(1970, 1, 1, 0, 0, tzinfo=datetime.timezone.utc), open=0.0, high=0.0, low=0.0, close=0.0, volume=0, average=0.0, barCount=0)[source]
+
+    date: Union[date, datetime] = datetime.datetime(1970, 1, 1, 0, 0, tzinfo=datetime.timezone.utc)
+
+    open: float = 0.0
+
+    high: float = 0.0
+
+    low: float = 0.0
+
+    close: float = 0.0
+
+    volume: float = 0
+
+    average: float = 0.0
+
+    barCount: int = 0
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.objects.RealTimeBar(time=datetime.datetime(1970, 1, 1, 0, 0, tzinfo=datetime.timezone.utc), endTime=-1, open_=0.0, high=0.0, low=0.0, close=0.0, volume=0.0, wap=0.0, count=0)[source]
+
+    time: datetime = datetime.datetime(1970, 1, 1, 0, 0, tzinfo=datetime.timezone.utc)
+
+    endTime: int = -1
+
+    open_: float = 0.0
+
+    high: float = 0.0
+
+    low: float = 0.0
+
+    close: float = 0.0
+
+    volume: float = 0.0
+
+    wap: float = 0.0
+
+    count: int = 0
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.objects.TickAttrib(canAutoExecute=False, pastLimit=False, preOpen=False)[source]
+
+    canAutoExecute: bool = False
+
+    pastLimit: bool = False
+
+    preOpen: bool = False
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.objects.TickAttribBidAsk(bidPastLow=False, askPastHigh=False)[source]
+
+    bidPastLow: bool = False
+
+    askPastHigh: bool = False
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.objects.TickAttribLast(pastLimit=False, unreported=False)[source]
+
+    pastLimit: bool = False
+
+    unreported: bool = False
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.objects.HistogramData(price=0.0, count=0)[source]
+
+    price: float = 0.0
+
+    count: int = 0
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.objects.NewsProvider(code='', name='')[source]
+
+    code: str = ''
+
+    name: str = ''
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.objects.DepthMktDataDescription(exchange='', secType='', listingExch='', serviceDataType='', aggGroup=2147483647)[source]
+
+    exchange: str = ''
+
+    secType: str = ''
+
+    listingExch: str = ''
+
+    serviceDataType: str = ''
+
+    aggGroup: int = 2147483647
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.objects.PnL(account='', modelCode='', dailyPnL=nan, unrealizedPnL=nan, realizedPnL=nan)[source]
+
+    account: str = ''
+
+    modelCode: str = ''
+
+    dailyPnL: float = nan
+
+    unrealizedPnL: float = nan
+
+    realizedPnL: float = nan
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.objects.TradeLogEntry(time, status='', message='', errorCode=0)[source]
+
+    time: datetime
+
+    status: str = ''
+
+    message: str = ''
+
+    errorCode: int = 0
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.objects.PnLSingle(account='', modelCode='', conId=0, dailyPnL=nan, unrealizedPnL=nan, realizedPnL=nan, position=0, value=nan)[source]
+
+    account: str = ''
+
+    modelCode: str = ''
+
+    conId: int = 0
+
+    dailyPnL: float = nan
+
+    unrealizedPnL: float = nan
+
+    realizedPnL: float = nan
+
+    position: int = 0
+
+    value: float = nan
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.objects.HistoricalSession(startDateTime='', endDateTime='', refDate='')[source]
+
+    startDateTime: str = ''
+
+    endDateTime: str = ''
+
+    refDate: str = ''
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.objects.HistoricalSchedule(startDateTime='', endDateTime='', timeZone='', sessions=<factory>)[source]
+
+    startDateTime: str = ''
+
+    endDateTime: str = ''
+
+    timeZone: str = ''
+
+    sessions: List[HistoricalSession]
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.objects.WshEventData(conId=2147483647, filter='', fillWatchlist=False, fillPortfolio=False, fillCompetitors=False, startDate='', endDate='', totalLimit=2147483647)[source]
+
+    conId: int = 2147483647
+
+    filter: str = ''
+
+    fillWatchlist: bool = False
+
+    fillPortfolio: bool = False
+
+    fillCompetitors: bool = False
+
+    startDate: str = ''
+
+    endDate: str = ''
+
+    totalLimit: int = 2147483647
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.objects.AccountValue(account, tag, value, currency, modelCode)[source]
+
+    Create new instance of AccountValue(account, tag, value, currency, modelCode)
+
+    account: str
+
+    tag: str
+
+    value: str
+
+    currency: str
+
+    modelCode: str
+
+class ib_insync.objects.TickData(time, tickType, price, size)[source]
+
+    Create new instance of TickData(time, tickType, price, size)
+
+    time: datetime
+
+    tickType: int
+
+    price: float
+
+    size: float
+
+class ib_insync.objects.HistoricalTick(time, price, size)[source]
+
+    Create new instance of HistoricalTick(time, price, size)
+
+    time: datetime
+
+    price: float
+
+    size: float
+
+class ib_insync.objects.HistoricalTickBidAsk(time, tickAttribBidAsk, priceBid, priceAsk, sizeBid, sizeAsk)[source]
+
+    Create new instance of HistoricalTickBidAsk(time, tickAttribBidAsk, priceBid, priceAsk, sizeBid, sizeAsk)
+
+    time: datetime
+
+    tickAttribBidAsk: TickAttribBidAsk
+
+    priceBid: float
+
+    priceAsk: float
+
+    sizeBid: float
+
+    sizeAsk: float
+
+class ib_insync.objects.HistoricalTickLast(time, tickAttribLast, price, size, exchange, specialConditions)[source]
+
+    Create new instance of HistoricalTickLast(time, tickAttribLast, price, size, exchange, specialConditions)
+
+    time: datetime
+
+    tickAttribLast: TickAttribLast
+
+    price: float
+
+    size: float
+
+    exchange: str
+
+    specialConditions: str
+
+class ib_insync.objects.TickByTickAllLast(tickType, time, price, size, tickAttribLast, exchange, specialConditions)[source]
+
+    Create new instance of TickByTickAllLast(tickType, time, price, size, tickAttribLast, exchange, specialConditions)
+
+    tickType: int
+
+    time: datetime
+
+    price: float
+
+    size: float
+
+    tickAttribLast: TickAttribLast
+
+    exchange: str
+
+    specialConditions: str
+
+class ib_insync.objects.TickByTickBidAsk(time, bidPrice, askPrice, bidSize, askSize, tickAttribBidAsk)[source]
+
+    Create new instance of TickByTickBidAsk(time, bidPrice, askPrice, bidSize, askSize, tickAttribBidAsk)
+
+    time: datetime
+
+    bidPrice: float
+
+    askPrice: float
+
+    bidSize: float
+
+    askSize: float
+
+    tickAttribBidAsk: TickAttribBidAsk
+
+class ib_insync.objects.TickByTickMidPoint(time, midPoint)[source]
+
+    Create new instance of TickByTickMidPoint(time, midPoint)
+
+    time: datetime
+
+    midPoint: float
+
+class ib_insync.objects.MktDepthData(time, position, marketMaker, operation, side, price, size)[source]
+
+    Create new instance of MktDepthData(time, position, marketMaker, operation, side, price, size)
+
+    time: datetime
+
+    position: int
+
+    marketMaker: str
+
+    operation: int
+
+    side: int
+
+    price: float
+
+    size: float
+
+class ib_insync.objects.DOMLevel(price, size, marketMaker)[source]
+
+    Create new instance of DOMLevel(price, size, marketMaker)
+
+    price: float
+
+    size: float
+
+    marketMaker: str
+
+class ib_insync.objects.PriceIncrement(lowEdge, increment)[source]
+
+    Create new instance of PriceIncrement(lowEdge, increment)
+
+    lowEdge: float
+
+    increment: float
+
+class ib_insync.objects.PortfolioItem(contract, position, marketPrice, marketValue, averageCost, unrealizedPNL, realizedPNL, account)[source]
+
+    Create new instance of PortfolioItem(contract, position, marketPrice, marketValue, averageCost, unrealizedPNL, realizedPNL, account)
+
+    contract: Contract
+
+    position: float
+
+    marketPrice: float
+
+    marketValue: float
+
+    averageCost: float
+
+    unrealizedPNL: float
+
+    realizedPNL: float
+
+    account: str
+
+class ib_insync.objects.Position(account, contract, position, avgCost)[source]
+
+    Create new instance of Position(account, contract, position, avgCost)
+
+    account: str
+
+    contract: Contract
+
+    position: float
+
+    avgCost: float
+
+class ib_insync.objects.Fill(contract, execution, commissionReport, time)[source]
+
+    Create new instance of Fill(contract, execution, commissionReport, time)
+
+    contract: Contract
+
+    execution: Execution
+
+    commissionReport: CommissionReport
+
+    time: datetime
+
+class ib_insync.objects.OptionComputation(tickAttrib, impliedVol, delta, optPrice, pvDividend, gamma, vega, theta, undPrice)[source]
+
+    Create new instance of OptionComputation(tickAttrib, impliedVol, delta, optPrice, pvDividend, gamma, vega, theta, undPrice)
+
+    tickAttrib: int
+
+    impliedVol: Optional[float]
+
+    delta: Optional[float]
+
+    optPrice: Optional[float]
+
+    pvDividend: Optional[float]
+
+    gamma: Optional[float]
+
+    vega: Optional[float]
+
+    theta: Optional[float]
+
+    undPrice: Optional[float]
+
+class ib_insync.objects.OptionChain(exchange, underlyingConId, tradingClass, multiplier, expirations, strikes)[source]
+
+    Create new instance of OptionChain(exchange, underlyingConId, tradingClass, multiplier, expirations, strikes)
+
+    exchange: str
+
+    underlyingConId: int
+
+    tradingClass: str
+
+    multiplier: str
+
+    expirations: List[str]
+
+    strikes: List[float]
+
+class ib_insync.objects.Dividends(past12Months, next12Months, nextDate, nextAmount)[source]
+
+    Create new instance of Dividends(past12Months, next12Months, nextDate, nextAmount)
+
+    past12Months: Optional[float]
+
+    next12Months: Optional[float]
+
+    nextDate: Optional[date]
+
+    nextAmount: Optional[float]
+
+class ib_insync.objects.NewsArticle(articleType, articleText)[source]
+
+    Create new instance of NewsArticle(articleType, articleText)
+
+    articleType: int
+
+    articleText: str
+
+class ib_insync.objects.HistoricalNews(time, providerCode, articleId, headline)[source]
+
+    Create new instance of HistoricalNews(time, providerCode, articleId, headline)
+
+    time: datetime
+
+    providerCode: str
+
+    articleId: str
+
+    headline: str
+
+class ib_insync.objects.NewsTick(timeStamp, providerCode, articleId, headline, extraData)[source]
+
+    Create new instance of NewsTick(timeStamp, providerCode, articleId, headline, extraData)
+
+    timeStamp: int
+
+    providerCode: str
+
+    articleId: str
+
+    headline: str
+
+    extraData: str
+
+class ib_insync.objects.NewsBulletin(msgId, msgType, message, origExchange)[source]
+
+    Create new instance of NewsBulletin(msgId, msgType, message, origExchange)
+
+    msgId: int
+
+    msgType: int
+
+    message: str
+
+    origExchange: str
+
+class ib_insync.objects.FamilyCode(accountID, familyCodeStr)[source]
+
+    Create new instance of FamilyCode(accountID, familyCodeStr)
+
+    accountID: str
+
+    familyCodeStr: str
+
+class ib_insync.objects.SmartComponent(bitNumber, exchange, exchangeLetter)[source]
+
+    Create new instance of SmartComponent(bitNumber, exchange, exchangeLetter)
+
+    bitNumber: int
+
+    exchange: str
+
+    exchangeLetter: str
+
+class ib_insync.objects.ConnectionStats(startTime, duration, numBytesRecv, numBytesSent, numMsgRecv, numMsgSent)[source]
+
+    Create new instance of ConnectionStats(startTime, duration, numBytesRecv, numBytesSent, numMsgRecv, numMsgSent)
+
+    startTime: float
+
+    duration: float
+
+    numBytesRecv: int
+
+    numBytesSent: int
+
+    numMsgRecv: int
+
+    numMsgSent: int
+
+class ib_insync.objects.BarDataList(*args)[source]
+
+    List of BarData that also stores all request parameters.
+
+    Events:
+
+            updateEvent (bars: BarDataList, hasNewBar: bool)
+
+    reqId: int
+
+    contract: Contract
+
+    endDateTime: Union[datetime, date, str, None]
+
+    durationStr: str
+
+    barSizeSetting: str
+
+    whatToShow: str
+
+    useRTH: bool
+
+    formatDate: int
+
+    keepUpToDate: bool
+
+    chartOptions: List[TagValue]
+
+class ib_insync.objects.RealTimeBarList(*args)[source]
+
+    List of RealTimeBar that also stores all request parameters.
+
+    Events:
+
+            updateEvent (bars: RealTimeBarList, hasNewBar: bool)
+
+    reqId: int
+
+    contract: Contract
+
+    barSize: int
+
+    whatToShow: str
+
+    useRTH: bool
+
+    realTimeBarsOptions: List[TagValue]
+
+class ib_insync.objects.ScanDataList(*args)[source]
+
+    List of ScanData that also stores all request parameters.
+
+    Events:
+
+            updateEvent (ScanDataList)
+
+    reqId: int
+
+    subscription: ScannerSubscription
+
+    scannerSubscriptionOptions: List[TagValue]
+
+    scannerSubscriptionFilterOptions: List[TagValue]
+
+class ib_insync.objects.DynamicObject(**kwargs)[source]
+
+class ib_insync.objects.FundamentalRatios(**kwargs)[source]
+
+    See: https://web.archive.org/web/20200725010343/https://interactivebrokers.github.io/tws-api/fundamental_ratios_tags.html
+
+class ib_insync.wrapper.RequestError(reqId, code, message)[source]
+
+    Exception to raise when the API reports an error that can be tied to a single request.
+
+    Parameters:
+
+            reqId (int) – Original request ID.
+
+            code (int) – Original error code.
+
+            message (str) – Original error message.
+

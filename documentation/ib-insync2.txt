@@ -1,0 +1,1360 @@
+Client
+
+Socket client for communicating with Interactive Brokers.
+
+class ib_insync.client.Client(wrapper)[source]
+
+    Replacement for ibapi.client.EClient that uses asyncio.
+
+    The client is fully asynchronous and has its own event-driven networking code that replaces the networking code of the standard EClient. It also replaces the infinite loop of EClient.run() with the asyncio event loop. It can be used as a drop-in replacement for the standard EClient as provided by IBAPI.
+
+    Compared to the standard EClient this client has the following additional features:
+
+        client.connect() will block until the client is ready to serve requests; It is not necessary to wait for nextValidId to start requests as the client has already done that. The reqId is directly available with getReqId().
+
+        client.connectAsync() is a coroutine for connecting asynchronously.
+
+        When blocking, client.connect() can be made to time out with the timeout parameter (default 2 seconds).
+
+        Optional wrapper.priceSizeTick(reqId, tickType, price, size) that combines price and size instead of the two wrapper methods priceTick and sizeTick.
+
+        Automatic request throttling.
+
+        Optional wrapper.tcpDataArrived() method; If the wrapper has this method it is invoked directly after a network packet has arrived. A possible use is to timestamp all data in the packet with the exact same time.
+
+        Optional wrapper.tcpDataProcessed() method; If the wrapper has this method it is invoked after the network packet’s data has been handled. A possible use is to write or evaluate the newly arrived data in one batch instead of item by item.
+
+    Parameters:
+
+            MaxRequests (int) – Throttle the number of requests to MaxRequests per RequestsInterval seconds. Set to 0 to disable throttling.
+
+            RequestsInterval (float) – Time interval (in seconds) for request throttling.
+
+            MinClientVersion (int) – Client protocol version.
+
+            MaxClientVersion (int) – Client protocol version.
+
+    Events:
+
+            apiStart ()
+
+            apiEnd ()
+
+            apiError (errorMsg: str)
+
+            throttleStart ()
+
+            throttleEnd ()
+
+    events = ('apiStart', 'apiEnd', 'apiError', 'throttleStart', 'throttleEnd')
+
+    MaxRequests = 45
+
+    RequestsInterval = 1
+
+    MinClientVersion = 157
+
+    MaxClientVersion = 178
+
+    DISCONNECTED = 0
+
+    CONNECTING = 1
+
+    CONNECTED = 2
+
+    reset()[source]
+
+    serverVersion()[source]
+
+        Return type:
+
+            int
+
+    run()[source]
+
+    isConnected()[source]
+
+    isReady()[source]
+
+        Is the API connection up and running?
+
+        Return type:
+
+            bool
+
+    connectionStats()[source]
+
+        Get statistics about the connection.
+
+        Return type:
+
+            ConnectionStats
+
+    getReqId()[source]
+
+        Get new request ID.
+
+        Return type:
+
+            int
+
+    updateReqId(minReqId)[source]
+
+        Update the next reqId to be at least minReqId.
+
+    getAccounts()[source]
+
+        Get the list of account names that are under management.
+
+        Return type:
+
+            List[str]
+
+    setConnectOptions(connectOptions)[source]
+
+        Set additional connect options.
+
+        Parameters:
+
+            connectOptions (str) – Use “+PACEAPI” to use request-pacing built into TWS/gateway 974+ (obsolete).
+
+    connect(host, port, clientId, timeout=2.0)[source]
+
+        Connect to a running TWS or IB gateway application.
+
+        Parameters:
+
+                host (str) – Host name or IP address.
+
+                port (int) – Port number.
+
+                clientId (int) – ID number to use for this client; must be unique per connection.
+
+                timeout (Optional[float]) – If establishing the connection takes longer than timeout seconds then the asyncio.TimeoutError exception is raised. Set to 0 to disable timeout.
+
+    async connectAsync(host, port, clientId, timeout=2.0)[source]
+
+    disconnect()[source]
+
+        Disconnect from IB connection.
+
+    send(*fields, makeEmpty=True)[source]
+
+        Serialize and send the given fields using the IB socket protocol.
+
+    sendMsg(msg)[source]
+
+    reqMktData(reqId, contract, genericTickList, snapshot, regulatorySnapshot, mktDataOptions)[source]
+
+    cancelMktData(reqId)[source]
+
+    placeOrder(orderId, contract, order)[source]
+
+    cancelOrder(orderId, manualCancelOrderTime='')[source]
+
+    reqOpenOrders()[source]
+
+    reqAccountUpdates(subscribe, acctCode)[source]
+
+    reqExecutions(reqId, execFilter)[source]
+
+    reqIds(numIds)[source]
+
+    reqContractDetails(reqId, contract)[source]
+
+    reqMktDepth(reqId, contract, numRows, isSmartDepth, mktDepthOptions)[source]
+
+    cancelMktDepth(reqId, isSmartDepth)[source]
+
+    reqNewsBulletins(allMsgs)[source]
+
+    cancelNewsBulletins()[source]
+
+    setServerLogLevel(logLevel)[source]
+
+    reqAutoOpenOrders(bAutoBind)[source]
+
+    reqAllOpenOrders()[source]
+
+    reqManagedAccts()[source]
+
+    requestFA(faData)[source]
+
+    replaceFA(reqId, faData, cxml)[source]
+
+    reqHistoricalData(reqId, contract, endDateTime, durationStr, barSizeSetting, whatToShow, useRTH, formatDate, keepUpToDate, chartOptions)[source]
+
+    exerciseOptions(reqId, contract, exerciseAction, exerciseQuantity, account, override)[source]
+
+    reqScannerSubscription(reqId, subscription, scannerSubscriptionOptions, scannerSubscriptionFilterOptions)[source]
+
+    cancelScannerSubscription(reqId)[source]
+
+    reqScannerParameters()[source]
+
+    cancelHistoricalData(reqId)[source]
+
+    reqCurrentTime()[source]
+
+    reqRealTimeBars(reqId, contract, barSize, whatToShow, useRTH, realTimeBarsOptions)[source]
+
+    cancelRealTimeBars(reqId)[source]
+
+    reqFundamentalData(reqId, contract, reportType, fundamentalDataOptions)[source]
+
+    cancelFundamentalData(reqId)[source]
+
+    calculateImpliedVolatility(reqId, contract, optionPrice, underPrice, implVolOptions)[source]
+
+    calculateOptionPrice(reqId, contract, volatility, underPrice, optPrcOptions)[source]
+
+    cancelCalculateImpliedVolatility(reqId)[source]
+
+    cancelCalculateOptionPrice(reqId)[source]
+
+    reqGlobalCancel()[source]
+
+    reqMarketDataType(marketDataType)[source]
+
+    reqPositions()[source]
+
+    reqAccountSummary(reqId, groupName, tags)[source]
+
+    cancelAccountSummary(reqId)[source]
+
+    cancelPositions()[source]
+
+    verifyRequest(apiName, apiVersion)[source]
+
+    verifyMessage(apiData)[source]
+
+    queryDisplayGroups(reqId)[source]
+
+    subscribeToGroupEvents(reqId, groupId)[source]
+
+    updateDisplayGroup(reqId, contractInfo)[source]
+
+    unsubscribeFromGroupEvents(reqId)[source]
+
+    startApi()[source]
+
+    verifyAndAuthRequest(apiName, apiVersion, opaqueIsvKey)[source]
+
+    verifyAndAuthMessage(apiData, xyzResponse)[source]
+
+    reqPositionsMulti(reqId, account, modelCode)[source]
+
+    cancelPositionsMulti(reqId)[source]
+
+    reqAccountUpdatesMulti(reqId, account, modelCode, ledgerAndNLV)[source]
+
+    cancelAccountUpdatesMulti(reqId)[source]
+
+    reqSecDefOptParams(reqId, underlyingSymbol, futFopExchange, underlyingSecType, underlyingConId)[source]
+
+    reqSoftDollarTiers(reqId)[source]
+
+    reqFamilyCodes()[source]
+
+    reqMatchingSymbols(reqId, pattern)[source]
+
+    reqMktDepthExchanges()[source]
+
+    reqSmartComponents(reqId, bboExchange)[source]
+
+    reqNewsArticle(reqId, providerCode, articleId, newsArticleOptions)[source]
+
+    reqNewsProviders()[source]
+
+    reqHistoricalNews(reqId, conId, providerCodes, startDateTime, endDateTime, totalResults, historicalNewsOptions)[source]
+
+    reqHeadTimeStamp(reqId, contract, whatToShow, useRTH, formatDate)[source]
+
+    reqHistogramData(tickerId, contract, useRTH, timePeriod)[source]
+
+    cancelHistogramData(tickerId)[source]
+
+    cancelHeadTimeStamp(reqId)[source]
+
+    reqMarketRule(marketRuleId)[source]
+
+    reqPnL(reqId, account, modelCode)[source]
+
+    cancelPnL(reqId)[source]
+
+    reqPnLSingle(reqId, account, modelCode, conid)[source]
+
+    cancelPnLSingle(reqId)[source]
+
+    reqHistoricalTicks(reqId, contract, startDateTime, endDateTime, numberOfTicks, whatToShow, useRth, ignoreSize, miscOptions)[source]
+
+    reqTickByTickData(reqId, contract, tickType, numberOfTicks, ignoreSize)[source]
+
+    cancelTickByTickData(reqId)[source]
+
+    reqCompletedOrders(apiOnly)[source]
+
+    reqWshMetaData(reqId)[source]
+
+    cancelWshMetaData(reqId)[source]
+
+    reqWshEventData(reqId, data)[source]
+
+    cancelWshEventData(reqId)[source]
+
+    reqUserInfo(reqId)[source]
+
+Order
+
+Order types used by Interactive Brokers.
+
+class ib_insync.order.Order(orderId=0, clientId=0, permId=0, action='', totalQuantity=0.0, orderType='', lmtPrice=1.7976931348623157e+308, auxPrice=1.7976931348623157e+308, tif='', activeStartTime='', activeStopTime='', ocaGroup='', ocaType=0, orderRef='', transmit=True, parentId=0, blockOrder=False, sweepToFill=False, displaySize=0, triggerMethod=0, outsideRth=False, hidden=False, goodAfterTime='', goodTillDate='', rule80A='', allOrNone=False, minQty=2147483647, percentOffset=1.7976931348623157e+308, overridePercentageConstraints=False, trailStopPrice=1.7976931348623157e+308, trailingPercent=1.7976931348623157e+308, faGroup='', faProfile='', faMethod='', faPercentage='', designatedLocation='', openClose='O', origin=0, shortSaleSlot=0, exemptCode=-1, discretionaryAmt=0.0, eTradeOnly=False, firmQuoteOnly=False, nbboPriceCap=1.7976931348623157e+308, optOutSmartRouting=False, auctionStrategy=0, startingPrice=1.7976931348623157e+308, stockRefPrice=1.7976931348623157e+308, delta=1.7976931348623157e+308, stockRangeLower=1.7976931348623157e+308, stockRangeUpper=1.7976931348623157e+308, randomizePrice=False, randomizeSize=False, volatility=1.7976931348623157e+308, volatilityType=2147483647, deltaNeutralOrderType='', deltaNeutralAuxPrice=1.7976931348623157e+308, deltaNeutralConId=0, deltaNeutralSettlingFirm='', deltaNeutralClearingAccount='', deltaNeutralClearingIntent='', deltaNeutralOpenClose='', deltaNeutralShortSale=False, deltaNeutralShortSaleSlot=0, deltaNeutralDesignatedLocation='', continuousUpdate=False, referencePriceType=2147483647, basisPoints=1.7976931348623157e+308, basisPointsType=2147483647, scaleInitLevelSize=2147483647, scaleSubsLevelSize=2147483647, scalePriceIncrement=1.7976931348623157e+308, scalePriceAdjustValue=1.7976931348623157e+308, scalePriceAdjustInterval=2147483647, scaleProfitOffset=1.7976931348623157e+308, scaleAutoReset=False, scaleInitPosition=2147483647, scaleInitFillQty=2147483647, scaleRandomPercent=False, scaleTable='', hedgeType='', hedgeParam='', account='', settlingFirm='', clearingAccount='', clearingIntent='', algoStrategy='', algoParams=<factory>, smartComboRoutingParams=<factory>, algoId='', whatIf=False, notHeld=False, solicited=False, modelCode='', orderComboLegs=<factory>, orderMiscOptions=<factory>, referenceContractId=0, peggedChangeAmount=0.0, isPeggedChangeAmountDecrease=False, referenceChangeAmount=0.0, referenceExchangeId='', adjustedOrderType='', triggerPrice=1.7976931348623157e+308, adjustedStopPrice=1.7976931348623157e+308, adjustedStopLimitPrice=1.7976931348623157e+308, adjustedTrailingAmount=1.7976931348623157e+308, adjustableTrailingUnit=0, lmtPriceOffset=1.7976931348623157e+308, conditions=<factory>, conditionsCancelOrder=False, conditionsIgnoreRth=False, extOperator='', softDollarTier=<factory>, cashQty=1.7976931348623157e+308, mifid2DecisionMaker='', mifid2DecisionAlgo='', mifid2ExecutionTrader='', mifid2ExecutionAlgo='', dontUseAutoPriceForHedge=False, isOmsContainer=False, discretionaryUpToLimitPrice=False, autoCancelDate='', filledQuantity=1.7976931348623157e+308, refFuturesConId=0, autoCancelParent=False, shareholder='', imbalanceOnly=False, routeMarketableToBbo=False, parentPermId=0, usePriceMgmtAlgo=False, duration=2147483647, postToAts=2147483647, advancedErrorOverride='', manualOrderTime='', minTradeQty=2147483647, minCompeteSize=2147483647, competeAgainstBestOffset=1.7976931348623157e+308, midOffsetAtWhole=1.7976931348623157e+308, midOffsetAtHalf=1.7976931348623157e+308)[source]
+
+    Order for trading contracts.
+
+    https://interactivebrokers.github.io/tws-api/available_orders.html
+
+    orderId: int = 0
+
+    clientId: int = 0
+
+    permId: int = 0
+
+    action: str = ''
+
+    totalQuantity: float = 0.0
+
+    orderType: str = ''
+
+    lmtPrice: float = 1.7976931348623157e+308
+
+    auxPrice: float = 1.7976931348623157e+308
+
+    tif: str = ''
+
+    activeStartTime: str = ''
+
+    activeStopTime: str = ''
+
+    ocaGroup: str = ''
+
+    ocaType: int = 0
+
+    orderRef: str = ''
+
+    transmit: bool = True
+
+    parentId: int = 0
+
+    blockOrder: bool = False
+
+    sweepToFill: bool = False
+
+    displaySize: int = 0
+
+    triggerMethod: int = 0
+
+    outsideRth: bool = False
+
+    hidden: bool = False
+
+    goodAfterTime: str = ''
+
+    goodTillDate: str = ''
+
+    rule80A: str = ''
+
+    allOrNone: bool = False
+
+    minQty: int = 2147483647
+
+    percentOffset: float = 1.7976931348623157e+308
+
+    overridePercentageConstraints: bool = False
+
+    trailStopPrice: float = 1.7976931348623157e+308
+
+    trailingPercent: float = 1.7976931348623157e+308
+
+    faGroup: str = ''
+
+    faProfile: str = ''
+
+    faMethod: str = ''
+
+    faPercentage: str = ''
+
+    designatedLocation: str = ''
+
+    openClose: str = 'O'
+
+    origin: int = 0
+
+    shortSaleSlot: int = 0
+
+    exemptCode: int = -1
+
+    discretionaryAmt: float = 0.0
+
+    eTradeOnly: bool = False
+
+    firmQuoteOnly: bool = False
+
+    nbboPriceCap: float = 1.7976931348623157e+308
+
+    optOutSmartRouting: bool = False
+
+    auctionStrategy: int = 0
+
+    startingPrice: float = 1.7976931348623157e+308
+
+    stockRefPrice: float = 1.7976931348623157e+308
+
+    delta: float = 1.7976931348623157e+308
+
+    stockRangeLower: float = 1.7976931348623157e+308
+
+    stockRangeUpper: float = 1.7976931348623157e+308
+
+    randomizePrice: bool = False
+
+    randomizeSize: bool = False
+
+    volatility: float = 1.7976931348623157e+308
+
+    volatilityType: int = 2147483647
+
+    deltaNeutralOrderType: str = ''
+
+    deltaNeutralAuxPrice: float = 1.7976931348623157e+308
+
+    deltaNeutralConId: int = 0
+
+    deltaNeutralSettlingFirm: str = ''
+
+    deltaNeutralClearingAccount: str = ''
+
+    deltaNeutralClearingIntent: str = ''
+
+    deltaNeutralOpenClose: str = ''
+
+    deltaNeutralShortSale: bool = False
+
+    deltaNeutralShortSaleSlot: int = 0
+
+    deltaNeutralDesignatedLocation: str = ''
+
+    continuousUpdate: bool = False
+
+    referencePriceType: int = 2147483647
+
+    basisPoints: float = 1.7976931348623157e+308
+
+    basisPointsType: int = 2147483647
+
+    scaleInitLevelSize: int = 2147483647
+
+    scaleSubsLevelSize: int = 2147483647
+
+    scalePriceIncrement: float = 1.7976931348623157e+308
+
+    scalePriceAdjustValue: float = 1.7976931348623157e+308
+
+    scalePriceAdjustInterval: int = 2147483647
+
+    scaleProfitOffset: float = 1.7976931348623157e+308
+
+    scaleAutoReset: bool = False
+
+    scaleInitPosition: int = 2147483647
+
+    scaleInitFillQty: int = 2147483647
+
+    scaleRandomPercent: bool = False
+
+    scaleTable: str = ''
+
+    hedgeType: str = ''
+
+    hedgeParam: str = ''
+
+    account: str = ''
+
+    settlingFirm: str = ''
+
+    clearingAccount: str = ''
+
+    clearingIntent: str = ''
+
+    algoStrategy: str = ''
+
+    algoParams: List[TagValue]
+
+    smartComboRoutingParams: List[TagValue]
+
+    algoId: str = ''
+
+    whatIf: bool = False
+
+    notHeld: bool = False
+
+    solicited: bool = False
+
+    modelCode: str = ''
+
+    orderComboLegs: List[OrderComboLeg]
+
+    orderMiscOptions: List[TagValue]
+
+    referenceContractId: int = 0
+
+    peggedChangeAmount: float = 0.0
+
+    isPeggedChangeAmountDecrease: bool = False
+
+    referenceChangeAmount: float = 0.0
+
+    referenceExchangeId: str = ''
+
+    adjustedOrderType: str = ''
+
+    triggerPrice: float = 1.7976931348623157e+308
+
+    adjustedStopPrice: float = 1.7976931348623157e+308
+
+    adjustedStopLimitPrice: float = 1.7976931348623157e+308
+
+    adjustedTrailingAmount: float = 1.7976931348623157e+308
+
+    adjustableTrailingUnit: int = 0
+
+    lmtPriceOffset: float = 1.7976931348623157e+308
+
+    conditions: List[OrderCondition]
+
+    conditionsCancelOrder: bool = False
+
+    conditionsIgnoreRth: bool = False
+
+    extOperator: str = ''
+
+    softDollarTier: SoftDollarTier
+
+    cashQty: float = 1.7976931348623157e+308
+
+    mifid2DecisionMaker: str = ''
+
+    mifid2DecisionAlgo: str = ''
+
+    mifid2ExecutionTrader: str = ''
+
+    mifid2ExecutionAlgo: str = ''
+
+    dontUseAutoPriceForHedge: bool = False
+
+    isOmsContainer: bool = False
+
+    discretionaryUpToLimitPrice: bool = False
+
+    autoCancelDate: str = ''
+
+    filledQuantity: float = 1.7976931348623157e+308
+
+    refFuturesConId: int = 0
+
+    autoCancelParent: bool = False
+
+    shareholder: str = ''
+
+    imbalanceOnly: bool = False
+
+    routeMarketableToBbo: bool = False
+
+    parentPermId: int = 0
+
+    usePriceMgmtAlgo: bool = False
+
+    duration: int = 2147483647
+
+    postToAts: int = 2147483647
+
+    advancedErrorOverride: str = ''
+
+    manualOrderTime: str = ''
+
+    minTradeQty: int = 2147483647
+
+    minCompeteSize: int = 2147483647
+
+    competeAgainstBestOffset: float = 1.7976931348623157e+308
+
+    midOffsetAtWhole: float = 1.7976931348623157e+308
+
+    midOffsetAtHalf: float = 1.7976931348623157e+308
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.order.LimitOrder(action, totalQuantity, lmtPrice, **kwargs)[source]
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.order.MarketOrder(action, totalQuantity, **kwargs)[source]
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.order.StopOrder(action, totalQuantity, stopPrice, **kwargs)[source]
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.order.StopLimitOrder(action, totalQuantity, lmtPrice, stopPrice, **kwargs)[source]
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.order.OrderStatus(orderId=0, status='', filled=0.0, remaining=0.0, avgFillPrice=0.0, permId=0, parentId=0, lastFillPrice=0.0, clientId=0, whyHeld='', mktCapPrice=0.0)[source]
+
+    orderId: int = 0
+
+    status: str = ''
+
+    filled: float = 0.0
+
+    remaining: float = 0.0
+
+    avgFillPrice: float = 0.0
+
+    permId: int = 0
+
+    parentId: int = 0
+
+    lastFillPrice: float = 0.0
+
+    clientId: int = 0
+
+    whyHeld: str = ''
+
+    mktCapPrice: float = 0.0
+
+    PendingSubmit: ClassVar[str] = 'PendingSubmit'
+
+    PendingCancel: ClassVar[str] = 'PendingCancel'
+
+    PreSubmitted: ClassVar[str] = 'PreSubmitted'
+
+    Submitted: ClassVar[str] = 'Submitted'
+
+    ApiPending: ClassVar[str] = 'ApiPending'
+
+    ApiCancelled: ClassVar[str] = 'ApiCancelled'
+
+    Cancelled: ClassVar[str] = 'Cancelled'
+
+    Filled: ClassVar[str] = 'Filled'
+
+    Inactive: ClassVar[str] = 'Inactive'
+
+    DoneStates: ClassVar[FrozenSet[str]] = frozenset({'ApiCancelled', 'Cancelled', 'Filled'})
+
+    ActiveStates: ClassVar[FrozenSet[str]] = frozenset({'ApiPending', 'PendingSubmit', 'PreSubmitted', 'Submitted'})
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.order.OrderState(status='', initMarginBefore='', maintMarginBefore='', equityWithLoanBefore='', initMarginChange='', maintMarginChange='', equityWithLoanChange='', initMarginAfter='', maintMarginAfter='', equityWithLoanAfter='', commission=1.7976931348623157e+308, minCommission=1.7976931348623157e+308, maxCommission=1.7976931348623157e+308, commissionCurrency='', warningText='', completedTime='', completedStatus='')[source]
+
+    status: str = ''
+
+    initMarginBefore: str = ''
+
+    maintMarginBefore: str = ''
+
+    equityWithLoanBefore: str = ''
+
+    initMarginChange: str = ''
+
+    maintMarginChange: str = ''
+
+    equityWithLoanChange: str = ''
+
+    initMarginAfter: str = ''
+
+    maintMarginAfter: str = ''
+
+    equityWithLoanAfter: str = ''
+
+    commission: float = 1.7976931348623157e+308
+
+    minCommission: float = 1.7976931348623157e+308
+
+    maxCommission: float = 1.7976931348623157e+308
+
+    commissionCurrency: str = ''
+
+    warningText: str = ''
+
+    completedTime: str = ''
+
+    completedStatus: str = ''
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.order.OrderComboLeg(price=1.7976931348623157e+308)[source]
+
+    price: float = 1.7976931348623157e+308
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.order.Trade(contract=<factory>, order=<factory>, orderStatus=<factory>, fills=<factory>, log=<factory>, advancedError='')[source]
+
+    Trade keeps track of an order, its status and all its fills.
+
+    Events:
+
+            statusEvent (trade: Trade)
+
+            modifyEvent (trade: Trade)
+
+            fillEvent (trade: Trade, fill: Fill)
+
+            commissionReportEvent (trade: Trade, fill: Fill, commissionReport: CommissionReport)
+
+            filledEvent (trade: Trade)
+
+            cancelEvent (trade: Trade)
+
+            cancelledEvent (trade: Trade)
+
+    contract: Contract
+
+    order: Order
+
+    orderStatus: OrderStatus
+
+    fills: List[Fill]
+
+    log: List[TradeLogEntry]
+
+    advancedError: str = ''
+
+    events: ClassVar = ('statusEvent', 'modifyEvent', 'fillEvent', 'commissionReportEvent', 'filledEvent', 'cancelEvent', 'cancelledEvent')
+
+    isActive()[source]
+
+        True if eligible for execution, false otherwise.
+
+        Return type:
+
+            bool
+
+    isDone()[source]
+
+        True if completely filled or cancelled, false otherwise.
+
+        Return type:
+
+            bool
+
+    filled()[source]
+
+        Number of shares filled.
+
+        Return type:
+
+            float
+
+    remaining()[source]
+
+        Number of shares remaining to be filled.
+
+        Return type:
+
+            float
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.order.BracketOrder(parent, takeProfit, stopLoss)[source]
+
+    Create new instance of BracketOrder(parent, takeProfit, stopLoss)
+
+    parent: Order
+
+    takeProfit: Order
+
+    stopLoss: Order
+
+class ib_insync.order.OrderCondition[source]
+
+    static createClass(condType)[source]
+
+    And()[source]
+
+    Or()[source]
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.order.PriceCondition(condType=1, conjunction='a', isMore=True, price=0.0, conId=0, exch='', triggerMethod=0)[source]
+
+    condType: int = 1
+
+    conjunction: str = 'a'
+
+    isMore: bool = True
+
+    price: float = 0.0
+
+    conId: int = 0
+
+    exch: str = ''
+
+    triggerMethod: int = 0
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.order.TimeCondition(condType=3, conjunction='a', isMore=True, time='')[source]
+
+    condType: int = 3
+
+    conjunction: str = 'a'
+
+    isMore: bool = True
+
+    time: str = ''
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.order.MarginCondition(condType=4, conjunction='a', isMore=True, percent=0)[source]
+
+    condType: int = 4
+
+    conjunction: str = 'a'
+
+    isMore: bool = True
+
+    percent: int = 0
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.order.ExecutionCondition(condType=5, conjunction='a', secType='', exch='', symbol='')[source]
+
+    condType: int = 5
+
+    conjunction: str = 'a'
+
+    secType: str = ''
+
+    exch: str = ''
+
+    symbol: str = ''
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.order.VolumeCondition(condType=6, conjunction='a', isMore=True, volume=0, conId=0, exch='')[source]
+
+    condType: int = 6
+
+    conjunction: str = 'a'
+
+    isMore: bool = True
+
+    volume: int = 0
+
+    conId: int = 0
+
+    exch: str = ''
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+class ib_insync.order.PercentChangeCondition(condType=7, conjunction='a', isMore=True, changePercent=0.0, conId=0, exch='')[source]
+
+    condType: int = 7
+
+    conjunction: str = 'a'
+
+    isMore: bool = True
+
+    changePercent: float = 0.0
+
+    conId: int = 0
+
+    exch: str = ''
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+

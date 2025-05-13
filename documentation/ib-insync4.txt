@@ -1,0 +1,559 @@
+Utilities
+
+Utilities.
+
+ib_insync.util.globalErrorEvent(*args) = Event<Event, []>
+
+    Event to emit global exceptions.
+
+ib_insync.util.df(objs, labels=None)[source]
+
+    Create pandas DataFrame from the sequence of same-type objects.
+
+    Parameters:
+
+        labels (Optional[List[str]]) – If supplied, retain only the given labels and drop the rest.
+
+ib_insync.util.dataclassAsDict(obj)[source]
+
+    Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+    Return type:
+
+        dict
+
+ib_insync.util.dataclassAsTuple(obj)[source]
+
+    Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+    Return type:
+
+        tuple
+
+ib_insync.util.dataclassNonDefaults(obj)[source]
+
+    For a dataclass instance get the fields that are different from the default values and return as dict.
+
+    Return type:
+
+        dict
+
+ib_insync.util.dataclassUpdate(obj, *srcObjs, **kwargs)[source]
+
+    Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+    Return type:
+
+        object
+
+ib_insync.util.dataclassRepr(obj)[source]
+
+    Provide a culled representation of the given dataclass instance, showing only the fields with a non-default value.
+
+    Return type:
+
+        str
+
+ib_insync.util.isnamedtupleinstance(x)[source]
+
+    From https://stackoverflow.com/a/2166841/6067848
+
+ib_insync.util.tree(obj)[source]
+
+    Convert object to a tree of lists, dicts and simple values. The result can be serialized to JSON.
+
+ib_insync.util.barplot(bars, title='', upColor='blue', downColor='red')[source]
+
+    Create candlestick plot for the given bars. The bars can be given as a DataFrame or as a list of bar objects.
+
+ib_insync.util.allowCtrlC()[source]
+
+    Allow Control-C to end program.
+
+ib_insync.util.logToFile(path, level=20)[source]
+
+    Create a log handler that logs to the given file.
+
+ib_insync.util.logToConsole(level=20)[source]
+
+    Create a log handler that logs to the console.
+
+ib_insync.util.isNan(x)[source]
+
+    Not a number test.
+
+    Return type:
+
+        bool
+
+ib_insync.util.formatSI(n)[source]
+
+    Format the integer or float n to 3 significant digits + SI prefix.
+
+    Return type:
+
+        str
+
+class ib_insync.util.timeit(title='Run')[source]
+
+    Context manager for timing.
+
+ib_insync.util.run(*awaitables, timeout=None)[source]
+
+    By default run the event loop forever.
+
+    When awaitables (like Tasks, Futures or coroutines) are given then run the event loop until each has completed and return their results.
+
+    An optional timeout (in seconds) can be given that will raise asyncio.TimeoutError if the awaitables are not ready within the timeout period.
+
+ib_insync.util.schedule(time, callback, *args)[source]
+
+    Schedule the callback to be run at the given time with the given arguments. This will return the Event Handle.
+
+    Parameters:
+
+            time (Union[time, datetime]) – Time to run callback. If given as datetime.time then use today as date.
+
+            callback (Callable) – Callable scheduled to run.
+
+            args – Arguments for to call callback with.
+
+ib_insync.util.sleep(secs=0.02)[source]
+
+    Wait for the given amount of seconds while everything still keeps processing in the background. Never use time.sleep().
+
+    Parameters:
+
+        secs (float) – Time in seconds to wait.
+    Return type:
+
+        bool
+
+ib_insync.util.timeRange(start, end, step)[source]
+
+    Iterator that waits periodically until certain time points are reached while yielding those time points.
+
+    Parameters:
+
+            start (Union[time, datetime]) – Start time, can be specified as datetime.datetime, or as datetime.time in which case today is used as the date
+
+            end (Union[time, datetime]) – End time, can be specified as datetime.datetime, or as datetime.time in which case today is used as the date
+
+            step (float) – The number of seconds of each period
+
+    Return type:
+
+        Iterator[datetime]
+
+ib_insync.util.waitUntil(t)[source]
+
+    Wait until the given time t is reached.
+
+    Parameters:
+
+        t (Union[time, datetime]) – The time t can be specified as datetime.datetime, or as datetime.time in which case today is used as the date.
+    Return type:
+
+        bool
+
+async ib_insync.util.timeRangeAsync(start, end, step)[source]
+
+    Async version of timeRange().
+
+    Return type:
+
+        AsyncIterator[datetime]
+
+async ib_insync.util.waitUntilAsync(t)[source]
+
+    Async version of waitUntil().
+
+    Return type:
+
+        bool
+
+ib_insync.util.patchAsyncio()[source]
+
+    Patch asyncio to allow nested event loops.
+
+ib_insync.util.getLoop()[source]
+
+    Get the asyncio event loop for the current thread.
+
+ib_insync.util.startLoop()[source]
+
+    Use nested asyncio event loop for Jupyter notebooks.
+
+ib_insync.util.useQt(qtLib='PyQt5', period=0.01)[source]
+
+    Run combined Qt5/asyncio event loop.
+
+    Parameters:
+
+            qtLib (str) –
+
+            Name of Qt library to use:
+
+                PyQt5
+
+                PyQt6
+
+                PySide2
+
+                PySide6
+
+            period (float) – Period in seconds to poll Qt.
+
+ib_insync.util.formatIBDatetime(t)[source]
+
+    Format date or datetime to string that IB uses.
+
+    Return type:
+
+        str
+
+ib_insync.util.parseIBDatetime(s)[source]
+
+    Parse string in IB date or datetime format to datetime.
+
+    Return type:
+
+        Union[date, datetime]
+
+FlexReport
+
+Access to account statement webservice.
+
+exception ib_insync.flexreport.FlexError[source]
+
+class ib_insync.flexreport.FlexReport(token=None, queryId=None, path=None)[source]
+
+    To obtain a token:
+
+        Login to web portal
+
+        Go to Settings
+
+        Click on “Configure Flex Web Service”
+
+        Generate token
+
+    Download a report by giving a valid token and queryId, or load from file by giving a valid path.
+
+    data: bytes
+
+    root: Element
+
+    topics()[source]
+
+        Get the set of topics that can be extracted from this report.
+
+    extract(topic, parseNumbers=True)[source]
+
+        Extract items of given topic and return as list of objects.
+
+        The topic is a string like TradeConfirm, ChangeInDividendAccrual, Order, etc.
+
+        Return type:
+
+            list
+
+    df(topic, parseNumbers=True)[source]
+
+        Same as extract but return the result as a pandas DataFrame.
+
+    download(token, queryId)[source]
+
+        Download report for the given token and queryId.
+
+    load(path)[source]
+
+        Load report from XML file.
+
+    save(path)[source]
+
+        Save report to XML file.
+
+IBC
+
+class ib_insync.ibcontroller.IBC(twsVersion=0, gateway=False, tradingMode='', twsPath='', twsSettingsPath='', ibcPath='', ibcIni='', javaPath='', userid='', password='', fixuserid='', fixpassword='', on2fatimeout='')[source]
+
+    Programmatic control over starting and stopping TWS/Gateway using IBC (https://github.com/IbcAlpha/IBC).
+
+    Parameters:
+
+            twsVersion (int) – (required) The major version number for TWS or gateway.
+
+            gateway (bool) –
+
+                True = gateway
+
+                False = TWS
+
+            tradingMode (str) – ‘live’ or ‘paper’.
+
+            userid (str) – IB account username. It is recommended to set the real username/password in a secured IBC config file.
+
+            password (str) – IB account password.
+
+            twsPath (str) –
+
+            Path to the TWS installation folder. Defaults:
+
+                Linux: ~/Jts
+
+                OS X: ~/Applications
+
+                Windows: C:\Jts
+
+            twsSettingsPath (str) –
+
+            Path to the TWS settings folder. Defaults:
+
+                Linux: ~/Jts
+
+                OS X: ~/Jts
+
+                Windows: Not available
+
+            ibcPath (str) –
+
+            Path to the IBC installation folder. Defaults:
+
+                Linux: /opt/ibc
+
+                OS X: /opt/ibc
+
+                Windows: C:\IBC
+
+            ibcIni (str) –
+
+            Path to the IBC configuration file. Defaults:
+
+                Linux: ~/ibc/config.ini
+
+                OS X: ~/ibc/config.ini
+
+                Windows: %%HOMEPATH%%\DocumentsIBC\config.ini
+
+            javaPath (str) – Path to Java executable. Default is to use the Java VM included with TWS/gateway.
+
+            fixuserid (str) – FIX account user id (gateway only).
+
+            fixpassword (str) – FIX account password (gateway only).
+
+            on2fatimeout (str) – What to do if 2-factor authentication times out; Can be ‘restart’ or ‘exit’.
+
+    This is not intended to be run in a notebook.
+
+    To use IBC on Windows, the proactor (or quamash) event loop must have been set:
+
+    import asyncio
+    asyncio.set_event_loop(asyncio.ProactorEventLoop())
+
+    Example usage:
+
+    ibc = IBC(976, gateway=True, tradingMode='live',
+        userid='edemo', password='demouser')
+    ibc.start()
+    IB.run()
+
+    IbcLogLevel: ClassVar = 10
+
+    twsVersion: int = 0
+
+    gateway: bool = False
+
+    tradingMode: str = ''
+
+    twsPath: str = ''
+
+    twsSettingsPath: str = ''
+
+    ibcPath: str = ''
+
+    ibcIni: str = ''
+
+    javaPath: str = ''
+
+    userid: str = ''
+
+    password: str = ''
+
+    fixuserid: str = ''
+
+    fixpassword: str = ''
+
+    on2fatimeout: str = ''
+
+    start()[source]
+
+        Launch TWS/IBG.
+
+    terminate()[source]
+
+        Terminate TWS/IBG.
+
+    async startAsync()[source]
+
+    async terminateAsync()[source]
+
+    async monitorAsync()[source]
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
+
+        Return type:
+
+            object
+
+Watchdog
+
+class ib_insync.ibcontroller.Watchdog(controller, ib, host='127.0.0.1', port=7497, clientId=1, connectTimeout=2, appStartupTime=30, appTimeout=20, retryDelay=2, readonly=False, account='', raiseSyncErrors=False, probeContract=Forex('EURUSD', exchange='IDEALPRO'), probeTimeout=4)[source]
+
+    Start, connect and watch over the TWS or gateway app and try to keep it up and running. It is intended to be used in an event-driven application that properly initializes itself upon (re-)connect.
+
+    It is not intended to be used in a notebook or in imperative-style code. Do not expect Watchdog to magically shield you from reality. Do not use Watchdog unless you understand what it does and doesn’t do.
+
+    Parameters:
+
+            controller (IBC) – (required) IBC instance.
+
+            ib (IB) – (required) IB instance to be used. Do not connect this instance as Watchdog takes care of that.
+
+            host (str) – Used for connecting IB instance.
+
+            port (int) – Used for connecting IB instance.
+
+            clientId (int) – Used for connecting IB instance.
+
+            connectTimeout (float) – Used for connecting IB instance.
+
+            readonly (bool) – Used for connecting IB instance.
+
+            appStartupTime (float) – Time (in seconds) that the app is given to start up. Make sure that it is given ample time.
+
+            appTimeout (float) – Timeout (in seconds) for network traffic idle time.
+
+            retryDelay (float) – Time (in seconds) to restart app after a previous failure.
+
+            probeContract (Contract) – Contract to use for historical data probe requests (default is EURUSD).
+
+            probeTimeout (float); Timeout (in seconds) –
+
+    The idea is to wait until there is no traffic coming from the app for a certain amount of time (the appTimeout parameter). This triggers a historical request to be placed just to see if the app is still alive and well. If yes, then continue, if no then restart the whole app and reconnect. Restarting will also occur directly on errors 1100 and 100.
+
+    Example usage:
+
+    def onConnected():
+        print(ib.accountValues())
+
+    ibc = IBC(974, gateway=True, tradingMode='paper')
+    ib = IB()
+    ib.connectedEvent += onConnected
+    watchdog = Watchdog(ibc, ib, port=4002)
+    watchdog.start()
+    ib.run()
+
+    Events:
+
+            startingEvent (watchdog: Watchdog)
+
+            startedEvent (watchdog: Watchdog)
+
+            stoppingEvent (watchdog: Watchdog)
+
+            stoppedEvent (watchdog: Watchdog)
+
+            softTimeoutEvent (watchdog: Watchdog)
+
+            hardTimeoutEvent (watchdog: Watchdog)
+
+    events = ['startingEvent', 'startedEvent', 'stoppingEvent', 'stoppedEvent', 'softTimeoutEvent', 'hardTimeoutEvent']
+
+    controller: IBC
+
+    ib: IB
+
+    host: str = '127.0.0.1'
+
+    port: int = 7497
+
+    clientId: int = 1
+
+    connectTimeout: float = 2
+
+    appStartupTime: float = 30
+
+    appTimeout: float = 20
+
+    retryDelay: float = 2
+
+    readonly: bool = False
+
+    account: str = ''
+
+    raiseSyncErrors: bool = False
+
+    probeContract: Contract = Forex('EURUSD', exchange='IDEALPRO')
+
+    probeTimeout: float = 4
+
+    start()[source]
+
+    stop()[source]
+
+    async runAsync()[source]
+
+    dict()
+
+        Return dataclass values as dict. This is a non-recursive variant of dataclasses.asdict.
+
+        Return type:
+
+            dict
+
+    nonDefaults()
+
+        For a dataclass instance get the fields that are different from the default values and return as dict.
+
+        Return type:
+
+            dict
+
+    tuple()
+
+        Return dataclass values as tuple. This is a non-recursive variant of dataclasses.astuple.
+
+        Return type:
+
+            tuple
+
+    update(*srcObjs, **kwargs)
+
+        Update fields of the given dataclass object from zero or more dataclass source objects and/or from keyword arguments.
